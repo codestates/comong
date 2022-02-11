@@ -12,7 +12,7 @@ export class ItemsService {
     return 'This action adds a new item';
   }
 
-  findAll() {
+  findAll(category: number) {
     return `This action returns all items`;
   }
 

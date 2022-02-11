@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { SignInUserDto } from './dto/signin-user.dto';
 
 export type User = any;
 
@@ -27,12 +28,12 @@ export class UsersService {
     return 'This action adds a new user';
   }
 
-  findAll() {
+  findAll(signInUserDto: SignInUserDto) {
     return `This action returns all users`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  findOne() {
+    return `This action returns a #user`;
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
