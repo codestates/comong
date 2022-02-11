@@ -1,4 +1,38 @@
 import { Controller } from '@nestjs/common';
 
 @Controller('oauth')
+<<<<<<< Updated upstream
 export class OauthController {}
+=======
+@ApiTags('Oauth 2.0 Login')
+export class OauthController {
+  constructor(private readonly oauthService: OauthService) {}
+
+  @Post('oauthgoogle')
+  @ApiOperation({ summary: 'Sign in or Sign up with Google Oauth 2.0', description: 'receive authorizationCode and rewturn login information '})
+  @ApiCreatedResponse({ description: 'successful' })
+  getResfromGoogle(@Body() authorizationCode: OauthReqDto, @Response() res: any) {
+    const code = authorizationCode.authorizationCode;
+    const getTokenurl = `https://oauth2.googleapis.com/token?client_id=${process.env.COMONG_GOOGLE_CLIENT_ID}&client_secret=${process.env.COMONG_GOOGLE_CLIENT_SECRET}&code=${code}&grant_type=authorization_code&redirect_uri=${process.env.COMONG_GOOGLE_REDIRECT_URL}`;
+    this.oauthService.googleOauthlogin(getTokenurl, res);
+  }
+
+  @Post('oauthkakao')
+  @ApiOperation({ summary: 'Sign in or Sign up with Kakao Oauth 2.0', description: 'receive authorizationCode and rewturn login information '})
+  @ApiCreatedResponse({ description: 'successful' })
+  getResfromKakao(@Body() authorizationCode: OauthReqDto, @Response() res: any) {
+    const code = authorizationCode.authorizationCode;
+    const getTokenurl = `https://kauth.kakao.com/oauth/token?code=${code}&client_id=${process.env.COMONG_KAKAO_CLIENT_ID}&client_secret=${process.env.COMONG_KAKAO_CLIENT_SECRET}&redirect_uri=${process.env.COMONG_KAKAO_REDIRECT_URL}&grant_type=authorization_code`;
+    this.oauthService.kakaoOauthlogin(getTokenurl, res);
+  }
+
+  @Post('oauthnaver')
+  @ApiOperation({ summary: 'Sign in or Sign up with Naver Oauth 2.0', description: 'receive authorizationCode and rewturn login information '})
+  @ApiCreatedResponse({ description: 'successful' })
+  getResfromnaver(@Body() authorizationCode: OauthReqDto, @Response() res: any) {
+    const code = authorizationCode.authorizationCode;
+    const getTokenurl = `https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id=${process.env.COMONG_NAVER_CLIENT_ID}&client_secret=${process.env.COMONG_NAVER_CLIENT_SECRET}&code=${code}`;
+    this.oauthService.naverOauthlogin(getTokenurl, res);
+  }
+}
+>>>>>>> Stashed changes
