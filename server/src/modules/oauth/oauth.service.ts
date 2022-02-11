@@ -1,9 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import * as dotenv from 'dotenv';
+dotenv.config();
+
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { tokenMakerOutput } from './entities/tokenMakerOutput.entity';
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { JwtService } from '@nestjs/jwt';
+const models = require('../../models/index');
 
 @Injectable()
-<<<<<<< Updated upstream
-export class OauthService {}
-=======
 export class OauthService {
   constructor(private readonly jwtService: JwtService) {}
   private tokenMakerOutput: tokenMakerOutput;
@@ -217,4 +221,3 @@ export class OauthService {
     res.send(output.newResponse);
   }
 }
->>>>>>> Stashed changes

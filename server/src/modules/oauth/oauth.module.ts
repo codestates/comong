@@ -1,10 +1,14 @@
+import * as dotenv from 'dotenv';
+dotenv.config();
+
+import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
+import { AuthService } from '../auth/auth.service';
 import { OauthController } from './oauth.controller';
 import { OauthService } from './oauth.service';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
-<<<<<<< Updated upstream
-=======
   imports: [
     HttpModule,
     JwtModule.register({
@@ -12,8 +16,7 @@ import { OauthService } from './oauth.service';
       signOptions: { expiresIn: '30m' },
     }),
   ],
->>>>>>> Stashed changes
   controllers: [OauthController],
-  providers: [OauthService],
+  providers: [OauthService, AuthService],
 })
 export class OauthModule {}

@@ -1,9 +1,12 @@
-import { Controller } from '@nestjs/common';
+import * as dotenv from 'dotenv';
+dotenv.config();
+
+import { Body, Controller, Post, Response } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiCreatedResponse, ApiOkResponse, ApiBadRequestResponse } from '@nestjs/swagger';
+import { OauthReqDto } from './dto/oauthReq.dto';
+import { OauthService } from './oauth.service';
 
 @Controller('oauth')
-<<<<<<< Updated upstream
-export class OauthController {}
-=======
 @ApiTags('Oauth 2.0 Login')
 export class OauthController {
   constructor(private readonly oauthService: OauthService) {}
@@ -35,4 +38,3 @@ export class OauthController {
     this.oauthService.naverOauthlogin(getTokenurl, res);
   }
 }
->>>>>>> Stashed changes
