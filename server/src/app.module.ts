@@ -9,7 +9,7 @@ import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [UsersModule, ItemsModule, PaymentsModule, OauthModule, AuthModule],
-  controllers: [AppController],
+  //controllers: [AppController], 최상위 루트 요청은 사용하지 않습니다.
   providers: [AppService],
 })
 export class AppModule {}
