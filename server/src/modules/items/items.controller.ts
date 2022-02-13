@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { ItemsService } from './items.service';
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
 import { category } from './entities/category.entity';
-import { ApiTags, ApiOperation, ApiCreatedResponse, ApiOkResponse, ApiHeader, ApiBearerAuth, ApiBadRequestResponse, ApiParam } from '@nestjs/swagger';
+import { item } from './entities/item.entity'
+import { ApiTags, ApiOperation, ApiCreatedResponse, ApiOkResponse, ApiHeader, ApiBearerAuth, ApiBadRequestResponse, ApiParam, ApiQuery } from '@nestjs/swagger';
 
 @Controller('items')
 @ApiTags('상품 정보 관련')
@@ -27,14 +28,14 @@ export class ItemsController {
     return this.itemsService.create(createItemDto);
   }
 
-  @Get(':category:number')
-  @ApiOperation({ summary: '상품 정보 목록', description: '등록시간, 관심 카테고리 등을 고려한 알고리즘에 따라 상품 목록을 가져옵니다.' })
-  @ApiParam({
+  @Get('/')
+  @ApiOperation({ summary: '상품 정보 목록(구현)', description: '요청에 따라 상품 목록을 가져옵니다. 카테고리와 요청 갯수를 지정할 수 있습니다. 그렇지 않을 경우 추천알고리즘에 따라 상품을 표시합니다.' })
+  @ApiQuery({
     name: 'category',
     required: false,
     description: '카테고리'
   })
-  @ApiParam({
+  @ApiQuery({
     name: 'number',
     required: false,
     description: '요청할 갯수'
@@ -52,29 +53,8 @@ export class ItemsController {
         },
     },
   })
-  findAll(@Param('category') category: number) {
-    return this.itemsService.findAll(+category);
-  }
-
-  @Get(':id')
-  @ApiOkResponse({
-    description: 'successful',
-    schema: {
-      example: {
-        id: '1',
-        title: 'Comong 코끼리 인형 + 100cm 바디필로우 세트',
-        contents: '귀여움',
-        images: `[{url: https://imagedelivery.net/BOKuAiJyROlMLXwCcBYMqQ/fe9f218d-5134-4a76-ba20-bf97e5c21900/thumbnail}, {url: https://imagedelivery.net/BOKuAiJyROlMLXwCcBYMqQ/b25fab5f-c1ec-420b-84f2-626857a74500/thumbnail}]`,
-        category: 1,
-        price: 59000,
-        createdAt: '2022-02-11T15:30:17.221Z',
-        updatedAt: '2022-02-11T15:30:17.221Z',
-        },
-    },
-  })
-  @ApiOperation({ summary: '상품 상세 정보', description: '상품 상세 정보를 요청합니다.' })
-  findOne(@Param('id') id: string) {
-    return this.itemsService.findOne(+id);
+  getItems(@Query('category') category: number , @Query('number') number: number): Promise<item[]> {
+    return this.itemsService.getItems(+category,+number);
   }
 
   @Get('categorylist')
@@ -83,6 +63,9 @@ export class ItemsController {
   getCategoryList(): Promise<category[]> {
     return this.itemsService.getCategoryList();
   }
+
+
+
 
   @Patch(':id')
   @ApiHeader({

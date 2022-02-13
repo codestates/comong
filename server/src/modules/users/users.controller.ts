@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -14,6 +14,7 @@ export class UsersController {
   @ApiOperation({ summary: '회원 가입', description: '회원 가입 요청을 받습니다.' })
   @ApiCreatedResponse({ description: 'successful.' })
   @ApiBadRequestResponse({ description: 'invalid value for property' })
+  @UsePipes(ValidationPipe)
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }

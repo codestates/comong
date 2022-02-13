@@ -1,7 +1,7 @@
 import * as dotenv from 'dotenv';
 import * as fs from 'fs';
 import * as cookieParser from 'cookie-parser';
-import { ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { setupSwagger } from 'src/util/swagger';
@@ -18,6 +18,7 @@ async function bootstrap() {
     whitelist: true,
     forbidNonWhitelisted: true,
     transform: true,
+    disableErrorMessages: false,
   };
   if (
     fs.existsSync('./secrets/comong.key.pem') &&
@@ -37,7 +38,7 @@ async function bootstrap() {
     await app.listen(443);
     console.log(`https server runnning on port 443`);
   } else {
-    const app = await NestFactory.create(AppModule, {});
+    const app = await NestFactory.create(AppModule, { logger: ['error', 'warn', 'log', 'debug', 'verbose'] });
     app.useGlobalPipes(new ValidationPipe(validationPipeOptions));
     app.enableCors(corsOptions);
     app.use(cookieParser());
