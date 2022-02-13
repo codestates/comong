@@ -1,18 +1,19 @@
 import { Injectable, Response } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { ValidateUserDto } from './dto/validateUser-auth.dto';
 const models = require('../../models/index');
 
 @Injectable()
 export class AuthService {
   constructor(private readonly jwtService: JwtService) {}
   
-  async validateUser(email: string, password: string): Promise<any> {
+  async validateUser(validateUserDto: ValidateUserDto): Promise<any> {
     const user = await models.user.findOne({
       where: {
-        email: email,
+        email: validateUserDto.email,
       },
     });
-    if (user && user.dataValues.password === password) {
+    if (user && user.dataValues.password === validateUserDto.password) {
       const result = {
         id: user.dataValues.id,
         nickname: user.dataValues.nickname,

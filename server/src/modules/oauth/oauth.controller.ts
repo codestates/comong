@@ -7,12 +7,13 @@ import { OauthReqDto } from './dto/oauthReq.dto';
 import { OauthService } from './oauth.service';
 
 @Controller('oauth')
-@ApiTags('Oauth 2.0 Login')
+@ApiTags('소셜 로그인 및 가입')
+
 export class OauthController {
   constructor(private readonly oauthService: OauthService) {}
 
   @Post('oauthgoogle')
-  @ApiOperation({ summary: 'Sign in or Sign up with Google Oauth 2.0', description: 'receive authorizationCode and rewturn login information '})
+  @ApiOperation({ summary: 'Google Oauth2.0 요청', description: 'Github OAuth 2.0 을 통해 가입 및 로그인을 요청합니다.'})
   @ApiCreatedResponse({ description: 'successful' })
   getResfromGoogle(@Body() authorizationCode: OauthReqDto, @Response() res: any) {
     const code = authorizationCode.authorizationCode;
@@ -21,7 +22,7 @@ export class OauthController {
   }
 
   @Post('oauthkakao')
-  @ApiOperation({ summary: 'Sign in or Sign up with Kakao Oauth 2.0', description: 'receive authorizationCode and rewturn login information '})
+  @ApiOperation({ summary: 'Kakao Oauth 2.0 요청', description: 'Kakao OAuth 2.0 을 통해 가입 및 로그인을 요청합니다.'})
   @ApiCreatedResponse({ description: 'successful' })
   getResfromKakao(@Body() authorizationCode: OauthReqDto, @Response() res: any) {
     const code = authorizationCode.authorizationCode;
@@ -30,7 +31,7 @@ export class OauthController {
   }
 
   @Post('oauthnaver')
-  @ApiOperation({ summary: 'Sign in or Sign up with Naver Oauth 2.0', description: 'receive authorizationCode and rewturn login information '})
+  @ApiOperation({ summary: 'Naver Oauth 2.0 요청', description: 'Naver OAuth 2.0 을 통해 가입 및 로그인을 요청합니다. '})
   @ApiCreatedResponse({ description: 'successful' })
   getResfromnaver(@Body() authorizationCode: OauthReqDto, @Response() res: any) {
     const code = authorizationCode.authorizationCode;

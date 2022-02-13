@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { SignInUserDto } from './dto/signin-user.dto';
+import { Logger } from '@nestjs/common';
+const models = require('../../models/index');
 
 export type User = any;
 
@@ -18,21 +21,26 @@ export class UsersService {
       password: 'test username 02 password',
     },
   ];
+  private readonly logger = new Logger(UsersService.name);
 
   async testFindOne(username: string): Promise<User | undefined> {
     return this.users.find(user => user.username === username);
   }
   
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  async create(createUserDto: CreateUserDto) {
+    const user = models.user.findOrCreate({
+      where: { email: createUserDto.email },
+      default: createUserDto
+    })
+    return createUserDto;
   }
 
-  findAll() {
+  findAll(signInUserDto: SignInUserDto) {
     return `This action returns all users`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  findOne() {
+    return `This action returns a #user`;
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
