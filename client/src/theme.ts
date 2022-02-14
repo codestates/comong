@@ -1,18 +1,8 @@
-const fontSizes = {};
+import { DefaultTheme } from 'styled-components';
 
-const paddings = {};
-
-const margins = {};
-
-const colors = {
-  white: '#ffffff',
+export const theme: DefaultTheme = {
+  bgColor: '#f5f6fa',
+  textColor: '#2f3640',
+  accentColor: '#358BCA',
+  accentColorLight: '#C7E4F9',
 };
-
-const theme = {
-  fontSizes,
-  paddings,
-  margins,
-  colors,
-};
-
-export default theme;

@@ -1,18 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import './index.css';
-import store from './store/configStore';
+import store from './redux/configStore';
+import { ThemeProvider } from 'styled-components';
+import { theme } from './theme';
 
 ReactDOM.render(
-  <BrowserRouter>
+  <React.StrictMode>
     <Provider store={store}>
-      <React.StrictMode>
+      <ThemeProvider theme={theme}>
         <App />
-      </React.StrictMode>
+      </ThemeProvider>
     </Provider>
-  </BrowserRouter>,
+  </React.StrictMode>,
   document.getElementById('root'),
 );
