@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { IsNumber, IsOptional,  IsString, IsBoolean } from "class-validator";
 
 export class CreateUserDto {
     @ApiProperty({
@@ -6,48 +7,59 @@ export class CreateUserDto {
         description: '이름',
         required: true,
     })
-    name: string;
+    @IsString()
+    readonly name: string;
 
     @ApiProperty({
         example: 'mukzzang@gmail.com',
         description: '이메일',
         required: true,
     })
-    email: string;
+    @IsString()
+    readonly email: string;
 
     @ApiProperty({
-        example: '446D8hmDWUGnkb7KweQPkMaWRgWBCo...',
+        example: 'pwHJIFp1TsZ82AEnH9VtrFJNHg3ylOywhO2kmgJJKWdqkSGerg',
         description: '비밀번호',
         required: true,
     })
-    password: string;
+    @IsString()
+    readonly password: string;
 
     @ApiProperty({
         example: '01012345678',
         description: '연락처',
         required: false,
     })
-    phone: bigint;
+    @IsOptional()
+    @IsString()
+    readonly phone: string;
 
     @ApiProperty({
         example: '1',
         description: '성별',
         required: false,
     })
-    gender: boolean;
+    @IsOptional()
+    @IsNumber()
+    readonly gender: number;
 
     @ApiProperty({
         example: '서울특별시 중구 태평로1가 100-100',
         description: '주소',
-        required: true,
+        required: false,
     })
+    @IsOptional()
+    @IsString()
     address1: string;
 
     @ApiProperty({
         example: '101동 101호.',
         description: '상세 주소',
-        required: true,
+        required: false,
     })
+    @IsOptional()
+    @IsString()
     address2: string;
 
     @ApiProperty({
@@ -55,6 +67,8 @@ export class CreateUserDto {
         description: '생년월일',
         required: false,
     })
+    @IsOptional()
+    @IsString()
     dob: Date;
     
     @ApiProperty({
@@ -62,5 +76,6 @@ export class CreateUserDto {
         description: '회원 구분',
         required: false,
     })
-    role: boolean;
+    @IsNumber()
+    role: number;
 }

@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { IsNumber, IsOptional,  IsString, IsBoolean } from "class-validator";
 
 export class CreateItemDto {
     @ApiProperty({
@@ -6,6 +7,7 @@ export class CreateItemDto {
         description: '제목',
         required: true,
     })
+    @IsString()
     title: string;
 
     @ApiProperty({
@@ -13,6 +15,7 @@ export class CreateItemDto {
         description: '본문',
         required: true,
     })
+    @IsString()
     contents: string;
 
     @ApiProperty({
@@ -20,13 +23,15 @@ export class CreateItemDto {
         description: '본문',
         required: true,
     })
-    images: string;
+    @IsString()
+    image_src: string;
 
     @ApiProperty({
         example: 1,
         description: '카테고리',
         required: true,
     })
+    @IsNumber()
     category: number;
 
     @ApiProperty({
@@ -34,6 +39,7 @@ export class CreateItemDto {
         description: '가격',
         required: true,
     })
+    @IsNumber()
     price: number;
 
     @ApiProperty({
@@ -41,6 +47,8 @@ export class CreateItemDto {
         description: '생성 날짜',
         required: true,
     })
+    @IsString()
+    @IsOptional()
     createdAt: Date;
 
     @ApiProperty({
@@ -48,5 +56,7 @@ export class CreateItemDto {
         description: '수정 날짜',
         required: true,
     })
+    @IsString()
+    @IsOptional()
     updatedAt: Date;
 }

@@ -7,7 +7,7 @@ import { OauthReqDto } from './dto/oauthReq.dto';
 import { OauthService } from './oauth.service';
 
 @Controller('oauth')
-@ApiTags('소셜 인증 관련')
+@ApiTags('소셜 로그인 및 가입')
 
 export class OauthController {
   constructor(private readonly oauthService: OauthService) {}
