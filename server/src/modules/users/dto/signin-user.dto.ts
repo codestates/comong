@@ -1,5 +1,4 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNumber, IsOptional,  IsString, IsBoolean } from "class-validator";
 
 export class SignInUserDto {
     @ApiProperty({
@@ -7,7 +6,6 @@ export class SignInUserDto {
         description: '이메일',
         required: true,
     })
-    @IsString()
     email: string;
 
     @ApiProperty({
@@ -15,6 +13,5 @@ export class SignInUserDto {
         description: '암호화된 비밀번호',
         required: true,
     })
-    @IsString()
     password: string;
 }
