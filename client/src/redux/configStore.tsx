@@ -1,4 +1,4 @@
-import listSlice from './listSlice';
+import listSlice from './modules/listSlice';
 import { configureStore } from '@reduxjs/toolkit';
 
 const store = configureStore({
