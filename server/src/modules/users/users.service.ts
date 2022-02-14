@@ -42,8 +42,9 @@ export class UsersService {
 
 	async signIn(userInfo: SignInUserDto) {
 		const user = await models.user.findOne({
-			where: userInfo,
+			where: {...userInfo},
 		});
+		console.log(userInfo)
 		if (user) {
 			const accessToken = await this.jwt.sign(user.dataValues, {
 				secret: process.env.ACCESS_SECRET,
@@ -65,8 +66,15 @@ export class UsersService {
 		return user;
 	}
 
-	update(id: number, updateUserDto: UpdateUserDto) {
-		return `This action updates a #${id} user`;
+	async update(user: User, changes: UpdateUserDto) {
+		const changed = await models.user.update( changes, {
+			where: { id: user.id }
+		})
+		if (changed) {
+			return { message: 'successful' };
+		} else {
+			throw new BadRequestException('invalid value for property');
+		}
 	}
 
 	async remove(user) {

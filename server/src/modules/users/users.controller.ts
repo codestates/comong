@@ -81,8 +81,9 @@ export class UsersController {
 	@ApiBadRequestResponse({
 		description: 'invalid value for property or account',
 	})
-	update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-		return this.usersService.update(+id, updateUserDto);
+	@UseGuards(JwtAuthGuard)
+	update(@getUser() user: User,@Body() changes: UpdateUserDto) {
+		return this.usersService.update(user, changes);
 	}
 
 	@Delete()
