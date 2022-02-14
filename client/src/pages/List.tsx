@@ -1,19 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../redux/configStore.hooks';
-import { getListAsync } from '../redux/modules/listSlice';
-import type { RootState } from '../redux/configStore';
 import PostList from '../components/postList/PostList';
-import { getItems } from '../apis/api/items';
+import styled from 'styled-components';
+import Nav from '../components/Nav';
+import Banner from '../components/Banner';
+import MainCategories from '../components/MainCategories';
 
 const List = () => {
-  const listData = useAppSelector((state: RootState) => state);
-
-  const dispatch = useAppDispatch();
+  const ListContainer = styled.div`
+    width: 100%;
+  `;
 
   return (
-    <>
+    <ListContainer>
+      <Nav></Nav>
+      <Banner></Banner>
+      <MainCategories></MainCategories>
       <PostList></PostList>
-    </>
+    </ListContainer>
   );
 };
 
