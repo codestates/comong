@@ -1,10 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards } from '@nestjs/common';
 import { ItemsService } from './items.service';
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
 import { category } from './entities/category.entity';
 import { item } from './entities/item.entity'
 import { ApiTags, ApiOperation, ApiCreatedResponse, ApiOkResponse, ApiHeader, ApiBearerAuth, ApiBadRequestResponse, ApiParam, ApiQuery } from '@nestjs/swagger';
+import JwtAuthGuard from '../../middleware/Jwtauthguard';
+import { getUser } from 'src/decorators/getUser';
+import { User } from '../users/entities/user.entity';
+//import { Auth } from '../../middleware/auth';
 
 @Controller('items')
 @ApiTags('상품 정보 관련')
@@ -24,8 +28,9 @@ export class ItemsController {
   @ApiOperation({ summary: '새로운 상품 등록', description: '새로운 상품을 등록합니다.' })
   @ApiCreatedResponse({ description: 'successful' })
   @ApiBadRequestResponse({ description: 'invalid value for property' })
-  create(@Body() createItemDto: CreateItemDto) {
-    return this.itemsService.create(createItemDto);
+  @UseGuards(JwtAuthGuard)
+  create(@Body() newItem: CreateItemDto, @getUser() user: User ) {
+    return this.itemsService.create(newItem, user);
   }
 
   @Get('/')
