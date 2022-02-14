@@ -1,4 +1,1 @@
-export class CreateCommentDto {
-    comment: string;
-    userid: string;
-}
+export class CreateCommentDto {}

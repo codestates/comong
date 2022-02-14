@@ -1,10 +1,9 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
 import { category } from './entities/category.entity';
 import { item } from './entities/item.entity'
 import { Logger } from '@nestjs/common';
-import { User } from '../users/entities/user.entity';
 const models = require('../../models/index');
 
 @Injectable()
@@ -13,22 +12,14 @@ export class ItemsService {
   private items: item[] =[];
   private readonly logger = new Logger(ItemsService.name);
 
-  async create(newItem: CreateItemDto, user: User) {
-    console.log(newItem, user)
-    //newItem['user_id'] = user.id
-    const item = await models.item.create({user_id: user.id, ...newItem})
-    if(item) {
-      return { message: 'successful' }
-      } else {
-      throw new BadRequestException('invalid value for property')
-      }
+  create(createItemDto: CreateItemDto) {
+    return 'This action adds a new item';
   }
 
   async getItems(category: number, number: number): Promise<item[]> {
     this.items = await models.item.findAll({
       include: [{ model: models.item_has_category, as: 'item_has_categories', where: category ? { category_id: category } : '' }],
       limit: number || 10,
-      order: [ [ 'createdAt', 'DESC' ]],
     })
     return this.items
   }
