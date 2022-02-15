@@ -8,8 +8,8 @@ const NavContainer = styled.div`
   z-index: 10;
   top: 0;
   font-family: roboto;
-  border-bottom: 1px solid #e2e2e2;
-  background-color: #ffffff;
+  border-bottom: 1px solid ${(props) => props.theme.colors.lightGrey};
+  background-color: white;
 `;
 const NavLinks = styled.div`
   display: flex;
