@@ -8,28 +8,34 @@ import type { user_payment_has_shipping, user_payment_has_shippingId } from './u
 export interface user_paymentAttributes {
   id: number;
   user_id: number;
-  payment_type?: string;
+  payment_method?: string;
   payment_status?: string;
-  expiry?: Date;
   detail?: string;
   total_amount?: string;
+  imp_uid?: string;
+  merchant_uid?: string;
+  buyer_name?: string;
+  status?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
 
 export type user_paymentPk = "id";
 export type user_paymentId = user_payment[user_paymentPk];
-export type user_paymentOptionalAttributes = "id" | "payment_type" | "payment_status" | "expiry" | "detail" | "total_amount" | "createdAt" | "updatedAt";
+export type user_paymentOptionalAttributes = "id" | "payment_method" | "payment_status" | "detail" | "total_amount" | "imp_uid" | "merchant_uid" | "buyer_name" | "status" | "createdAt" | "updatedAt";
 export type user_paymentCreationAttributes = Optional<user_paymentAttributes, user_paymentOptionalAttributes>;
 
 export class user_payment extends Model<user_paymentAttributes, user_paymentCreationAttributes> implements user_paymentAttributes {
   id!: number;
   user_id!: number;
-  payment_type?: string;
+  payment_method?: string;
   payment_status?: string;
-  expiry?: Date;
   detail?: string;
   total_amount?: string;
+  imp_uid?: string;
+  merchant_uid?: string;
+  buyer_name?: string;
+  status?: string;
   createdAt?: Date;
   updatedAt?: Date;
 
@@ -91,7 +97,7 @@ export class user_payment extends Model<user_paymentAttributes, user_paymentCrea
         key: 'id'
       }
     },
-    payment_type: {
+    payment_method: {
       type: DataTypes.STRING(45),
       allowNull: true
     },
@@ -99,15 +105,27 @@ export class user_payment extends Model<user_paymentAttributes, user_paymentCrea
       type: DataTypes.STRING(45),
       allowNull: true
     },
-    expiry: {
-      type: DataTypes.DATE,
-      allowNull: true
-    },
     detail: {
       type: DataTypes.STRING(225),
       allowNull: true
     },
     total_amount: {
+      type: DataTypes.STRING(45),
+      allowNull: true
+    },
+    imp_uid: {
+      type: DataTypes.STRING(45),
+      allowNull: true
+    },
+    merchant_uid: {
+      type: DataTypes.STRING(45),
+      allowNull: true
+    },
+    buyer_name: {
+      type: DataTypes.STRING(45),
+      allowNull: true
+    },
+    status: {
       type: DataTypes.STRING(45),
       allowNull: true
     }

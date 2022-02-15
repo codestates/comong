@@ -66,6 +66,7 @@ export class UsersService {
 		return user;
 	}
 
+
 	async update(user: User, changes: UpdateUserDto) {
 		const changed = await models.user.update( changes, {
 			where: { id: user.id }
