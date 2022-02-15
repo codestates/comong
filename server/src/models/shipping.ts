@@ -10,13 +10,11 @@ export interface shippingAttributes {
   state?: string;
   tracking_number?: string;
   order_id: number;
-  createdAt?: Date;
-  updatedAt?: Date;
 }
 
 export type shippingPk = "id" | "order_id";
 export type shippingId = shipping[shippingPk];
-export type shippingOptionalAttributes = "shipping_method" | "shipping_charge" | "state" | "tracking_number" | "createdAt" | "updatedAt";
+export type shippingOptionalAttributes = "shipping_method" | "shipping_charge" | "state" | "tracking_number";
 export type shippingCreationAttributes = Optional<shippingAttributes, shippingOptionalAttributes>;
 
 export class shipping extends Model<shippingAttributes, shippingCreationAttributes> implements shippingAttributes {
@@ -26,8 +24,6 @@ export class shipping extends Model<shippingAttributes, shippingCreationAttribut
   state?: string;
   tracking_number?: string;
   order_id!: number;
-  createdAt?: Date;
-  updatedAt?: Date;
 
   // shipping belongsTo order via order_id
   order!: order;
@@ -94,7 +90,7 @@ export class shipping extends Model<shippingAttributes, shippingCreationAttribut
   }, {
     sequelize,
     tableName: 'shipping',
-    timestamps: true,
+    timestamps: false,
     indexes: [
       {
         name: "PRIMARY",
