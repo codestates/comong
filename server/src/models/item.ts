@@ -36,17 +36,17 @@ export class item extends Model<itemAttributes, itemCreationAttributes> implemen
   user_id!: number;
 
   // item belongsToMany category via item_id and category_id
-  category_id_categories!: category[];
-  getCategory_id_categories!: Sequelize.BelongsToManyGetAssociationsMixin<category>;
-  setCategory_id_categories!: Sequelize.BelongsToManySetAssociationsMixin<category, categoryId>;
-  addCategory_id_category!: Sequelize.BelongsToManyAddAssociationMixin<category, categoryId>;
-  addCategory_id_categories!: Sequelize.BelongsToManyAddAssociationsMixin<category, categoryId>;
-  createCategory_id_category!: Sequelize.BelongsToManyCreateAssociationMixin<category>;
-  removeCategory_id_category!: Sequelize.BelongsToManyRemoveAssociationMixin<category, categoryId>;
-  removeCategory_id_categories!: Sequelize.BelongsToManyRemoveAssociationsMixin<category, categoryId>;
-  hasCategory_id_category!: Sequelize.BelongsToManyHasAssociationMixin<category, categoryId>;
-  hasCategory_id_categories!: Sequelize.BelongsToManyHasAssociationsMixin<category, categoryId>;
-  countCategory_id_categories!: Sequelize.BelongsToManyCountAssociationsMixin;
+  category_id_category_item_has_categories!: category[];
+  getCategory_id_category_item_has_categories!: Sequelize.BelongsToManyGetAssociationsMixin<category>;
+  setCategory_id_category_item_has_categories!: Sequelize.BelongsToManySetAssociationsMixin<category, categoryId>;
+  addCategory_id_category_item_has_category!: Sequelize.BelongsToManyAddAssociationMixin<category, categoryId>;
+  addCategory_id_category_item_has_categories!: Sequelize.BelongsToManyAddAssociationsMixin<category, categoryId>;
+  createCategory_id_category_item_has_category!: Sequelize.BelongsToManyCreateAssociationMixin<category>;
+  removeCategory_id_category_item_has_category!: Sequelize.BelongsToManyRemoveAssociationMixin<category, categoryId>;
+  removeCategory_id_category_item_has_categories!: Sequelize.BelongsToManyRemoveAssociationsMixin<category, categoryId>;
+  hasCategory_id_category_item_has_category!: Sequelize.BelongsToManyHasAssociationMixin<category, categoryId>;
+  hasCategory_id_category_item_has_categories!: Sequelize.BelongsToManyHasAssociationsMixin<category, categoryId>;
+  countCategory_id_category_item_has_categories!: Sequelize.BelongsToManyCountAssociationsMixin;
   // item belongsToMany chat via item_id and chat_id
   chat_id_chats!: chat[];
   getChat_id_chats!: Sequelize.BelongsToManyGetAssociationsMixin<chat>;
