@@ -18,7 +18,7 @@ export class PaymentsService {
       const validationData = await this.paymentValidator(
         createPaymentDto.imp_uid,
       );
-      const { amount, status } = validationData; 
+      const { amount, status } = validationData;
       if (
         amount === createPaymentDto.total_amount ||
         status === createPaymentDto.status
