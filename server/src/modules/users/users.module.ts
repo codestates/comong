@@ -7,6 +7,6 @@ require('dotenv').config()
 @Module({
   imports: [MailerModule],
   controllers: [UsersController],
-  providers: [UsersService]
+  providers: [UsersService, TokenModule]
 })
 export class UsersModule {}

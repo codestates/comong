@@ -19,14 +19,14 @@ export default class JwtAuthGuard implements CanActivate {
 		}
 
 		request.user = this.validateToken(accessToken);
-		console.log(authorization)
+		//console.log(authorization)
 		// request.user 객체에 디코딩된 토큰(유저 정보)을 저장합니다.
 		return true;
 	}
 
 	public validateToken(token: string): any {
 		try {
-			console.log(token, process.env.ACCESS_SECRET)
+			//console.log(token, process.env.ACCESS_SECRET)
 			const verify: any = jwt.verify(token, process.env.ACCESS_SECRET )
 			return verify;
 		} catch (error) {
