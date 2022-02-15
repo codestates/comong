@@ -1,16 +1,11 @@
 import { Module } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
-import { TokenModule } from '../../util/token.module';
-import { JwtModule, JwtService } from '@nestjs/jwt';
+import { MailerModule } from '../mailer/mailer.module'
 require('dotenv').config()
 
 @Module({
-  imports: [ JwtModule.register(({
-    secret: process.env.ACCESS_SECRET,
-    signOptions: { expiresIn: '30m' },
-  })),
-],
+  imports: [MailerModule],
   controllers: [UsersController],
   providers: [UsersService, TokenModule]
 })

@@ -29,11 +29,12 @@ import {
 import JwtAuthGuard from '../../middleware/Jwtauthguard';
 import { getUser } from '../../decorators/getUser'
 import { User } from './entities/user.entity';
+import { MailerService } from '../mailer/mailer.service';
 
 @Controller('users')
 @ApiTags('회원 정보 관련')
 export class UsersController {
-	constructor(private readonly usersService: UsersService) {}
+	constructor(private readonly usersService: UsersService, private readonly mailerService: MailerService) {}
 
 	@Post()
 	@ApiOperation({
@@ -43,8 +44,11 @@ export class UsersController {
 	@ApiCreatedResponse({ description: 'successful.' })
 	@ApiBadRequestResponse({ description: 'invalid value for property' })
 	@UsePipes(ValidationPipe)
-	create(@Body() createUserDto: CreateUserDto) {
-		return this.usersService.create(createUserDto);
+	async create(@Body() user: CreateUserDto) {
+		await this.mailerService.send(user.role, [user.email], 'Comong 이메일 인증 요청', 'signup', {
+			name: user.name,
+		})
+		return this.usersService.create(user);
 	}
 
 	@Get('isduplicate/:email')
