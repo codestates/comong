@@ -1,6 +1,8 @@
 import type { Sequelize } from "sequelize";
 import { category as _category } from "./category";
 import type { categoryAttributes, categoryCreationAttributes } from "./category";
+import { category_has_user as _category_has_user } from "./category_has_user";
+import type { category_has_userAttributes, category_has_userCreationAttributes } from "./category_has_user";
 import { chat as _chat } from "./chat";
 import type { chatAttributes, chatCreationAttributes } from "./chat";
 import { chat_has_item as _chat_has_item } from "./chat_has_item";
@@ -46,6 +48,7 @@ import type { user_payment_has_shippingAttributes, user_payment_has_shippingCrea
 
 export {
   _category as category,
+  _category_has_user as category_has_user,
   _chat as chat,
   _chat_has_item as chat_has_item,
   _chat_has_user as chat_has_user,
@@ -72,6 +75,8 @@ export {
 export type {
   categoryAttributes,
   categoryCreationAttributes,
+  category_has_userAttributes,
+  category_has_userCreationAttributes,
   chatAttributes,
   chatCreationAttributes,
   chat_has_itemAttributes,
@@ -118,6 +123,7 @@ export type {
 
 export function initModels(sequelize: Sequelize) {
   const category = _category.initModel(sequelize);
+  const category_has_user = _category_has_user.initModel(sequelize);
   const chat = _chat.initModel(sequelize);
   const chat_has_item = _chat_has_item.initModel(sequelize);
   const chat_has_user = _chat_has_user.initModel(sequelize);
@@ -141,9 +147,10 @@ export function initModels(sequelize: Sequelize) {
   const user_payment_has_shipping = _user_payment_has_shipping.initModel(sequelize);
 
   category.belongsToMany(item, { as: 'item_id_item_item_has_categories', through: item_has_category, foreignKey: "category_id", otherKey: "item_id" });
+  category.belongsToMany(user, { as: 'user_id_users', through: category_has_user, foreignKey: "category_id", otherKey: "user_id" });
   chat.belongsToMany(item, { as: 'item_id_items', through: chat_has_item, foreignKey: "chat_id", otherKey: "item_id" });
-  chat.belongsToMany(user, { as: 'user_id_users', through: chat_has_user, foreignKey: "chat_id", otherKey: "user_id" });
-  item.belongsToMany(category, { as: 'category_id_categories', through: item_has_category, foreignKey: "item_id", otherKey: "category_id" });
+  chat.belongsToMany(user, { as: 'user_id_user_chat_has_users', through: chat_has_user, foreignKey: "chat_id", otherKey: "user_id" });
+  item.belongsToMany(category, { as: 'category_id_category_item_has_categories', through: item_has_category, foreignKey: "item_id", otherKey: "category_id" });
   item.belongsToMany(chat, { as: 'chat_id_chats', through: chat_has_item, foreignKey: "item_id", otherKey: "chat_id" });
   item.belongsToMany(order_detail, { as: 'order_detail_id_order_detail_order_detail_has_items', through: order_detail_has_item, foreignKey: "item_id", otherKey: "order_detail_id" });
   item_inventory.belongsToMany(order_detail, { as: 'order_detail_id_order_details', through: item_inventory_has_order_detail, foreignKey: "item_inventory_id", otherKey: "order_detail_id" });
@@ -155,9 +162,12 @@ export function initModels(sequelize: Sequelize) {
   order_detail.belongsToMany(order, { as: 'order_id_orders', through: order_detail_has_order, foreignKey: "order_detail_id", otherKey: "order_id" });
   order_detail.belongsToMany(shopping_cart, { as: 'shopping_cart_id_shopping_carts', through: shopping_cart_has_order_detail, foreignKey: "order_detail_id", otherKey: "shopping_cart_id" });
   shopping_cart.belongsToMany(order_detail, { as: 'order_detail_id_order_detail_shopping_cart_has_order_details', through: shopping_cart_has_order_detail, foreignKey: "shopping_cart_id", otherKey: "order_detail_id" });
+  user.belongsToMany(category, { as: 'category_id_categories', through: category_has_user, foreignKey: "user_id", otherKey: "category_id" });
   user.belongsToMany(chat, { as: 'chat_id_chat_chat_has_users', through: chat_has_user, foreignKey: "user_id", otherKey: "chat_id" });
   user.belongsToMany(order, { as: 'order_id_order_order_has_users', through: order_has_user, foreignKey: "user_id", otherKey: "order_id" });
   user_payment.belongsToMany(order, { as: 'order_id_order_user_payment_has_orders', through: user_payment_has_order, foreignKey: "user_payment_id", otherKey: "order_id" });
+  category_has_user.belongsTo(category, { as: "category", foreignKey: "category_id"});
+  category.hasMany(category_has_user, { as: "category_has_users", foreignKey: "category_id"});
   item_has_category.belongsTo(category, { as: "category", foreignKey: "category_id"});
   category.hasMany(item_has_category, { as: "item_has_categories", foreignKey: "category_id"});
   chat_has_item.belongsTo(chat, { as: "chat", foreignKey: "chat_id"});
@@ -196,6 +206,8 @@ export function initModels(sequelize: Sequelize) {
   shipping.hasMany(user_payment_has_shipping, { as: "shipping_order_user_payment_has_shippings", foreignKey: "shipping_order_id"});
   shopping_cart_has_order_detail.belongsTo(shopping_cart, { as: "shopping_cart", foreignKey: "shopping_cart_id"});
   shopping_cart.hasMany(shopping_cart_has_order_detail, { as: "shopping_cart_has_order_details", foreignKey: "shopping_cart_id"});
+  category_has_user.belongsTo(user, { as: "user", foreignKey: "user_id"});
+  user.hasMany(category_has_user, { as: "category_has_users", foreignKey: "user_id"});
   chat_has_user.belongsTo(user, { as: "user", foreignKey: "user_id"});
   user.hasMany(chat_has_user, { as: "chat_has_users", foreignKey: "user_id"});
   item.belongsTo(user, { as: "user", foreignKey: "user_id"});
@@ -217,6 +229,7 @@ export function initModels(sequelize: Sequelize) {
 
   return {
     category: category,
+    category_has_user: category_has_user,
     chat: chat,
     chat_has_item: chat_has_item,
     chat_has_user: chat_has_user,

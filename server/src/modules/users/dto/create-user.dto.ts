@@ -19,7 +19,7 @@ export class CreateUserDto {
     readonly email: string;
 
     @ApiProperty({
-        example: '446D8hmDWUGnkb7KweQPkMaWRgWBCo...',
+        example: 'pwHJIFp1TsZ82AEnH9VtrFJNHg3ylOywhO2kmgJJKWdqkSGerg',
         description: '비밀번호',
         required: true,
     })
@@ -32,8 +32,8 @@ export class CreateUserDto {
         required: false,
     })
     @IsOptional()
-    @IsNumber()
-    readonly phone: number;
+    @IsString()
+    readonly phone: string;
 
     @ApiProperty({
         example: '1',
@@ -41,13 +41,13 @@ export class CreateUserDto {
         required: false,
     })
     @IsOptional()
-    @IsBoolean()
-    readonly gender: boolean;
+    @IsNumber()
+    readonly gender: number;
 
     @ApiProperty({
         example: '서울특별시 중구 태평로1가 100-100',
         description: '주소',
-        required: true,
+        required: false,
     })
     @IsOptional()
     @IsString()
@@ -56,7 +56,7 @@ export class CreateUserDto {
     @ApiProperty({
         example: '101동 101호.',
         description: '상세 주소',
-        required: true,
+        required: false,
     })
     @IsOptional()
     @IsString()
@@ -69,13 +69,13 @@ export class CreateUserDto {
     })
     @IsOptional()
     @IsString()
-    dob: string;
+    dob: Date;
     
     @ApiProperty({
         example: '0',
         description: '회원 구분',
         required: false,
     })
-    @IsBoolean()
-    role: boolean;
+    @IsNumber()
+    role: number;
 }

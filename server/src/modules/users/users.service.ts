@@ -1,53 +1,88 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException, Request, ForbiddenException } from '@nestjs/common';
+require('dotenv').config;
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { SignInUserDto } from './dto/signin-user.dto';
 import { Logger } from '@nestjs/common';
 const models = require('../../models/index');
+const nodemailer = require('nodemailer');
+
+/* jwt부분 추후 분리 예정*/
+import * as jwt from 'jsonwebtoken'
+/* jwt부분 추후 분리 예정*/
 
 export type User = any;
 
 @Injectable()
 export class UsersService {
-  private readonly users = [
-    {
-      userId: 1,
-      username: 'test username 01',
-      password: 'test username 01 password',
-    },
-    {
-      userId: 2,
-      username: 'test username 02',
-      password: 'test username 02 password',
-    },
-  ];
-  private readonly logger = new Logger(UsersService.name);
+	private readonly logger = new Logger(UsersService.name);
 
-  async testFindOne(username: string): Promise<User | undefined> {
-    return this.users.find(user => user.username === username);
-  }
-  
-  async create(createUserDto: CreateUserDto) {
-    const user = models.user.findOrCreate({
-      where: { email: createUserDto.email },
-      default: createUserDto
-    })
-    return createUserDto;
-  }
+	async create(user: CreateUserDto) {
+		const [newUser, isCreated] = await models.user.findOrCreate({
+			where: { email: user.email },
+			defaults: { ...user },
+		});
 
-  findAll(signInUserDto: SignInUserDto) {
-    return `This action returns all users`;
-  }
+		if (isCreated) {
+			return { message: 'successful' };	
+		} else {
+			throw new BadRequestException('invalid value for property');
+		}
+	}
 
-  findOne() {
-    return `This action returns a #user`;
-  }
+	async isDuplicate(email: string) {
+		const user = await models.user.findOne({where: { email: email }})
+		if(!user){
+			return { message: 'available' };
+		} else {
+			throw new ForbiddenException('This email address is already being used')
+		}
+	}
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
+	async signIn(userInfo: SignInUserDto) {
+		const user = await models.user.findOne({
+			where: { ...userInfo },
+		});
+		console.log(userInfo)
+		if (user) {
+			delete user.dataValues.password;
+			console.log('엑세스 시크릿', process.env.ACCESS_SECRET)
+			const accessToken = await jwt.sign(user.dataValues, process.env.ACCESS_SECRET, {
+				expiresIn: '1h',
+			});
+			return { message: 'successful', user, accessToken };
+		} else {
+			return { message: 'err', user };
+		}
+	}
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
-  }
+	findAll(signInUserDto: SignInUserDto) {
+		return `This action returns all users`;
+	}
+
+	signOut(user: User) {
+		return user;
+	}
+
+	async update(user: User, changes: UpdateUserDto) {
+		const changed = await models.user.update( changes, {
+			where: { id: user.id }
+		})
+		if (changed) {
+			return { message: 'successful' };
+		} else {
+			throw new BadRequestException('invalid value for property');
+		}
+	}
+
+	async remove(user) {
+		const deletedUser = await models.user.destroy({
+			where: { email: user.email },
+		});
+		if (deletedUser) {
+			return { message: 'successful' };
+		} else {
+			throw new BadRequestException('invalid value for property');
+		}
+	}
 }

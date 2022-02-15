@@ -3,7 +3,7 @@ dotenv.config();
 
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
-import { AuthService } from '../auth/auth.service';
+//import { AuthService } from '../auth/auth.service';
 import { OauthController } from './oauth.controller';
 import { OauthService } from './oauth.service';
 import { JwtModule } from '@nestjs/jwt';
@@ -17,6 +17,6 @@ import { JwtModule } from '@nestjs/jwt';
     }),
   ],
   controllers: [OauthController],
-  providers: [OauthService, AuthService],
+  providers: [OauthService, /*AuthService*/],
 })
 export class OauthModule {}

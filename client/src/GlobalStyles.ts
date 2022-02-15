@@ -11,6 +11,15 @@ const GlobalStyles = createGlobalStyle`
   main {
     position: relative;
   }
+
+  a{
+    text-decoration: none;
+    color:inherit;
+  }
+
+  button{
+    border: none;
+  }
 `;
 
 export default GlobalStyles;

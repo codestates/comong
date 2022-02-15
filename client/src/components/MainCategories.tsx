@@ -10,7 +10,7 @@ const MainCategoriesContainer = styled.div`
   margin-top: 50px;
   margin-bottom: 50px;
   max-width: 1400px;
-  background-color: #ffffff;
+  background-color: white;
   @media only screen and (max-width: 1200px) {
     flex-wrap: wrap;
   }
@@ -44,6 +44,7 @@ const MainCategoryName = styled.span`
   font-size: 15px;
   font-weight: bold;
   color: #444444;
+  color: #b8b8b8;
 `;
 
 const MainCategories = () => {
