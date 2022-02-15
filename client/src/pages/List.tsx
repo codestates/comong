@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Nav from '../components/Nav';
 import Banner from '../components/Banner';
 import MainCategories from '../components/MainCategories';
+import MobileNav from '../components/MobileNav';
 
 const List = () => {
   const ListContainer = styled.div`
@@ -15,6 +16,7 @@ const List = () => {
       <Banner></Banner>
       <MainCategories></MainCategories>
       <PostList></PostList>
+      <MobileNav></MobileNav>
     </ListContainer>
   );
 };
