@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 
 const NavContainer = styled.div`
@@ -28,26 +29,46 @@ const NavMenu = styled.div`
   justify-content: center;
   align-items: center;
   margin: auto;
+  color: #323232;
+  :hover {
+    color: #358bca;
+  }
 `;
 const NavMenuImg = styled.img`
   margin: auto;
-  color: #323232;
-  height: 35px;
+  height: 32px;
 `;
 const NavMenuTitle = styled.p`
   text-align: center;
   margin-top: 8px;
-  color: #323232;
-  font-size: 12px;
+  /* margin-bottom: 2px; */
+
+  font-size: 11px;
   font-weight: bold;
 `;
 
 const Nav = () => {
+  const [homeColor, setHomeColor] = useState(false);
+
+  const handleHover = (el: string) => {
+    if (el === 'home') setHomeColor(true);
+  };
+  const handleHoverOut = (el: string) => {
+    if (el === 'home') setHomeColor(false);
+  };
+
   return (
     <NavContainer>
       <NavMenuContainer>
-        <NavMenu>
-          <NavMenuImg src="/icons/mobileNav/home.png" />
+        <NavMenu
+          onMouseOver={() => handleHover('home')}
+          onMouseLeave={() => handleHoverOut('home')}
+        >
+          <NavMenuImg
+            src={`/icons/mobileNav/${
+              homeColor ? 'home-hover.png' : 'home.png'
+            } `}
+          />
           <NavMenuTitle>홈</NavMenuTitle>
         </NavMenu>
         <NavMenu>
