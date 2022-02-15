@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { IJoinForm, IJoinPartial } from '../../pages/join/GeneralJoin';
 import InputBasic from './InputBasic';
 
-interface InputNameProps {
+interface InputPhoneProps {
   fillJoinForm: (obj: IJoinPartial) => void;
 }
 
-function InputPhoneNum({ fillJoinForm }: InputNameProps) {
+function InputPhoneNum({ fillJoinForm }: InputPhoneProps) {
   const [message, setMessage] = useState('');
 
   const fillPhoneNumInput = (e: React.FormEvent<HTMLInputElement>) => {

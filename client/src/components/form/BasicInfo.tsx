@@ -39,7 +39,6 @@ function BasicInfo({ fillJoinForm }: IBasicInfo) {
       <InputEmail fillJoinForm={fillJoinForm}></InputEmail>
       <InputPassword fillJoinForm={fillJoinForm}></InputPassword>
       <InputPhoneNum fillJoinForm={fillJoinForm}></InputPhoneNum>
-      <InputAdress></InputAdress>
     </div>
   );
 }

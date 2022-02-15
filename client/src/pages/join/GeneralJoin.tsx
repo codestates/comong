@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { postUsers } from '../../apis/api/users';
-import ButtonLarge from '../../components/common/ButtonLarge';
+import ButtonLarge from '../../components/common/ButtonBasic';
 import AdditionalInfo from '../../components/form/AdditionalInfo';
 import BasicInfo from '../../components/form/BasicInfo';
 import ErrorMessage from '../../components/Input/ErrorMessage';
+import InputAdress from '../../components/Input/InputAdress';
 
 export interface IJoinForm {
   name: string;
@@ -60,6 +61,7 @@ function GeneralJoin() {
   return (
     <form>
       <BasicInfo fillJoinForm={fillJoinForm}></BasicInfo>
+      <InputAdress></InputAdress>
       <AdditionalInfo></AdditionalInfo>
       <ErrorMessage>{message}</ErrorMessage>
       <ButtonLarge

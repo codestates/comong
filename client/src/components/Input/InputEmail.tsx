@@ -2,7 +2,7 @@ import React, { SetStateAction, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getIsDuplicate } from '../../apis/api/users';
 import { IJoinPartial } from '../../pages/join/GeneralJoin';
-import ButtonLarge from '../common/ButtonLarge';
+import ButtonBasic from '../common/ButtonBasic';
 import ErrorMessage from './ErrorMessage';
 
 const Wrapper = styled.div`
@@ -90,9 +90,9 @@ function InputEmail({ fillJoinForm }: InputEmailProps) {
           required
         />
         <ButtonWrapper>
-          <ButtonLarge type="email" buttonClickHandler={checkEmailDuplication}>
+          <ButtonBasic type="small" buttonClickHandler={checkEmailDuplication}>
             중복검사
-          </ButtonLarge>
+          </ButtonBasic>
         </ButtonWrapper>
       </InputWrapper>
       <ErrorMessage success={isEmailCorrect}>{message}</ErrorMessage>
