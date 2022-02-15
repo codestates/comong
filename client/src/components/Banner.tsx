@@ -4,7 +4,7 @@ const BannerContainer = styled.div`
   display: flex;
   width: 100%;
   margin-top: 65px;
-  height: 320px;
+  height: 380px;
   background-color: #7927a8;
 `;
 
