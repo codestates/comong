@@ -43,6 +43,7 @@ export class UsersService {
 		const user = await models.user.findOne({
 			where: { ...userInfo },
 		});
+		console.log(userInfo)
 		if (user) {
 			delete user.dataValues.password;
 			console.log('엑세스 시크릿', process.env.ACCESS_SECRET)

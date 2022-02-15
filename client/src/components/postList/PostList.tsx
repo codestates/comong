@@ -7,13 +7,20 @@ import type { RootState } from '../../redux/configStore';
 
 const PostListWrapper = styled.div`
   width: 80%;
-  max-width: 1000px;
+  max-width: 1600px;
   padding: 10px;
   display: flex;
 
   margin: auto;
   margin-top: 20px;
   flex-wrap: wrap;
+
+  @media only screen and (max-width: 1200px) {
+    width: 100%;
+  }
+  @media only screen and (max-width: 768px) {
+    width: 100%;
+  }
 `;
 const ItemContainer = styled.div`
   width: 25%;
@@ -34,10 +41,6 @@ function PostList() {
     dispatch(getListAsync());
   }, []);
 
-  // console.log(listData.listSlice.data);
-
-  console.log(listData.listSlice.data.slice(0, 8));
-
   return (
     <PostListWrapper>
       {listData.listSlice.data?.map(
@@ -48,7 +51,6 @@ function PostList() {
           price: number;
           image_src: string;
         }) => {
-          console.log(post);
           return (
             <ItemContainer>
               <PostListItem key={post.id} post={post} />;

@@ -24,7 +24,13 @@ const listSlice = createSlice({
 export let {} = listSlice.actions;
 
 export const getListAsync = createAsyncThunk('items/get', async () => {
-  const response = await axios.get(`${process.env.REACT_APP_URL}items`);
+  const response = await axios({
+    url: `${process.env.REACT_APP_URL}/items`,
+    method: 'get',
+    data: {},
+  });
+
+  console.log(response.data);
   return response.data;
 });
 
