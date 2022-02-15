@@ -13,13 +13,11 @@ export interface orderAttributes {
   order_date?: string;
   total_amount?: number;
   state?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
 }
 
 export type orderPk = "id";
 export type orderId = order[orderPk];
-export type orderOptionalAttributes = "id" | "order_date" | "total_amount" | "state" | "createdAt" | "updatedAt";
+export type orderOptionalAttributes = "id" | "order_date" | "total_amount" | "state";
 export type orderCreationAttributes = Optional<orderAttributes, orderOptionalAttributes>;
 
 export class order extends Model<orderAttributes, orderCreationAttributes> implements orderAttributes {
@@ -27,8 +25,6 @@ export class order extends Model<orderAttributes, orderCreationAttributes> imple
   order_date?: string;
   total_amount?: number;
   state?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
 
   // order belongsToMany order_detail via order_id and order_detail_id
   order_detail_id_order_detail_order_detail_has_orders!: order_detail[];
@@ -138,7 +134,7 @@ export class order extends Model<orderAttributes, orderCreationAttributes> imple
   }, {
     sequelize,
     tableName: 'order',
-    timestamps: true,
+    timestamps: false,
     indexes: [
       {
         name: "PRIMARY",
