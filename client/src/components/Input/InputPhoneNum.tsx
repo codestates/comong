@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IJoinForm, IJoinPartial } from '../../pages/join/GeneralJoin';
+import { IJoinPartial } from '../../pages/join/GeneralJoin';
 import InputBasic from './InputBasic';
 
 interface InputPhoneProps {

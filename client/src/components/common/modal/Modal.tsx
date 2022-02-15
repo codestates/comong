@@ -27,6 +27,11 @@ const ModalView = styled.div`
   width: 400px;
   height: 200px;
   position: relative;
+
+  @media only screen and (max-width: 768px) {
+    width: 300px;
+    height: 150px;
+  }
 `;
 
 interface ModalProps {
