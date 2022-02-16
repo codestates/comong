@@ -1,3 +1,6 @@
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
@@ -5,6 +8,8 @@ import { category } from './entities/category.entity';
 import { item } from './entities/item.entity'
 import { Logger } from '@nestjs/common';
 import { User } from '../users/entities/user.entity';
+import { Op } from 'sequelize';
+import axios, {AxiosRequestConfig, AxiosResponse} from 'axios'
 const models = require('../../models/index');
 
 @Injectable()
@@ -24,13 +29,38 @@ export class ItemsService {
       }
   }
 
-  async getItems(category: number, number: number): Promise<item[]> {
+  async getItems(category: number, number: number, keyword: string): Promise<item[]> {
     this.items = await models.item.findAll({
-      include: [{ model: models.item_has_category, as: 'item_has_categories', where: category ? { category_id: category } : '' }],
+      include: [
+        { model: models.item_has_category, as: 'item_has_categories', where: category ? { category_id: category } : '' },
+        { model: models.user, as: 'user' , attributes: [ 'id', 'nickname' ] },
+    ],
       limit: number || 10,
+      where: keyword && {
+        [Op.or] : {
+          title: { [Op.like]: '%' + keyword + '%' },
+          contents: { [Op.like]: '%' + keyword + '%'  },
+        },
+      },
       order: [ [ 'createdAt', 'DESC' ]],
     })
     return this.items
+  }
+  
+  async getimageuploadurl() {
+    const options: AxiosRequestConfig = {
+      method: "POST",
+      url: `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ACCOUNT_ID}/images/v1/direct_upload`,
+      headers: {
+        'X-Auth-Email': 'onewithtruth@gmail.com',
+        'X-Auth-Key': `${process.env.CLOUDFLARE_API_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+    }
+  
+    const response: AxiosResponse = await axios(options)
+    return response.data.result;
+  
   }
 
   findOne(id: number) {

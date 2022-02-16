@@ -33,12 +33,24 @@ export class ItemsController {
     return this.itemsService.create(newItem, user);
   }
 
+  @Post('/imageuploadurl')
+  @ApiOperation({ summary: 'get url for image upload', description: 'getting a url for direct upload images' })
+  @ApiCreatedResponse({ description: 'successful' })
+  getimageuploadurl() {
+    return this.itemsService.getimageuploadurl()
+  }
+
   @Get('/')
-  @ApiOperation({ summary: '상품 정보 목록(구현)', description: '요청에 따라 상품 목록을 가져옵니다. 카테고리와 요청 갯수를 지정할 수 있습니다. 그렇지 않을 경우 추천알고리즘에 따라 상품을 표시합니다.' })
+  @ApiOperation({ summary: '상품 검색 혹은 카테고리 별, 추천 알고리즘에 따른 상품 정보', description: '요청에 따라 상품 목록을 가져옵니다. 카테고리와 요청 갯수 혹은 검색 키워드를 지정할 수 있습니다. 그렇지 않을 경우 추천알고리즘에 따라 상품을 표시합니다.' })
   @ApiQuery({
     name: 'category',
     required: false,
     description: '카테고리'
+  })
+  @ApiQuery({
+    name: 'keyword',
+    required: false,
+    description: '검색 키워드'
   })
   @ApiQuery({
     name: 'number',
@@ -58,8 +70,8 @@ export class ItemsController {
         },
     },
   })
-  getItems(@Query('category') category: number , @Query('number') number: number): Promise<item[]> {
-    return this.itemsService.getItems(+category,+number);
+  getItems(@Query('category') category: number, @Query('number') number: number, @Query('keyword') key: string): Promise<item[]> {
+    return this.itemsService.getItems(+category, +number, key);
   }
 
   @Get('categorylist')

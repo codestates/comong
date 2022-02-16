@@ -11,6 +11,33 @@ const GlobalStyles = createGlobalStyle`
   main {
     position: relative;
   }
+
+  h1 {
+    font-size: 36px;
+    font-weight: 600;
+
+    @media only screen and (max-width: 768px) {
+      font-size: 28px;
+    }
+  }
+
+  h2 {
+    font-size: 28px;
+    font-weight: 600;
+
+    @media only screen and (max-width: 768px) {
+      font-size: 24px;
+    }
+  }
+
+  a {
+    text-decoration: none;
+    color:inherit;
+  }
+
+  button {
+    border: none;
+  }
 `;
 
 export default GlobalStyles;
