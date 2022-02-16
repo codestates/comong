@@ -13,7 +13,7 @@ export const apiOauthClient: AxiosInstance = axios.create({
   headers: {},
 });
 
-export const apiAuthClient: AxiosInstance = axios.create({
-  baseURL: `${process.env.REACT_APP_URL}`,
-  headers: { Authorization: 'Bearer' + '토큰' },
-});
+// export const apiAuthClient: AxiosInstance = axios.create({
+//   baseURL: `${process.env.REACT_APP_URL}`,
+//   headers: { Authorization: 'Bearer' + `` },
+// });

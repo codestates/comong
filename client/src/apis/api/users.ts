@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import { apiClient } from '..';
-import { IJoinForm } from '../../pages/join/GeneralJoin';
+import { IJoinForm, IJoinPartial } from '../../pages/join/GeneralJoin';
 
 export const getIsDuplicate = async (email: string) => {
   try {
@@ -16,6 +16,16 @@ export const getIsDuplicate = async (email: string) => {
 };
 
 export const postUsers = async (form: IJoinForm) => {
+  try {
+    const data = await apiClient.post('/users', form);
+    console.log(data);
+    return data;
+  } catch (err) {
+    console.log('에러@', err);
+  }
+};
+
+export const patchUsers = async (form: IJoinPartial) => {
   try {
     const data = await apiClient.post('/users', form);
     console.log(data);

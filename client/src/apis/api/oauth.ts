@@ -8,7 +8,7 @@ export const postOauthNaver = async (code: string) => {
       authorizationCode: code,
     });
     console.log('naver', response);
-    return;
+    return response.data.data;
   } catch (error) {}
 };
 
@@ -18,7 +18,7 @@ export const postOauthKakao = async (code: string) => {
       authorizationCode: code,
     });
     console.log('kakao', response);
-    return;
+    return response.data.data;
   } catch (error) {}
 };
 
@@ -28,6 +28,6 @@ export const postOauthGoogle = async (code: string) => {
       authorizationCode: code,
     });
     console.log('google', response);
-    return;
+    return response.data.data;
   } catch (error) {}
 };

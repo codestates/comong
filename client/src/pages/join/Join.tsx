@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet, useLocation, useOutletContext } from 'react-router-dom';
 import styled from 'styled-components';
-import { postOauthGoogle } from '../../apis/api/oauth';
+import { apiClient } from '../../apis';
+import {
+  postOauthGoogle,
+  postOauthKakao,
+  postOauthNaver,
+} from '../../apis/api/oauth';
 
 const Main = styled.main`
   width: 420px;
@@ -49,22 +54,46 @@ const Tab = styled.div`
 `;
 
 function Join() {
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
   const [role, setRole] = useState(0);
-  const pathArr = pathname.split('/');
   const [basePath, setBasePath] = useState('/join');
+  const [userEmail, setUserEmail] = useState('');
 
   useEffect(() => {
-    if (pathArr.includes('seller')) {
+    if (pathname.includes('oauth')) {
+      setBasePath('/join/oauth');
+      postOauth();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (pathname.includes('seller')) {
       setRole(1);
     } else {
       setRole(0);
     }
-
-    if (pathArr.includes('oauth')) {
-      setBasePath('/join/oauth');
-    }
   }, [pathname]);
+
+  const postOauth = async () => {
+    const authorizationCode = search.split('=')[1];
+    const oauth = sessionStorage.getItem('oauth');
+    if (oauth === 'naver') {
+      const data = await postOauthNaver(authorizationCode);
+      console.log(data);
+    } else if (oauth === 'kakao') {
+      const { accessToken, email } = await postOauthKakao(authorizationCode);
+      apiClient.defaults.headers.common[
+        'Authorization'
+      ] = `bearer ${accessToken}`;
+      setUserEmail(email);
+    } else {
+      const { accessToken, email } = await postOauthGoogle(authorizationCode);
+      apiClient.defaults.headers.common[
+        'Authorization'
+      ] = `bearer ${accessToken}`;
+      setUserEmail(email);
+    }
+  };
 
   return (
     <Main>
@@ -77,7 +106,7 @@ function Join() {
           <Tab className={role === 1 ? 'selected' : ''}>판매 회원</Tab>
         </Link>
       </Tabs>
-      <Outlet />
+      <Outlet context={userEmail} />
     </Main>
   );
 }

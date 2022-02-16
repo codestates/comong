@@ -1,34 +1,48 @@
-import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import {
-  postOauthGoogle,
-  postOauthKakao,
-  postOauthNaver,
-} from '../../apis/api/oauth';
+import React, { ContextType, useEffect, useState } from 'react';
+import { useOutletContext } from 'react-router-dom';
+import { apiClient } from '../../apis';
+import { patchUsers } from '../../apis/api/users';
 import ButtonBasic from '../../components/common/ButtonBasic';
-import OauthAdditionalInfo from '../../components/form/OauthAdditionalInfo';
+import AdditionalInfo from '../../components/form/AdditionalInfo';
 import OauthBasicInfo from '../../components/form/OauthBasicInfo';
+import InputAdress from '../../components/Input/InputAdress';
+import { IJoinForm, IJoinPartial } from './GeneralJoin';
 
 function OauthGeneralJoin() {
-  const { search } = useLocation();
-  const authorizationCode = search.split('=')[1];
+  const email = useOutletContext<string>();
 
   useEffect(() => {
-    const oauth = sessionStorage.getItem('oauth');
-    if (oauth === 'naver') {
-      postOauthNaver(authorizationCode);
-    } else if (oauth === 'kakao') {
-      postOauthKakao(authorizationCode);
-    } else if (oauth === 'google') {
-      postOauthGoogle(authorizationCode);
-    }
-  }, []);
+    setJoinForm({ ...joinForm, ...{ email } });
+  }, [email]);
+
+  const [joinForm, setJoinForm] = useState({
+    name: '',
+    password: '',
+    phone: '',
+    gender: 1,
+    address1: '',
+    address2: '',
+    dob: '',
+    role: 0,
+  });
+
+  const fillJoinForm = (obj: IJoinPartial) => {
+    setJoinForm({ ...joinForm, ...obj });
+  };
 
   return (
     <>
-      <OauthBasicInfo></OauthBasicInfo>
-      <OauthAdditionalInfo></OauthAdditionalInfo>
-      <ButtonBasic buttonClickHandler={() => {}}>회원가입</ButtonBasic>
+      <OauthBasicInfo fillJoinForm={fillJoinForm}></OauthBasicInfo>
+      <InputAdress></InputAdress>
+      <AdditionalInfo></AdditionalInfo>
+      <ButtonBasic
+        buttonClickHandler={() => {
+          patchUsers(joinForm);
+          delete apiClient.defaults.headers.common['Authorization'];
+        }}
+      >
+        회원가입
+      </ButtonBasic>
     </>
   );
 }

@@ -5,13 +5,11 @@ import InputName from '../Input/InputName';
 import InputPhoneNum from '../Input/InputPhoneNum';
 import { TitleWrapper } from './BasicInfo';
 
-function OauthBasicInfo() {
-  const [joinForm, setJoinForm] = useState({});
+export interface IOauthBasicInfo {
+  fillJoinForm: (obj: IJoinPartial) => void;
+}
 
-  const fillJoinForm = (obj: IJoinPartial) => {
-    setJoinForm({ ...joinForm, ...obj });
-  };
-
+function OauthBasicInfo({ fillJoinForm }: IOauthBasicInfo) {
   return (
     <div>
       <TitleWrapper>
