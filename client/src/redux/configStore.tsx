@@ -1,13 +1,13 @@
 import listSlice from './modules/listSlice';
 import navSearchSlice from './modules/navSearchSlice';
-import authSlice from './modules/authSlice';
+import userSlice from './modules/userSlice';
 import { configureStore } from '@reduxjs/toolkit';
 
 const store = configureStore({
   reducer: {
     listSlice,
     navSearchSlice,
-    authSlice,
+    userSlice,
   },
 });
 

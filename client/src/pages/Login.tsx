@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import ButtonBasic from '../components/common/ButtonBasic';
 import LoginForm from '../components/form/LoginForm';
 import { useAppSelector } from '../redux/configStore.hooks';
-import { logout } from '../redux/modules/authSlice';
+import { logout } from '../redux/modules/userSlice';
 
 const Main = styled.main`
   width: 420px;
@@ -26,7 +26,7 @@ const Text = styled.p`
 
 function Login() {
   const dispatch = useDispatch();
-  const { isLogin } = useAppSelector((state) => state.authSlice);
+  const { isLogin } = useAppSelector((state) => state.userSlice);
 
   return isLogin ? (
     <Main>

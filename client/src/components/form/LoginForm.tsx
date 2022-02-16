@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAppSelector } from '../../redux/configStore.hooks';
-import { postSigninAsync } from '../../redux/modules/authSlice';
+import { postSigninAsync } from '../../redux/modules/userSlice';
 import ButtonBasic from '../common/ButtonBasic';
 import { Input } from '../Input/InputBasic';
 
