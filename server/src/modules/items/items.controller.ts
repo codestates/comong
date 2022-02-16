@@ -33,6 +33,13 @@ export class ItemsController {
     return this.itemsService.create(newItem, user);
   }
 
+  @Post('/imageuploadurl')
+  @ApiOperation({ summary: 'get url for image upload', description: 'getting a url for direct upload images' })
+  @ApiCreatedResponse({ description: 'successful' })
+  getimageuploadurl() {
+    return this.itemsService.getimageuploadurl()
+  }
+
   @Get('/')
   @ApiOperation({ summary: '상품 검색 혹은 카테고리 별, 추천 알고리즘에 따른 상품 정보', description: '요청에 따라 상품 목록을 가져옵니다. 카테고리와 요청 갯수 혹은 검색 키워드를 지정할 수 있습니다. 그렇지 않을 경우 추천알고리즘에 따라 상품을 표시합니다.' })
   @ApiQuery({
