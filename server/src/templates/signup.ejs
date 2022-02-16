@@ -1,62 +1,71 @@
-<div class="mail">
-    <div class="box">
-        <div class="title"> <span class="bold"> <%= locals.name %> </span>님 안녕하세요.</div>
-        <div> Comong에 가입하신것을 환영합니다! </div>
-        <div> 아래의 버튼을 클릭하시면 이메일 인증이 완료되며 판매회원 자격 심사가 진행됩니다.</div>
-        <a href="https://api.comong.kr/api">
-            <button class="btn ">확인</button>
-        </a>
-
-        <div>
-            <span class="team">Copyright ⓒ Team. Cokkiri. All rights reserved.</span>
+<body>
+    <div class="mail">
+        <div class="box">
+            <div class="title"> <span class="bold"> <%= locals.name %> </span>님 안녕하세요.</div>
+            <div> Comong에 가입하신것을 환영합니다! </div>
+            <div> 아래의 버튼을 클릭하시면 이메일 인증이 완료되며 판매회원 자격 심사가 진행됩니다.</div>
+            <a href="https://api.comong.kr/api">
+                <button class="btn ">확인</button>
+            </a>
+    
+            <div>
+                <span class="team">Copyright ⓒ Team. Cokkiri. All rights reserved.</span>
+            </div>
         </div>
     </div>
-</div>
-
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
-    a {
-        width: 100%
-    }
-
-    a, div, span {
-        margin: 0 0 10px 0;
-    }
-
-    .mail {
-      font-family: 'Noto Sans KR', sans-serif;
-      color: #404040;
-    }
-
-    .box {
-        display: block;
-    }
-
-    .title {
-        font-size: 24px;
-    }
-
-    .bold {
-        font-weight: 700;
-    }
-
-    .btn {
-        margin: 30px auto 30px auto;
-        font-size: 18px;
-        font-weight: 300;
-        line-height: 49px;
-        display: block;
-        width: 20%;
-        height: 49px;
-        cursor: pointer;
-        text-align: center;
-        color: #fff;
-        border: none;
-        border-radius: 0;
-        background-color: #404040;
-    }
-
-    .team {
-        color: #888888;
-    }
-</style>
+    </body>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
+        a {
+            width: 100%
+        }
+    
+        a, div, span {
+            margin: 0 0 10px 0;
+        }
+    
+        .mail {
+          font-family: 'Noto Sans KR', sans-serif;
+          color: #404040;
+        }
+    
+        .box {
+            display: block;
+        }
+    
+        .title {
+            font-size: 24px;
+        }
+    
+        .bold {
+            font-weight: 700;
+        }
+    
+        .btn {
+            margin: 30px auto 30px auto;
+            font-size: 18px;
+            font-weight: 300;
+            line-height: 49px;
+            display: block;
+            width: 20%;
+            height: 49px;
+            cursor: pointer;
+            text-align: center;
+            color: #fff;
+            border: none;
+            border-radius: 0;
+            background-color: #404040;
+        }
+    
+        @media screen and (max-width: 768px) {
+            .btn {
+                width: 200px;
+             }
+        }
+        
+    
+        .team {
+            color: #888888;
+        }
+    </style>
