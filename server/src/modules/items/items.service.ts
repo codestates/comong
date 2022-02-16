@@ -22,8 +22,17 @@ export class ItemsService {
     console.log(newItem, user)
     //newItem['user_id'] = user.id
     const item = await models.item.create({user_id: user.id, ...newItem})
+    console.log(item)
     if(item) {
-      return { message: 'successful' }
+      const mappingCategory = await models.item_has_category.create({
+        item_id: item.id,
+        category_id: newItem.category,
+      })
+        if(mappingCategory){
+          return { message: 'successful' }
+        } else {
+          throw new BadRequestException('invalid value for property')
+        }
       } else {
       throw new BadRequestException('invalid value for property')
       }
