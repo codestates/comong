@@ -62,17 +62,17 @@ export class chat extends Model<chatAttributes, chatCreationAttributes> implemen
   hasItem_id_items!: Sequelize.BelongsToManyHasAssociationsMixin<item, itemId>;
   countItem_id_items!: Sequelize.BelongsToManyCountAssociationsMixin;
   // chat belongsToMany user via chat_id and user_id
-  user_id_users!: user[];
-  getUser_id_users!: Sequelize.BelongsToManyGetAssociationsMixin<user>;
-  setUser_id_users!: Sequelize.BelongsToManySetAssociationsMixin<user, userId>;
-  addUser_id_user!: Sequelize.BelongsToManyAddAssociationMixin<user, userId>;
-  addUser_id_users!: Sequelize.BelongsToManyAddAssociationsMixin<user, userId>;
-  createUser_id_user!: Sequelize.BelongsToManyCreateAssociationMixin<user>;
-  removeUser_id_user!: Sequelize.BelongsToManyRemoveAssociationMixin<user, userId>;
-  removeUser_id_users!: Sequelize.BelongsToManyRemoveAssociationsMixin<user, userId>;
-  hasUser_id_user!: Sequelize.BelongsToManyHasAssociationMixin<user, userId>;
-  hasUser_id_users!: Sequelize.BelongsToManyHasAssociationsMixin<user, userId>;
-  countUser_id_users!: Sequelize.BelongsToManyCountAssociationsMixin;
+  user_id_user_chat_has_users!: user[];
+  getUser_id_user_chat_has_users!: Sequelize.BelongsToManyGetAssociationsMixin<user>;
+  setUser_id_user_chat_has_users!: Sequelize.BelongsToManySetAssociationsMixin<user, userId>;
+  addUser_id_user_chat_has_user!: Sequelize.BelongsToManyAddAssociationMixin<user, userId>;
+  addUser_id_user_chat_has_users!: Sequelize.BelongsToManyAddAssociationsMixin<user, userId>;
+  createUser_id_user_chat_has_user!: Sequelize.BelongsToManyCreateAssociationMixin<user>;
+  removeUser_id_user_chat_has_user!: Sequelize.BelongsToManyRemoveAssociationMixin<user, userId>;
+  removeUser_id_user_chat_has_users!: Sequelize.BelongsToManyRemoveAssociationsMixin<user, userId>;
+  hasUser_id_user_chat_has_user!: Sequelize.BelongsToManyHasAssociationMixin<user, userId>;
+  hasUser_id_user_chat_has_users!: Sequelize.BelongsToManyHasAssociationsMixin<user, userId>;
+  countUser_id_user_chat_has_users!: Sequelize.BelongsToManyCountAssociationsMixin;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof chat {
     return chat.init({

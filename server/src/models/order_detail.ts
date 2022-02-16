@@ -14,13 +14,11 @@ export interface order_detailAttributes {
   order_amount?: number;
   total_price?: number;
   state?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
 }
 
 export type order_detailPk = "id";
 export type order_detailId = order_detail[order_detailPk];
-export type order_detailOptionalAttributes = "id" | "order_amount" | "total_price" | "state" | "createdAt" | "updatedAt";
+export type order_detailOptionalAttributes = "id" | "order_amount" | "total_price" | "state";
 export type order_detailCreationAttributes = Optional<order_detailAttributes, order_detailOptionalAttributes>;
 
 export class order_detail extends Model<order_detailAttributes, order_detailCreationAttributes> implements order_detailAttributes {
@@ -28,8 +26,6 @@ export class order_detail extends Model<order_detailAttributes, order_detailCrea
   order_amount?: number;
   total_price?: number;
   state?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
 
   // order_detail belongsToMany item via order_detail_id and item_id
   item_id_item_order_detail_has_items!: item[];
@@ -151,7 +147,7 @@ export class order_detail extends Model<order_detailAttributes, order_detailCrea
   }, {
     sequelize,
     tableName: 'order_detail',
-    timestamps: true,
+    timestamps: false,
     indexes: [
       {
         name: "PRIMARY",
