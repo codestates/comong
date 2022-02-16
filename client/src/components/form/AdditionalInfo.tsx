@@ -3,7 +3,7 @@ import React from 'react';
 function AdditionalInfo() {
   return (
     <div>
-      <h1>추가 정보</h1>
+      <h2>추가 정보</h2>
     </div>
   );
 }

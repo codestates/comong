@@ -18,6 +18,10 @@ const Text = styled.div`
   flex-direction: column;
   font-size: 20px;
 
+  @media only screen and (max-width: 768px) {
+    font-size: 16px;
+  }
+
   p {
     margin-bottom: 0.8rem;
   }
@@ -33,7 +37,7 @@ function SellerJoinModalContent({ setShowModal }: ISellerJoinModalContent) {
   return (
     <Wrapper>
       <Text>
-        <p>신청이 완료되었습니다.</p> <p>메일함을 확인해주세요</p>
+        <p>신청이 완료되었습니다.</p> <p>메일함을 확인해주세요.</p>
       </Text>
       <ButtonBasic
         type="small"

@@ -1,4 +1,4 @@
-import React, { SetStateAction, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getIsDuplicate } from '../../apis/api/users';
 import { IJoinPartial } from '../../pages/join/GeneralJoin';
@@ -14,6 +14,7 @@ const Wrapper = styled.div`
 const Title = styled.span`
   margin-bottom: 4px;
   font-weight: 600;
+  font-size: 14px;
 `;
 
 const InputWrapper = styled.div`
@@ -27,6 +28,10 @@ const Input = styled.input`
   padding: 1rem;
   border-radius: 5px;
   border: 1px solid ${(props) => props.theme.colors.textColor};
+
+  @media only screen and (max-width: 768px) {
+    height: 40px;
+  }
 `;
 
 const ButtonWrapper = styled.div``;

@@ -1,21 +1,17 @@
-import React, { SetStateAction } from 'react';
 import styled from 'styled-components';
-import { IJoinForm, IJoinPartial } from '../../pages/join/GeneralJoin';
-import InputAdress from '../Input/InputAdress';
+import { IJoinPartial } from '../../pages/join/GeneralJoin';
 import InputEmail from '../Input/InputEmail';
 import InputName from '../Input/InputName';
 import InputPassword from '../Input/InputPassword';
 import InputPhoneNum from '../Input/InputPhoneNum';
 
 const TitleWrapper = styled.div`
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   display: flex;
   align-items: center;
 `;
 
 const Title = styled.h2`
-  font-weight: 700;
-  font-size: 28px;
   margin-right: 1rem;
 `;
 

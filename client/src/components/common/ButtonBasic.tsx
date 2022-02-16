@@ -10,11 +10,21 @@ const Button = styled.button`
   color: ${(props) => props.theme.colors.bgColor};
   border-radius: 4px;
 
+  @media only screen and (max-width: 768px) {
+    height: 50px;
+  }
+
   &.small {
     width: 90px;
     height: 45px;
     border-radius: 8px;
     font-size: 1rem;
+
+    @media only screen and (max-width: 768px) {
+      width: 70px;
+      height: 40px;
+      font-size: 14px;
+    }
   }
 `;
 

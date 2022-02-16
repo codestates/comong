@@ -9,11 +9,10 @@ const Main = styled.main`
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-`;
 
-const Title = styled.h1`
-  font-size: 36px;
-  font-weight: 600;
+  @media only screen and (max-width: 768px) {
+    width: 320px;
+  }
 `;
 
 const Tabs = styled.div`
@@ -27,6 +26,10 @@ const Tabs = styled.div`
     height: 100%;
     width: 100%;
   }
+
+  @media only screen and (max-width: 768px) {
+    margin: 40px 0;
+  }
 `;
 
 const Tab = styled.div`
@@ -34,10 +37,15 @@ const Tab = styled.div`
   padding: 15px 0;
   border: 1px solid ${(props) => props.theme.colors.lightGrey};
   font-weight: 600;
+  font-size: 14px;
 
   &.selected {
     background-color: ${(props) => props.theme.colors.accentColor};
     color: ${(props) => props.theme.colors.bgColor};
+  }
+
+  @media only screen and (max-width: 768px) {
+    padding: 12px 0;
   }
 `;
 
@@ -55,7 +63,7 @@ function Join() {
 
   return (
     <Main>
-      <Title>회원가입</Title>
+      <h1>회원가입</h1>
       <Tabs>
         <Link to="">
           <Tab className={role === 0 ? 'selected' : ''}>일반 회원</Tab>
