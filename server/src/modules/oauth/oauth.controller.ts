@@ -17,7 +17,7 @@ export class OauthController {
   @ApiCreatedResponse({ description: 'successful' })
   getResfromGoogle(@Body() authorizationCode: OauthReqDto, @Response() res: any) {
     const code = authorizationCode.authorizationCode;
-    const getTokenurl = `https://oauth2.googleapis.com/token?client_id=${process.env.GOOGLE_CLIENT_ID}&client_secret=${process.env.GOOGLE_CLIENT_SECRET}&code=${code}&grant_type=authorization_code&redirect_uri=${process.env.GOOGLE_REDIRECT_URL}`;
+    const getTokenurl = `https://oauth2.googleapis.com/token?client_id=${process.env.COMONG_GOOGLE_CLIENT_ID}&client_secret=${process.env.COMONG_GOOGLE_CLIENT_SECRET}&code=${code}&grant_type=authorization_code&redirect_uri=${process.env.COMONG_GOOGLE_REDIRECT_URL}`;
     this.oauthService.googleOauthlogin(getTokenurl, res);
   }
 
@@ -26,7 +26,7 @@ export class OauthController {
   @ApiCreatedResponse({ description: 'successful' })
   getResfromKakao(@Body() authorizationCode: OauthReqDto, @Response() res: any) {
     const code = authorizationCode.authorizationCode;
-    const getTokenurl = `https://kauth.kakao.com/oauth/token?code=${code}&client_id=${process.env.KAKAO_CLIENT_ID}&client_secret=${process.env.KAKAO_CLIENT_SECRET}&redirect_uri=${process.env.KAKAO_REDIRECT_URL}&grant_type=authorization_code`;
+    const getTokenurl = `https://kauth.kakao.com/oauth/token?code=${code}&client_id=${process.env.COMONG_KAKAO_CLIENT_ID}&client_secret=${process.env.COMONG_KAKAO_CLIENT_SECRET}&redirect_uri=${process.env.COMONG_KAKAO_REDIRECT_URL}&grant_type=authorization_code`;
     this.oauthService.kakaoOauthlogin(getTokenurl, res);
   }
 
@@ -35,7 +35,7 @@ export class OauthController {
   @ApiCreatedResponse({ description: 'successful' })
   getResfromnaver(@Body() authorizationCode: OauthReqDto, @Response() res: any) {
     const code = authorizationCode.authorizationCode;
-    const getTokenurl = `https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id=${process.env.NAVER_CLIENT_ID}&client_secret=${process.env.NAVER_CLIENT_SECRET}&code=${code}`;
+    const getTokenurl = `https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id=${process.env.COMONG_NAVER_CLIENT_ID}&client_secret=${process.env.COMONG_NAVER_CLIENT_SECRET}&code=${code}`;
     this.oauthService.naverOauthlogin(getTokenurl, res);
   }
 }

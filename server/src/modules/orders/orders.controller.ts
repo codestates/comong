@@ -14,6 +14,11 @@ export class OrdersController {
     return this.ordersService.create(createOrderDto);
   }
 
+  @Post('/shipping')
+  createShipping(@Body() createOrderDto: CreateOrderDto) {
+    return this.ordersService.createShipping(createOrderDto);
+  }
+
   @Get()
   findAll() {
     return this.ordersService.findAll();
