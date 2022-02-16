@@ -10,7 +10,6 @@ const PostListWrapper = styled.div`
   max-width: 1600px;
   padding: 10px;
   display: flex;
-
   margin: auto;
   margin-top: 20px;
   flex-wrap: wrap;
@@ -53,7 +52,7 @@ function PostList() {
         }) => {
           return (
             <ItemContainer>
-              <PostListItem key={post.id} post={post} />;
+              <PostListItem key={post.id} post={post} />
             </ItemContainer>
           );
         },

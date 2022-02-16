@@ -4,13 +4,17 @@ import GeneralJoin from './pages/join/GeneralJoin';
 import Join from './pages/join/Join';
 import SellerJoin from './pages/join/SellerJoin';
 import List from './pages/List';
+import Search from './pages/Search';
 import Login from './pages/Login';
+import Cart from './pages/Cart';
 
 function Routers() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<List />}></Route>
+        <Route path="/search" element={<Search />}></Route>
+        <Route path="/cart" element={<Cart />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/join/*" element={<Join />}>
           <Route path="" element={<GeneralJoin />}></Route>

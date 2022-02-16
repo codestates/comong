@@ -7,7 +7,7 @@ import type { RootState } from '../redux/configStore';
 const NavSearchContainer = styled.div`
   display: flex;
   align-items: center;
-  background-color: #e7e7e7;
+  background-color: ${(props) => props.theme.colors.lightGrey};
   border-radius: 15px;
   height: 2rem;
   width: 23%;
@@ -21,7 +21,7 @@ const NavSearchContainer = styled.div`
 `;
 
 const NavSearchInput = styled.input`
-  background-color: #e7e7e7;
+  background-color: ${(props) => props.theme.colors.lightGrey};
   height: 90%;
   width: 80%;
   margin-left: 10px;
@@ -37,6 +37,7 @@ const NavSearchInput = styled.input`
 `;
 
 const NavSearchIcon = styled.img`
+  cursor: pointer;
   display: block;
   margin-left: auto;
   width: 20px;
