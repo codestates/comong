@@ -18,23 +18,23 @@ import {
 	ApiTags,
 	ApiOperation,
 	ApiCreatedResponse,
-	ApiBadGatewayResponse,
 	ApiOkResponse,
 	ApiBadRequestResponse,
 	ApiHeader,
 	ApiBearerAuth,
 	ApiForbiddenResponse,
 	ApiParam,
+	ApiInternalServerErrorResponse,
+	ApiResponse,
 } from '@nestjs/swagger';
 import JwtAuthGuard from '../../middleware/Jwtauthguard';
 import { getUser } from '../../decorators/getUser'
 import { User } from './entities/user.entity';
-import { MailerService } from '../mailer/mailer.service';
 
 @Controller('users')
 @ApiTags('회원 정보 관련')
 export class UsersController {
-	constructor(private readonly usersService: UsersService, private readonly mailerService: MailerService) {}
+	constructor(private readonly usersService: UsersService) {}
 
 	@Post()
 	@ApiOperation({
@@ -42,13 +42,12 @@ export class UsersController {
 		description: '회원 가입 요청을 받습니다.',
 	})
 	@ApiCreatedResponse({ description: 'successful.' })
+	@ApiResponse({ status: 200, description: 'an confirmation letter has been sent' })
 	@ApiBadRequestResponse({ description: 'invalid value for property' })
+	@ApiInternalServerErrorResponse({ description: 'service unavailable(mailer)'})
 	@UsePipes(ValidationPipe)
 	async create(@Body() user: CreateUserDto) {
-		await this.mailerService.send(user.role, [user.email], 'Comong 이메일 인증 요청', 'signup', {
-			name: user.name,
-		})
-		return this.usersService.create(user);
+		return this.usersService.create(user)
 	}
 
 	@Get('isduplicate/:email')

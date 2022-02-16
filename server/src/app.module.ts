@@ -9,7 +9,7 @@ import { OrdersModule } from './modules/orders/orders.module';
 import { ChatsModule } from './modules/chats/chats.module';
 import { CommentsModule } from './modules/comments/comments.module';
 import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter'
-import { MailerModule } from '@nestjs-modules/mailer';
+import { MailerModule, MailerOptions } from '@nestjs-modules/mailer';
 import * as path from 'path'
 
 const mailerInitSettings = {
@@ -20,7 +20,7 @@ const mailerInitSettings = {
 @Module({
   imports: [UsersModule, ItemsModule, PaymentsModule, OauthModule, OrdersModule, ChatsModule, CommentsModule,
   MailerModule.forRootAsync({
-    useFactory: (): any => {
+    useFactory: (): object => {
       return {
         transport: mailerInitSettings.auth,
         defaults: {
