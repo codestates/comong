@@ -6,6 +6,7 @@ import { SignInUserDto } from './dto/signin-user.dto';
 import { Logger } from '@nestjs/common';
 const models = require('../../models/index');
 const nodemailer = require('nodemailer');
+import { MailerService } from '../mailer/mailer.service';
 
 /* jwt부분 추후 분리 예정*/
 import * as jwt from 'jsonwebtoken'
@@ -15,6 +16,7 @@ export type User = any;
 
 @Injectable()
 export class UsersService {
+	constructor(private readonly mailerService: MailerService) {}
 	private readonly logger = new Logger(UsersService.name);
 
 	async create(user: CreateUserDto) {
@@ -24,7 +26,9 @@ export class UsersService {
 		});
 
 		if (isCreated) {
-			return { message: 'successful' };	
+			return await this.mailerService.send(user.role, [user.email], 'Comong 이메일 인증 요청', 'signup', {
+				name: user.name,
+			})
 		} else {
 			throw new BadRequestException('invalid value for property');
 		}
