@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-
-// 여기서 가져아할 게 판매회원, 일반회원 탭 상태
+import { postOauthGoogle } from '../../apis/api/oauth';
 
 const Main = styled.main`
   width: 420px;
@@ -52,12 +51,22 @@ const Tab = styled.div`
 function Join() {
   const { pathname } = useLocation();
   const [role, setRole] = useState(0);
+  const pathArr = pathname.split('/');
+  const [basePath, setBasePath] = useState('/join');
 
   useEffect(() => {
-    if (pathname === '/join') {
-      setRole(0);
-    } else {
+    if (pathArr.includes('seller')) {
       setRole(1);
+    } else {
+      setRole(0);
+    }
+    let url = new URL(window.location.href);
+    let authorizationCode = url.searchParams.get('code');
+
+    postOauthGoogle(authorizationCode!);
+
+    if (pathArr.includes('oauth')) {
+      setBasePath('/join/oauth');
     }
   }, [pathname]);
 
@@ -65,10 +74,10 @@ function Join() {
     <Main>
       <h1>회원가입</h1>
       <Tabs>
-        <Link to="">
+        <Link to={`${basePath}`}>
           <Tab className={role === 0 ? 'selected' : ''}>일반 회원</Tab>
         </Link>
-        <Link to="seller">
+        <Link to={`${basePath}/seller`}>
           <Tab className={role === 1 ? 'selected' : ''}>판매 회원</Tab>
         </Link>
       </Tabs>
