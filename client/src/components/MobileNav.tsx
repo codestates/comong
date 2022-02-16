@@ -1,6 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const NavContainer = styled.div`
@@ -30,6 +29,7 @@ const NavMenu = styled.div<{
   mypageColor?: boolean;
   cartColor?: boolean;
 }>`
+  cursor: pointer;
   width: 25%;
   display: flex;
   flex-direction: column;
@@ -75,7 +75,6 @@ const MobileNav = () => {
     console.log(current.length);
     console.log(homeColor);
     if (current === '') setHomeColor(true);
-    // else if (current.length === 0) setHomeColor(true);
     else if (current === 'search') setCategoryColor(true);
     else if (current === 'mypage') setMypageColor(true);
     else if (current === 'cart') setCartColor(true);

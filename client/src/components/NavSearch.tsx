@@ -37,6 +37,7 @@ const NavSearchInput = styled.input`
 `;
 
 const NavSearchIcon = styled.img`
+  cursor: pointer;
   display: block;
   margin-left: auto;
   width: 20px;
