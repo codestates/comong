@@ -46,8 +46,10 @@ function OauthButton({ type }: IOauthButton) {
       requestURL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.REACT_APP_NAVER_CLIENT_ID}&state=${STATE_STRING}&redirect_uri=${redirectURL}`;
     } else if (type === 'kakao') {
       requestURL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${redirectURL}&response_type=code`;
+      sessionStorage.setItem('oauth', 'kakao');
     } else if (type === 'google') {
       requestURL = `https://accounts.google.com/o/oauth2/v2/auth?scope=email%20profile&response_type=code&redirect_uri=${redirectURL}&client_id=${process.env.REACT_APP_GOOGLE_CLIENT_ID}`;
+      sessionStorage.setItem('oauth', 'google');
     }
     window.location.assign(requestURL);
   };

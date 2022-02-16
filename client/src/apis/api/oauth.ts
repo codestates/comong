@@ -1,0 +1,33 @@
+import { AxiosError } from 'axios';
+import { apiClient, apiOauthClient } from '..';
+
+export const postOauthNaver = async (code: string) => {
+  // ! 네이버  - 개발 중 상태에서는 등록된 아이디만 로그인 가능
+  try {
+    const response = await apiOauthClient.post(`/oauth/oauthnaver`, {
+      authorizationCode: code,
+    });
+    console.log('naver', response);
+    return;
+  } catch (error) {}
+};
+
+export const postOauthKakao = async (code: string) => {
+  try {
+    const response = await apiOauthClient.post(`/oauth/oauthkakao`, {
+      authorizationCode: code,
+    });
+    console.log('kakao', response);
+    return;
+  } catch (error) {}
+};
+
+export const postOauthGoogle = async (code: string) => {
+  try {
+    const response = await apiOauthClient.post(`/oauth/oauthgoogle`, {
+      authorizationCode: code,
+    });
+    console.log('google', response);
+    return;
+  } catch (error) {}
+};

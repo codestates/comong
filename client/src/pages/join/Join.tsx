@@ -60,10 +60,6 @@ function Join() {
     } else {
       setRole(0);
     }
-    let url = new URL(window.location.href);
-    let authorizationCode = url.searchParams.get('code');
-
-    postOauthGoogle(authorizationCode!);
 
     if (pathArr.includes('oauth')) {
       setBasePath('/join/oauth');
