@@ -202,7 +202,7 @@ const MainCategories = () => {
         nameList.map((el, i) => {
           return (
             <MainCategory>
-              <MainCategoryIcon onClick={() => dispatch(getListAsync(i))} src={`icons/maincategories/cat${i}.png`} />
+              <MainCategoryIcon onClick={() => dispatch(getListAsync(i+1))} src={`icons/maincategories/cat${i}.png`} />
               <MainCategoryName>{el}</MainCategoryName>
             </MainCategory>
           );
