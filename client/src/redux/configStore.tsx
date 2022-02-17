@@ -1,6 +1,7 @@
 import listSlice from './modules/listSlice';
 import navSearchSlice from './modules/navSearchSlice';
 import userSlice from './modules/userSlice';
+import itemSlice from './modules/itemSlice';
 import { configureStore } from '@reduxjs/toolkit';
 
 const store = configureStore({
@@ -8,6 +9,7 @@ const store = configureStore({
     listSlice,
     navSearchSlice,
     userSlice,
+    itemSlice,
   },
 });
 
