@@ -6,6 +6,7 @@ import { tokenMakerOutput } from './entities/tokenMakerOutput.entity';
 
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { JwtService } from '@nestjs/jwt';
+import e from 'express';
 const models = require('../../models/index');
 
 @Injectable()
@@ -149,14 +150,8 @@ export class OauthService {
 			});
 
 			if (!existingUser) {
-				function getNickname(str) {
-					let aIndex = str.indexOf('@');
-					return str.slice(0, aIndex);
-				}
-				let nickname = getNickname(email);
 				const newUser = await models.user.create({
 					email: email,
-					nickname: nickname,
 				});
 				await this.tokenMaker(newUser, res);
 			} else {
@@ -206,6 +201,15 @@ export class OauthService {
 				},
 			);
 		}
+
+		const isSignedUp = await models.user.findOne({
+			attributes: ['name'],
+			where: {
+				email: user.dataValues.email,
+			},
+		});
+
+		console.log(isSignedUp)
 
 		const oauthResponese = { data: newResponse, message: 'ok' };
 		const output: tokenMakerOutput = {
