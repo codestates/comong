@@ -12,9 +12,11 @@ const List = () => {
 
   return (
     <ListContainer>
+      <Nav></Nav>
       <Banner></Banner>
       <MainCategories></MainCategories>
       <PostList></PostList>
+      <MobileNav></MobileNav>
     </ListContainer>
   );
 };

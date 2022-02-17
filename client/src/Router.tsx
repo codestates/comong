@@ -9,13 +9,10 @@ import List from './pages/List';
 import Search from './pages/Search';
 import Login from './pages/Login';
 import Cart from './pages/Cart';
-import Nav from './components/Nav';
-import MobileNav from './components/MobileNav';
 
 function Routers() {
   return (
     <BrowserRouter>
-      <Nav></Nav>
       <Routes>
         <Route path="/" element={<List />}></Route>
         <Route path="/search" element={<Search />}></Route>
@@ -28,7 +25,6 @@ function Routers() {
           <Route path="oauth/seller" element={<OauthSellerJoin />}></Route>
         </Route>
       </Routes>
-      <MobileNav></MobileNav>
     </BrowserRouter>
   );
 }
