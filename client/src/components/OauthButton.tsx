@@ -5,6 +5,10 @@ const OauthImg = styled.img`
   width: 65px;
   height: 65px;
   border-radius: 50%;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 interface IOauthButton {
