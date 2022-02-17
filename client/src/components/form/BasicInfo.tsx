@@ -1,27 +1,23 @@
-import React, { SetStateAction } from 'react';
 import styled from 'styled-components';
-import { IJoinForm, IJoinPartial } from '../../pages/join/GeneralJoin';
-import InputAdress from '../Input/InputAdress';
+import { IJoinPartial } from '../../pages/join/GeneralJoin';
 import InputEmail from '../Input/InputEmail';
 import InputName from '../Input/InputName';
 import InputPassword from '../Input/InputPassword';
 import InputPhoneNum from '../Input/InputPhoneNum';
 
-const TitleWrapper = styled.div`
-  margin-bottom: 20px;
+export const TitleWrapper = styled.div`
+  margin-bottom: 24px;
   display: flex;
   align-items: center;
-`;
 
-const Title = styled.h2`
-  font-weight: 700;
-  font-size: 28px;
-  margin-right: 1rem;
-`;
+  h2 {
+    margin-right: 1rem;
+  }
 
-const Span = styled.span`
-  color: ${(props) => props.theme.colors.darkGrey};
-  font-size: 14px;
+  span {
+    color: ${(props) => props.theme.colors.darkGrey};
+    font-size: 14px;
+  }
 `;
 
 interface IBasicInfo {
@@ -32,8 +28,8 @@ function BasicInfo({ fillJoinForm }: IBasicInfo) {
   return (
     <div>
       <TitleWrapper>
-        <Title>기본정보</Title>
-        <Span>(*)는 필수 입력 사항입니다.</Span>
+        <h2>기본정보</h2>
+        <span>(*)는 필수 입력 사항입니다.</span>
       </TitleWrapper>
       <InputName fillJoinForm={fillJoinForm}></InputName>
       <InputEmail fillJoinForm={fillJoinForm}></InputEmail>

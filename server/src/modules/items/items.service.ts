@@ -1,3 +1,6 @@
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
@@ -6,6 +9,7 @@ import { item } from './entities/item.entity'
 import { Logger } from '@nestjs/common';
 import { User } from '../users/entities/user.entity';
 import { Op } from 'sequelize';
+import axios, {AxiosRequestConfig, AxiosResponse} from 'axios'
 const models = require('../../models/index');
 
 @Injectable()
@@ -18,8 +22,17 @@ export class ItemsService {
     console.log(newItem, user)
     //newItem['user_id'] = user.id
     const item = await models.item.create({user_id: user.id, ...newItem})
+    console.log(item)
     if(item) {
-      return { message: 'successful' }
+      const mappingCategory = await models.item_has_category.create({
+        item_id: item.id,
+        category_id: newItem.category,
+      })
+        if(mappingCategory){
+          return { message: 'successful' }
+        } else {
+          throw new BadRequestException('invalid value for property')
+        }
       } else {
       throw new BadRequestException('invalid value for property')
       }
@@ -41,6 +54,26 @@ export class ItemsService {
       order: [ [ 'createdAt', 'DESC' ]],
     })
     return this.items
+  }
+  
+  async getimageuploadurl() {
+    const options: AxiosRequestConfig = {
+      method: "POST",
+      url: `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ACCOUNT_ID}/images/v1/direct_upload`,
+      headers: {
+        'X-Auth-Email': 'onewithtruth@gmail.com',
+        'X-Auth-Key': `${process.env.CLOUDFLARE_API_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+    }
+  
+    const response: AxiosResponse = await axios(options)
+    return response.data.result;
+  
+  }
+
+  async getDetails(id: number): Promise<item[]> {
+    return []
   }
 
   findOne(id: number) {

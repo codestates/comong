@@ -60,27 +60,33 @@ const NavMenuTitle = styled.p`
 const MobileNav = () => {
   const navigate = useNavigate();
 
+  let current = window.location.href.split('/')[3];
+
   const [homeColor, setHomeColor] = useState(false);
   const [categoryColor, setCategoryColor] = useState(false);
   const [mypageColor, setMypageColor] = useState(false);
   const [cartColor, setCartColor] = useState(false);
 
-  useEffect(() => {
-    handleCurrentPageIconColor();
-  }, [homeColor, categoryColor, mypageColor, cartColor]);
+  // useEffect(() => {
+  //   handleCurrentPageIconColor();
+  // }, [current, homeColor, categoryColor, mypageColor, cartColor]);
 
-  const handleCurrentPageIconColor = () => {
-    let current = window.location.href.split('/')[3];
-    console.log(window.location.href.split('/'));
-    console.log(current.length);
-    console.log(homeColor);
-    if (current === '') setHomeColor(true);
-    else if (current === 'search') setCategoryColor(true);
-    else if (current === 'mypage') setMypageColor(true);
-    else if (current === 'cart') setCartColor(true);
-  };
+  // const handleCurrentPageIconColor = () => {
+  //   setHomeColor(false);
+  //   setCategoryColor(false);
+  //   setMypageColor(false);
+  //   setCartColor(false);
+  //   if (current === '') setHomeColor(true);
+  //   else if (current === 'search') setCategoryColor(true);
+  //   else if (current === 'mypage') setMypageColor(true);
+  //   else if (current === 'cart') setCartColor(true);
+  // };
 
   const handleHover = (el: string) => {
+    setHomeColor(false);
+    setCategoryColor(false);
+    setMypageColor(false);
+    setCartColor(false);
     if (el === 'home') setHomeColor(true);
     else if (el === 'category') setCategoryColor(true);
     else if (el === 'mypage') setMypageColor(true);
@@ -99,11 +105,12 @@ const MobileNav = () => {
         <NavMenu
           onMouseOver={() => handleHover('home')}
           onMouseLeave={() => handleHoverOut('home')}
+          onMouseOut={() => handleHoverOut('home')}
           homeColor={homeColor}
           onClick={() => navigate('/')}
         >
           <NavMenuImg
-            src={`/icons/mobileNav/${
+            src={`/icons/mobilenav/${
               homeColor ? 'home-hover.png' : 'home.png'
             } `}
           />
@@ -111,12 +118,13 @@ const MobileNav = () => {
         </NavMenu>
         <NavMenu
           onMouseOver={() => handleHover('category')}
-          onMouseLeave={() => handleHoverOut('category')}
+          // onMouseLeave={() => handleHoverOut('category')}
+          onMouseOut={() => handleHoverOut('home')}
           categoryColor={categoryColor}
           onClick={() => navigate('/search')}
         >
           <NavMenuImg
-            src={`/icons/mobileNav/${
+            src={`/icons/mobilenav/${
               categoryColor ? 'category-hover.png' : 'category.png'
             } `}
           />
@@ -124,12 +132,13 @@ const MobileNav = () => {
         </NavMenu>
         <NavMenu
           onMouseOver={() => handleHover('mypage')}
-          onMouseLeave={() => handleHoverOut('mypage')}
+          // onMouseLeave={() => handleHoverOut('mypage')}
+          onMouseOut={() => handleHoverOut('home')}
           mypageColor={mypageColor}
           onClick={() => navigate('/mypage')}
         >
           <NavMenuImg
-            src={`/icons/mobileNav/${
+            src={`/icons/mobilenav/${
               mypageColor ? 'mypage-hover.png' : 'mypage.png'
             } `}
           />
@@ -137,12 +146,13 @@ const MobileNav = () => {
         </NavMenu>
         <NavMenu
           onMouseOver={() => handleHover('cart')}
-          onMouseLeave={() => handleHoverOut('cart')}
+          // onMouseLeave={() => handleHoverOut('cart')}
+          onMouseOut={() => handleHoverOut('home')}
           cartColor={cartColor}
           onClick={() => navigate('/cart')}
         >
           <NavMenuImg
-            src={`/icons/mobileNav/${
+            src={`/icons/mobilenav/${
               cartColor ? 'cart-hover.png' : 'cart.png'
             } `}
           />

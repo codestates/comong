@@ -1,5 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+// import * as dotenv from 'dotenv';
+// dotenv.config();
+import { config } from '../../config/config';
+
+const env = 'development';
+const urlConfig = config[env];
+console.log('urlConfig', urlConfig);
 
 export interface List {
   data: [];
@@ -25,7 +32,7 @@ export let {} = listSlice.actions;
 
 export const getListAsync = createAsyncThunk('items/get', async () => {
   const response = await axios({
-    url: `${process.env.REACT_APP_URL}/items`,
+    url: `${urlConfig.url}/items`,
     method: 'get',
     data: {},
   });

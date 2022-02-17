@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import { postUsers } from '../../apis/api/users';
 import ButtonBasic from '../../components/common/ButtonBasic';
 import Modal from '../../components/common/modal/Modal';
 import SellerJoinModalContent from '../../components/common/modal/SellerJoinModalContent';
-import AdditionalInfo from '../../components/form/AdditionalInfo';
 import BasicInfo from '../../components/form/BasicInfo';
 import ErrorMessage from '../../components/Input/ErrorMessage';
 import { IJoinForm, IJoinPartial } from './GeneralJoin';
@@ -23,7 +21,6 @@ function SellerJoin() {
   });
   const [message, setMessage] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const navigate = useNavigate();
 
   const fillJoinForm = (obj: IJoinPartial) => {
     setJoinForm({ ...joinForm, ...obj });
@@ -44,7 +41,7 @@ function SellerJoin() {
       return;
     }
     setMessage('');
-    // postUsers(joinForm);
+    postUsers(joinForm);
     setShowModal(true);
   };
 

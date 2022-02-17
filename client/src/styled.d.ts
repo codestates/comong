@@ -12,11 +12,6 @@ declare module 'styled-components' {
       darkGrey: string;
       charcol: string;
     };
-    device: {
-      desktop: string;
-      tablet: string;
-      mobile: string;
-    };
   }
 }
 

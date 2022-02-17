@@ -10,10 +10,4 @@ export const theme: DefaultTheme = {
     darkGrey: `#B8B8B8`,
     charcol: `#444444`,
   },
-
-  device: {
-    desktop: '@media only screen and (max-width:770px)',
-    tablet: '',
-    mobile: '',
-  },
 };
