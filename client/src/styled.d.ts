@@ -1,4 +1,5 @@
 import 'styled-components';
+import { DOMAttributes } from 'react';
 
 declare module 'styled-components' {
   export interface DefaultTheme {
@@ -9,6 +10,13 @@ declare module 'styled-components' {
       accentColorLight: string;
       lightGrey: string;
       darkGrey: string;
+      charcol: string;
     };
   }
 }
+
+// declare namespace React {
+//   interface HTMLAttributes<T> extends DOMAttributes<T> {
+//     css?: any;
+//   }
+// }

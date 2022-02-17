@@ -6,6 +6,10 @@ import { UpdateOrderDto } from './dto/update-order.dto';
 export class OrdersService {
   create(createOrderDto: CreateOrderDto) {
     return 'This action adds a new order';
+  
+  }
+  createShipping(createOrderDto: CreateOrderDto) {
+    return 'This action will create a new shipping data';
   }
 
   findAll() {

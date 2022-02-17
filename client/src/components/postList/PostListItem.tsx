@@ -1,23 +1,41 @@
 import styled from 'styled-components';
 
 const ItemContainer = styled.div`
+  width: 90%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin: auto;
   font-family: roboto;
+  background-color: #fdfdfd;
   &:hover {
     transform: scale(1.03);
   }
+  overflow: hidden;
+  box-shadow: 0px 0px 12px #eeeeee;
 `;
 
-const ItemImg = styled.img`
+const ItemImgContainer = styled.div`
+  cursor: pointer;
+  overflow: hidden;
+  height: 100%;
   width: 80%;
   margin: auto;
   border-radius: 5px;
 `;
 
+const ItemImg = styled.img`
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  &:hover {
+    transform: scale(1.1);
+  }
+`;
+
 const TextContainer = styled.div`
+  cursor: pointer;
+
   width: 80%;
   margin: auto;
   margin-top: 10px;
@@ -55,7 +73,7 @@ const ItemPrice = styled.div`
 
 const PostListItem = ({ post }: any) => {
   const img_src = post.image_src
-    ? post.image_src[0].url
+    ? post.image_src
     : 'https://imagedelivery.net/BOKuAiJyROlMLXwCcBYMqQ/fe9f218d-5134-4a76-ba20-bf97e5c21900/thumbnail';
   const seller = post.user.nickname ? post.user.nickname : 'hojin';
   const title = post.title;
@@ -67,7 +85,9 @@ const PostListItem = ({ post }: any) => {
 
   return (
     <ItemContainer>
-      <ItemImg src="https://imagedelivery.net/BOKuAiJyROlMLXwCcBYMqQ/fe9f218d-5134-4a76-ba20-bf97e5c21900/thumbnail"></ItemImg>
+      <ItemImgContainer>
+        <ItemImg src={img_src} />
+      </ItemImgContainer>
       <TextContainer>
         <ItemSeller>{seller}</ItemSeller>
         <ItemTitle>{title}</ItemTitle>

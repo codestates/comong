@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const NavContainer = styled.div`
   width: 100%;
@@ -8,53 +9,88 @@ const NavContainer = styled.div`
   z-index: 10;
   bottom: 0;
   font-family: roboto;
-  border-top: 1px solid #e2e2e2;
-  background-color: #ffffff;
+  border-top: 1px solid ${(props) => props.theme.colors.lightGrey};
+  background-color: white;
   @media only screen and (min-width: 768px) {
     display: none;
   }
 `;
 
 const NavMenuContainer = styled.div`
-  margin: 5px 20px 0px 20px;
+  margin: 8px 20px 0px 20px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
 `;
-const NavMenu = styled.div`
+const NavMenu = styled.div<{
+  categoryColor?: boolean;
+  homeColor?: boolean;
+  mypageColor?: boolean;
+  cartColor?: boolean;
+}>`
+  cursor: pointer;
   width: 25%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin: auto;
-  color: #323232;
-  :hover {
-    color: #358bca;
+  color: ${(props) => props.homeColor && props.theme.colors.accentColor};
+  color: ${(props) => props.categoryColor && props.theme.colors.accentColor};
+  color: ${(props) => props.mypageColor && props.theme.colors.accentColor};
+  color: ${(props) => props.cartColor && props.theme.colors.accentColor};
+  &:hover {
+    color: ${(props) => props.theme.colors.accentColor};
+    transform: scale(1.05);
   }
 `;
 const NavMenuImg = styled.img`
   margin: auto;
+
   height: 32px;
 `;
 const NavMenuTitle = styled.p`
   text-align: center;
   margin-top: 8px;
-  /* margin-bottom: 2px; */
-
   font-size: 11px;
   font-weight: bold;
 `;
 
-const Nav = () => {
+const MobileNav = () => {
+  const navigate = useNavigate();
+
   const [homeColor, setHomeColor] = useState(false);
+  const [categoryColor, setCategoryColor] = useState(false);
+  const [mypageColor, setMypageColor] = useState(false);
+  const [cartColor, setCartColor] = useState(false);
+
+  useEffect(() => {
+    handleCurrentPageIconColor();
+  }, [homeColor, categoryColor, mypageColor, cartColor]);
+
+  const handleCurrentPageIconColor = () => {
+    let current = window.location.href.split('/')[3];
+    console.log(window.location.href.split('/'));
+    console.log(current.length);
+    console.log(homeColor);
+    if (current === '') setHomeColor(true);
+    else if (current === 'search') setCategoryColor(true);
+    else if (current === 'mypage') setMypageColor(true);
+    else if (current === 'cart') setCartColor(true);
+  };
 
   const handleHover = (el: string) => {
     if (el === 'home') setHomeColor(true);
+    else if (el === 'category') setCategoryColor(true);
+    else if (el === 'mypage') setMypageColor(true);
+    else if (el === 'cart') setCartColor(true);
   };
   const handleHoverOut = (el: string) => {
     if (el === 'home') setHomeColor(false);
+    else if (el === 'category') setCategoryColor(false);
+    else if (el === 'mypage') setMypageColor(false);
+    else if (el === 'cart') setCartColor(false);
   };
 
   return (
@@ -63,6 +99,8 @@ const Nav = () => {
         <NavMenu
           onMouseOver={() => handleHover('home')}
           onMouseLeave={() => handleHoverOut('home')}
+          homeColor={homeColor}
+          onClick={() => navigate('/')}
         >
           <NavMenuImg
             src={`/icons/mobileNav/${
@@ -71,16 +109,43 @@ const Nav = () => {
           />
           <NavMenuTitle>홈</NavMenuTitle>
         </NavMenu>
-        <NavMenu>
-          <NavMenuImg src="/icons/mobileNav/category.png" />
+        <NavMenu
+          onMouseOver={() => handleHover('category')}
+          onMouseLeave={() => handleHoverOut('category')}
+          categoryColor={categoryColor}
+          onClick={() => navigate('/search')}
+        >
+          <NavMenuImg
+            src={`/icons/mobileNav/${
+              categoryColor ? 'category-hover.png' : 'category.png'
+            } `}
+          />
           <NavMenuTitle>카테고리</NavMenuTitle>
         </NavMenu>
-        <NavMenu>
-          <NavMenuImg src="/icons/mobileNav/profile.png" />
+        <NavMenu
+          onMouseOver={() => handleHover('mypage')}
+          onMouseLeave={() => handleHoverOut('mypage')}
+          mypageColor={mypageColor}
+          onClick={() => navigate('/mypage')}
+        >
+          <NavMenuImg
+            src={`/icons/mobileNav/${
+              mypageColor ? 'mypage-hover.png' : 'mypage.png'
+            } `}
+          />
           <NavMenuTitle>마이페이지</NavMenuTitle>
         </NavMenu>
-        <NavMenu>
-          <NavMenuImg src="/icons/mobileNav/cart.png" />
+        <NavMenu
+          onMouseOver={() => handleHover('cart')}
+          onMouseLeave={() => handleHoverOut('cart')}
+          cartColor={cartColor}
+          onClick={() => navigate('/cart')}
+        >
+          <NavMenuImg
+            src={`/icons/mobileNav/${
+              cartColor ? 'cart-hover.png' : 'cart.png'
+            } `}
+          />
           <NavMenuTitle>장바구니</NavMenuTitle>
         </NavMenu>
       </NavMenuContainer>
@@ -88,4 +153,4 @@ const Nav = () => {
   );
 };
 
-export default Nav;
+export default MobileNav;

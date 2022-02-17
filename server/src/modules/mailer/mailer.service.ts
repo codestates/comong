@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, BadGatewayException, InternalServerErrorException } from '@nestjs/common';
 import * as mailer  from '@nestjs-modules/mailer';
+import { response } from 'express';
 
 @Injectable()
 export class MailerService {
@@ -11,17 +12,23 @@ export class MailerService {
         subject: string,
         templateName: string,
         context: any = {},
-    ): Promise<boolean>{
+    ): Promise<object>{
         if(role === 1){
-            await this.mailer.sendMail({
+            const newMail = await this.mailer.sendMail({
                 to: toArr.join(', '),
                 subject,
                 template: `${templateName}`,
                 context,
             });
-            return true;
+            console.log(newMail)
+            if(newMail && newMail.response.split(' ')[2] === 'OK'){
+                return new Object({ message: 'an confirmation letter has been sent' })
+            } else {
+                return new InternalServerErrorException('service unavailable(mailer)')
+            }
+            
         } else {
-            return true;
+            return new Object({ message: 'successful' })
         }
     }
 }
