@@ -45,8 +45,12 @@ function LoginForm() {
 
   return (
     <FormWrapper>
-      <Input name="email" onChange={fillLoginForm}></Input>
-      <Input name="password" onChange={fillLoginForm}></Input>
+      <Input name="email" placeholder="이메일" onChange={fillLoginForm}></Input>
+      <Input
+        name="password"
+        placeholder="비밀번호"
+        onChange={fillLoginForm}
+      ></Input>
       <ButtonBasic
         buttonClickHandler={(e) => {
           e.preventDefault();

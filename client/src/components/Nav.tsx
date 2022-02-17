@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import NavSearch from './NavSearch';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { useAppSelector } from '../redux/configStore.hooks';
 
 const NavContainer = styled.div`
   width: 100%;
@@ -82,6 +83,7 @@ const NavNotification = styled.img`
 
 const Nav = () => {
   const navigate = useNavigate();
+  const { isLogin } = useAppSelector((state) => state.userSlice);
 
   const [categoryColor, setCategoryColor] = useState(false);
   const [mypageColor, setMypageColor] = useState(false);
@@ -114,7 +116,7 @@ const Nav = () => {
           </NavMenu>
           <NavMenu
             mypageColor={mypageColor}
-            onClick={() => navigate('/mypage')}
+            onClick={() => (isLogin ? navigate('/mypage') : navigate('/login'))}
           >
             마이페이지{' '}
           </NavMenu>

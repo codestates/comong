@@ -1,4 +1,5 @@
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import ButtonBasic from '../components/common/ButtonBasic';
 import LoginForm from '../components/form/LoginForm';
@@ -50,6 +51,7 @@ const OauthLoginWrapper = styled.div`
 function Login() {
   const dispatch = useDispatch();
   const { isLogin } = useAppSelector((state) => state.userSlice);
+  const navigate = useNavigate();
 
   return isLogin ? (
     <Main>
@@ -69,7 +71,12 @@ function Login() {
         <ButtonBasic lightStyle={true} buttonClickHandler={() => {}}>
           테스트 계정으로 시작하기
         </ButtonBasic>
-        <ButtonBasic lightStyle={true} buttonClickHandler={() => {}}>
+        <ButtonBasic
+          lightStyle={true}
+          buttonClickHandler={() => {
+            navigate('/join');
+          }}
+        >
           이메일로 가입하기
         </ButtonBasic>
       </ButtonWrapper>

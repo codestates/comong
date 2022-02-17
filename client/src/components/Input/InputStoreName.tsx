@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
-import { IJoinPartial } from '../../pages/join/GeneralJoin';
 import InputBasic from './InputBasic';
+import { InputNameProps } from './InputName';
 
-export interface InputNameProps {
-  fillJoinForm: (obj: IJoinPartial) => void;
-}
-
-function InputName({ fillJoinForm }: InputNameProps) {
+function InputStoreName({ fillJoinForm }: InputNameProps) {
   const [message, setMessage] = useState('');
 
   const fillNameInput = (e: React.FormEvent<HTMLInputElement>) => {
@@ -30,14 +26,14 @@ function InputName({ fillJoinForm }: InputNameProps) {
 
   return (
     <InputBasic
-      name="name"
+      name="storeName"
       type="text"
-      title="* 이름"
-      placeholder="홍길동"
+      title="* 스토어 이름"
+      placeholder="코몽 상점"
       fillJoinForm={fillNameInput}
       message={message}
     ></InputBasic>
   );
 }
 
-export default InputName;
+export default InputStoreName;
