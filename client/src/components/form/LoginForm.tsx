@@ -8,8 +8,15 @@ import ButtonBasic from '../common/ButtonBasic';
 import { Input } from '../Input/InputBasic';
 
 const FormWrapper = styled.form`
+  margin: 10px 0 30px 0;
+  height: 200px;
   display: flex;
   flex-direction: column;
+  gap: 15px;
+
+  @media only screen and (max-width: 768px) {
+    margin-bottom: 10px;
+  }
 `;
 
 export interface ILoginForm {

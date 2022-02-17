@@ -27,7 +27,7 @@ export const postUsers = async (form: IJoinForm) => {
 
 export const patchUsers = async (form: IJoinPartial) => {
   try {
-    const data = await apiClient.post('/users', form);
+    const data = await apiClient.patch('/users', form);
     console.log(data);
     return data;
   } catch (err) {
