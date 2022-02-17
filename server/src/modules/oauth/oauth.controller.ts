@@ -12,7 +12,7 @@ import { OauthService } from './oauth.service';
 export class OauthController {
   constructor(private readonly oauthService: OauthService) {}
 
-  @Post('oauthgoogle')
+  @Post('google')
   @ApiOperation({ summary: 'Google Oauth2.0 요청', description: 'Github OAuth 2.0 을 통해 가입 및 로그인을 요청합니다.'})
   @ApiCreatedResponse({ description: 'successful' })
   getResfromGoogle(@Body() authorizationCode: OauthReqDto, @Response() res: any) {
@@ -21,7 +21,7 @@ export class OauthController {
     this.oauthService.googleOauthlogin(getTokenurl, res);
   }
 
-  @Post('oauthkakao')
+  @Post('kakao')
   @ApiOperation({ summary: 'Kakao Oauth 2.0 요청', description: 'Kakao OAuth 2.0 을 통해 가입 및 로그인을 요청합니다.'})
   @ApiCreatedResponse({ description: 'successful' })
   getResfromKakao(@Body() authorizationCode: OauthReqDto, @Response() res: any) {
@@ -30,7 +30,7 @@ export class OauthController {
     this.oauthService.kakaoOauthlogin(getTokenurl, res);
   }
 
-  @Post('oauthnaver')
+  @Post('naver')
   @ApiOperation({ summary: 'Naver Oauth 2.0 요청', description: 'Naver OAuth 2.0 을 통해 가입 및 로그인을 요청합니다. '})
   @ApiCreatedResponse({ description: 'successful' })
   getResfromnaver(@Body() authorizationCode: OauthReqDto, @Response() res: any) {
