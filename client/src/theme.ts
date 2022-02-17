@@ -8,5 +8,6 @@ export const theme: DefaultTheme = {
     accentColorLight: '#C7E4F9',
     lightGrey: `#E7E7E7`,
     darkGrey: `#B8B8B8`,
+    charcol: `#444444`,
   },
 };
