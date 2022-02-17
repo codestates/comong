@@ -7,7 +7,6 @@ import type { chat_has_user, chat_has_userId } from './chat_has_user';
 import type { item, itemId } from './item';
 import type { order, orderId } from './order';
 import type { order_detail, order_detailId } from './order_detail';
-import type { order_has_user, order_has_userId } from './order_has_user';
 import type { refreshtoken, refreshtokenId } from './refreshtoken';
 import type { user_address, user_addressId } from './user_address';
 import type { user_payment, user_paymentId } from './user_payment';
@@ -104,18 +103,18 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasItem!: Sequelize.HasManyHasAssociationMixin<item, itemId>;
   hasItems!: Sequelize.HasManyHasAssociationsMixin<item, itemId>;
   countItems!: Sequelize.HasManyCountAssociationsMixin;
-  // user belongsToMany order via user_id and order_id
-  order_id_order_order_has_users!: order[];
-  getOrder_id_order_order_has_users!: Sequelize.BelongsToManyGetAssociationsMixin<order>;
-  setOrder_id_order_order_has_users!: Sequelize.BelongsToManySetAssociationsMixin<order, orderId>;
-  addOrder_id_order_order_has_user!: Sequelize.BelongsToManyAddAssociationMixin<order, orderId>;
-  addOrder_id_order_order_has_users!: Sequelize.BelongsToManyAddAssociationsMixin<order, orderId>;
-  createOrder_id_order_order_has_user!: Sequelize.BelongsToManyCreateAssociationMixin<order>;
-  removeOrder_id_order_order_has_user!: Sequelize.BelongsToManyRemoveAssociationMixin<order, orderId>;
-  removeOrder_id_order_order_has_users!: Sequelize.BelongsToManyRemoveAssociationsMixin<order, orderId>;
-  hasOrder_id_order_order_has_user!: Sequelize.BelongsToManyHasAssociationMixin<order, orderId>;
-  hasOrder_id_order_order_has_users!: Sequelize.BelongsToManyHasAssociationsMixin<order, orderId>;
-  countOrder_id_order_order_has_users!: Sequelize.BelongsToManyCountAssociationsMixin;
+  // user hasMany order via user_id
+  orders!: order[];
+  getOrders!: Sequelize.HasManyGetAssociationsMixin<order>;
+  setOrders!: Sequelize.HasManySetAssociationsMixin<order, orderId>;
+  addOrder!: Sequelize.HasManyAddAssociationMixin<order, orderId>;
+  addOrders!: Sequelize.HasManyAddAssociationsMixin<order, orderId>;
+  createOrder!: Sequelize.HasManyCreateAssociationMixin<order>;
+  removeOrder!: Sequelize.HasManyRemoveAssociationMixin<order, orderId>;
+  removeOrders!: Sequelize.HasManyRemoveAssociationsMixin<order, orderId>;
+  hasOrder!: Sequelize.HasManyHasAssociationMixin<order, orderId>;
+  hasOrders!: Sequelize.HasManyHasAssociationsMixin<order, orderId>;
+  countOrders!: Sequelize.HasManyCountAssociationsMixin;
   // user hasMany order_detail via user_id
   order_details!: order_detail[];
   getOrder_details!: Sequelize.HasManyGetAssociationsMixin<order_detail>;
@@ -128,18 +127,6 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasOrder_detail!: Sequelize.HasManyHasAssociationMixin<order_detail, order_detailId>;
   hasOrder_details!: Sequelize.HasManyHasAssociationsMixin<order_detail, order_detailId>;
   countOrder_details!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany order_has_user via user_id
-  order_has_users!: order_has_user[];
-  getOrder_has_users!: Sequelize.HasManyGetAssociationsMixin<order_has_user>;
-  setOrder_has_users!: Sequelize.HasManySetAssociationsMixin<order_has_user, order_has_userId>;
-  addOrder_has_user!: Sequelize.HasManyAddAssociationMixin<order_has_user, order_has_userId>;
-  addOrder_has_users!: Sequelize.HasManyAddAssociationsMixin<order_has_user, order_has_userId>;
-  createOrder_has_user!: Sequelize.HasManyCreateAssociationMixin<order_has_user>;
-  removeOrder_has_user!: Sequelize.HasManyRemoveAssociationMixin<order_has_user, order_has_userId>;
-  removeOrder_has_users!: Sequelize.HasManyRemoveAssociationsMixin<order_has_user, order_has_userId>;
-  hasOrder_has_user!: Sequelize.HasManyHasAssociationMixin<order_has_user, order_has_userId>;
-  hasOrder_has_users!: Sequelize.HasManyHasAssociationsMixin<order_has_user, order_has_userId>;
-  countOrder_has_users!: Sequelize.HasManyCountAssociationsMixin;
   // user hasMany refreshtoken via user_id
   refreshtokens!: refreshtoken[];
   getRefreshtokens!: Sequelize.HasManyGetAssociationsMixin<refreshtoken>;

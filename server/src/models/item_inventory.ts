@@ -6,17 +6,21 @@ export interface item_inventoryAttributes {
   id: number;
   item_id: number;
   stock?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export type item_inventoryPk = "id";
 export type item_inventoryId = item_inventory[item_inventoryPk];
-export type item_inventoryOptionalAttributes = "id" | "stock";
+export type item_inventoryOptionalAttributes = "id" | "stock" | "createdAt" | "updatedAt";
 export type item_inventoryCreationAttributes = Optional<item_inventoryAttributes, item_inventoryOptionalAttributes>;
 
 export class item_inventory extends Model<item_inventoryAttributes, item_inventoryCreationAttributes> implements item_inventoryAttributes {
   id!: number;
   item_id!: number;
   stock?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 
   // item_inventory belongsTo item via item_id
   item!: item;
@@ -47,7 +51,7 @@ export class item_inventory extends Model<item_inventoryAttributes, item_invento
   }, {
     sequelize,
     tableName: 'item_inventory',
-    timestamps: false,
+    timestamps: true,
     indexes: [
       {
         name: "PRIMARY",
