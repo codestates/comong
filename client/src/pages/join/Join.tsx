@@ -75,7 +75,7 @@ function Join() {
   }, [pathname]);
 
   const postOauth = async () => {
-    const authorizationCode = search.split('=')[1];
+    const authorizationCode = search.split('code=')[1];
     const oauth = sessionStorage.getItem('oauth');
     if (oauth === 'naver') {
       const data = await postOauthNaver(authorizationCode);
