@@ -52,6 +52,10 @@ export class ItemsService {
     return this.items
   }
 
+  async getDetails(id: number): Promise<item[]> {
+    return []
+  }
+
   findOne(id: number) {
     this.logger.error('1234')
     return `This action returns a #${id} item`;

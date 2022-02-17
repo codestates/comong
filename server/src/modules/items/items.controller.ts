@@ -67,6 +67,21 @@ export class ItemsController {
     return this.itemsService.getItems(+category, +number, key);
   }
 
+  @Get('/details')
+  @ApiOperation({ summary: '상품 상세 정보', description: '해당 상품의 상세 정보를 요청합니다.' })
+  @ApiQuery({
+    name: 'id',
+    required: true,
+    description: '상품 Id'
+  })
+  @ApiOkResponse({
+    description: 'successful',
+  })
+  getDetails(@Query('id') id: number): Promise<item[]> {
+    return this.itemsService.getDetails(+id)
+  }
+
+
   @Get('categorylist')
   @ApiOperation({ summary: '카테고리 목록 정보', description: 'request for item category list' })
   @ApiOkResponse({ description: 'successful'})
