@@ -23,10 +23,13 @@ const listSlice = createSlice({
 
 export let {} = listSlice.actions;
 
-export const getListAsync = createAsyncThunk('items/get', async () => {
+export const getListAsync = createAsyncThunk('items/get', async (category?: number) => {
   const response = await axios({
     url: `${process.env.REACT_APP_URL}/items`,
     method: 'get',
+    params: {
+      category: category || null,
+    },
     data: {},
   });
 

@@ -14,7 +14,8 @@ import type { user_payment, user_paymentId } from './user_payment';
 
 export interface userAttributes {
   id: number;
-  nickname?: string;
+  name?: string;
+  storename?: string;
   email: string;
   mobile?: string;
   password?: string;
@@ -27,12 +28,13 @@ export interface userAttributes {
 
 export type userPk = "id";
 export type userId = user[userPk];
-export type userOptionalAttributes = "id" | "nickname" | "mobile" | "password" | "createdAt" | "updatedAt" | "gender" | "birthday" | "role";
+export type userOptionalAttributes = "id" | "name" | "storename" | "mobile" | "password" | "createdAt" | "updatedAt" | "gender" | "birthday" | "role";
 export type userCreationAttributes = Optional<userAttributes, userOptionalAttributes>;
 
 export class user extends Model<userAttributes, userCreationAttributes> implements userAttributes {
   id!: number;
-  nickname?: string;
+  name?: string;
+  storename?: string;
   email!: string;
   mobile?: string;
   password?: string;
@@ -183,7 +185,11 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
       allowNull: false,
       primaryKey: true
     },
-    nickname: {
+    name: {
+      type: DataTypes.STRING(45),
+      allowNull: true
+    },
+    storename: {
       type: DataTypes.STRING(15),
       allowNull: true
     },
