@@ -11,6 +11,7 @@ import Login from './pages/Login';
 import Cart from './pages/Cart';
 import Nav from './components/Nav';
 import MobileNav from './components/MobileNav';
+import Post from './pages/Post';
 
 function Routers() {
   return (
@@ -18,6 +19,7 @@ function Routers() {
       <Nav></Nav>
       <Routes>
         <Route path="/" element={<List />}></Route>
+        <Route path="/item/:id" element={<Post />}></Route>
         <Route path="/search" element={<Search />}></Route>
         <Route path="/cart" element={<Cart />}></Route>
         <Route path="/login" element={<Login />}></Route>
