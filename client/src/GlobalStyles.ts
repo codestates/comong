@@ -9,6 +9,7 @@ const GlobalStyles = createGlobalStyle`
   }
 
   main {
+    padding-top: 100px;
     position: relative;
   }
 
