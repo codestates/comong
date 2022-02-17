@@ -6,7 +6,6 @@ import { tokenMakerOutput } from './entities/tokenMakerOutput.entity';
 
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { JwtService } from '@nestjs/jwt';
-import e from 'express';
 const models = require('../../models/index');
 
 @Injectable()
