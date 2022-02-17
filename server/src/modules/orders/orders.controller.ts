@@ -3,6 +3,7 @@ import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { CreateOrderDetailDto } from './dto/create-orderdetail.dto';
 
 @Controller('orders')
 @ApiTags('주문 정보 관련')
@@ -17,6 +18,11 @@ export class OrdersController {
   @Post('/shipping')
   createShipping(@Body() createOrderDto: CreateOrderDto) {
     return this.ordersService.createShipping(createOrderDto);
+  }
+
+  @Post('/orderdetail')
+  orderDetailandCart(@Body() createOrderdetail: CreateOrderDetailDto) {
+    return this.ordersService.createOrderdetailandCart(createOrderdetail);
   }
 
   @Get()
