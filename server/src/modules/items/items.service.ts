@@ -42,7 +42,7 @@ export class ItemsService {
     this.items = await models.item.findAll({
       include: [
         { model: models.item_has_category, as: 'item_has_categories', where: category ? { category_id: category } : '' },
-        { model: models.user, as: 'user' , attributes: [ 'id', 'nickname' ] },
+        { model: models.user, as: 'user' , attributes: [ 'id', 'storename' ] },
     ],
       limit: number || 10,
       where: keyword && {
