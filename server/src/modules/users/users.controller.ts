@@ -66,6 +66,22 @@ export class UsersController {
 		return this.usersService.isDuplicate(email)
 	}
 
+	@Get('verifications/:code')
+	@ApiOperation({
+		summary: '이메일 인증 확인',
+		description: '판매자 회원 이메일 인증 과정에서 이메일에 첨부되는 링크 주소로 호출 시 인증 완료로 간주합니다.',
+	})
+	@ApiParam({
+		name: 'code',
+		required: true,
+		description: '일회성 코드',
+	})
+	@ApiOkResponse({ description: 'available' })
+	@ApiForbiddenResponse({ description: 'This email address is already being used' })
+	verification(@Param('code') code: string) {
+		return this.usersService.verification(code)
+	}
+
 	@Patch()
 	@ApiHeader({
 		name: 'Authorization',

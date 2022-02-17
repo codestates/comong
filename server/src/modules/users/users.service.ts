@@ -7,6 +7,7 @@ import { Logger } from '@nestjs/common';
 const models = require('../../models/index');
 const nodemailer = require('nodemailer');
 import { MailerService } from '../mailer/mailer.service';
+import { v4 as uuid } from 'uuid'
 
 /* jwt부분 추후 분리 예정*/
 import * as jwt from 'jsonwebtoken'
@@ -41,6 +42,10 @@ export class UsersService {
 		} else {
 			throw new ForbiddenException('This email address is already being used')
 		}
+	}
+	
+	async verification(code: string) {
+		return { message: 'successful', code: uuid() }
 	}
 
 	async signIn(userInfo: SignInUserDto) {
