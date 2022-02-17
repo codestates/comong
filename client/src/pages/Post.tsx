@@ -9,6 +9,13 @@ import { Link } from 'react-router-dom';
 import Nav from '../components/Nav';
 import MobileNav from '../components/MobileNav';
 
+const Container = styled.div`
+  display: flex;
+  margin-top: 65px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
 const PostContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -22,13 +29,14 @@ const PostContainer = styled.div`
 
 const ImgContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   width: 100%;
 `;
 const MainImgContainer = styled.div`
   width: 50%;
+  height: 50%;
 `;
 const MainImg = styled.img`
   width: 90%;
@@ -36,17 +44,36 @@ const MainImg = styled.img`
 
 const ThumbnailImgContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 10%;
+  height: 10%;
 `;
 const ThumbnailImg = styled.img`
-  width: 10%;
+  margin: 10px;
+  width: 100%;
+`;
+
+const BottomContainer = styled.div`
+  background-color: yellow;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`;
+
+const ContentsContainer = styled.div`
+  width: 60%;
+  background-color: green;
+  height: 3000px;
 `;
 
 const OrderContainer = styled.div`
-  width: 100%;
+  width: 30%;
+  position: sticky;
+  height: 300px;
+  top: 70px;
+  background-color: blue;
 `;
 const Category = styled.div``;
 const Seller = styled.div``;
@@ -79,8 +106,7 @@ const Post = () => {
     'https://imagedelivery.net/BOKuAiJyROlMLXwCcBYMqQ/fe9f218d-5134-4a76-ba20-bf97e5c21900/thumbnail';
 
   return (
-    <>
-      <Nav></Nav>
+    <Container>
       <PostContainer>
         <ImgContainer>
           <MainImgContainer>
@@ -93,17 +119,19 @@ const Post = () => {
             <ThumbnailImg src={img_src} />
           </ThumbnailImgContainer>
         </ImgContainer>
-        <OrderContainer>
-          <Category>{category}</Category>
-          <Seller>{seller}</Seller>
-          <Titile>{title}</Titile>
-          <Price>{price}</Price>
-          <CartButton>장바구니 넣기</CartButton>
-          <OrderButton>상품 구매하기</OrderButton>
-        </OrderContainer>
+        <BottomContainer>
+          <ContentsContainer></ContentsContainer>
+          <OrderContainer>
+            <Category>{category}</Category>
+            <Seller>{seller}</Seller>
+            <Titile>{title}</Titile>
+            <Price>{price}</Price>
+            <CartButton>장바구니 넣기</CartButton>
+            <OrderButton>상품 구매하기</OrderButton>
+          </OrderContainer>
+        </BottomContainer>
       </PostContainer>
-      <MobileNav></MobileNav>
-    </>
+    </Container>
   );
 };
 
