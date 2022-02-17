@@ -74,7 +74,7 @@ export class ItemsController {
     return this.itemsService.getItems(+category, +number, key);
   }
 
-  @Get('/details')
+  @Get('/details:id')
   @ApiOperation({ summary: '상품 상세 정보', description: '해당 상품의 상세 정보를 요청합니다.' })
   @ApiQuery({
     name: 'id',
