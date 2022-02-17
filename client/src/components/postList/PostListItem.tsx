@@ -1,4 +1,10 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+
+const StLink = styled(Link)`
+  all: unset;
+  cursor: pointer;
+`;
 
 const ItemContainer = styled.div`
   width: 90%;
@@ -84,16 +90,19 @@ const PostListItem = ({ post }: any) => {
   }
 
   return (
-    <ItemContainer>
-      <ItemImgContainer>
-        <ItemImg src={img_src} />
-      </ItemImgContainer>
-      <TextContainer>
-        <ItemSeller>{seller}</ItemSeller>
-        <ItemTitle>{title}</ItemTitle>
-        <ItemPrice>{price}원</ItemPrice>
-      </TextContainer>
-    </ItemContainer>
+    // <StLink to={`/list/${post.id}`}>
+    <StLink to={`/item/1`}>
+      <ItemContainer>
+        <ItemImgContainer>
+          <ItemImg src={img_src} />
+        </ItemImgContainer>
+        <TextContainer>
+          <ItemSeller>{seller}</ItemSeller>
+          <ItemTitle>{title}</ItemTitle>
+          <ItemPrice>{price}원</ItemPrice>
+        </TextContainer>
+      </ItemContainer>
+    </StLink>
   );
 };
 

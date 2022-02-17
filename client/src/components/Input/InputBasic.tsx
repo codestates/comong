@@ -14,7 +14,7 @@ const Title = styled.span`
   font-size: 14px;
 `;
 
-const Input = styled.input`
+export const Input = styled.input`
   height: 45px;
   padding: 1rem;
   border-radius: 5px;
