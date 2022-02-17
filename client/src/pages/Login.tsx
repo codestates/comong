@@ -23,10 +23,28 @@ const Text = styled.p`
   display: flex;
   flex-direction: column;
   text-align: center;
+  gap: 1rem;
+
+  @media only screen and (max-width: 768px) {
+    margin: 50px 0 40px 0;
+    font-size: 20px;
+  }
+`;
+
+const ButtonWrapper = styled.div`
+  padding: 40px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-top: 1px solid ${(props) => props.theme.colors.darkGrey};
+  border-bottom: 1px solid ${(props) => props.theme.colors.darkGrey};
 `;
 
 const OauthLoginWrapper = styled.div`
+  height: 150px;
   display: flex;
+  align-items: center;
+  justify-content: space-evenly;
 `;
 
 function Login() {
@@ -47,10 +65,14 @@ function Login() {
         <span>코몽을 이용해보세요 너무 좋습니다</span>
       </Text>
       <LoginForm></LoginForm>
-      <ButtonBasic buttonClickHandler={() => {}}>
-        테스트 계정으로 시작하기
-      </ButtonBasic>
-      <ButtonBasic buttonClickHandler={() => {}}>이메일로 가입하기</ButtonBasic>
+      <ButtonWrapper>
+        <ButtonBasic lightStyle={true} buttonClickHandler={() => {}}>
+          테스트 계정으로 시작하기
+        </ButtonBasic>
+        <ButtonBasic lightStyle={true} buttonClickHandler={() => {}}>
+          이메일로 가입하기
+        </ButtonBasic>
+      </ButtonWrapper>
       <OauthLoginWrapper>
         <OauthButton type="naver"></OauthButton>
         <OauthButton type="kakao"></OauthButton>
