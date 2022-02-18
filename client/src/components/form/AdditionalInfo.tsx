@@ -1,10 +1,30 @@
-import React from 'react';
+import React, { HtmlHTMLAttributes } from 'react';
+import styled from 'styled-components';
+import { IJoinPartial } from '../../pages/join/GeneralJoin';
+import InputBasic from '../Input/InputBasic';
+import InputDob from '../Input/InputDob';
+import InputGender from '../Input/InputGender';
+import InputLikes from '../Input/InputLikes';
+import { TitleWrapper } from './BasicInfo';
 
-function AdditionalInfo() {
+const AdditionalInfoWrapper = styled.div`
+  margin: 40px 0;
+`;
+
+export interface IAdditionalInfo {
+  fillJoinForm: (obj: IJoinPartial) => void;
+}
+
+function AdditionalInfo({ fillJoinForm }: IAdditionalInfo) {
   return (
-    <div>
-      <h2>추가 정보</h2>
-    </div>
+    <AdditionalInfoWrapper>
+      <TitleWrapper>
+        <h2>추가 정보</h2>
+      </TitleWrapper>
+      <InputGender fillJoinForm={fillJoinForm}></InputGender>
+      <InputDob fillJoinForm={fillJoinForm}></InputDob>
+      <InputLikes fillJoinForm={fillJoinForm}></InputLikes>
+    </AdditionalInfoWrapper>
   );
 }
 
