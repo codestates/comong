@@ -139,7 +139,7 @@ export class OauthService {
 				},
 			};
 			const naverDataResponse: AxiosResponse = await axios(userInfoOptions);
-			console.log(naverDataResponse);
+			// console.log(naverDataResponse);
 			let email = naverDataResponse.data.response.email;
 			console.log(email);
 			const existingUser = await models.user.findOne({
@@ -149,14 +149,8 @@ export class OauthService {
 			});
 
 			if (!existingUser) {
-				function getNickname(str) {
-					let aIndex = str.indexOf('@');
-					return str.slice(0, aIndex);
-				}
-				let nickname = getNickname(email);
 				const newUser = await models.user.create({
 					email: email,
-					nickname: nickname,
 				});
 				await this.tokenMaker(newUser, res);
 			} else {
@@ -193,7 +187,7 @@ export class OauthService {
 				refreshtoken: refreshToken,
 				user_id: user.dataValues.id,
 			});
-			console.log(newRefreshToken);
+			// console.log(newRefreshToken);
 		} else {
 			const updatedRefreshToken = await models.refreshtoken.update(
 				{
@@ -207,7 +201,21 @@ export class OauthService {
 			);
 		}
 
-		const oauthResponese = { data: newResponse, message: 'ok' };
+		const isSignedUp = await models.user.findOne({
+			attributes: ['name'],
+			where: {
+				email: user.dataValues.email,
+			},
+		});
+
+		let isNeedSignup: boolean;
+		if(isSignedUp.dataValues.name) {
+			isNeedSignup = false
+		} else {
+			isNeedSignup = true
+		}
+
+		const oauthResponese = { data: newResponse, needSignup: isNeedSignup, message: 'ok' };
 		const output: tokenMakerOutput = {
 			newResponse: oauthResponese,
 			refreshToken: refreshToken,

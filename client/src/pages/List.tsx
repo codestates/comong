@@ -5,6 +5,7 @@ import MainCategories from '../components/maincategory/MainCategory';
 
 const List = () => {
   const ListContainer = styled.div`
+    font-family: 'roboto', 'Noto Sans KR';
     width: 100%;
   `;
 

@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
+import { useAppDispatch } from '../../redux/configStore.hooks';
+import { getListAsync } from '../../redux/modules/listSlice';
 
 const MainCategoriesContainer = styled.div`
   display: flex;
@@ -24,6 +26,7 @@ const MainCategory = styled.div`
   width: 56px;
   margin: 5px;
   min-width: 52px;
+  /* display: block; */
   &:hover {
     transform: scale(1.05);
   }
@@ -163,7 +166,8 @@ const MainCategories = () => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
+  const dispatch = useAppDispatch()
+  
   const Mobile = () => {
     return (
       <>
@@ -199,7 +203,7 @@ const MainCategories = () => {
         nameList.map((el, i) => {
           return (
             <MainCategory>
-              <MainCategoryIcon src={`icons/maincategories/cat${i}.png`} />
+              <MainCategoryIcon onClick={() => dispatch(getListAsync(i+1))} src={`icons/maincategories/cat${i}.png`} />
               <MainCategoryName>{el}</MainCategoryName>
             </MainCategory>
           );

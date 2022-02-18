@@ -32,6 +32,10 @@ const Button = styled.button<{ lightStyle: boolean }>`
       font-size: 14px;
     }
   }
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 interface ButtonBasicProps {

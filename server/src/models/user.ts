@@ -6,15 +6,15 @@ import type { chat, chatId } from './chat';
 import type { chat_has_user, chat_has_userId } from './chat_has_user';
 import type { item, itemId } from './item';
 import type { order, orderId } from './order';
-import type { order_has_user, order_has_userId } from './order_has_user';
+import type { order_detail, order_detailId } from './order_detail';
 import type { refreshtoken, refreshtokenId } from './refreshtoken';
-import type { shopping_cart, shopping_cartId } from './shopping_cart';
 import type { user_address, user_addressId } from './user_address';
 import type { user_payment, user_paymentId } from './user_payment';
 
 export interface userAttributes {
   id: number;
-  nickname?: string;
+  name?: string;
+  storename?: string;
   email: string;
   mobile?: string;
   password?: string;
@@ -27,12 +27,13 @@ export interface userAttributes {
 
 export type userPk = "id";
 export type userId = user[userPk];
-export type userOptionalAttributes = "id" | "nickname" | "mobile" | "password" | "createdAt" | "updatedAt" | "gender" | "birthday" | "role";
+export type userOptionalAttributes = "id" | "name" | "storename" | "mobile" | "password" | "createdAt" | "updatedAt" | "gender" | "birthday" | "role";
 export type userCreationAttributes = Optional<userAttributes, userOptionalAttributes>;
 
 export class user extends Model<userAttributes, userCreationAttributes> implements userAttributes {
   id!: number;
-  nickname?: string;
+  name?: string;
+  storename?: string;
   email!: string;
   mobile?: string;
   password?: string;
@@ -102,30 +103,30 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasItem!: Sequelize.HasManyHasAssociationMixin<item, itemId>;
   hasItems!: Sequelize.HasManyHasAssociationsMixin<item, itemId>;
   countItems!: Sequelize.HasManyCountAssociationsMixin;
-  // user belongsToMany order via user_id and order_id
-  order_id_order_order_has_users!: order[];
-  getOrder_id_order_order_has_users!: Sequelize.BelongsToManyGetAssociationsMixin<order>;
-  setOrder_id_order_order_has_users!: Sequelize.BelongsToManySetAssociationsMixin<order, orderId>;
-  addOrder_id_order_order_has_user!: Sequelize.BelongsToManyAddAssociationMixin<order, orderId>;
-  addOrder_id_order_order_has_users!: Sequelize.BelongsToManyAddAssociationsMixin<order, orderId>;
-  createOrder_id_order_order_has_user!: Sequelize.BelongsToManyCreateAssociationMixin<order>;
-  removeOrder_id_order_order_has_user!: Sequelize.BelongsToManyRemoveAssociationMixin<order, orderId>;
-  removeOrder_id_order_order_has_users!: Sequelize.BelongsToManyRemoveAssociationsMixin<order, orderId>;
-  hasOrder_id_order_order_has_user!: Sequelize.BelongsToManyHasAssociationMixin<order, orderId>;
-  hasOrder_id_order_order_has_users!: Sequelize.BelongsToManyHasAssociationsMixin<order, orderId>;
-  countOrder_id_order_order_has_users!: Sequelize.BelongsToManyCountAssociationsMixin;
-  // user hasMany order_has_user via user_id
-  order_has_users!: order_has_user[];
-  getOrder_has_users!: Sequelize.HasManyGetAssociationsMixin<order_has_user>;
-  setOrder_has_users!: Sequelize.HasManySetAssociationsMixin<order_has_user, order_has_userId>;
-  addOrder_has_user!: Sequelize.HasManyAddAssociationMixin<order_has_user, order_has_userId>;
-  addOrder_has_users!: Sequelize.HasManyAddAssociationsMixin<order_has_user, order_has_userId>;
-  createOrder_has_user!: Sequelize.HasManyCreateAssociationMixin<order_has_user>;
-  removeOrder_has_user!: Sequelize.HasManyRemoveAssociationMixin<order_has_user, order_has_userId>;
-  removeOrder_has_users!: Sequelize.HasManyRemoveAssociationsMixin<order_has_user, order_has_userId>;
-  hasOrder_has_user!: Sequelize.HasManyHasAssociationMixin<order_has_user, order_has_userId>;
-  hasOrder_has_users!: Sequelize.HasManyHasAssociationsMixin<order_has_user, order_has_userId>;
-  countOrder_has_users!: Sequelize.HasManyCountAssociationsMixin;
+  // user hasMany order via user_id
+  orders!: order[];
+  getOrders!: Sequelize.HasManyGetAssociationsMixin<order>;
+  setOrders!: Sequelize.HasManySetAssociationsMixin<order, orderId>;
+  addOrder!: Sequelize.HasManyAddAssociationMixin<order, orderId>;
+  addOrders!: Sequelize.HasManyAddAssociationsMixin<order, orderId>;
+  createOrder!: Sequelize.HasManyCreateAssociationMixin<order>;
+  removeOrder!: Sequelize.HasManyRemoveAssociationMixin<order, orderId>;
+  removeOrders!: Sequelize.HasManyRemoveAssociationsMixin<order, orderId>;
+  hasOrder!: Sequelize.HasManyHasAssociationMixin<order, orderId>;
+  hasOrders!: Sequelize.HasManyHasAssociationsMixin<order, orderId>;
+  countOrders!: Sequelize.HasManyCountAssociationsMixin;
+  // user hasMany order_detail via user_id
+  order_details!: order_detail[];
+  getOrder_details!: Sequelize.HasManyGetAssociationsMixin<order_detail>;
+  setOrder_details!: Sequelize.HasManySetAssociationsMixin<order_detail, order_detailId>;
+  addOrder_detail!: Sequelize.HasManyAddAssociationMixin<order_detail, order_detailId>;
+  addOrder_details!: Sequelize.HasManyAddAssociationsMixin<order_detail, order_detailId>;
+  createOrder_detail!: Sequelize.HasManyCreateAssociationMixin<order_detail>;
+  removeOrder_detail!: Sequelize.HasManyRemoveAssociationMixin<order_detail, order_detailId>;
+  removeOrder_details!: Sequelize.HasManyRemoveAssociationsMixin<order_detail, order_detailId>;
+  hasOrder_detail!: Sequelize.HasManyHasAssociationMixin<order_detail, order_detailId>;
+  hasOrder_details!: Sequelize.HasManyHasAssociationsMixin<order_detail, order_detailId>;
+  countOrder_details!: Sequelize.HasManyCountAssociationsMixin;
   // user hasMany refreshtoken via user_id
   refreshtokens!: refreshtoken[];
   getRefreshtokens!: Sequelize.HasManyGetAssociationsMixin<refreshtoken>;
@@ -138,18 +139,6 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasRefreshtoken!: Sequelize.HasManyHasAssociationMixin<refreshtoken, refreshtokenId>;
   hasRefreshtokens!: Sequelize.HasManyHasAssociationsMixin<refreshtoken, refreshtokenId>;
   countRefreshtokens!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany shopping_cart via user_id
-  shopping_carts!: shopping_cart[];
-  getShopping_carts!: Sequelize.HasManyGetAssociationsMixin<shopping_cart>;
-  setShopping_carts!: Sequelize.HasManySetAssociationsMixin<shopping_cart, shopping_cartId>;
-  addShopping_cart!: Sequelize.HasManyAddAssociationMixin<shopping_cart, shopping_cartId>;
-  addShopping_carts!: Sequelize.HasManyAddAssociationsMixin<shopping_cart, shopping_cartId>;
-  createShopping_cart!: Sequelize.HasManyCreateAssociationMixin<shopping_cart>;
-  removeShopping_cart!: Sequelize.HasManyRemoveAssociationMixin<shopping_cart, shopping_cartId>;
-  removeShopping_carts!: Sequelize.HasManyRemoveAssociationsMixin<shopping_cart, shopping_cartId>;
-  hasShopping_cart!: Sequelize.HasManyHasAssociationMixin<shopping_cart, shopping_cartId>;
-  hasShopping_carts!: Sequelize.HasManyHasAssociationsMixin<shopping_cart, shopping_cartId>;
-  countShopping_carts!: Sequelize.HasManyCountAssociationsMixin;
   // user hasMany user_address via user_id
   user_addresses!: user_address[];
   getUser_addresses!: Sequelize.HasManyGetAssociationsMixin<user_address>;
@@ -183,7 +172,11 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
       allowNull: false,
       primaryKey: true
     },
-    nickname: {
+    name: {
+      type: DataTypes.STRING(45),
+      allowNull: true
+    },
+    storename: {
       type: DataTypes.STRING(15),
       allowNull: true
     },
