@@ -12,8 +12,12 @@ import Cart from './pages/Cart';
 import Nav from './components/Nav';
 import MobileNav from './components/MobileNav';
 import Post from './pages/Post';
+import { useAppSelector } from './redux/configStore.hooks';
+import Mypage from './pages/mypage/Mypage';
 
 function Routers() {
+  const { role } = useAppSelector((state) => state.userSlice);
+  console.log(role);
   return (
     <BrowserRouter>
       <Nav></Nav>
@@ -29,6 +33,7 @@ function Routers() {
           <Route path="oauth" element={<OauthGeneralJoin />}></Route>
           <Route path="oauth/seller" element={<OauthSellerJoin />}></Route>
         </Route>
+        <Route path="mypage" element={<Mypage />}></Route>
       </Routes>
       <MobileNav></MobileNav>
     </BrowserRouter>

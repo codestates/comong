@@ -10,8 +10,8 @@ interface IUserInfo {
   gender: string;
   id: number;
   mobile: string;
-  nickname: string;
-  role: string;
+  name: string;
+  role: number;
   updatedAt: string;
 }
 
@@ -41,7 +41,7 @@ const userSlice = createSlice({
     builder.addCase(postSigninAsync.fulfilled, (state, action) => {
       const { accessToken, user } = action.payload;
       console.log(user);
-      return { isLogin: true, accessToken, role: user.role, user };
+      return { isLogin: true, accessToken, role: user.role, userinfo: user };
     });
   },
 });
