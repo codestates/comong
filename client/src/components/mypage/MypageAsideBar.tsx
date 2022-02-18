@@ -8,10 +8,8 @@ import NavUser from './NavUser';
 const Wrapper = styled.div`
   height: 100vh;
   width: 200px;
-  position: fixed;
-  top: 65px;
-  left: 10px;
   border: 1px solid ${(props) => props.theme.colors.lightGrey};
+  background-color: white;
 `;
 
 function MypageAsideBar() {

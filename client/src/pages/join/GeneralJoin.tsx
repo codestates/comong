@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import { postUsers } from '../../apis/api/users';
 import ButtonLarge from '../../components/common/ButtonBasic';
 import AdditionalInfo from '../../components/form/AdditionalInfo';
 import BasicInfo from '../../components/form/BasicInfo';
 import ErrorMessage from '../../components/Input/ErrorMessage';
 import InputAdress from '../../components/Input/InputAdress';
+
+const Form = styled.form`
+  &.mypage {
+    width: 420px;
+  }
+`;
 
 export interface IJoinForm {
   name: string;
@@ -36,6 +43,7 @@ function GeneralJoin() {
     likes: [],
   });
   const [message, setMessage] = useState('');
+  const { pathname } = useLocation();
   const navigate = useNavigate();
 
   const fillJoinForm = (obj: IJoinPartial) => {
@@ -62,7 +70,7 @@ function GeneralJoin() {
   };
 
   return (
-    <form>
+    <Form className={pathname.includes('mypage') ? 'mypage' : ''}>
       <BasicInfo fillJoinForm={fillJoinForm}></BasicInfo>
       <InputAdress></InputAdress>
       <AdditionalInfo fillJoinForm={fillJoinForm}></AdditionalInfo>
@@ -75,7 +83,7 @@ function GeneralJoin() {
       >
         회원가입
       </ButtonLarge>
-    </form>
+    </Form>
   );
 }
 
