@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe, UseGuards } from '@nestjs/common';
 import { PaymentsService } from './payments.service';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import { UpdatePaymentDto } from './dto/update-payment.dto';
+import JwtAuthGuard from '../../middleware/Jwtauthguard';
 import { ApiTags, ApiOperation, ApiCreatedResponse, ApiBadGatewayResponse, ApiOkResponse, ApiBadRequestResponse, ApiHeader, ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('payments')
@@ -22,6 +23,7 @@ export class PaymentsController {
   @ApiOperation({ summary: '새로운 결제 정보 생성', description: '결제 결제 정보를 생성합니다.' })
   @ApiCreatedResponse({ description: 'successful.' })
   @ApiBadRequestResponse({ description: 'invalid value for property' })
+  // @UseGuards(JwtAuthGuard)
   @UsePipes(ValidationPipe)
   create(@Body() createPaymentDto: CreatePaymentDto) {
     return this.paymentsService.create(createPaymentDto);
