@@ -51,7 +51,7 @@ export class OrdersController {
   @ApiOkResponse({
     description: 'successful',
   })
-  getorderDetails(@Query('user_id') user_id: number): Promise<string> {
+  getorderDetails(@Query('user_id') user_id: number): Promise<object[]> {
     return this.ordersService.getorderDetails(user_id);
   }
 

@@ -10,6 +10,7 @@ import { ChatsModule } from './modules/chats/chats.module';
 import { CommentsModule } from './modules/comments/comments.module';
 import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter'
 import { MailerModule, MailerOptions } from '@nestjs-modules/mailer';
+import { config } from '../src/config/config';
 import * as path from 'path'
 
 const mailerInitSettings = {

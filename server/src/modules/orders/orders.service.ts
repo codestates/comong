@@ -2,6 +2,7 @@ import { Injectable, BadRequestException } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { CreateOrderDetailDto } from './dto/create-orderdetail.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
+const { Op } = require('sequelize');
 const models = require('../../models/index');
 
 @Injectable()
@@ -22,7 +23,7 @@ export class OrdersService {
 			newJoindataArr.push(newJoinData.dataValues);
 		}
 		if (newOrder) {
-			return { data: {newOrder, newJoindataArr}, message: 'successful' };
+			return { data: { newOrder, newJoindataArr }, message: 'successful' };
 		} else {
 			throw new BadRequestException('invalid request or value for property');
 		}
@@ -43,12 +44,41 @@ export class OrdersService {
 
 	async getorderDetails(user_id: number) {
 		const cartData = await models.order_detail.findAll({
+			include: [{ model: models.item, as: 'item' }],
 			where: {
 				user_id: user_id,
-				status: 'pending'
+				status: 'pending',
 			},
 		});
-		return cartData;
+		let storeuserIdArr: number[] = cartData.map((elem) => {
+			return elem.dataValues.item.user_id;
+		});
+		let setStoreUserIdArr = new Set(storeuserIdArr);
+		let uniqueStoreUserIdArr = [...setStoreUserIdArr];
+
+		const storeList = await models.user.findAll({
+			where: {
+				id: {
+					[Op.or]: [uniqueStoreUserIdArr],
+				},
+			},
+		});
+		let output: object = {};
+		for (let i = 0; i < uniqueStoreUserIdArr.length; i++) {
+			output[`group_${uniqueStoreUserIdArr[i]}`] = {
+				storeInfo: storeList[i],
+				order_details: [],
+			};
+			for (let j = 0; j < cartData.length; j++) {
+				if (cartData[j].dataValues.item.user_id === uniqueStoreUserIdArr[i]) {
+					output[`group_${uniqueStoreUserIdArr[i]}`]['order_details'].push(
+						cartData[j],
+					);
+				}
+			}
+		}
+
+		return [output];
 	}
 
 	findAll() {
