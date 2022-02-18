@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { config } from '../config/config';
 
 const OauthImg = styled.img`
   width: 65px;
@@ -41,18 +42,21 @@ function OauthButton({ type }: IOauthButton) {
   };
 
   const getAuthorizationCode = (type: string) => {
-    const redirectURL = process.env.REACT_APP_OAUTH_REDIRECT_URL;
+    const env = 'development';
+    const { redirectURL } = config[env];
+    const { naver, kakao, google } = config[env].oauth;
+
     let requestURL = '';
     if (type === 'naver') {
       const STATE_STRING = makeRandomString(10);
       //!TODO STATE_STRING 세션에 저장하기
       console.log(STATE_STRING);
-      requestURL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.REACT_APP_NAVER_CLIENT_ID}&state=${STATE_STRING}&redirect_uri=${redirectURL}`;
+      requestURL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${naver.clientId}&state=${STATE_STRING}&redirect_uri=${redirectURL}`;
     } else if (type === 'kakao') {
-      requestURL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${redirectURL}&response_type=code`;
+      requestURL = `https://kauth.kakao.com/oauth/authorize?client_id=${kakao.clientId}&redirect_uri=${redirectURL}&response_type=code`;
       sessionStorage.setItem('oauth', 'kakao');
     } else if (type === 'google') {
-      requestURL = `https://accounts.google.com/o/oauth2/v2/auth?scope=email%20profile&response_type=code&redirect_uri=${redirectURL}&client_id=${process.env.REACT_APP_GOOGLE_CLIENT_ID}`;
+      requestURL = `https://accounts.google.com/o/oauth2/v2/auth?scope=email%20profile&response_type=code&redirect_uri=${redirectURL}&client_id=${google.clientId}`;
       sessionStorage.setItem('oauth', 'google');
     }
     window.location.assign(requestURL);

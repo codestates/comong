@@ -6,7 +6,7 @@ import ButtonBasic from '../../components/common/ButtonBasic';
 import AdditionalInfo from '../../components/form/AdditionalInfo';
 import OauthBasicInfo from '../../components/form/OauthBasicInfo';
 import InputAdress from '../../components/Input/InputAdress';
-import { IJoinForm, IJoinPartial } from './GeneralJoin';
+import { IJoinPartial } from './GeneralJoin';
 
 function OauthGeneralJoin() {
   const email = useOutletContext<string>();
@@ -15,7 +15,7 @@ function OauthGeneralJoin() {
     setJoinForm({ ...joinForm, ...{ email } });
   }, [email]);
 
-  const [joinForm, setJoinForm] = useState({
+  const [joinForm, setJoinForm] = useState<IJoinPartial>({
     name: '',
     password: '',
     phone: '',
@@ -24,6 +24,7 @@ function OauthGeneralJoin() {
     address2: '',
     dob: '',
     role: 0,
+    likes: [],
   });
 
   const fillJoinForm = (obj: IJoinPartial) => {
@@ -34,9 +35,10 @@ function OauthGeneralJoin() {
     <>
       <OauthBasicInfo fillJoinForm={fillJoinForm}></OauthBasicInfo>
       <InputAdress></InputAdress>
-      <AdditionalInfo></AdditionalInfo>
+      <AdditionalInfo fillJoinForm={fillJoinForm}></AdditionalInfo>
       <ButtonBasic
         buttonClickHandler={() => {
+          console.log(joinForm);
           patchUsers(joinForm);
           delete apiClient.defaults.headers.common['Authorization'];
         }}
