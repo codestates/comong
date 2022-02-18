@@ -7,6 +7,7 @@ declare module 'styled-components' {
       textColor: string;
       bgColor: string;
       accentColor: string;
+      accentColorMiddle: string;
       accentColorLight: string;
       lightGrey: string;
       darkGrey: string;
@@ -14,9 +15,3 @@ declare module 'styled-components' {
     };
   }
 }
-
-// declare namespace React {
-//   interface HTMLAttributes<T> extends DOMAttributes<T> {
-//     css?: any;
-//   }
-// }

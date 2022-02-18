@@ -83,11 +83,11 @@ const PostListItem = ({ post }: any) => {
     : 'https://imagedelivery.net/BOKuAiJyROlMLXwCcBYMqQ/fe9f218d-5134-4a76-ba20-bf97e5c21900/thumbnail';
   const seller = post.user.nickname ? post.user.nickname : 'hojin';
   const title = post.title;
-  const price = AddComma(post.price);
+  const price = post.price.toLocaleString('en');
 
-  function AddComma(data_value: number) {
-    return data_value.toLocaleString('en');
-  }
+  // function AddComma(data_value: number) {
+  //   return data_value.toLocaleString('en');
+  // }
 
   return (
     // <StLink to={`/list/${post.id}`}>

@@ -26,6 +26,7 @@ const MainCategory = styled.div`
   width: 56px;
   margin: 5px;
   min-width: 52px;
+  /* display: block; */
   &:hover {
     transform: scale(1.05);
   }
