@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags,ApiOkResponse, ApiHeader, ApiOperation, ApiQuery } from '@nestjs/swagger';
+import JwtAuthGuard from '../../middleware/Jwtauthguard';
 import { CreateOrderDetailDto } from './dto/create-orderdetail.dto';
 
 @Controller('orders')
@@ -11,18 +12,47 @@ export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
   @Post()
-  create(@Body() createOrderDto: CreateOrderDto) {
-    return this.ordersService.create(createOrderDto);
-  }
-
-  @Post('/shipping')
-  createShipping(@Body() createOrderDto: CreateOrderDto) {
-    return this.ordersService.createShipping(createOrderDto);
+  @ApiHeader({
+    name: 'Authorization',
+    description: '사용자 인증 수단, 액세스 토큰 값',
+    required: true,
+    schema: {
+      example: 'bearer 23f43u9if13ekc23fm30jg549quneraf2fmsdf'
+    },
+  })
+  @ApiOperation({ summary: 'request for creating order', description: 'creating order for payment' })
+  // @UseGuards(JwtAuthGuard)
+  create(@Body() createOrder: CreateOrderDto) { 
+    return this.ordersService.create(createOrder);
   }
 
   @Post('/orderdetail')
-  orderDetailandCart(@Body() createOrderdetail: CreateOrderDetailDto) {
+  @ApiHeader({
+    name: 'Authorization',
+    description: '사용자 인증 수단, 액세스 토큰 값',
+    required: true,
+    schema: {
+      example: 'bearer 23f43u9if13ekc23fm30jg549quneraf2fmsdf'
+    },
+  })
+  @ApiOperation({ summary: 'request for creating order_detail', description: 'creat order_detail' })
+  // @UseGuards(JwtAuthGuard)
+  createOrderDetail(@Body() createOrderdetail: CreateOrderDetailDto) {
     return this.ordersService.createOrderdetailandCart(createOrderdetail);
+  }
+
+  @Get('/cart')
+  @ApiOperation({ summary: 'request for order_detail list', description: 'get order_detail list for shopping_cart by user_id' })
+  @ApiQuery({
+    name: 'user_id',
+    required: true,
+    description: '유저 아이디'
+  })
+  @ApiOkResponse({
+    description: 'successful',
+  })
+  getorderDetails(@Query('user_id') user_id: number): Promise<object[]> {
+    return this.ordersService.getorderDetails(user_id);
   }
 
   @Get()

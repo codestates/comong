@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException, Request, ForbiddenException } from '@nestjs/common';
+import { Injectable, BadRequestException, Request, ForbiddenException, InternalServerErrorException } from '@nestjs/common';
 require('dotenv').config;
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -27,9 +27,18 @@ export class UsersService {
 		});
 
 		if (isCreated) {
-			return await this.mailerService.send(user.role, [user.email], 'Comong 이메일 인증 요청', 'signup', {
-				name: user.name,
+			const mappingCategory = await models.category_has_user.create({
+				category_id: user.likes,
+				user_id: newUser.id,
 			})
+			if(mappingCategory){
+				return await this.mailerService.send(user.role, [user.email], 'Comong 이메일 인증 요청', 'signup', {
+					name: user.name,
+				})
+			} else {
+				throw new BadRequestException('invalid value for property');
+			}
+
 		} else {
 			throw new BadRequestException('invalid value for property');
 		}
@@ -48,10 +57,16 @@ export class UsersService {
 		return { message: 'successful', code: uuid() }
 	}
 
-	async signIn(userInfo: SignInUserDto) {
-		const user = await models.user.findOne({
+	async signIn(userInfo: SignInUserDto): Promise<{}>{
+		let user = await models.user.findOne({
 			where: { ...userInfo },
 		});
+		try {
+			user['gender'] = parseInt(user['gender']);
+			user['role'] = parseInt(user['role'])
+		} catch(err) {
+			throw new InternalServerErrorException({ message: 'Internal Server Error' })
+		}
 		console.log(userInfo)
 		if (user) {
 			delete user.dataValues.password;
