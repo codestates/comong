@@ -1,13 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Button = styled.button`
+const Button = styled.button<{ lightStyle: boolean }>`
   width: 100%;
   height: 55px;
-  background-color: ${(props) => props.theme.colors.accentColor};
-  font-size: 20px;
-  font-weight: 600;
-  color: ${(props) => props.theme.colors.bgColor};
+  background-color: ${(props) =>
+    props.lightStyle
+      ? props.theme.colors.accentColorLight
+      : props.theme.colors.accentColor};
+  font-size: ${(props) => (props.lightStyle ? '18px' : '20px')};
+  font-weight: ${(props) => (props.lightStyle ? 400 : 600)};
+  color: ${(props) =>
+    props.lightStyle
+      ? props.theme.colors.textColor
+      : props.theme.colors.bgColor};
   border-radius: 4px;
 
   @media only screen and (max-width: 768px) {
@@ -26,17 +32,31 @@ const Button = styled.button`
       font-size: 14px;
     }
   }
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 interface ButtonBasicProps {
   type?: string;
   buttonClickHandler: React.MouseEventHandler;
   children: string;
+  lightStyle?: boolean;
 }
 
-function ButtonBasic({ type, buttonClickHandler, children }: ButtonBasicProps) {
+function ButtonBasic({
+  type,
+  buttonClickHandler,
+  children,
+  lightStyle,
+}: ButtonBasicProps) {
   return (
-    <Button className={type} onClick={buttonClickHandler}>
+    <Button
+      className={type}
+      onClick={buttonClickHandler}
+      lightStyle={lightStyle || false}
+    >
       {children}
     </Button>
   );

@@ -156,7 +156,7 @@ const MainCategories = () => {
     nameList.push(arr[i].category);
   }
 
-  console.log(nameList);
+  // console.log(nameList);
 
   const [width, setWidth] = useState(window.innerWidth);
 

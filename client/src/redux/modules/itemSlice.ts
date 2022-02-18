@@ -1,40 +1,38 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+
 import { config } from '../../config/config';
 
 const env = 'development';
 const urlConfig = config[env];
 console.log('urlConfig', urlConfig);
 
-export interface List {
+export interface Item {
   data: [];
 }
 
-const initialState: List = {
+const initialState: Item = {
   data: [],
 };
 
-const listSlice = createSlice({
-  name: 'list',
+const itemSlice = createSlice({
+  name: 'item',
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getListAsync.fulfilled, (state, action) => {
+    builder.addCase(getItemAsync.fulfilled, (state, action) => {
       let contents = action.payload;
       return { ...state, data: contents };
     });
   },
 });
 
-export let {} = listSlice.actions;
+export let {} = itemSlice.actions;
 
-export const getListAsync = createAsyncThunk('items/get', async (category?: number) => {
+export const getItemAsync = createAsyncThunk('items/get', async (id) => {
   const response = await axios({
-    url: `${urlConfig.url}/items`,
+    url: `${urlConfig.url}/items/${id}`,
     method: 'get',
-    params: {
-      category: category || null,
-    },
     data: {},
   });
 
@@ -42,4 +40,4 @@ export const getListAsync = createAsyncThunk('items/get', async (category?: numb
   return response.data;
 });
 
-export default listSlice.reducer;
+export default itemSlice.reducer;

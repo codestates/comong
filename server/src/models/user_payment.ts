@@ -1,14 +1,12 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
 import type { order, orderId } from './order';
-import type { shipping, shippingId } from './shipping';
 import type { user, userId } from './user';
-import type { user_payment_has_order, user_payment_has_orderId } from './user_payment_has_order';
-import type { user_payment_has_shipping, user_payment_has_shippingId } from './user_payment_has_shipping';
 
 export interface user_paymentAttributes {
   id: number;
   user_id: number;
+  order_id: number;
   payment_method?: string;
   payment_status?: string;
   detail?: string;
@@ -29,6 +27,7 @@ export type user_paymentCreationAttributes = Optional<user_paymentAttributes, us
 export class user_payment extends Model<user_paymentAttributes, user_paymentCreationAttributes> implements user_paymentAttributes {
   id!: number;
   user_id!: number;
+  order_id!: number;
   payment_method?: string;
   payment_status?: string;
   detail?: string;
@@ -40,59 +39,16 @@ export class user_payment extends Model<user_paymentAttributes, user_paymentCrea
   createdAt?: Date;
   updatedAt?: Date;
 
+  // user_payment belongsTo order via order_id
+  order!: order;
+  getOrder!: Sequelize.BelongsToGetAssociationMixin<order>;
+  setOrder!: Sequelize.BelongsToSetAssociationMixin<order, orderId>;
+  createOrder!: Sequelize.BelongsToCreateAssociationMixin<order>;
   // user_payment belongsTo user via user_id
   user!: user;
   getUser!: Sequelize.BelongsToGetAssociationMixin<user>;
   setUser!: Sequelize.BelongsToSetAssociationMixin<user, userId>;
   createUser!: Sequelize.BelongsToCreateAssociationMixin<user>;
-  // user_payment belongsToMany order via user_payment_id and order_id
-  order_id_order_user_payment_has_orders!: order[];
-  getOrder_id_order_user_payment_has_orders!: Sequelize.BelongsToManyGetAssociationsMixin<order>;
-  setOrder_id_order_user_payment_has_orders!: Sequelize.BelongsToManySetAssociationsMixin<order, orderId>;
-  addOrder_id_order_user_payment_has_order!: Sequelize.BelongsToManyAddAssociationMixin<order, orderId>;
-  addOrder_id_order_user_payment_has_orders!: Sequelize.BelongsToManyAddAssociationsMixin<order, orderId>;
-  createOrder_id_order_user_payment_has_order!: Sequelize.BelongsToManyCreateAssociationMixin<order>;
-  removeOrder_id_order_user_payment_has_order!: Sequelize.BelongsToManyRemoveAssociationMixin<order, orderId>;
-  removeOrder_id_order_user_payment_has_orders!: Sequelize.BelongsToManyRemoveAssociationsMixin<order, orderId>;
-  hasOrder_id_order_user_payment_has_order!: Sequelize.BelongsToManyHasAssociationMixin<order, orderId>;
-  hasOrder_id_order_user_payment_has_orders!: Sequelize.BelongsToManyHasAssociationsMixin<order, orderId>;
-  countOrder_id_order_user_payment_has_orders!: Sequelize.BelongsToManyCountAssociationsMixin;
-  // user_payment belongsToMany shipping via user_payment_id and shipping_id
-  shipping_id_shippings!: shipping[];
-  getShipping_id_shippings!: Sequelize.BelongsToManyGetAssociationsMixin<shipping>;
-  setShipping_id_shippings!: Sequelize.BelongsToManySetAssociationsMixin<shipping, shippingId>;
-  addShipping_id_shipping!: Sequelize.BelongsToManyAddAssociationMixin<shipping, shippingId>;
-  addShipping_id_shippings!: Sequelize.BelongsToManyAddAssociationsMixin<shipping, shippingId>;
-  createShipping_id_shipping!: Sequelize.BelongsToManyCreateAssociationMixin<shipping>;
-  removeShipping_id_shipping!: Sequelize.BelongsToManyRemoveAssociationMixin<shipping, shippingId>;
-  removeShipping_id_shippings!: Sequelize.BelongsToManyRemoveAssociationsMixin<shipping, shippingId>;
-  hasShipping_id_shipping!: Sequelize.BelongsToManyHasAssociationMixin<shipping, shippingId>;
-  hasShipping_id_shippings!: Sequelize.BelongsToManyHasAssociationsMixin<shipping, shippingId>;
-  countShipping_id_shippings!: Sequelize.BelongsToManyCountAssociationsMixin;
-  // user_payment hasMany user_payment_has_order via user_payment_id
-  user_payment_has_orders!: user_payment_has_order[];
-  getUser_payment_has_orders!: Sequelize.HasManyGetAssociationsMixin<user_payment_has_order>;
-  setUser_payment_has_orders!: Sequelize.HasManySetAssociationsMixin<user_payment_has_order, user_payment_has_orderId>;
-  addUser_payment_has_order!: Sequelize.HasManyAddAssociationMixin<user_payment_has_order, user_payment_has_orderId>;
-  addUser_payment_has_orders!: Sequelize.HasManyAddAssociationsMixin<user_payment_has_order, user_payment_has_orderId>;
-  createUser_payment_has_order!: Sequelize.HasManyCreateAssociationMixin<user_payment_has_order>;
-  removeUser_payment_has_order!: Sequelize.HasManyRemoveAssociationMixin<user_payment_has_order, user_payment_has_orderId>;
-  removeUser_payment_has_orders!: Sequelize.HasManyRemoveAssociationsMixin<user_payment_has_order, user_payment_has_orderId>;
-  hasUser_payment_has_order!: Sequelize.HasManyHasAssociationMixin<user_payment_has_order, user_payment_has_orderId>;
-  hasUser_payment_has_orders!: Sequelize.HasManyHasAssociationsMixin<user_payment_has_order, user_payment_has_orderId>;
-  countUser_payment_has_orders!: Sequelize.HasManyCountAssociationsMixin;
-  // user_payment hasMany user_payment_has_shipping via user_payment_id
-  user_payment_has_shippings!: user_payment_has_shipping[];
-  getUser_payment_has_shippings!: Sequelize.HasManyGetAssociationsMixin<user_payment_has_shipping>;
-  setUser_payment_has_shippings!: Sequelize.HasManySetAssociationsMixin<user_payment_has_shipping, user_payment_has_shippingId>;
-  addUser_payment_has_shipping!: Sequelize.HasManyAddAssociationMixin<user_payment_has_shipping, user_payment_has_shippingId>;
-  addUser_payment_has_shippings!: Sequelize.HasManyAddAssociationsMixin<user_payment_has_shipping, user_payment_has_shippingId>;
-  createUser_payment_has_shipping!: Sequelize.HasManyCreateAssociationMixin<user_payment_has_shipping>;
-  removeUser_payment_has_shipping!: Sequelize.HasManyRemoveAssociationMixin<user_payment_has_shipping, user_payment_has_shippingId>;
-  removeUser_payment_has_shippings!: Sequelize.HasManyRemoveAssociationsMixin<user_payment_has_shipping, user_payment_has_shippingId>;
-  hasUser_payment_has_shipping!: Sequelize.HasManyHasAssociationMixin<user_payment_has_shipping, user_payment_has_shippingId>;
-  hasUser_payment_has_shippings!: Sequelize.HasManyHasAssociationsMixin<user_payment_has_shipping, user_payment_has_shippingId>;
-  countUser_payment_has_shippings!: Sequelize.HasManyCountAssociationsMixin;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof user_payment {
     return user_payment.init({
@@ -107,6 +63,14 @@ export class user_payment extends Model<user_paymentAttributes, user_paymentCrea
       allowNull: false,
       references: {
         model: 'user',
+        key: 'id'
+      }
+    },
+    order_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'order',
         key: 'id'
       }
     },
@@ -160,6 +124,13 @@ export class user_payment extends Model<user_paymentAttributes, user_paymentCrea
         using: "BTREE",
         fields: [
           { name: "user_id" },
+        ]
+      },
+      {
+        name: "fk_user_payment_order1_idx",
+        using: "BTREE",
+        fields: [
+          { name: "order_id" },
         ]
       },
     ]
