@@ -18,6 +18,7 @@ function SellerJoin() {
     address2: '',
     dob: '',
     role: 1,
+    likes: [],
   });
   const [message, setMessage] = useState('');
   const [showModal, setShowModal] = useState(false);

@@ -17,6 +17,7 @@ export interface IJoinForm {
   address2: string;
   dob: string;
   role: number;
+  likes: number[];
 }
 
 export type IJoinPartial = Partial<IJoinForm>;
@@ -32,6 +33,7 @@ function GeneralJoin() {
     address2: '',
     dob: '',
     role: 0,
+    likes: [],
   });
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
@@ -48,21 +50,22 @@ function GeneralJoin() {
   };
 
   const submitForm = () => {
+    console.log(joinForm);
     const isFormValid = checkRequiredForm(joinForm);
     if (!isFormValid) {
       setMessage('작성 내용을 확인해주세요');
       return;
     }
     setMessage('');
-    postUsers(joinForm);
-    navigate('/');
+    //postUsers(joinForm);
+    //navigate('/');
   };
 
   return (
     <form>
       <BasicInfo fillJoinForm={fillJoinForm}></BasicInfo>
       <InputAdress></InputAdress>
-      <AdditionalInfo></AdditionalInfo>
+      <AdditionalInfo fillJoinForm={fillJoinForm}></AdditionalInfo>
       <ErrorMessage>{message}</ErrorMessage>
       <ButtonLarge
         buttonClickHandler={(e) => {
