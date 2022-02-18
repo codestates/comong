@@ -27,7 +27,7 @@ export default class JwtAuthGuard implements CanActivate {
 	public validateToken(token: string): any {
 		try {
 			//console.log(token, process.env.ACCESS_SECRET)
-			const verify: any = jwt.verify(token, process.env.ACCESS_SECRET )
+			const verify: any = jwt.verify(token, process.env.COMONG_ACCESS_SECRET )
 			return verify;
 		} catch (error) {
 				console.log(error)
