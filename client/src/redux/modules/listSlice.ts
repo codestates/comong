@@ -28,18 +28,21 @@ const listSlice = createSlice({
 
 export let {} = listSlice.actions;
 
-export const getListAsync = createAsyncThunk('items/get', async (category?: number) => {
-  const response = await axios({
-    url: `${urlConfig.url}/items`,
-    method: 'get',
-    params: {
-      category: category || null,
-    },
-    data: {},
-  });
+export const getListAsync = createAsyncThunk(
+  'items/get',
+  async (category?: number) => {
+    const response = await axios({
+      url: `${urlConfig.url}/items`,
+      method: 'get',
+      params: {
+        category: category || null,
+      },
+      data: {},
+    });
 
-  console.log(response.data);
-  return response.data;
-});
+    console.log(response.data);
+    return response.data;
+  },
+);
 
 export default listSlice.reducer;

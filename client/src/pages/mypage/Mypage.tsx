@@ -13,6 +13,7 @@ const Wrapper = styled.div`
 
   @media only screen and (max-width: 1200px) {
     justify-content: flex-start;
+    gap: 50px;
   }
 `;
 
@@ -27,6 +28,10 @@ const OutletWrapper = styled.div`
   &.modifyInfo {
     display: flex;
     justify-content: center;
+  }
+
+  @media only screen and (max-width: 1200px) {
+    width: 60%;
   }
 `;
 

@@ -74,19 +74,30 @@ function GeneralJoin() {
     if (form.name && form.email && form.password) {
       return true;
     }
+    setMessage('작성 내용을 확인해주세요');
     return false;
   };
 
-  const submitForm = () => {
+  const submitJoinForm = async () => {
     console.log(joinForm);
-    const isFormValid = checkRequiredForm(joinForm);
-    if (!isFormValid) {
-      setMessage('작성 내용을 확인해주세요');
-      return;
-    }
+    if (!checkRequiredForm(joinForm)) return;
     setMessage('');
-    isMypage ? patchUsers(joinForm) : postUsers(joinForm);
+
+    const response = await postUsers(joinForm);
+
+    console.log(response);
+    // 제출됐다면 navigate('/');
+    // 실패라면 이유 알려주기
+
     //navigate('/');
+  };
+
+  const submitPatchForm = async () => {
+    console.log(joinForm);
+    if (!checkRequiredForm(joinForm)) return;
+    setMessage('');
+
+    const response = await patchUsers(joinForm);
   };
 
   const deleteUserHandler = () => {
@@ -103,7 +114,7 @@ function GeneralJoin() {
       <ButtonBasic
         buttonClickHandler={(e) => {
           e.preventDefault();
-          submitForm();
+          isMypage ? submitPatchForm() : submitJoinForm();
         }}
       >
         {isMypage ? '정보 수정' : '회원가입'}
