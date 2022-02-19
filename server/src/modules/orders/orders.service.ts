@@ -2,11 +2,14 @@ import { Injectable, BadRequestException } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { CreateOrderDetailDto } from './dto/create-orderdetail.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
+import { MailerService } from '../mailer/mailer.service';
 const { Op } = require('sequelize');
 const models = require('../../models/index');
 
 @Injectable()
 export class OrdersService {
+	constructor(private readonly mailerService: MailerService) {}
+
 	async create(createOrder: CreateOrderDto) {
 		console.log(createOrder);
 		const newOrder = await models.order.create({
@@ -22,8 +25,20 @@ export class OrdersService {
 				});
 			newJoindataArr.push(newJoinData.dataValues);
 		}
+		const getUserdata = await models.user.findOne({
+			where: {
+				id: createOrder.user_id,
+			},
+		});
+		const emailAddress = getUserdata.dataValues.email;
+		const storeName = getUserdata.dataValues.storename;
 		if (newOrder) {
-			return { data: { newOrder, newJoindataArr }, message: 'successful' };
+			return await this.mailerService.sendOrderNotice(
+				{ storename: storeName },
+				emailAddress,
+				'COMONG 구매 발생 알림 메일',
+				'order_notice',
+			);
 		} else {
 			throw new BadRequestException('invalid request or value for property');
 		}
