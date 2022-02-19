@@ -71,8 +71,8 @@ function NavUser() {
       <MenuWrapper>
         <h3>내 정보</h3>
         <ul>
-          <Link to="/mypage/join">
-            <li className={getSelectedClass('join')}>회원 정보 수정</li>
+          <Link to="/mypage/modifyInfo">
+            <li className={getSelectedClass('modifyInfo')}>회원 정보 수정</li>
           </Link>
         </ul>
       </MenuWrapper>

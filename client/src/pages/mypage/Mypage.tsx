@@ -23,7 +23,8 @@ const Wrapper = styled.div`
 
 const OutletWrapper = styled.div`
   width: 50%;
-  &.join {
+
+  &.modifyInfo {
     display: flex;
     justify-content: center;
   }
@@ -34,7 +35,9 @@ function Mypage() {
   return (
     <Wrapper>
       <MypageAsideBar></MypageAsideBar>
-      <OutletWrapper className={pathname.includes('join') ? 'join' : ''}>
+      <OutletWrapper
+        className={pathname.includes('modifyInfo') ? 'modifyInfo' : ''}
+      >
         <Outlet />
       </OutletWrapper>
     </Wrapper>

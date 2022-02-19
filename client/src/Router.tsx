@@ -34,7 +34,7 @@ function Routers() {
           <Route path="oauth/seller" element={<OauthSellerJoin />}></Route>
         </Route>
         <Route path="mypage/*" element={<Mypage />}>
-          <Route path="join" element={<GeneralJoin />}></Route>
+          <Route path="modifyInfo" element={<GeneralJoin />}></Route>
         </Route>
       </Routes>
       <MobileNav></MobileNav>

@@ -4,10 +4,10 @@ import { ILoginForm } from '../../components/form/LoginForm';
 
 // !TODO 타입 다시 확인하기
 interface IUserInfo {
-  birthday: string | null;
+  birthday: string;
   createdAt: string;
   email: string;
-  gender: string;
+  gender: number;
   id: number;
   mobile: string;
   name: string;
@@ -50,6 +50,7 @@ export const postSigninAsync = createAsyncThunk(
   'LOGIN_USER',
   async (form: ILoginForm) => {
     const response = await apiClient.post(`/users/signin`, form);
+    console.log(response.data);
     return response.data;
   },
 );

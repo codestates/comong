@@ -1,3 +1,4 @@
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { IJoinPartial } from '../../pages/join/GeneralJoin';
 import InputEmail from '../Input/InputEmail';
@@ -25,6 +26,7 @@ interface IBasicInfo {
 }
 
 function BasicInfo({ fillJoinForm }: IBasicInfo) {
+  const { pathname } = useLocation();
   return (
     <div>
       <TitleWrapper>
@@ -32,7 +34,9 @@ function BasicInfo({ fillJoinForm }: IBasicInfo) {
         <span>(*)는 필수 입력 사항입니다.</span>
       </TitleWrapper>
       <InputName fillJoinForm={fillJoinForm}></InputName>
-      <InputEmail fillJoinForm={fillJoinForm}></InputEmail>
+      {!pathname.includes('mypage') && (
+        <InputEmail fillJoinForm={fillJoinForm}></InputEmail>
+      )}
       <InputPassword fillJoinForm={fillJoinForm}></InputPassword>
       <InputPhoneNum fillJoinForm={fillJoinForm}></InputPhoneNum>
     </div>

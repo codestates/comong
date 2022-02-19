@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { postUsers } from '../../apis/api/users';
+import { patchUsers, postUsers } from '../../apis/api/users';
 import ButtonLarge from '../../components/common/ButtonBasic';
 import AdditionalInfo from '../../components/form/AdditionalInfo';
 import BasicInfo from '../../components/form/BasicInfo';
 import ErrorMessage from '../../components/Input/ErrorMessage';
 import InputAdress from '../../components/Input/InputAdress';
+import { useAppSelector } from '../../redux/configStore.hooks';
 
 const Form = styled.form`
   &.mypage {
@@ -30,12 +31,13 @@ export interface IJoinForm {
 export type IJoinPartial = Partial<IJoinForm>;
 
 function GeneralJoin() {
+  const { userinfo } = useAppSelector((state) => state.userSlice);
   const [joinForm, setJoinForm] = useState<IJoinForm>({
-    name: '',
-    email: '',
+    name: userinfo?.name || '',
+    email: userinfo?.email || '',
     password: '',
-    phone: '',
-    gender: 0,
+    phone: userinfo?.mobile || '',
+    gender: userinfo?.gender || 2,
     address1: '',
     address2: '',
     dob: '',
@@ -65,7 +67,9 @@ function GeneralJoin() {
       return;
     }
     setMessage('');
-    //postUsers(joinForm);
+    pathname.includes('modifyInfo')
+      ? patchUsers(joinForm)
+      : postUsers(joinForm);
     //navigate('/');
   };
 
@@ -81,7 +85,7 @@ function GeneralJoin() {
           submitForm();
         }}
       >
-        회원가입
+        {pathname.includes('modifyInfo') ? '정보 수정' : '회원가입'}
       </ButtonLarge>
     </Form>
   );
