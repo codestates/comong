@@ -34,3 +34,13 @@ export const patchUsers = async (form: IJoinPartial) => {
     console.log('에러@', err);
   }
 };
+
+export const deleteUsers = async () => {
+  try {
+    const data = await apiClient.delete('/users');
+    console.log(data);
+    return data;
+  } catch (err) {
+    console.log('에러@', err);
+  }
+};

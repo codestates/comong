@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { patchUsers, postUsers } from '../../apis/api/users';
-import ButtonLarge from '../../components/common/ButtonBasic';
+import { deleteUsers, patchUsers, postUsers } from '../../apis/api/users';
+import ButtonBasic from '../../components/common/ButtonBasic';
 import AdditionalInfo from '../../components/form/AdditionalInfo';
 import BasicInfo from '../../components/form/BasicInfo';
 import ErrorMessage from '../../components/Input/ErrorMessage';
@@ -12,6 +12,23 @@ import { useAppSelector } from '../../redux/configStore.hooks';
 const Form = styled.form`
   &.mypage {
     width: 420px;
+  }
+`;
+
+const DeleteUserWrapper = styled.div`
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+
+  span {
+    padding: 4px;
+    border-radius: 4px;
+    color: ${(props) => props.theme.colors.darkGrey};
+  }
+
+  span:hover {
+    color: ${(props) => props.theme.colors.accentColor};
+    cursor: pointer;
   }
 `;
 
@@ -46,6 +63,7 @@ function GeneralJoin() {
   });
   const [message, setMessage] = useState('');
   const { pathname } = useLocation();
+  const isMypage = pathname.includes('mypage');
   const navigate = useNavigate();
 
   const fillJoinForm = (obj: IJoinPartial) => {
@@ -67,10 +85,13 @@ function GeneralJoin() {
       return;
     }
     setMessage('');
-    pathname.includes('modifyInfo')
-      ? patchUsers(joinForm)
-      : postUsers(joinForm);
+    isMypage ? patchUsers(joinForm) : postUsers(joinForm);
     //navigate('/');
+  };
+
+  const deleteUserHandler = () => {
+    // deleteUsers();
+    // 성공시
   };
 
   return (
@@ -79,14 +100,19 @@ function GeneralJoin() {
       <InputAdress></InputAdress>
       <AdditionalInfo fillJoinForm={fillJoinForm}></AdditionalInfo>
       <ErrorMessage>{message}</ErrorMessage>
-      <ButtonLarge
+      <ButtonBasic
         buttonClickHandler={(e) => {
           e.preventDefault();
           submitForm();
         }}
       >
-        {pathname.includes('modifyInfo') ? '정보 수정' : '회원가입'}
-      </ButtonLarge>
+        {isMypage ? '정보 수정' : '회원가입'}
+      </ButtonBasic>
+      {isMypage && (
+        <DeleteUserWrapper onClick={deleteUserHandler}>
+          <span>회원 탈퇴</span>
+        </DeleteUserWrapper>
+      )}
     </Form>
   );
 }
