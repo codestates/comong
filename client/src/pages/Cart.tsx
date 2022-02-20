@@ -4,10 +4,11 @@ import { useAppDispatch, useAppSelector } from '../redux/configStore.hooks';
 import { getCartAsync } from '../redux/modules/cartSlice';
 import CartList from '../components/cart/CartList';
 import type { RootState } from '../redux/configStore';
+import { setTotalPrice } from '../redux/modules/cartSlice';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
   display: flex;
-  /* background-color: yellow; */
   margin-top: 65px;
   flex-direction: column;
   justify-content: center;
@@ -21,8 +22,6 @@ const CartContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  /* height: 100%; */
-  /* max-width: 1200px; */
   justify-content: center;
   align-items: center;
   background-color: white;
@@ -31,10 +30,10 @@ const CartContainer = styled.div`
 const TitleContainer = styled.div`
   width: 100%;
   max-width: 1200px;
-  /* background-color: green; */
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-bottom: 30px;
 `;
 
 const CartTitle = styled.div`
@@ -46,31 +45,19 @@ const CartTitle = styled.div`
   max-width: 1200px;
 `;
 
-const CartLine = styled.hr`
-  margin-top: 20px;
-  margin-bottom: 10px;
-  size: 10px;
-  width: 100%;
-
-  /* color: red; */
-  /* background-color: red; */
-`;
-
 const ContentsBackground = styled.div`
   width: 100%;
-  /* height: 100%; */
   display: flex;
   justify-content: center;
-  background-color: #f3f3f3;
+  background-color: ${(props) => props.theme.colors.greyForBackGround};
 `;
 
 const ContentsContainer = styled.div`
   display: flex;
-  margin-top: 10px;
+  margin-top: 30px;
   width: 80%;
   max-width: 1200px;
   justify-content: center;
-
   @media only screen and (max-width: 1200px) {
     width: 100%;
   }
@@ -79,18 +66,16 @@ const ContentsContainer = styled.div`
 const CartListContainer = styled.div`
   font-family: Noto Sans KR;
   font-weight: 700;
-  /* margin: auto; */
   width: 65%;
   position: sticky;
   margin-right: 20px;
-  /* height: 2000px; */
   top: 64px;
   background-color: white;
   display: flex;
   flex-direction: column;
   padding: 20px;
   justify-content: flex-start;
-  box-shadow: 0px 0px 12px #cfcfcf;
+  box-shadow: 0px 0px 12px ${(props) => props.theme.colors.whiteForShadow};
   border-radius: 5px;
 `;
 
@@ -106,7 +91,7 @@ const OrderContainer = styled.div`
   flex-direction: column;
   padding: 20px;
   justify-content: center;
-  box-shadow: 0px 0px 12px #cfcfcf;
+  box-shadow: 0px 0px 12px ${(props) => props.theme.colors.whiteForShadow};
   border-radius: 5px;
 `;
 const OrderTitle = styled.div`
@@ -168,34 +153,38 @@ const OrderButton = styled.button`
 
 const Cart = () => {
   const cartData = useAppSelector((state: RootState) => state);
-
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(getCartAsync());
+    dispatch(setTotalPrice(cartData.cartSlice.subTotalPrice));
   }, []);
 
-  // console.log('cartData.cartSlice', cartData.cartSlice.data[0]);
+  let sum = 0;
+  let delivery = 0;
+  for (let x in cartData.cartSlice.subTotalPrice) {
+    sum += Number(cartData.cartSlice.subTotalPrice[x]);
+    delivery += 3000;
+  }
 
-  // let data = cartData.cartSlice.data[0];
-  // console.log('data', data);
-  // for (let x in data) {
-  //   console.log(x, data[x]);
-  // }
-
-  let name = '12%+15%중복할인 알로앤루알퐁소 베이비페어 빅세일';
-
-  let total_stock = 1;
-  let total_delivery = (9000).toLocaleString('en');
-  let total_price = (11200).toLocaleString('en');
-  let img_src = 'http://gdimg.gmarket.co.kr/981887465/still/600?ver=1583286904';
+  const payHandler = () => {
+    let obj = cartData.cartSlice.data[0];
+    let tmp: [] = [];
+    for (let el in obj) {
+      for (let x of obj[el].order_details) {
+        tmp.push(x);
+      }
+    }
+    navigate('/payment');
+    return;
+  };
 
   return (
     <Container>
       <CartContainer>
         <TitleContainer>
           <CartTitle>장바구니</CartTitle>
-          <CartLine></CartLine>
         </TitleContainer>
         <ContentsBackground>
           <ContentsContainer>
@@ -207,20 +196,26 @@ const Cart = () => {
               <OrderLine />
               <OrderTextContainer>
                 <OrderText>
-                  <OrderTextTitle>상품금액</OrderTextTitle>
-                  <OrderTextContents>30,000원</OrderTextContents>
+                  <OrderTextTitle>총 상품금액</OrderTextTitle>
+                  <OrderTextContents>
+                    {sum.toLocaleString('en')}원
+                  </OrderTextContents>
                 </OrderText>
                 <OrderText>
-                  <OrderTextTitle>배송비</OrderTextTitle>
-                  <OrderTextContents>3,000원</OrderTextContents>
+                  <OrderTextTitle>총 배송비</OrderTextTitle>
+                  <OrderTextContents>
+                    {delivery.toLocaleString('en')}원
+                  </OrderTextContents>
                 </OrderText>
               </OrderTextContainer>
               <OrderLine />
               <OrderTotalPrice>
                 <OrderTotalPriceTtile>전체금액</OrderTotalPriceTtile>
-                <OrderTotalPriceContents>43,200원</OrderTotalPriceContents>
+                <OrderTotalPriceContents>
+                  {(sum + delivery).toLocaleString('en')}원
+                </OrderTotalPriceContents>
               </OrderTotalPrice>
-              <OrderButton>상품 구매하기</OrderButton>
+              <OrderButton onClick={payHandler}>상품 구매하기</OrderButton>
             </OrderContainer>
           </ContentsContainer>
         </ContentsBackground>

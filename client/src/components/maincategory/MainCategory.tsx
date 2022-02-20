@@ -73,10 +73,22 @@ const TableColumn = styled.td`
   padding-bottom: 15px;
   border: 2px solid lightgrey;
   border-top: none;
+
+  cursor: pointer;
+  &:hover {
+    font-weight: bold;
+    transform: scale(1.035);
+  }
 `;
 
 const MainCategories = () => {
   let arr = [
+    {
+      id: 1,
+      pid: 0,
+      depth: 0,
+      category: '전체',
+    },
     {
       id: 1,
       pid: 0,
@@ -143,12 +155,6 @@ const MainCategories = () => {
       depth: 0,
       category: '반려동물',
     },
-    {
-      id: 12,
-      pid: 0,
-      depth: 0,
-      category: '여행/티켓',
-    },
   ];
   let nameList: string[] = [];
 
@@ -173,22 +179,46 @@ const MainCategories = () => {
         <TableContainer>
           <TableBody>
             <TableRow>
-              <TableColumn>{nameList[0]}</TableColumn>
-              <TableColumn>{nameList[1]}</TableColumn>
-              <TableColumn>{nameList[2]}</TableColumn>
-              <TableColumn>{nameList[3]}</TableColumn>
+              <TableColumn onClick={() => dispatch(getListAsync(0))}>
+                {nameList[0]}
+              </TableColumn>
+              <TableColumn onClick={() => dispatch(getListAsync(1))}>
+                {nameList[1]}
+              </TableColumn>
+              <TableColumn onClick={() => dispatch(getListAsync(2))}>
+                {nameList[2]}
+              </TableColumn>
+              <TableColumn onClick={() => dispatch(getListAsync(3))}>
+                {nameList[3]}
+              </TableColumn>
             </TableRow>
             <TableRow>
-              <TableColumn>{nameList[4]}</TableColumn>
-              <TableColumn>{nameList[5]}</TableColumn>
-              <TableColumn>{nameList[6]}</TableColumn>
-              <TableColumn>{nameList[7]}</TableColumn>
+              <TableColumn onClick={() => dispatch(getListAsync(4))}>
+                {nameList[4]}
+              </TableColumn>
+              <TableColumn onClick={() => dispatch(getListAsync(5))}>
+                {nameList[5]}
+              </TableColumn>
+              <TableColumn onClick={() => dispatch(getListAsync(6))}>
+                {nameList[6]}
+              </TableColumn>
+              <TableColumn onClick={() => dispatch(getListAsync(7))}>
+                {nameList[7]}
+              </TableColumn>
             </TableRow>
             <TableRow>
-              <TableColumn>{nameList[8]}</TableColumn>
-              <TableColumn>{nameList[9]}</TableColumn>
-              <TableColumn>{nameList[10]}</TableColumn>
-              <TableColumn>{nameList[11]}</TableColumn>
+              <TableColumn onClick={() => dispatch(getListAsync(8))}>
+                {nameList[8]}
+              </TableColumn>
+              <TableColumn onClick={() => dispatch(getListAsync(9))}>
+                {nameList[9]}
+              </TableColumn>
+              <TableColumn onClick={() => dispatch(getListAsync(10))}>
+                {nameList[10]}
+              </TableColumn>
+              <TableColumn onClick={() => dispatch(getListAsync(11))}>
+                {nameList[11]}
+              </TableColumn>
             </TableRow>
           </TableBody>
         </TableContainer>
@@ -201,11 +231,13 @@ const MainCategories = () => {
       {width > 768 ? (
         nameList.map((el, i) => {
           return (
-            <MainCategory key={el + i + 100}>
+            <MainCategory
+              key={el + i + 100}
+              onClick={() => dispatch(getListAsync(i))}
+            >
               <MainCategoryIcon
                 key={el + i}
-                onClick={() => dispatch(getListAsync(i + 1))}
-                src={`icons/maincategories/cat${i}.png`}
+                src={`icons/maincategories/category${i}.png`}
               />
               <MainCategoryName key={el + i + 200}>{el}</MainCategoryName>
             </MainCategory>

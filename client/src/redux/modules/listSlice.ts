@@ -36,15 +36,6 @@ export const getListAsync = createAsyncThunk(
         category: category || null,
       },
     });
-
-    // const response = await axios({
-    //   url: `${urlConfig.url}/items`,
-    //   method: 'get',
-    //   params: {
-    //     category: category || null,
-    //   },
-    //   data: {},
-    // });
     return response.data;
   },
 );
