@@ -54,7 +54,7 @@ function GeneralJoin() {
     email: userinfo?.email || '',
     password: '',
     phone: userinfo?.mobile || '',
-    gender: userinfo?.gender || 2,
+    gender: userinfo?.gender || 0,
     address1: '',
     address2: '',
     dob: '',

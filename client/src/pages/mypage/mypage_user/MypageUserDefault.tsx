@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import OrderHistory from './OrderHistory';
 
 const Wrapper = styled.div`
   padding: 60px 0;

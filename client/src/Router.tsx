@@ -15,6 +15,7 @@ import Post from './pages/Post';
 import { useAppSelector } from './redux/configStore.hooks';
 import Mypage from './pages/mypage/Mypage';
 import MypageUserDefault from './pages/mypage/mypage_user/MypageUserDefault';
+import UserOrderHistory from './pages/mypage/mypage_user/UserOrderHistory';
 
 function Routers() {
   const { role } = useAppSelector((state) => state.userSlice);
@@ -36,6 +37,7 @@ function Routers() {
         </Route>
         <Route path="mypage/*" element={<Mypage />}>
           <Route path="" element={<MypageUserDefault />}></Route>
+          <Route path="userOrderHistory" element={<UserOrderHistory />}></Route>
           <Route path="modifyInfo" element={<GeneralJoin />}></Route>
         </Route>
       </Routes>

@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   width: 200px;
   border: 1px solid ${(props) => props.theme.colors.lightGrey};
   background-color: white;
-  z-index: 999;
+  z-index: 1;
 
   @media only screen and (max-width: 1200px) {
     position: absolute;

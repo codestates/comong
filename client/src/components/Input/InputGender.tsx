@@ -56,9 +56,9 @@ function InputGender({ fillJoinForm }: IInputGender) {
             type="radio"
             id="man"
             name="gender"
-            value="0"
+            value="1"
             onChange={fillGenderInput}
-            defaultChecked={userinfo?.gender === 0 && true}
+            defaultChecked={userinfo?.gender === 1 && true}
           />
           <label htmlFor="man">남성</label>
         </RadioBtnWrapper>
@@ -67,9 +67,9 @@ function InputGender({ fillJoinForm }: IInputGender) {
             type="radio"
             id="woman"
             name="gender"
-            value="1"
+            value="2"
             onChange={fillGenderInput}
-            defaultChecked={userinfo?.gender === 1 && true}
+            defaultChecked={userinfo?.gender === 2 && true}
           />
           <label htmlFor="woman">여성</label>
         </RadioBtnWrapper>

@@ -57,7 +57,9 @@ function NavUser() {
       <MenuWrapper>
         <h3>쇼핑</h3>
         <ul>
-          <li>주문 내역</li>
+          <Link to="/mypage/userOrderHistory">
+            <li className={getSelectedClass('userOrderHistory')}>주문 내역</li>
+          </Link>
           <li>내가 쓴 후기</li>
           <li>찜 리스트</li>
         </ul>
