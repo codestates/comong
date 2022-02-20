@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { IJoinPartial } from '../../pages/join/GeneralJoin';
+import { useAppSelector } from '../../redux/configStore.hooks';
 import InputBasic from './InputBasic';
 
 interface InputPhoneProps {
@@ -7,10 +8,14 @@ interface InputPhoneProps {
 }
 
 function InputPhoneNum({ fillJoinForm }: InputPhoneProps) {
+  const { userinfo } = useAppSelector((state) => state.userSlice);
   const [message, setMessage] = useState('');
+  const [value, setValue] = useState(userinfo?.mobile || '');
 
   const fillPhoneNumInput = (e: React.FormEvent<HTMLInputElement>) => {
     let { name, value } = e.currentTarget;
+    setValue(value);
+
     const isPhoneNumValid = validCheck(value);
     if (isPhoneNumValid) {
       setMessage('');
@@ -32,6 +37,7 @@ function InputPhoneNum({ fillJoinForm }: InputPhoneProps) {
       name="phone"
       type="number"
       title="연락처"
+      value={value}
       placeholder="숫자만 입력하세요"
       fillJoinForm={fillPhoneNumInput}
       message={message}

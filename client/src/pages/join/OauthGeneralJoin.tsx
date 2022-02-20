@@ -2,7 +2,7 @@ import React, { ContextType, useEffect, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { apiClient } from '../../apis';
 import { patchUsers } from '../../apis/api/users';
-import ButtonBasic from '../../components/common/ButtonBasic';
+import ButtonBasic from '../../components/common/button/ButtonBasic';
 import AdditionalInfo from '../../components/form/AdditionalInfo';
 import OauthBasicInfo from '../../components/form/OauthBasicInfo';
 import InputAdress from '../../components/Input/InputAdress';

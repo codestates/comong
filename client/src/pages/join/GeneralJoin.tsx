@@ -1,11 +1,36 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { postUsers } from '../../apis/api/users';
-import ButtonLarge from '../../components/common/ButtonBasic';
+import { useLocation, useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import { deleteUsers, patchUsers, postUsers } from '../../apis/api/users';
+import ButtonBasic from '../../components/common/button/ButtonBasic';
 import AdditionalInfo from '../../components/form/AdditionalInfo';
 import BasicInfo from '../../components/form/BasicInfo';
 import ErrorMessage from '../../components/Input/ErrorMessage';
 import InputAdress from '../../components/Input/InputAdress';
+import { useAppSelector } from '../../redux/configStore.hooks';
+
+const Form = styled.form`
+  &.mypage {
+    width: 420px;
+  }
+`;
+
+const DeleteUserWrapper = styled.div`
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+
+  span {
+    padding: 4px;
+    border-radius: 4px;
+    color: ${(props) => props.theme.colors.darkGrey};
+  }
+
+  span:hover {
+    color: ${(props) => props.theme.colors.accentColor};
+    cursor: pointer;
+  }
+`;
 
 export interface IJoinForm {
   name: string;
@@ -23,12 +48,13 @@ export interface IJoinForm {
 export type IJoinPartial = Partial<IJoinForm>;
 
 function GeneralJoin() {
+  const { userinfo } = useAppSelector((state) => state.userSlice);
   const [joinForm, setJoinForm] = useState<IJoinForm>({
-    name: '',
-    email: '',
+    name: userinfo?.name || '',
+    email: userinfo?.email || '',
     password: '',
-    phone: '',
-    gender: 0,
+    phone: userinfo?.mobile || '',
+    gender: userinfo?.gender || 0,
     address1: '',
     address2: '',
     dob: '',
@@ -36,6 +62,8 @@ function GeneralJoin() {
     likes: [],
   });
   const [message, setMessage] = useState('');
+  const { pathname } = useLocation();
+  const isMypage = pathname.includes('mypage');
   const navigate = useNavigate();
 
   const fillJoinForm = (obj: IJoinPartial) => {
@@ -46,36 +74,56 @@ function GeneralJoin() {
     if (form.name && form.email && form.password) {
       return true;
     }
+    setMessage('작성 내용을 확인해주세요');
     return false;
   };
 
-  const submitForm = () => {
-    console.log(joinForm);
-    const isFormValid = checkRequiredForm(joinForm);
-    if (!isFormValid) {
-      setMessage('작성 내용을 확인해주세요');
-      return;
-    }
+  const submitJoinForm = async () => {
+    if (!checkRequiredForm(joinForm)) return;
     setMessage('');
-    //postUsers(joinForm);
-    //navigate('/');
+
+    const response = await postUsers(joinForm);
+    if (response.status === 201) {
+      navigate('/');
+    } else {
+      // 실패 이유 모달창
+      alert('오류가 발생했습니다');
+    }
+  };
+
+  const submitPatchForm = async () => {
+    console.log(joinForm);
+    if (!checkRequiredForm(joinForm)) return;
+    setMessage('');
+
+    const response = await patchUsers(joinForm);
+  };
+
+  const deleteUserHandler = () => {
+    // deleteUsers();
+    // 성공시
   };
 
   return (
-    <form>
+    <Form className={pathname.includes('mypage') ? 'mypage' : ''}>
       <BasicInfo fillJoinForm={fillJoinForm}></BasicInfo>
       <InputAdress></InputAdress>
       <AdditionalInfo fillJoinForm={fillJoinForm}></AdditionalInfo>
       <ErrorMessage>{message}</ErrorMessage>
-      <ButtonLarge
+      <ButtonBasic
         buttonClickHandler={(e) => {
           e.preventDefault();
-          submitForm();
+          isMypage ? submitPatchForm() : submitJoinForm();
         }}
       >
-        회원가입
-      </ButtonLarge>
-    </form>
+        {isMypage ? '정보 수정' : '회원가입'}
+      </ButtonBasic>
+      {isMypage && (
+        <DeleteUserWrapper onClick={deleteUserHandler}>
+          <span>회원 탈퇴</span>
+        </DeleteUserWrapper>
+      )}
+    </Form>
   );
 }
 
