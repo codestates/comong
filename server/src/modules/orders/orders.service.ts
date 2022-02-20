@@ -2,6 +2,7 @@ import { Injectable, BadRequestException } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { CreateOrderDetailDto } from './dto/create-orderdetail.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
+import { UpdateOrderDetailDto } from './dto/update-orderdetail.dto';
 import { MailerService } from '../mailer/mailer.service';
 import { CommentsModule } from '../comments/comments.module';
 const { Op } = require('sequelize');
@@ -12,11 +13,11 @@ export class OrdersService {
 	constructor(private readonly mailerService: MailerService) {}
 
 	async create(createOrder: CreateOrderDto) {
-		console.log(createOrder);
+		// console.log(createOrder);
 		const newOrder = await models.order.create({
 			...createOrder,
 		});
-		console.log(newOrder.dataValues.id);
+		// console.log(newOrder.dataValues.id);
 		const newJoindataArr: object[] = [];
 		for (let elem of createOrder.order_detail_id) {
 			let newJoinData: { dataValues: object } =
@@ -49,7 +50,7 @@ export class OrdersService {
 		const newOrder_detail = await models.order_detail.create({
 			...createOrderdetail,
 		});
-		console.log(newOrder_detail);
+		// console.log(newOrder_detail);
 		if (newOrder_detail) {
 			return { data: newOrder_detail, message: 'successful' };
 		} else {
@@ -123,7 +124,7 @@ export class OrdersService {
 								],
 						  },
 					createdAt: {
-						[Op.gte]: start ? new Date(start) : new Date('2022-01-01'),
+						[Op.gte]: start ? new Date(start) : new Date('1022-01-01'),
 						[Op.lte]: end ? new Date(end) : new Date('3022-01-01'),
 					},
 				},
@@ -172,8 +173,37 @@ export class OrdersService {
 		return `This action returns a #${id} order`;
 	}
 
-	update(id: number, updateOrderDto: UpdateOrderDto) {
-		return `This action updates a #${id} order`;
+	async updateOrderdetail(updateOrderdetail: UpdateOrderDetailDto) {
+		console.log(updateOrderdetail.payload);
+		for (let i = 0; i < updateOrderdetail.payload.length; i++) {
+			const order_detail = await models.order_detail.findOne({
+				where: {
+					id: updateOrderdetail.payload[i].id,
+				},
+			});
+			console.log(order_detail);
+			if (
+				updateOrderdetail.payload[i].item_id === order_detail.item_id &&
+				updateOrderdetail.payload[i].peritem_price ===
+					order_detail.peritem_price
+			) {
+				await models.order_detail.update(
+					{
+						order_amount: updateOrderdetail.payload[i].order_amount,
+					},
+					{
+						where: {
+							id: updateOrderdetail.payload[i].id,
+						},
+					},
+				);
+			} else {
+				throw new BadRequestException(
+					`order_detail_id: ${updateOrderdetail.payload[i].id} has Data Disaccord`,
+				);
+			}
+		}
+		return { message: 'updates implemented successfully' };;
 	}
 
 	remove(id: number) {

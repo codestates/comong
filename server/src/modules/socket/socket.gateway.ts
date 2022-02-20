@@ -20,6 +20,7 @@ const corsOptions = {
 	cors: corsOptions,
 	transports: ['websocket'],
 })
+
 export class SocketGateway
 	implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
@@ -60,7 +61,21 @@ export class SocketGateway
 		},
 	) {
 		console.log(message);
-		this.server.to(message.room).emit('chatToClient', message.text);
+		this.server.to(message.room).emit('chatToClient', message);
+	}
+
+	@SubscribeMessage('sendNotification')
+	async handleNotification(
+		client: Socket,
+		message: {
+			nickname: string;
+			room: string;
+			text: string;
+			data: object;
+		},
+	) {
+		console.log(message);
+		this.server.to(message.room).emit('notificationToClient', message.text, message.data);
 	}
 
 	handleDisconnect(client: Socket, ...args: any[]) {
