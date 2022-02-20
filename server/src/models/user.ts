@@ -18,16 +18,17 @@ export interface userAttributes {
   email: string;
   mobile?: string;
   password?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
   gender?: string;
   birthday?: string;
   role: string;
+  myimg_src?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export type userPk = "id";
 export type userId = user[userPk];
-export type userOptionalAttributes = "id" | "name" | "storename" | "mobile" | "password" | "createdAt" | "updatedAt" | "gender" | "birthday" | "role";
+export type userOptionalAttributes = "id" | "name" | "storename" | "mobile" | "password" | "gender" | "birthday" | "role" | "myimg_src" | "createdAt" | "updatedAt";
 export type userCreationAttributes = Optional<userAttributes, userOptionalAttributes>;
 
 export class user extends Model<userAttributes, userCreationAttributes> implements userAttributes {
@@ -37,11 +38,12 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   email!: string;
   mobile?: string;
   password?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
   gender?: string;
   birthday?: string;
   role!: string;
+  myimg_src?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 
   // user belongsToMany category via user_id and category_id
   category_id_categories!: category[];
@@ -204,6 +206,10 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
       type: DataTypes.STRING(15),
       allowNull: false,
       defaultValue: "0"
+    },
+    myimg_src: {
+      type: DataTypes.STRING(150),
+      allowNull: true
     }
   }, {
     sequelize,

@@ -133,7 +133,7 @@ export class item extends Model<itemAttributes, itemCreationAttributes> implemen
       allowNull: true
     },
     image_src: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.TEXT,
       allowNull: true
     },
     user_id: {

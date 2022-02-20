@@ -17,6 +17,9 @@ async function bootstrap() {
 			'https://www.comong.kr',
 			'https://test.comong.kr',
 			'https://comong.kr',
+			'https://api.comong.kr',
+			'https://dev1.comong.kr',
+
 		],
 		methods: 'GET,OPTIONS,PUT,PATCH,POST,DELETE',
 		allowedHeaders: ['Content-Type', 'Authorization'],

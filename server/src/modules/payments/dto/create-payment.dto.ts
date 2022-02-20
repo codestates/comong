@@ -12,6 +12,14 @@ export class CreatePaymentDto {
 	readonly user_id: number;
 
 	@ApiProperty({
+		example: 10,
+		description: 'order_id',
+		required: true,
+	})
+	@IsNumber()
+	readonly order_id: number;
+
+	@ApiProperty({
 		example: 'card',
 		description: 'payment_method',
 		required: false,
@@ -19,15 +27,6 @@ export class CreatePaymentDto {
 	@IsOptional()
 	@IsString()
 	readonly payment_method: string;
-
-	@ApiProperty({
-		example: 'bundle shipping request',
-		description: 'detail',
-		required: false,
-	})
-	@IsOptional()
-	@IsString()
-	readonly detail: string;
 
 	@ApiProperty({
 		example: 3500,
