@@ -57,13 +57,11 @@ const cartSlice = createSlice({
       }
     },
     setTotalPrice(state: any, action: PayloadAction<any>) {
-      console.log(action.payload);
       let sum = 0;
       for (let x in action.payload) {
-        console.log(action.payload);
         sum += action.payload[x];
       }
-      console.log('sum', sum);
+
       state.totalPrice = sum;
     },
     setSubTotalPrice(state: any, action: PayloadAction<any>) {
@@ -74,10 +72,13 @@ const cartSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(getCartAsync.pending, (state, action) => {});
     builder.addCase(getCartAsync.fulfilled, (state, action) => {
       let contents = action.payload;
       return { ...state, data: contents };
     });
+
+    builder.addCase(getCartPatchAsync.fulfilled, (state, action) => {});
   },
 });
 

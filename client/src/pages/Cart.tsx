@@ -176,6 +176,7 @@ const Cart = () => {
         tmp.push(x);
       }
     }
+    console.log(tmp);
     navigate('/payment');
     return;
   };
