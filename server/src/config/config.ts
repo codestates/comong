@@ -30,7 +30,7 @@ export const config = {
       idle: 60000,
     },
   },
-  email: {
+  mailer: {
     transport: process.env.EMAIL_ADMIN_AUTH,
     default: {
       from: process.env.EMAIL_ADMIN_SENDERINFO

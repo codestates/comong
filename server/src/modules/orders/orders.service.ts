@@ -3,6 +3,7 @@ import { CreateOrderDto } from './dto/create-order.dto';
 import { CreateOrderDetailDto } from './dto/create-orderdetail.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { MailerService } from '../mailer/mailer.service';
+import { CommentsModule } from '../comments/comments.module';
 const { Op } = require('sequelize');
 const models = require('../../models/index');
 
@@ -96,8 +97,75 @@ export class OrdersService {
 		return [output];
 	}
 
-	findAll() {
-		return `This action returns all orders`;
+	async getOrders(
+		user_id: number,
+		shipping_status: string,
+		start: string,
+		end: string,
+	) {
+		if (!user_id) {
+			throw new BadRequestException('at least user_id is needed for query');
+		} else {
+			const orderList = await models.order.findAll({
+				where: {
+					user_id: user_id,
+					shipping_status: shipping_status
+						? shipping_status
+						: {
+								[Op.or]: [
+									'delivered',
+									'processing',
+									'paymentdue',
+									'canceled',
+									'returned',
+									'pick-up available',
+									'intransit',
+								],
+						  },
+					createdAt: {
+						[Op.gte]: start ? new Date(start) : new Date('2022-01-01'),
+						[Op.lte]: end ? new Date(end) : new Date('3022-01-01'),
+					},
+				},
+			});
+			const orderIdArr = orderList.map((elem) => {
+				return elem.dataValues.id;
+			});
+
+			const orderJointableList = await models.order_detail_has_order.findAll({
+				where: {
+					order_id: {
+						[Op.or]: [orderIdArr],
+					},
+				},
+			});
+			let output = {};
+			for (let i = 0; i < orderList.length; i++) {
+				output[`order_id: ${orderList[i].id}`] = {
+					order_info: orderList[i],
+					order_detail_info: [],
+				};
+				for (let j = 0; j < orderJointableList.length; j++) {
+					if (orderList[i].id === orderJointableList[j].order_id) {
+						const order_detail_info = await models.order_detail.findOne({
+							where: {
+								id: orderJointableList[j].order_detail_id,
+							},
+						});
+						const item_info = await models.item.findOne({
+							where: {
+								id: order_detail_info.dataValues.item_id,
+							},
+						});
+						output[`order_id: ${orderList[i].id}`]['order_detail_info'].push({
+							order_detail_info,
+							item_info,
+						});
+					}
+				}
+			}
+			return output;
+		}
 	}
 
 	findOne(id: number) {
