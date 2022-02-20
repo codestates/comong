@@ -101,6 +101,8 @@ function GeneralJoin() {
     if (response.statusCode === 200) {
       // 수정되었다는 모달창 띄우고
       navigate('/');
+    } else {
+      console.log(response);
     }
   };
 

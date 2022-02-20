@@ -53,6 +53,7 @@ const userSlice = createSlice({
       );
       delete user.category_has_users;
       const userinfo = { ...user, likes };
+      console.log(userinfo);
       apiClient.defaults.headers.common[
         'Authorization'
       ] = `bearer ${accessToken}`;
