@@ -7,18 +7,17 @@ const env = 'development';
 const urlConfig = config[env];
 
 export interface Cart {
-  data: { [index: string]: string }[];
+  data: { [index: string]: { order_details: [] } }[];
   totalPrice: number;
-  totalStock: number;
+  totalDelivery: number;
   totalSeller: number;
   subTotalPrice: { [index: string]: number };
-  // data: { }[];
 }
 
 const initialState: Cart = {
   data: [],
   totalPrice: 0,
-  totalStock: 0,
+  totalDelivery: 0,
   totalSeller: 0,
   subTotalPrice: {},
 };
@@ -58,7 +57,14 @@ const cartSlice = createSlice({
       }
     },
     setTotalPrice(state: any, action: PayloadAction<any>) {
-      state.totalPrice = action.payload;
+      console.log(action.payload);
+      let sum = 0;
+      for (let x in action.payload) {
+        console.log(action.payload);
+        sum += action.payload[x];
+      }
+      console.log('sum', sum);
+      state.totalPrice = sum;
     },
     setSubTotalPrice(state: any, action: PayloadAction<any>) {
       let keyName = action.payload[0];
@@ -85,6 +91,17 @@ export const getCartAsync = createAsyncThunk(
     const response = await axios({
       url: `${urlConfig.url}/orders/cart?user_id=${id}`,
       method: 'get',
+    });
+    return response.data;
+  },
+);
+export const getCartPatchAsync = createAsyncThunk(
+  'orders/patch',
+  async (id?: number) => {
+    const response = await axios({
+      url: `${urlConfig.url}/orders/user_id=${id}`,
+      method: 'patch',
+      data: {},
     });
     return response.data;
   },
