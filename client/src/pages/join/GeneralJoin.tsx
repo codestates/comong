@@ -79,17 +79,16 @@ function GeneralJoin() {
   };
 
   const submitJoinForm = async () => {
-    console.log(joinForm);
     if (!checkRequiredForm(joinForm)) return;
     setMessage('');
 
     const response = await postUsers(joinForm);
-
-    console.log(response);
-    // 제출됐다면 navigate('/');
-    // 실패라면 이유 알려주기
-
-    //navigate('/');
+    if (response.status === 201) {
+      navigate('/');
+    } else {
+      // 실패 이유 모달창
+      alert('오류가 발생했습니다');
+    }
   };
 
   const submitPatchForm = async () => {
