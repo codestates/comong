@@ -79,6 +79,7 @@ function GeneralJoin() {
   };
 
   const submitJoinForm = async () => {
+    console.log(joinForm);
     if (!checkRequiredForm(joinForm)) return;
     setMessage('');
 
@@ -97,6 +98,10 @@ function GeneralJoin() {
     setMessage('');
 
     const response = await patchUsers(joinForm);
+    if (response.statusCode === 200) {
+      // 수정되었다는 모달창 띄우고
+      navigate('/');
+    }
   };
 
   const deleteUserHandler = () => {

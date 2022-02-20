@@ -17,6 +17,7 @@ const Title = styled.span`
 export const Input = styled.input`
   height: 45px;
   padding: 1rem;
+  margin-bottom: 8px;
   border-radius: 5px;
   border: 1px solid ${(props) => props.theme.colors.textColor};
 
