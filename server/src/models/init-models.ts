@@ -23,8 +23,6 @@ import { order_detail_has_order as _order_detail_has_order } from "./order_detai
 import type { order_detail_has_orderAttributes, order_detail_has_orderCreationAttributes } from "./order_detail_has_order";
 import { refreshtoken as _refreshtoken } from "./refreshtoken";
 import type { refreshtokenAttributes, refreshtokenCreationAttributes } from "./refreshtoken";
-import { shipping as _shipping } from "./shipping";
-import type { shippingAttributes, shippingCreationAttributes } from "./shipping";
 import { user as _user } from "./user";
 import type { userAttributes, userCreationAttributes } from "./user";
 import { user_address as _user_address } from "./user_address";
@@ -45,7 +43,6 @@ export {
   _order_detail as order_detail,
   _order_detail_has_order as order_detail_has_order,
   _refreshtoken as refreshtoken,
-  _shipping as shipping,
   _user as user,
   _user_address as user_address,
   _user_payment as user_payment,
@@ -76,8 +73,6 @@ export type {
   order_detail_has_orderCreationAttributes,
   refreshtokenAttributes,
   refreshtokenCreationAttributes,
-  shippingAttributes,
-  shippingCreationAttributes,
   userAttributes,
   userCreationAttributes,
   user_addressAttributes,
@@ -99,7 +94,6 @@ export function initModels(sequelize: Sequelize) {
   const order_detail = _order_detail.initModel(sequelize);
   const order_detail_has_order = _order_detail_has_order.initModel(sequelize);
   const refreshtoken = _refreshtoken.initModel(sequelize);
-  const shipping = _shipping.initModel(sequelize);
   const user = _user.initModel(sequelize);
   const user_address = _user_address.initModel(sequelize);
   const user_payment = _user_payment.initModel(sequelize);
@@ -132,8 +126,8 @@ export function initModels(sequelize: Sequelize) {
   item.hasMany(order_detail, { as: "order_details", foreignKey: "item_id"});
   order_detail_has_order.belongsTo(order, { as: "order", foreignKey: "order_id"});
   order.hasMany(order_detail_has_order, { as: "order_detail_has_orders", foreignKey: "order_id"});
-  shipping.belongsTo(order, { as: "order", foreignKey: "order_id"});
-  order.hasMany(shipping, { as: "shippings", foreignKey: "order_id"});
+  user_payment.belongsTo(order, { as: "order", foreignKey: "order_id"});
+  order.hasMany(user_payment, { as: "user_payments", foreignKey: "order_id"});
   order_detail_has_order.belongsTo(order_detail, { as: "order_detail", foreignKey: "order_detail_id"});
   order_detail.hasMany(order_detail_has_order, { as: "order_detail_has_orders", foreignKey: "order_detail_id"});
   category_has_user.belongsTo(user, { as: "user", foreignKey: "user_id"});
@@ -152,10 +146,6 @@ export function initModels(sequelize: Sequelize) {
   user.hasMany(user_address, { as: "user_addresses", foreignKey: "user_id"});
   user_payment.belongsTo(user, { as: "user", foreignKey: "user_id"});
   user.hasMany(user_payment, { as: "user_payments", foreignKey: "user_id"});
-  order.belongsTo(user_payment, { as: "user_payment", foreignKey: "user_payment_id"});
-  user_payment.hasMany(order, { as: "orders", foreignKey: "user_payment_id"});
-  shipping.belongsTo(user_payment, { as: "user_payment", foreignKey: "user_payment_id"});
-  user_payment.hasMany(shipping, { as: "shippings", foreignKey: "user_payment_id"});
 
   return {
     category: category,
@@ -170,7 +160,6 @@ export function initModels(sequelize: Sequelize) {
     order_detail: order_detail,
     order_detail_has_order: order_detail_has_order,
     refreshtoken: refreshtoken,
-    shipping: shipping,
     user: user,
     user_address: user_address,
     user_payment: user_payment,

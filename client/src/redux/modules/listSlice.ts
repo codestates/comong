@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { config } from '../../config/config';
+import { apiClient } from '../../apis';
 
 const env = 'development';
 const urlConfig = config[env];
-console.log('urlConfig', urlConfig);
 
 export interface List {
   data: [];
@@ -31,16 +31,11 @@ export let {} = listSlice.actions;
 export const getListAsync = createAsyncThunk(
   'items/get',
   async (category?: number) => {
-    const response = await axios({
-      url: `${urlConfig.url}/items`,
-      method: 'get',
+    const response = await apiClient.get('items', {
       params: {
         category: category || null,
       },
-      data: {},
     });
-
-    console.log(response.data);
     return response.data;
   },
 );

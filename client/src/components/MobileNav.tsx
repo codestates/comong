@@ -47,7 +47,6 @@ const NavMenu = styled.div<{
 `;
 const NavMenuImg = styled.img`
   margin: auto;
-
   height: 32px;
 `;
 const NavMenuTitle = styled.p`
@@ -83,6 +82,7 @@ const MobileNav = () => {
   // };
 
   const handleHover = (el: string) => {
+    console.log('handleHover-el', el);
     setHomeColor(false);
     setCategoryColor(false);
     setMypageColor(false);
@@ -93,6 +93,8 @@ const MobileNav = () => {
     else if (el === 'cart') setCartColor(true);
   };
   const handleHoverOut = (el: string) => {
+    console.log('handleHoverOut-el', el);
+
     if (el === 'home') setHomeColor(false);
     else if (el === 'category') setCategoryColor(false);
     else if (el === 'mypage') setMypageColor(false);
@@ -104,7 +106,7 @@ const MobileNav = () => {
       <NavMenuContainer>
         <NavMenu
           onMouseOver={() => handleHover('home')}
-          onMouseLeave={() => handleHoverOut('home')}
+          // onMouseLeave={() => handleHoverOut('home')}
           onMouseOut={() => handleHoverOut('home')}
           homeColor={homeColor}
           onClick={() => navigate('/')}
@@ -119,7 +121,7 @@ const MobileNav = () => {
         <NavMenu
           onMouseOver={() => handleHover('category')}
           // onMouseLeave={() => handleHoverOut('category')}
-          onMouseOut={() => handleHoverOut('home')}
+          onMouseOut={() => handleHoverOut('category')}
           categoryColor={categoryColor}
           onClick={() => navigate('/search')}
         >
@@ -133,7 +135,7 @@ const MobileNav = () => {
         <NavMenu
           onMouseOver={() => handleHover('mypage')}
           // onMouseLeave={() => handleHoverOut('mypage')}
-          onMouseOut={() => handleHoverOut('home')}
+          onMouseOut={() => handleHoverOut('mypage')}
           mypageColor={mypageColor}
           onClick={() => navigate('/mypage')}
         >
@@ -147,7 +149,7 @@ const MobileNav = () => {
         <NavMenu
           onMouseOver={() => handleHover('cart')}
           // onMouseLeave={() => handleHoverOut('cart')}
-          onMouseOut={() => handleHoverOut('home')}
+          onMouseOut={() => handleHoverOut('cart')}
           cartColor={cartColor}
           onClick={() => navigate('/cart')}
         >

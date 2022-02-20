@@ -45,6 +45,15 @@ export class CreateUserDto {
     readonly gender: number;
 
     @ApiProperty({
+        example: '10',
+        description: '관심 카테고리',
+        required: false,
+    })
+    @IsOptional()
+    @IsNumber()
+    readonly likes: number;
+
+    @ApiProperty({
         example: '서울특별시 중구 태평로1가 100-100',
         description: '주소',
         required: false,

@@ -2,33 +2,38 @@ import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
 import type { order_detail, order_detailId } from './order_detail';
 import type { order_detail_has_order, order_detail_has_orderId } from './order_detail_has_order';
-import type { shipping, shippingId } from './shipping';
 import type { user, userId } from './user';
 import type { user_payment, user_paymentId } from './user_payment';
 
 export interface orderAttributes {
   id: number;
-  order_date?: string;
   total_amount?: number;
   status?: string;
   user_id: number;
-  user_payment_id: number;
+  shipping_method?: string;
+  shipping_charge?: number;
+  shipping_status?: string;
+  shipping_company?: string;
+  shipping_code?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
 
 export type orderPk = "id";
 export type orderId = order[orderPk];
-export type orderOptionalAttributes = "id" | "order_date" | "total_amount" | "status" | "createdAt" | "updatedAt";
+export type orderOptionalAttributes = "id" | "total_amount" | "status" | "shipping_method" | "shipping_charge" | "shipping_status" | "shipping_company" | "shipping_code" | "createdAt" | "updatedAt";
 export type orderCreationAttributes = Optional<orderAttributes, orderOptionalAttributes>;
 
 export class order extends Model<orderAttributes, orderCreationAttributes> implements orderAttributes {
   id!: number;
-  order_date?: string;
   total_amount?: number;
   status?: string;
   user_id!: number;
-  user_payment_id!: number;
+  shipping_method?: string;
+  shipping_charge?: number;
+  shipping_status?: string;
+  shipping_company?: string;
+  shipping_code?: string;
   createdAt?: Date;
   updatedAt?: Date;
 
@@ -56,28 +61,23 @@ export class order extends Model<orderAttributes, orderCreationAttributes> imple
   hasOrder_detail_has_order!: Sequelize.HasManyHasAssociationMixin<order_detail_has_order, order_detail_has_orderId>;
   hasOrder_detail_has_orders!: Sequelize.HasManyHasAssociationsMixin<order_detail_has_order, order_detail_has_orderId>;
   countOrder_detail_has_orders!: Sequelize.HasManyCountAssociationsMixin;
-  // order hasMany shipping via order_id
-  shippings!: shipping[];
-  getShippings!: Sequelize.HasManyGetAssociationsMixin<shipping>;
-  setShippings!: Sequelize.HasManySetAssociationsMixin<shipping, shippingId>;
-  addShipping!: Sequelize.HasManyAddAssociationMixin<shipping, shippingId>;
-  addShippings!: Sequelize.HasManyAddAssociationsMixin<shipping, shippingId>;
-  createShipping!: Sequelize.HasManyCreateAssociationMixin<shipping>;
-  removeShipping!: Sequelize.HasManyRemoveAssociationMixin<shipping, shippingId>;
-  removeShippings!: Sequelize.HasManyRemoveAssociationsMixin<shipping, shippingId>;
-  hasShipping!: Sequelize.HasManyHasAssociationMixin<shipping, shippingId>;
-  hasShippings!: Sequelize.HasManyHasAssociationsMixin<shipping, shippingId>;
-  countShippings!: Sequelize.HasManyCountAssociationsMixin;
+  // order hasMany user_payment via order_id
+  user_payments!: user_payment[];
+  getUser_payments!: Sequelize.HasManyGetAssociationsMixin<user_payment>;
+  setUser_payments!: Sequelize.HasManySetAssociationsMixin<user_payment, user_paymentId>;
+  addUser_payment!: Sequelize.HasManyAddAssociationMixin<user_payment, user_paymentId>;
+  addUser_payments!: Sequelize.HasManyAddAssociationsMixin<user_payment, user_paymentId>;
+  createUser_payment!: Sequelize.HasManyCreateAssociationMixin<user_payment>;
+  removeUser_payment!: Sequelize.HasManyRemoveAssociationMixin<user_payment, user_paymentId>;
+  removeUser_payments!: Sequelize.HasManyRemoveAssociationsMixin<user_payment, user_paymentId>;
+  hasUser_payment!: Sequelize.HasManyHasAssociationMixin<user_payment, user_paymentId>;
+  hasUser_payments!: Sequelize.HasManyHasAssociationsMixin<user_payment, user_paymentId>;
+  countUser_payments!: Sequelize.HasManyCountAssociationsMixin;
   // order belongsTo user via user_id
   user!: user;
   getUser!: Sequelize.BelongsToGetAssociationMixin<user>;
   setUser!: Sequelize.BelongsToSetAssociationMixin<user, userId>;
   createUser!: Sequelize.BelongsToCreateAssociationMixin<user>;
-  // order belongsTo user_payment via user_payment_id
-  user_payment!: user_payment;
-  getUser_payment!: Sequelize.BelongsToGetAssociationMixin<user_payment>;
-  setUser_payment!: Sequelize.BelongsToSetAssociationMixin<user_payment, user_paymentId>;
-  createUser_payment!: Sequelize.BelongsToCreateAssociationMixin<user_payment>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof order {
     return order.init({
@@ -86,10 +86,6 @@ export class order extends Model<orderAttributes, orderCreationAttributes> imple
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
-    },
-    order_date: {
-      type: DataTypes.DATEONLY,
-      allowNull: true
     },
     total_amount: {
       type: DataTypes.INTEGER,
@@ -107,13 +103,25 @@ export class order extends Model<orderAttributes, orderCreationAttributes> imple
         key: 'id'
       }
     },
-    user_payment_id: {
+    shipping_method: {
+      type: DataTypes.STRING(45),
+      allowNull: true
+    },
+    shipping_charge: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'user_payment',
-        key: 'id'
-      }
+      allowNull: true
+    },
+    shipping_status: {
+      type: DataTypes.STRING(45),
+      allowNull: true
+    },
+    shipping_company: {
+      type: DataTypes.STRING(45),
+      allowNull: true
+    },
+    shipping_code: {
+      type: DataTypes.STRING(100),
+      allowNull: true
     }
   }, {
     sequelize,
@@ -133,13 +141,6 @@ export class order extends Model<orderAttributes, orderCreationAttributes> imple
         using: "BTREE",
         fields: [
           { name: "user_id" },
-        ]
-      },
-      {
-        name: "fk_order_user_payment1_idx",
-        using: "BTREE",
-        fields: [
-          { name: "user_payment_id" },
         ]
       },
     ]

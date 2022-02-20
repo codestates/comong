@@ -23,16 +23,19 @@ const PostListWrapper = styled.div`
 `;
 const ItemContainer = styled.div`
   width: 25%;
+  margin-bottom: 10px;
   @media only screen and (max-width: 1200px) {
     width: 50%;
   }
   @media only screen and (max-width: 768px) {
-    width: 100%;
+    width: 50%;
   }
 `;
 
 function PostList() {
   const listData = useAppSelector((state: RootState) => state);
+
+  console.log(listData);
 
   const dispatch = useAppDispatch();
 
@@ -51,7 +54,7 @@ function PostList() {
           image_src: string;
         }) => {
           return (
-            <ItemContainer>
+            <ItemContainer key={post.id + post.title}>
               <PostListItem key={post.id} post={post} />
             </ItemContainer>
           );
