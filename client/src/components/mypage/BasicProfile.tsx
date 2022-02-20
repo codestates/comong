@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useAppSelector } from '../../redux/configStore.hooks';
-import ButtonBasic from '../common/ButtonBasic';
+import ButtonBasic from '../common/button/ButtonBasic';
 
 const Wrapper = styled.div`
   height: 250px;

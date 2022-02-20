@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import ButtonSimple from '../common/button/ButtonSimple';
 
 const Wrapper = styled.li`
   height: 200px;
@@ -82,6 +83,11 @@ const OrderSellerInfo = styled.div`
 const ButtonWrapper = styled.div`
   width: 15%;
   height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
   background-color: orange;
 `;
 
@@ -103,7 +109,12 @@ function OrderHistoryListItem() {
           <span className="seller__contact">판매자 연락처</span>
         </OrderSellerInfo>
       </OrderInfo>
-      <ButtonWrapper></ButtonWrapper>
+      <ButtonWrapper>
+        <ButtonSimple buttonClickHandler={() => {}}>후기 쓰기</ButtonSimple>
+        <ButtonSimple buttonClickHandler={() => {}}>
+          교환/환불 요청
+        </ButtonSimple>
+      </ButtonWrapper>
     </Wrapper>
   );
 }

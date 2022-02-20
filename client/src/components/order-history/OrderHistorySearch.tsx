@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import ButtonBasic from '../ButtonBasic';
+import ButtonBasic from '../common/button/ButtonBasic';
 
 const Wrapper = styled.div`
   height: 60px;

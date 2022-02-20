@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getIsDuplicate } from '../../apis/api/users';
 import { IJoinPartial } from '../../pages/join/GeneralJoin';
-import ButtonBasic from '../common/ButtonBasic';
+import ButtonBasic from '../common/button/ButtonBasic';
 import ErrorMessage from './ErrorMessage';
 
 const Wrapper = styled.div`

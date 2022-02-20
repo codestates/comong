@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import ButtonBasic from '../ButtonBasic';
+import ButtonBasic from '../common/button/ButtonBasic';
 import OrderHistoryListItem from './OrderHistoryListItem';
 import OrderHistorySearch from './OrderHistorySearch';
 

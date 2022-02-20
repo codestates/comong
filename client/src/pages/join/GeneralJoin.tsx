@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { deleteUsers, patchUsers, postUsers } from '../../apis/api/users';
-import ButtonBasic from '../../components/common/ButtonBasic';
+import ButtonBasic from '../../components/common/button/ButtonBasic';
 import AdditionalInfo from '../../components/form/AdditionalInfo';
 import BasicInfo from '../../components/form/BasicInfo';
 import ErrorMessage from '../../components/Input/ErrorMessage';
