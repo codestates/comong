@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException, Request, ForbiddenException, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, BadRequestException, Request, ForbiddenException, InternalServerErrorException, Response } from '@nestjs/common';
 require('dotenv').config;
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -21,24 +21,29 @@ export class UsersService {
 	private readonly logger = new Logger(UsersService.name);
 
 	async create(user: CreateUserDto) {
+		console.log(user.likes.replace(/\[|\]/g, '').split(','))
 		const [newUser, isCreated] = await models.user.findOrCreate({
 			where: { email: user.email },
 			defaults: { ...user },
 		});
 
 		if (isCreated) {
-			const mappingCategory = await models.category_has_user.create({
-				category_id: user.likes,
-				user_id: newUser.id,
-			})
-			if(mappingCategory){
-				return await this.mailerService.send(user.role, [user.email], 'Comong 이메일 인증 요청', 'signup', {
-					name: user.name,
+			const likesArr = user.likes.replace(/\[|\]/g, '').split(',').map( async (elements) => {
+				return  await models.category_has_user.create({
+					category_id: elements,
+					user_id: newUser.id,
 				})
-			} else {
-				throw new BadRequestException('invalid value for property');
-			}
+			})
 
+			return Promise.all(likesArr).then(like => {
+				like.forEach(elements => {
+					if(!newUser.id === elements.user_id){
+						throw new BadRequestException('invalid value for property');
+					} 
+				})
+			}).then( (): {} => {
+				return { message: 'successful' }
+			})
 		} else {
 			throw new BadRequestException('invalid value for property');
 		}
