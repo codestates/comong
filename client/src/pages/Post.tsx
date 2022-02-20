@@ -28,6 +28,11 @@ const PostContainer = styled.div`
   justify-content: center;
   align-items: center;
   background-color: white;
+  @media only screen and (max-width: 1200px) {
+    width: 100%;
+  }
+  @media only screen and (max-width: 768px) {
+  }
 `;
 
 const ImgContainer = styled.div`
@@ -36,6 +41,7 @@ const ImgContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
+  margin: 40px 0px;
 `;
 const MainImgContainer = styled.div`
   width: 50%;
@@ -59,24 +65,32 @@ const ThumbnailImg = styled.img`
 `;
 
 const BottomContainer = styled.div`
-  background-color: #fff;
+  background-color: white;
   width: 100%;
   display: flex;
   justify-content: center;
+  @media only screen and (max-width: 1200px) {
+    flex-direction: column;
+  }
+  @media only screen and (max-width: 768px) {
+  }
 `;
 
 const ContentsContainer = styled.div`
   width: 60%;
-
-  background-color: #fff;
-  height: 2000px;
+  background-color: white;
+  @media only screen and (max-width: 1200px) {
+    width: 100%;
+    margin-bottom: 300px;
+  }
+  @media only screen and (max-width: 768px) {
+  }
 `;
 const Contentsline = styled.hr`
   margin-top: 20px;
   size: 5;
   width: 95%;
   color: black;
-  /* background-color: black; */
 `;
 
 const ContentsTitleContainer = styled.div`
@@ -94,6 +108,7 @@ const ContentsTitle = styled.span`
 const ContentsArea = styled.div`
   background-color: white;
   height: 2000px;
+  margin: 20px 30px;
 `;
 
 const OrderContainer = styled.div`
@@ -102,32 +117,59 @@ const OrderContainer = styled.div`
   width: 30%;
   position: sticky;
   height: 450px;
-  top: 64px;
+  top: 65px;
   background-color: white;
   display: flex;
   flex-direction: column;
   padding: 20px;
-  /* align-items: center; */
   justify-content: center;
   box-shadow: 0px 0px 12px #eeeeee;
+  z-index: 12;
+  @media only screen and (max-width: 1200px) {
+    bottom: 0px;
+    width: 100%;
+    height: 300px;
+  }
+  @media only screen and (max-width: 768px) {
+  }
+`;
+const OrderContainerMobile = styled.div`
+  font-family: Noto Sans KR;
+  font-weight: 700;
+  width: 30%;
+  position: sticky;
+  height: 450px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  justify-content: center;
+  box-shadow: 0px 0px 12px ${(props) => props.theme.colors.whiteForShadow};
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
 `;
 const Category = styled.div`
   color: gray;
   font-weight: 400;
   margin-top: 10px;
   margin-bottom: 10px;
+  @media only screen and (max-width: 1200px) {
+    display: none;
+  }
+  @media only screen and (max-width: 768px) {
+  }
 `;
 
 const Title = styled.div`
   margin-top: 5px;
   margin-bottom: 10px;
-  color: #2f2f2f;
+  color: ${(props) => props.theme.colors.charcol};
   font-weight: 600;
   font-size: 20px;
   overflow: hidden;
   text-overflow: ellipsis;
   word-wrap: break-word;
-  /* white-space: nowrap; */
   height: 60px;
   line-height: 27px;
 `;
@@ -135,13 +177,18 @@ const Title = styled.div`
 const Seller = styled.div`
   margin-top: 5px;
   margin-bottom: 5px;
-  color: #2f2f2f;
+  color: ${(props) => props.theme.colors.charcol};
   font-weight: 500;
+  @media only screen and (max-width: 1200px) {
+    display: none;
+  }
+  @media only screen and (max-width: 768px) {
+  }
 `;
 const Price = styled.div`
   margin-top: 20px;
   margin-bottom: 5px;
-  color: #2f2f2f;
+  color: ${(props) => props.theme.colors.charcol};
   font-weight: 700;
   font-size: 27px;
 `;
@@ -154,7 +201,7 @@ const StockController = styled.div`
 const StockAddButton = styled.button`
   border: 2px solid grey;
   border-radius: 50%;
-  background-color: #fff;
+  background-color: white;
   display: flex;
   align-items: center;
   width: 30px;
@@ -168,7 +215,6 @@ const StockDisplay = styled.div`
   text-align: center;
   font-size: 20px;
   color: #4d4d4d;
-  /* color: red; */
   margin: auto;
   margin-left: 5px;
   margin-right: 5px;
@@ -176,7 +222,7 @@ const StockDisplay = styled.div`
 const StockMinusButton = styled.button`
   border: 2px solid grey;
   border-radius: 50%;
-  background-color: #fff;
+  background-color: white;
   display: flex;
   align-items: center;
   width: 30px;
@@ -190,22 +236,39 @@ const StockSelector = styled.div`
   width: 40px;
 `;
 
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  @media only screen and (max-width: 1200px) {
+    flex-direction: row;
+  }
+  @media only screen and (max-width: 768px) {
+  }
+`;
+
 const CartButton = styled.button`
-  margin-top: 20px;
+  margin: 10px 2px;
   font-family: Noto Sans KR;
   font-weight: 400;
   font-size: 20px;
   width: 100%;
   height: 60px;
   color: white;
-  /* background-color: ${(props) => props.theme.colors.accentColorLight}; */
-  background-color: #84ccff;
+  background-color: ${(props) => props.theme.colors.accentColorMiddle};
   border-radius: 5px;
   text-align: center;
   display: block;
+
+  @media only screen and (max-width: 1200px) {
+    width: 50%;
+  }
+  @media only screen and (max-width: 768px) {
+  }
 `;
 const OrderButton = styled.button`
-  margin-top: 10px;
+  margin: 10px;
   font-family: Noto Sans KR;
   font-weight: 400;
   font-size: 20px;
@@ -214,32 +277,41 @@ const OrderButton = styled.button`
   background-color: ${(props) => props.theme.colors.accentColor};
   border-radius: 5px;
   width: 100%;
+  @media only screen and (max-width: 1200px) {
+    width: 50%;
+  }
+  @media only screen and (max-width: 768px) {
+  }
 `;
 
 const Post = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const postId = Number(pathname.split('/')[2]);
-
   const [stock, setStock] = useState(1);
-
   const itemData = useAppSelector((state: RootState) => state);
-
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    // dispatch(getItemAsync());
+    dispatch(getItemAsync(postId));
   }, []);
 
-  // let data = itemData.listSlice.data[0];
-  let id = 1;
-  let category = '카테고리1/카테고리2';
-  let seller = '판매자명';
-  let title =
-    '[🏆TOP 50] 왕초보도 할 수 있는 미국주식 투자, 배당금으로 제2의 월급 만들기';
-  let content = '콘텐츠입니다';
-  let price = (30000).toLocaleString('en');
-  let img_src = 'http://gdimg.gmarket.co.kr/981887465/still/600?ver=1583286904';
+  const [width, setWidth] = useState(window.innerWidth);
+
+  const handleResize = () => setWidth(window.innerWidth);
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  let data = itemData.itemSlice.data;
+  let id = data.id;
+  let category = data.category;
+  let seller = data.user_storename;
+  let title = data.title;
+  let contents = data.contents;
+  let price = data.price.toLocaleString('en');
+  let img_src = data.image_src;
 
   const stockHandler = (el: string) => {
     if (el === 'plus' && stock <= 98) setStock(stock + 1);
@@ -267,8 +339,7 @@ const Post = () => {
               <ContentsTitle>상품평</ContentsTitle>
             </ContentsTitleContainer>
             <Contentsline />
-            {/* <hr color="black" /> */}
-            <ContentsArea></ContentsArea>
+            <ContentsArea>{contents}</ContentsArea>
           </ContentsContainer>
           <OrderContainer>
             <Category>{category}</Category>
@@ -292,8 +363,10 @@ const Post = () => {
                 <StockAddIcon src="/icons/post/plus.png" />
               </StockAddButton>
             </StockController>
-            <CartButton>장바구니 넣기</CartButton>
-            <OrderButton>상품 구매하기</OrderButton>
+            <ButtonContainer>
+              <CartButton>장바구니</CartButton>
+              <OrderButton>상품구매</OrderButton>
+            </ButtonContainer>
           </OrderContainer>
         </BottomContainer>
       </PostContainer>

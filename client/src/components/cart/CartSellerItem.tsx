@@ -4,14 +4,13 @@ import { useAppDispatch, useAppSelector } from '../../redux/configStore.hooks';
 import { getCartAsync } from '../../redux/modules/cartSlice';
 import type { RootState } from '../../redux/configStore';
 import { increment, decrement } from '../../redux/modules/cartSlice';
+import { setTotalPrice } from '../../redux/modules/cartSlice';
 
 const Container = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-
   margin: 15px 0px;
-  /* height: 600px; */
 `;
 
 const CartListItemImageContainer = styled.div`
@@ -26,7 +25,6 @@ const NameAndStockContainer = styled.div`
 `;
 const CartListItemName = styled.div`
   font-size: 15px;
-  /* background-color: red; */
   font-weight: 400;
 `;
 const CartListItemPrice = styled.div`
@@ -44,7 +42,7 @@ const StockController = styled.div`
 const StockAddButton = styled.button`
   border: 2px solid grey;
   border-radius: 50%;
-  background-color: #fff;
+  background-color: white;
   display: flex;
   align-items: center;
   width: 25px;
@@ -57,7 +55,7 @@ const StockDisplay = styled.div`
   width: 30px;
   text-align: center;
   font-size: 16px;
-  color: #4d4d4d;
+  color: ${(props) => props.theme.colors.charcol};
   margin: auto;
   margin-left: 3px;
   margin-right: 3px;
@@ -65,7 +63,7 @@ const StockDisplay = styled.div`
 const StockMinusButton = styled.button`
   border: 2px solid grey;
   border-radius: 50%;
-  background-color: #fff;
+  background-color: white;
   display: flex;
   align-items: center;
   width: 25px;
@@ -91,10 +89,8 @@ const CartSellerItem = ({ data, storeName, groupName }: any) => {
     } else if (el === 'plus') {
       dispatch(increment([id, storeName, groupName]));
     }
+    dispatch(setTotalPrice(cartData.cartSlice.subTotalPrice));
   };
-
-  // console.log('data', data);
-  // console.log('data.item', data.item);
 
   return (
     <Container>
@@ -121,7 +117,9 @@ const CartSellerItem = ({ data, storeName, groupName }: any) => {
           </StockAddButton>
         </StockController>
       </NameAndStockContainer>
-      <CartListItemPrice>{price * stock}원</CartListItemPrice>
+      <CartListItemPrice>
+        {(price * stock).toLocaleString('en')}원
+      </CartListItemPrice>
     </Container>
   );
 };

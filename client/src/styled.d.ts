@@ -9,6 +9,9 @@ declare module 'styled-components' {
       accentColor: string;
       accentColorMiddle: string;
       accentColorLight: string;
+      whiteForShadow: string;
+      greyForBackGround: string;
+      greyForMenu: string;
       lightGrey: string;
       darkGrey: string;
       charcol: string;
