@@ -41,7 +41,6 @@ const NavMenu = styled.div<{
   color: ${(props) => props.mypageColor && props.theme.colors.accentColor};
   color: ${(props) => props.cartColor && props.theme.colors.accentColor};
   &:hover {
-    color: ${(props) => props.theme.colors.accentColor};
     transform: scale(1.05);
   }
 `;
@@ -66,23 +65,42 @@ const MobileNav = () => {
   const [mypageColor, setMypageColor] = useState(false);
   const [cartColor, setCartColor] = useState(false);
 
-  // useEffect(() => {
-  //   handleCurrentPageIconColor();
-  // }, [current, homeColor, categoryColor, mypageColor, cartColor]);
+  useEffect(() => {
+    handleCurrentPageIconColorForPageChange();
+  }, [current]);
+  useEffect(() => {
+    handleCurrentPageIconColor();
+  }, [homeColor, categoryColor, mypageColor, cartColor]);
 
-  // const handleCurrentPageIconColor = () => {
-  //   setHomeColor(false);
-  //   setCategoryColor(false);
-  //   setMypageColor(false);
-  //   setCartColor(false);
-  //   if (current === '') setHomeColor(true);
-  //   else if (current === 'search') setCategoryColor(true);
-  //   else if (current === 'mypage') setMypageColor(true);
-  //   else if (current === 'cart') setCartColor(true);
-  // };
+  const handleCurrentPageIconColorForPageChange = () => {
+    setHomeColor(false);
+    setCategoryColor(false);
+    setMypageColor(false);
+    setCartColor(false);
+
+    if (current === '') {
+      setHomeColor(true);
+    } else if (current === 'search') {
+      setCategoryColor(true);
+    } else if (current === 'mypage') {
+      setMypageColor(true);
+    } else if (current === 'cart') {
+      setCartColor(true);
+    }
+  };
+  const handleCurrentPageIconColor = () => {
+    if (current === '') {
+      setHomeColor(true);
+    } else if (current === 'search') {
+      setCategoryColor(true);
+    } else if (current === 'mypage') {
+      setMypageColor(true);
+    } else if (current === 'cart') {
+      setCartColor(true);
+    }
+  };
 
   const handleHover = (el: string) => {
-    console.log('handleHover-el', el);
     setHomeColor(false);
     setCategoryColor(false);
     setMypageColor(false);
@@ -93,7 +111,10 @@ const MobileNav = () => {
     else if (el === 'cart') setCartColor(true);
   };
   const handleHoverOut = (el: string) => {
-    console.log('handleHoverOut-el', el);
+    setHomeColor(false);
+    setCategoryColor(false);
+    setMypageColor(false);
+    setCartColor(false);
 
     if (el === 'home') setHomeColor(false);
     else if (el === 'category') setCategoryColor(false);
