@@ -43,6 +43,14 @@ export class CreateItemDto {
     price: number;
 
     @ApiProperty({
+        example: 100,
+        description: '수량',
+        required: true,
+    })
+    @IsNumber()
+    stock: number;
+
+    @ApiProperty({
         example: '2022-02-11T15:30:17.221Z',
         description: '생성 날짜',
         required: true,
