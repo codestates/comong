@@ -1,5 +1,5 @@
 import React from 'react';
-import OrderHistory from './OrderHistory';
+import OrderHistory from '../../../components/common/order-history/OrderHistory';
 
 function UserOrderHistory() {
   return (

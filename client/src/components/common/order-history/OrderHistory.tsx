@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import ButtonBasic from '../../../components/common/ButtonBasic';
-import OrderHistoryListItem from '../../../components/common/order-history/OrderHistoryListItem';
-import OrderHistorySearch from '../../../components/common/order-history/OrderHistorySearch';
+import ButtonBasic from '../ButtonBasic';
+import OrderHistoryListItem from './OrderHistoryListItem';
+import OrderHistorySearch from './OrderHistorySearch';
 
 const OrderHistoryList = styled.ul``;
 
