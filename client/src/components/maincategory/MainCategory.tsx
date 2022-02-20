@@ -26,7 +26,6 @@ const MainCategory = styled.div`
   width: 56px;
   margin: 5px;
   min-width: 52px;
-  /* display: block; */
   &:hover {
     transform: scale(1.05);
   }
@@ -166,8 +165,8 @@ const MainCategories = () => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-  const dispatch = useAppDispatch()
-  
+  const dispatch = useAppDispatch();
+
   const Mobile = () => {
     return (
       <>
@@ -202,9 +201,13 @@ const MainCategories = () => {
       {width > 768 ? (
         nameList.map((el, i) => {
           return (
-            <MainCategory>
-              <MainCategoryIcon onClick={() => dispatch(getListAsync(i+1))} src={`icons/maincategories/cat${i}.png`} />
-              <MainCategoryName>{el}</MainCategoryName>
+            <MainCategory key={el + i + 100}>
+              <MainCategoryIcon
+                key={el + i}
+                onClick={() => dispatch(getListAsync(i + 1))}
+                src={`icons/maincategories/cat${i}.png`}
+              />
+              <MainCategoryName key={el + i + 200}>{el}</MainCategoryName>
             </MainCategory>
           );
         })

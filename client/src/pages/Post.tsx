@@ -16,6 +16,9 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   font-family: Noto Sans KR;
+  @media only screen and (max-width: 768px) {
+    margin-bottom: 70px;
+  }
 `;
 const PostContainer = styled.div`
   display: flex;
@@ -70,11 +73,10 @@ const ContentsContainer = styled.div`
 `;
 const Contentsline = styled.hr`
   margin-top: 20px;
-  /* size: 2px; */
-  width: 90%;
-
+  size: 5;
+  width: 95%;
   color: black;
-  background-color: black;
+  /* background-color: black; */
 `;
 
 const ContentsTitleContainer = styled.div`
@@ -116,7 +118,7 @@ const Category = styled.div`
   margin-bottom: 10px;
 `;
 
-const Titile = styled.div`
+const Title = styled.div`
   margin-top: 5px;
   margin-bottom: 10px;
   color: #2f2f2f;
@@ -126,7 +128,8 @@ const Titile = styled.div`
   text-overflow: ellipsis;
   word-wrap: break-word;
   /* white-space: nowrap; */
-  height: 42px;
+  height: 60px;
+  line-height: 27px;
 `;
 
 const Seller = styled.div`
@@ -263,13 +266,13 @@ const Post = () => {
               <ContentsTitle>상품 설명</ContentsTitle>
               <ContentsTitle>상품평</ContentsTitle>
             </ContentsTitleContainer>
-            {/* <Contentsline /> */}
-            <hr color="black" />
+            <Contentsline />
+            {/* <hr color="black" /> */}
             <ContentsArea></ContentsArea>
           </ContentsContainer>
           <OrderContainer>
             <Category>{category}</Category>
-            <Titile>{title}</Titile>
+            <Title>{title}</Title>
             <Seller>{seller}</Seller>
             <Price>{price}원</Price>
             <StockController>
