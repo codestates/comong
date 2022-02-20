@@ -40,8 +40,12 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(postSigninAsync.fulfilled, (state, action) => {
       const { accessToken, user } = action.payload;
-      console.log(user);
-      return { isLogin: true, accessToken, role: user.role, userinfo: user };
+      const likes = user.category_has_users.map(
+        (el: { category_id: number }) => el.category_id,
+      );
+      delete user.category_has_users;
+      const userinfo = { ...user, likes };
+      return { isLogin: true, accessToken, role: user.role, userinfo };
     });
   },
 });
