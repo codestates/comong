@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAppSelector } from '../../redux/configStore.hooks';
 import { postSigninAsync } from '../../redux/modules/userSlice';
-import ButtonBasic from '../common/ButtonBasic';
+import ButtonBasic from '../common/button/ButtonBasic';
 import { Input } from '../Input/InputBasic';
 
 const FormWrapper = styled.form`

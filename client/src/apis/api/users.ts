@@ -17,17 +17,29 @@ export const getIsDuplicate = async (email: string) => {
 
 export const postUsers = async (form: IJoinForm) => {
   try {
-    const data = await apiClient.post('/users', form);
-    console.log(data);
+    const reqForm = { ...form, likes: JSON.stringify(form.likes) };
+    const data = await apiClient.post('/users', reqForm);
     return data;
-  } catch (err) {
-    console.log('에러@', err);
+  } catch (error) {
+    const err = error as AxiosError;
+    return err.response?.data;
+    //return Promise.reject(err);
   }
 };
 
 export const patchUsers = async (form: IJoinPartial) => {
   try {
-    const data = await apiClient.patch('/users', form);
+    const reqForm = { ...form, likes: JSON.stringify(form.likes) };
+    const data = await apiClient.patch('/users', reqForm);
+    return { statusCode: data.status, ...data };
+  } catch (err) {
+    console.log('에러@', err);
+  }
+};
+
+export const deleteUsers = async () => {
+  try {
+    const data = await apiClient.delete('/users');
     console.log(data);
     return data;
   } catch (err) {

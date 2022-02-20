@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import ButtonBasic from '../components/common/ButtonBasic';
+import ButtonBasic from '../components/common/button/ButtonBasic';
 import LoginForm from '../components/form/LoginForm';
 import OauthButton from '../components/OauthButton';
 import { useAppSelector } from '../redux/configStore.hooks';
