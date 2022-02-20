@@ -15,7 +15,7 @@ describe('AppController', () => {
   });
 
   describe('root', () => {
-    it('should return "Hello World!"', () => {
+    it('should return "Welcome to COMONG SERVER"', () => {
       expect(appController.getHello()).toBe('Welcome to COMONG SERVER');
     });
   });

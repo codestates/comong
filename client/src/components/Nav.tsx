@@ -98,7 +98,7 @@ const Nav = () => {
     console.log(window.location.href.split('/'));
     console.log(current.length);
     if (current === 'search') setCategoryColor(true);
-    else if (current === 'mypage') setMypageColor(true);
+    else if (current === 'login') setMypageColor(true);
     else if (current === 'cart') setCartColor(true);
   };
 

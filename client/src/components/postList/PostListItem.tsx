@@ -41,11 +41,11 @@ const ItemImg = styled.img`
 
 const TextContainer = styled.div`
   cursor: pointer;
-
   width: 80%;
   margin: auto;
   margin-top: 10px;
   margin-bottom: 10px;
+  height: 100px;
 `;
 
 const ItemSeller = styled.div`
@@ -66,6 +66,7 @@ const ItemTitle = styled.div`
   margin-bottom: 0.5rem;
   font-weight: 300;
   line-height: 140%;
+  height: 35px;
 `;
 const ItemPrice = styled.div`
   width: 100%;
@@ -83,11 +84,14 @@ const PostListItem = ({ post }: any) => {
     : 'https://imagedelivery.net/BOKuAiJyROlMLXwCcBYMqQ/fe9f218d-5134-4a76-ba20-bf97e5c21900/thumbnail';
   const seller = post.user.nickname ? post.user.nickname : 'hojin';
   const title = post.title;
-  const price = AddComma(post.price);
 
-  function AddComma(data_value: number) {
-    return data_value.toLocaleString('en');
-  }
+  const price = post.price.toLocaleString('en');
+  console.log('price', price);
+  // console.lo
+
+  // function AddComma(data_value: number) {
+  //   return data_value.toLocaleString('en');
+  // }
 
   return (
     // <StLink to={`/list/${post.id}`}>
