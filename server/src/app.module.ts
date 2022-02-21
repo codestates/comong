@@ -1,6 +1,6 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
-
+import { UtilModule } from './util/util.module';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -17,9 +17,11 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { SocketModule } from './modules/socket/socket.module';
 import * as path from 'path';
 
+
 @Module({
 	imports: [
 		ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
+		UtilModule,
 		UsersModule,
 		ItemsModule,
 		PaymentsModule,
