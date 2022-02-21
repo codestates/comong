@@ -44,7 +44,8 @@ export const deleteUsers = async () => {
     const data = await apiClient.delete('/users');
     console.log(data);
     return data;
-  } catch (err) {
-    console.log('에러@', err);
+  } catch (error) {
+    const err = error as AxiosError;
+    return err.response?.data;
   }
 };
