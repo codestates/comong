@@ -40,11 +40,14 @@ function LoginForm() {
   };
 
   const submitLoginForm = async (form: ILoginForm) => {
+    //여기는 1이 수행되거나 실패됨에 따라 리액트에서 핸들링 하려고 만든 곳
+    // .unwrap()을 붙이는 이유는 저것을 안 붙이면 createAsyncThunk가 무조건, 항상, 이행된 프로미스를 반환하기 때문.
     try {
-      await dispatch(postSigninAsync(form));
+      const response = await dispatch(postSigninAsync(form)).unwrap();
+      console.log(response);
+      setMessage('');
       navigate('/');
     } catch (error) {
-      // !로그인 실패 알리기
       setMessage('아이디 혹은 비밀번호를 확인해 주세요');
       console.log('에렁', error);
     }
