@@ -112,19 +112,23 @@ function InputLikes({ fillJoinForm }: IInpuLikes) {
     },
   ];
 
-  const [likes, setLikes] = useState<number[]>([]);
+  // !TODO api 완성되면 바꾸기! 임시 작업 상태
+  // 스토어에서 가져온 likes(여기 userLikes라는 변수)가 먼저 선택 되어있어야함
+  // 화면상 표시 + joinform에 들어있어야함
+  let userLikes = [1, 2, 3]; // here
+  const [value, setValues] = useState<number[]>(userLikes);
 
   useEffect(() => {
-    fillJoinForm({ likes });
-  }, [likes]);
+    fillJoinForm({ likes: value });
+  }, [value]);
 
   const fillList = (id: number) => {
-    setLikes([...likes, id]);
+    setValues([...value, id]);
   };
 
   const deleteListItem = (id: number) => {
-    let idx = likes.findIndex((el) => el === id);
-    setLikes([...likes.slice(0, idx), ...likes.slice(idx + 1)]);
+    let idx = value.findIndex((el) => el === id);
+    setValues([...value.slice(0, idx), ...value.slice(idx + 1)]);
   };
 
   const makeCategoryList = (categories: Array<ICategory>) => {
@@ -135,6 +139,7 @@ function InputLikes({ fillJoinForm }: IInpuLikes) {
           id={obj.id}
           fillList={fillList}
           deleteListItem={deleteListItem}
+          selected={value.includes(obj.id) ? true : false}
         >
           {obj.category}
         </LikesListItem>

@@ -29,6 +29,7 @@ interface InputBasicProps {
   name?: string;
   type: string;
   title: string;
+  value?: string;
   placeholder?: string;
   fillJoinForm?: React.FormEventHandler;
   message?: string;
@@ -40,6 +41,7 @@ function InputBasic({
   title,
   placeholder,
   fillJoinForm,
+  value,
   message,
 }: InputBasicProps) {
   return (
@@ -48,6 +50,7 @@ function InputBasic({
       <Input
         name={name}
         type={type}
+        value={value}
         placeholder={placeholder}
         onChange={fillJoinForm}
       />

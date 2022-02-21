@@ -94,12 +94,12 @@ const Nav = () => {
   }, [categoryColor, mypageColor, cartColor]);
 
   const handleCurrentPageIconColor = () => {
-    let current = window.location.href.split('/')[3];
-    console.log(window.location.href.split('/'));
-    console.log(current.length);
-    if (current === 'search') setCategoryColor(true);
-    else if (current === 'login') setMypageColor(true);
-    else if (current === 'cart') setCartColor(true);
+    // let current = window.location.href.split('/')[3];
+    // console.log(window.location.href.split('/'));
+    // console.log(current.length);
+    // if (current === 'search') setCategoryColor(true);
+    // else if (current === 'login') setMypageColor(true);
+    // else if (current === 'cart') setCartColor(true);
   };
 
   return (
@@ -112,7 +112,7 @@ const Nav = () => {
             categoryColor={categoryColor}
             onClick={() => navigate('/search')}
           >
-            글쓰기(임시)
+            카테고리
           </NavMenu>
           <NavMenu
             mypageColor={mypageColor}

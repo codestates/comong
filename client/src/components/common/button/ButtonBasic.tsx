@@ -33,6 +33,12 @@ const Button = styled.button<{ lightStyle: boolean }>`
     }
   }
 
+  &.extraSmall {
+    width: 50px;
+    height: 30px;
+    font-size: 14px;
+  }
+
   &:hover {
     cursor: pointer;
   }

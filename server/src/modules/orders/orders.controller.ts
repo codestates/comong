@@ -12,6 +12,8 @@ import {
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
+import { CreateOrderDetailDto } from './dto/create-orderdetail.dto';
+import { UpdateOrderDetailDto } from './dto/update-orderdetail.dto';
 import {
 	ApiTags,
 	ApiOkResponse,
@@ -20,7 +22,6 @@ import {
 	ApiQuery,
 } from '@nestjs/swagger';
 import JwtAuthGuard from '../../middleware/Jwtauthguard';
-import { CreateOrderDetailDto } from './dto/create-orderdetail.dto';
 
 @Controller('orders')
 @ApiTags('주문 정보 관련')
@@ -38,7 +39,7 @@ export class OrdersController {
 	})
 	@ApiOperation({
 		summary: 'request for creating order',
-		description: 'creating order for payment',
+		description: 'creating order for cart list',
 	})
 	// @UseGuards(JwtAuthGuard)
 	create(@Body() createOrder: CreateOrderDto) {
@@ -64,6 +65,14 @@ export class OrdersController {
 	}
 
 	@Get('/cart')
+	@ApiHeader({
+		name: 'Authorization',
+		description: '사용자 인증 수단, 액세스 토큰 값',
+		required: true,
+		schema: {
+			example: 'bearer 23f43u9if13ekc23fm30jg549quneraf2fmsdf',
+		},
+	})
 	@ApiOperation({
 		summary: 'request for order_detail list',
 		description: 'get order_detail list for shopping_cart by user_id',
@@ -76,11 +85,20 @@ export class OrdersController {
 	@ApiOkResponse({
 		description: 'successful',
 	})
+	// @UseGuards(JwtAuthGuard)
 	getorderDetails(@Query('user_id') user_id: number): Promise<object[]> {
 		return this.ordersService.getorderDetails(user_id);
 	}
 
 	@Get('/')
+	@ApiHeader({
+		name: 'Authorization',
+		description: '사용자 인증 수단, 액세스 토큰 값',
+		required: true,
+		schema: {
+			example: 'bearer 23f43u9if13ekc23fm30jg549quneraf2fmsdf',
+		},
+	})
 	@ApiOperation({
 		summary: '회원, 배송상태, 주문 기간정보에 따른, 주문 내역 정보',
 		description:
@@ -109,16 +127,13 @@ export class OrdersController {
 	@ApiOkResponse({
 		description: 'successful',
 	})
+	// @UseGuards(JwtAuthGuard)
 	getOrders(
 		@Query('user_id') user_id: number,
 		@Query('shipping_status') shipping_status: string,
     @Query('start') start: string,
     @Query('end') end: string
 	) {
-    console.log(user_id)
-    console.log(shipping_status)
-    console.log(new Date(start))
-    console.log(end)
 		return this.ordersService.getOrders(user_id, shipping_status, start, end);
 	}
 
@@ -127,9 +142,22 @@ export class OrdersController {
 		return this.ordersService.findOne(+id);
 	}
 
-	@Patch(':id')
-	update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
-		return this.ordersService.update(+id, updateOrderDto);
+	@Patch('/orderdetail')
+	@ApiHeader({
+		name: 'Authorization',
+		description: '사용자 인증 수단, 액세스 토큰 값',
+		required: true,
+		schema: {
+			example: 'bearer 23f43u9if13ekc23fm30jg549quneraf2fmsdf',
+		},
+	})
+	@ApiOperation({
+		summary: 'order_detail update',
+		description: '결제전 데이터 검증과 결재 와 DB 상의 일치를 위한 patch request',
+	})
+	// @UseGuards(JwtAuthGuard)
+	updateOrderdetail(@Body() orderdetail: UpdateOrderDetailDto) {
+		return this.ordersService.updateOrderdetail(orderdetail);
 	}
 
 	@Delete(':id')
