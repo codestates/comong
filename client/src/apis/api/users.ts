@@ -30,10 +30,12 @@ export const postUsers = async (form: IJoinForm) => {
 export const patchUsers = async (form: IJoinPartial) => {
   try {
     const reqForm = { ...form, likes: JSON.stringify(form.likes) };
+    console.log(reqForm);
     const data = await apiClient.patch('/users', reqForm);
     return { statusCode: data.status, ...data };
-  } catch (err) {
-    console.log('에러@', err);
+  } catch (error) {
+    const err = error as AxiosError;
+    return err.response?.data;
   }
 };
 
@@ -42,7 +44,8 @@ export const deleteUsers = async () => {
     const data = await apiClient.delete('/users');
     console.log(data);
     return data;
-  } catch (err) {
-    console.log('에러@', err);
+  } catch (error) {
+    const err = error as AxiosError;
+    return err.response?.data;
   }
 };

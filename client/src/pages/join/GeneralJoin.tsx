@@ -15,23 +15,6 @@ const Form = styled.form`
   }
 `;
 
-const DeleteUserWrapper = styled.div`
-  margin-top: 16px;
-  display: flex;
-  justify-content: flex-end;
-
-  span {
-    padding: 4px;
-    border-radius: 4px;
-    color: ${(props) => props.theme.colors.darkGrey};
-  }
-
-  span:hover {
-    color: ${(props) => props.theme.colors.accentColor};
-    cursor: pointer;
-  }
-`;
-
 export interface IJoinForm {
   name: string;
   email: string;
@@ -79,6 +62,7 @@ function GeneralJoin() {
   };
 
   const submitJoinForm = async () => {
+    console.log(joinForm);
     if (!checkRequiredForm(joinForm)) return;
     setMessage('');
 
@@ -97,11 +81,12 @@ function GeneralJoin() {
     setMessage('');
 
     const response = await patchUsers(joinForm);
-  };
-
-  const deleteUserHandler = () => {
-    // deleteUsers();
-    // 성공시
+    if (response.statusCode === 200) {
+      // 수정되었다는 모달창 띄우고
+      navigate('/');
+    } else {
+      console.log(response);
+    }
   };
 
   return (
@@ -118,11 +103,6 @@ function GeneralJoin() {
       >
         {isMypage ? '정보 수정' : '회원가입'}
       </ButtonBasic>
-      {isMypage && (
-        <DeleteUserWrapper onClick={deleteUserHandler}>
-          <span>회원 탈퇴</span>
-        </DeleteUserWrapper>
-      )}
     </Form>
   );
 }

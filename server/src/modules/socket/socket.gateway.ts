@@ -8,6 +8,7 @@ import {
 } from '@nestjs/websockets';
 import { Logger } from '@nestjs/common';
 import { Socket, Server } from 'socket.io';
+import { SocketService } from './socket.service';
 
 const corsOptions = {
 	origin: '*',
@@ -23,11 +24,12 @@ const corsOptions = {
 export class SocketGateway
 	implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
+	constructor(private socketService: SocketService) {}
 	@WebSocketServer() server: Server;
 	private logger: Logger = new Logger('AppGateway');
 
-	afterInit(server: any): any {
-		this.logger.log('Initialized');
+	afterInit(server: Server) {
+		this.socketService.socket = server;
 	}
 
 	handleConnection(client: Socket) {
@@ -60,7 +62,23 @@ export class SocketGateway
 		},
 	) {
 		console.log(message);
-		this.server.to(message.room).emit('chatToClient', message.text);
+		this.server.to(message.room).emit('chatToClient', message);
+	}
+
+	@SubscribeMessage('sendNotification')
+	async handleNotification(
+		client: Socket,
+		message: {
+			nickname: string;
+			room: string;
+			text: string;
+			data: object;
+		},
+	) {
+		console.log(message);
+		this.server
+			.to(message.room)
+			.emit('notificationToClient', message.text, message.data);
 	}
 
 	handleDisconnect(client: Socket, ...args: any[]) {

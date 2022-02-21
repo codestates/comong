@@ -1,7 +1,7 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
 import { category } from './entities/category.entity';
@@ -10,6 +10,8 @@ import { Logger } from '@nestjs/common';
 import { User } from '../users/entities/user.entity';
 import { Op } from 'sequelize';
 import axios, {AxiosRequestConfig, AxiosResponse} from 'axios'
+import * as sequelize from 'sequelize'
+import { CreateBookmarkDto } from './dto/create-bookmark.dto';
 const models = require('../../models/index');
 
 @Injectable()
@@ -28,7 +30,12 @@ export class ItemsService {
         item_id: item.id,
         category_id: newItem.category,
       })
-        if(mappingCategory){
+
+      const mappingStock = await models.item_inventory.create({
+        item_id: item.id,
+        stock: newItem.stock,
+      })
+        if(mappingCategory && mappingStock){
           return { message: 'successful' }
         } else {
           throw new BadRequestException('invalid value for property')
@@ -73,7 +80,27 @@ export class ItemsService {
   }
 
   async getDetails(id: number): Promise<item[]> {
-    return []
+    this.items = await models.item.findOne({
+      raw: true,
+      where: { id: id },
+      include: [
+        { model: models.item_has_category, as: 'item_has_categories', attributes: [], include: [
+          { model: models.category, as: 'category' , attributes: [] },
+        ] },
+        { model: models.user, as: 'user' , attributes: [] },
+      ],
+      attributes: [
+        'id', 'title', 'contents', 'price', 'image_src', 'user_id', 'createdAt', 'updatedAt',
+        [sequelize.col('user.storename'), 'user_storename'],
+        [sequelize.col('item_has_categories.category.id'), 'category_id'],
+        [sequelize.col('item_has_categories.category.category'), 'category'],
+      ],
+    })
+    if(this.items){
+      return this.items
+    } else {
+      throw new NotFoundException('this item does not exist')
+    }
   }
 
   findOne(id: number) {
@@ -97,5 +124,20 @@ export class ItemsService {
       return elem.dataValues;
     });
     return this.categoryLists;
+  }
+
+  async createBookmark(data: CreateBookmarkDto) {
+    console.log(data.user_id)
+    const [bookmark, created] = await models.bookmark.findOrCreate({
+      where: {
+        item_id: data.item_id
+      },
+      defaults: data
+    });
+    if (created) {
+      return { data: bookmark, message: `item_id: ${data.item_id} bookmark created`};
+    } else {
+      return { messgae: 'bookmark already exist'};
+    }
   }
 }

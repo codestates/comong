@@ -1,7 +1,11 @@
 import { RecordWithTtl } from 'dns';
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useAppDispatch } from '../../redux/configStore.hooks';
+import { logout } from '../../redux/modules/userSlice';
+import DeleteUserModalContent from '../common/modal/DeleteUserModalContent';
+import Modal from '../common/modal/Modal';
 
 const Wrapper = styled.nav``;
 
@@ -45,6 +49,9 @@ export const MenuWrapper = styled.div`
 
 function NavUser() {
   const { pathname } = useLocation();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
 
   const getSelectedClass = (path: string) => {
     if (pathname.includes(path)) return 'selected';
@@ -76,8 +83,30 @@ function NavUser() {
           <Link to="/mypage/modifyInfo">
             <li className={getSelectedClass('modifyInfo')}>회원 정보 수정</li>
           </Link>
+          <li
+            onClick={() => {
+              dispatch(logout());
+              navigate('/');
+            }}
+          >
+            로그아웃
+          </li>
+          <li
+            onClick={() => {
+              setShowModal(true);
+            }}
+          >
+            회원 탈퇴
+          </li>
         </ul>
       </MenuWrapper>
+      {showModal && (
+        <Modal setShowModal={setShowModal}>
+          <DeleteUserModalContent
+            setShowModal={setShowModal}
+          ></DeleteUserModalContent>
+        </Modal>
+      )}
     </Wrapper>
   );
 }
