@@ -9,6 +9,7 @@ import JwtAuthGuard from '../../middleware/Jwtauthguard';
 import { getUser } from 'src/decorators/getUser';
 import { User } from '../users/entities/user.entity';
 import { CreateBookmarkDto } from './dto/create-bookmark.dto';
+import { CreateItemReviewDto } from './dto/create-itemreview.dto';
 //import { Auth } from '../../middleware/auth';
 
 @Controller('items')
@@ -163,6 +164,50 @@ export class ItemsController {
   @ApiCreatedResponse({ description: 'successful' })
   createBookmark(@Body() data: CreateBookmarkDto) {
     return this.itemsService.createBookmark(data)
+  }
+
+  @Post('/itemreview')
+  @ApiHeader({
+    name: 'Authorization',
+    description: '사용자 인증 수단, 액세스 토큰 값',
+    required: true,
+    schema: {
+      example: 'bearer 23f43u9if13ekc23fm30jg549quneraf2fmsdf'
+    },
+  })
+  // @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: '구매리뷰 추가', description: '구매한 상품에 대한 구매후기 추가 요청' })
+  @ApiCreatedResponse({ description: 'successful' })
+  createItemReview(@Body() data: CreateItemReviewDto) {
+    return this.itemsService.createItemreview(data)
+  }
+
+  @Get('/itemreview')
+  @ApiHeader({
+    name: 'Authorization',
+    description: '사용자 인증 수단, 액세스 토큰 값',
+    required: true,
+    schema: {
+      example: 'bearer 23f43u9if13ekc23fm30jg549quneraf2fmsdf'
+    },
+  })
+  @ApiOperation({
+		summary: 'request for item_review list',
+		description: 'get item_review list by user_id',
+	})
+	@ApiQuery({
+		name: 'user_id',
+		required: true,
+		description: '유저 아이디',
+	})
+	@ApiOkResponse({
+		description: 'successful',
+	})
+  // @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: '구매후기 리스트', description: '구매한 상품에 대한후기 리스트 요청' })
+  @ApiCreatedResponse({ description: 'successful' })
+  getItemReview(@Query('user_id') user_id: number) {
+    return this.itemsService.getItemreview(user_id)
   }
 
 }
