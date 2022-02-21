@@ -50,6 +50,9 @@ const UserOrderState = styled.div`
 
 const UserOrderHistoryWrapper = styled.div`
   margin-top: 60px;
+  h2 {
+    margin-bottom: 20px;
+  }
 `;
 
 function MypageUserDefault() {

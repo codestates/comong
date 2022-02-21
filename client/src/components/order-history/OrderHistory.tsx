@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getOrders } from '../../apis/api/order';
@@ -9,6 +10,17 @@ const OrderHistoryList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 10px;
+`;
+
+const NoData = styled.div`
+  height: 70vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid ${(props) => props.theme.colors.lightGrey};
+  border-radius: 10px;
+  font-size: 20px;
 `;
 
 export interface IOrderSeller {
@@ -57,12 +69,13 @@ function OrderHistory({ search }: IOrderHistory) {
     try {
       const data = await getOrders(userinfo?.id!);
       setOrderData(data);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   const makeOrderHistoryListItem = () => {
+    if (orderData?.length === 0) {
+      return <NoData>주문 내역이 없습니다</NoData>;
+    }
     return orderData?.map((order) => {
       return <OrderHistoryListItem order={order}></OrderHistoryListItem>;
     });
