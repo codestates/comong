@@ -3,6 +3,7 @@ import navSearchSlice from './modules/navSearchSlice';
 import userSlice from './modules/userSlice';
 import itemSlice from './modules/itemSlice';
 import cartSlice from './modules/cartSlice';
+import editorSlice from './modules/editorSlice';
 import { configureStore } from '@reduxjs/toolkit';
 
 const store = configureStore({
@@ -12,6 +13,7 @@ const store = configureStore({
     userSlice,
     itemSlice,
     cartSlice,
+    editorSlice,
   },
 });
 
