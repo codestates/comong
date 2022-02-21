@@ -11,6 +11,7 @@ import { User } from '../users/entities/user.entity';
 import { Op } from 'sequelize';
 import axios, {AxiosRequestConfig, AxiosResponse} from 'axios'
 import * as sequelize from 'sequelize'
+import { CreateBookmarkDto } from './dto/create-bookmark.dto';
 const models = require('../../models/index');
 
 @Injectable()
@@ -123,5 +124,20 @@ export class ItemsService {
       return elem.dataValues;
     });
     return this.categoryLists;
+  }
+
+  async createBookmark(data: CreateBookmarkDto) {
+    console.log(data.user_id)
+    const [bookmark, created] = await models.bookmark.findOrCreate({
+      where: {
+        item_id: data.item_id
+      },
+      defaults: data
+    });
+    if (created) {
+      return { data: bookmark, message: `item_id: ${data.item_id} bookmark created`};
+    } else {
+      return { messgae: 'bookmark already exist'};
+    }
   }
 }

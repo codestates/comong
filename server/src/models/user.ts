@@ -1,5 +1,6 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
+import type { bookmark, bookmarkId } from './bookmark';
 import type { category, categoryId } from './category';
 import type { category_has_user, category_has_userId } from './category_has_user';
 import type { chat, chatId } from './chat';
@@ -47,6 +48,18 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   createdAt?: Date;
   updatedAt?: Date;
 
+  // user hasMany bookmark via user_id
+  bookmarks!: bookmark[];
+  getBookmarks!: Sequelize.HasManyGetAssociationsMixin<bookmark>;
+  setBookmarks!: Sequelize.HasManySetAssociationsMixin<bookmark, bookmarkId>;
+  addBookmark!: Sequelize.HasManyAddAssociationMixin<bookmark, bookmarkId>;
+  addBookmarks!: Sequelize.HasManyAddAssociationsMixin<bookmark, bookmarkId>;
+  createBookmark!: Sequelize.HasManyCreateAssociationMixin<bookmark>;
+  removeBookmark!: Sequelize.HasManyRemoveAssociationMixin<bookmark, bookmarkId>;
+  removeBookmarks!: Sequelize.HasManyRemoveAssociationsMixin<bookmark, bookmarkId>;
+  hasBookmark!: Sequelize.HasManyHasAssociationMixin<bookmark, bookmarkId>;
+  hasBookmarks!: Sequelize.HasManyHasAssociationsMixin<bookmark, bookmarkId>;
+  countBookmarks!: Sequelize.HasManyCountAssociationsMixin;
   // user belongsToMany category via user_id and category_id
   category_id_categories!: category[];
   getCategory_id_categories!: Sequelize.BelongsToManyGetAssociationsMixin<category>;

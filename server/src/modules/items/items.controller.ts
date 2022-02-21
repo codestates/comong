@@ -8,6 +8,7 @@ import { ApiTags, ApiOperation, ApiCreatedResponse, ApiOkResponse, ApiHeader, Ap
 import JwtAuthGuard from '../../middleware/Jwtauthguard';
 import { getUser } from 'src/decorators/getUser';
 import { User } from '../users/entities/user.entity';
+import { CreateBookmarkDto } from './dto/create-bookmark.dto';
 //import { Auth } from '../../middleware/auth';
 
 @Controller('items')
@@ -146,6 +147,22 @@ export class ItemsController {
   @ApiBadRequestResponse({ description: 'invalid value for property' })
   remove(@Param('id') id: string) {
     return this.itemsService.remove(+id);
+  }
+
+  @Post('/bookmark')
+  @ApiHeader({
+    name: 'Authorization',
+    description: '사용자 인증 수단, 액세스 토큰 값',
+    required: true,
+    schema: {
+      example: 'bearer 23f43u9if13ekc23fm30jg549quneraf2fmsdf'
+    },
+  })
+  // @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: '북마크 추가', description: '원하는 상품에 대한 북마크 추가요청' })
+  @ApiCreatedResponse({ description: 'successful' })
+  createBookmark(@Body() data: CreateBookmarkDto) {
+    return this.itemsService.createBookmark(data)
   }
 
 }
