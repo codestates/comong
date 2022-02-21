@@ -5,13 +5,18 @@ import { UpdateOrderDto } from './dto/update-order.dto';
 import { UpdateOrderDetailDto } from './dto/update-orderdetail.dto';
 import { MailerService } from '../mailer/mailer.service';
 import { DeleteOrderdetailDto } from './dto/delete_orderdetail.dto';
+import { AppGateway } from 'src/app.gateway';
+import { Socket } from 'socket.io';
 import { CommentsModule } from '../comments/comments.module';
 const { Op } = require('sequelize');
 const models = require('../../models/index');
 
 @Injectable()
 export class OrdersService {
-	constructor(private readonly mailerService: MailerService) {}
+	constructor(
+		private readonly mailerService: MailerService,
+		private readonly appGateway: AppGateway,
+	) {}
 
 	async create(createOrder: CreateOrderDto) {
 		// console.log(createOrder);
@@ -95,7 +100,7 @@ export class OrdersService {
 				}
 			}
 		}
-
+		// this.appGateway.handleNotification(output)
 		return [output];
 	}
 
@@ -175,32 +180,32 @@ export class OrdersService {
 	}
 
 	async updateOrderdetail(updateOrderdetail: UpdateOrderDetailDto) {
-		console.log(updateOrderdetail.payload);
-		for (let i = 0; i < updateOrderdetail.payload.length; i++) {
+		// console.log(updateOrderdetail.payload);
+		for (let i = 0; i < updateOrderdetail.data.length; i++) {
 			const order_detail = await models.order_detail.findOne({
 				where: {
-					id: updateOrderdetail.payload[i].id,
+					id: updateOrderdetail.data[i].id,
 				},
 			});
-			// console.log(order_detail);
+			console.log(order_detail);
 			if (
-				updateOrderdetail.payload[i].item_id === order_detail.item_id &&
-				updateOrderdetail.payload[i].peritem_price ===
+				updateOrderdetail.data[i].item_id === order_detail.item_id &&
+				updateOrderdetail.data[i].peritem_price ===
 					order_detail.peritem_price
 			) {
 				await models.order_detail.update(
 					{
-						order_amount: updateOrderdetail.payload[i].order_amount,
+						order_amount: updateOrderdetail.data[i].order_amount,
 					},
 					{
 						where: {
-							id: updateOrderdetail.payload[i].id,
+							id: updateOrderdetail.data[i].id,
 						},
 					},
 				);
 			} else {
 				throw new BadRequestException(
-					`order_detail_id: ${updateOrderdetail.payload[i].id} has Data Disaccord`,
+					`order_detail_id: ${updateOrderdetail.data[i].id} has Data Disaccord`,
 				);
 			}
 		}
@@ -209,12 +214,12 @@ export class OrdersService {
 
 	async removeCart(order_detail_id: DeleteOrderdetailDto) {
 		console.log(order_detail_id.order_detail_id);
-		const destroyed = await models.order_detail.destroy({
+		const isDestroyed = await models.order_detail.destroy({
 			where: {
 				id: order_detail_id.order_detail_id,
 			},
 		});
-		if (destroyed === 1) {
+		if (isDestroyed === 1) {
 			return {
 				message: `order_detail_id:${order_detail_id.order_detail_id} destroyed`,
 			};
