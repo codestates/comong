@@ -12,14 +12,18 @@ import Cart from './pages/Cart';
 import Nav from './components/Nav';
 import MobileNav from './components/MobileNav';
 import Post from './pages/Post';
+import Payment from './pages/Payment';
 import { useAppSelector } from './redux/configStore.hooks';
 import Mypage from './pages/mypage/Mypage';
 import MypageUserDefault from './pages/mypage/mypage_user/MypageUserDefault';
 import UserOrderHistory from './pages/mypage/mypage_user/UserOrderHistory';
+        
 
 function Routers() {
   const { role } = useAppSelector((state) => state.userSlice);
-  console.log(role);
+  let current = window.location.href.split('/')[3];
+
+
   return (
     <BrowserRouter>
       <Nav></Nav>
@@ -40,8 +44,9 @@ function Routers() {
           <Route path="userOrderHistory" element={<UserOrderHistory />}></Route>
           <Route path="modifyInfo" element={<GeneralJoin />}></Route>
         </Route>
+        <Route path="/payment" element={<Payment />}></Route>
       </Routes>
-      <MobileNav></MobileNav>
+      {current === 'item' ? null : <MobileNav></MobileNav>}
     </BrowserRouter>
   );
 }

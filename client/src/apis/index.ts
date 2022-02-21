@@ -16,8 +16,3 @@ export const apiOauthClient: AxiosInstance = axios.create({
   withCredentials: true,
   headers: {},
 });
-
-// export const apiAuthClient: AxiosInstance = axios.create({
-//   baseURL: `${process.env.REACT_APP_URL}`,
-//   headers: { Authorization: 'Bearer' + `` },
-// });

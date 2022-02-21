@@ -74,7 +74,9 @@ export const postSigninAsync = createAsyncThunk(
   'LOGIN_USER',
   async (form: ILoginForm) => {
     console.log('1번, 여기서 비동기 작업하고 data 리턴');
+    console.log(form);
     const response = await apiClient.post(`/users/signin`, form);
+    console.log(response);
     return response.data;
   },
 );

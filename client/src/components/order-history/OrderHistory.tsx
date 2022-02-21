@@ -77,7 +77,12 @@ function OrderHistory({ search }: IOrderHistory) {
       return <NoData>주문 내역이 없습니다</NoData>;
     }
     return orderData?.map((order) => {
-      return <OrderHistoryListItem order={order}></OrderHistoryListItem>;
+      return (
+        <OrderHistoryListItem
+          key={order.order_detail_info.id}
+          order={order}
+        ></OrderHistoryListItem>
+      );
     });
   };
 
