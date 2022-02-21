@@ -4,6 +4,7 @@ import { CreateOrderDetailDto } from './dto/create-orderdetail.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { UpdateOrderDetailDto } from './dto/update-orderdetail.dto';
 import { MailerService } from '../mailer/mailer.service';
+import { DeleteOrderdetailDto } from './dto/delete_orderdetail.dto';
 import { CommentsModule } from '../comments/comments.module';
 const { Op } = require('sequelize');
 const models = require('../../models/index');
@@ -181,7 +182,7 @@ export class OrdersService {
 					id: updateOrderdetail.payload[i].id,
 				},
 			});
-			console.log(order_detail);
+			// console.log(order_detail);
 			if (
 				updateOrderdetail.payload[i].item_id === order_detail.item_id &&
 				updateOrderdetail.payload[i].peritem_price ===
@@ -203,10 +204,24 @@ export class OrdersService {
 				);
 			}
 		}
-		return { message: 'updates implemented successfully' };;
+		return { message: 'updates implemented successfully' };
 	}
 
-	remove(id: number) {
-		return `This action removes a #${id} order`;
+	async removeCart(order_detail_id: DeleteOrderdetailDto) {
+		console.log(order_detail_id.order_detail_id);
+		const destroyed = await models.order_detail.destroy({
+			where: {
+				id: order_detail_id.order_detail_id,
+			},
+		});
+		if (destroyed === 1) {
+			return {
+				message: `order_detail_id:${order_detail_id.order_detail_id} destroyed`,
+			};
+		} else {
+			throw new BadRequestException(
+				`order_detail_id: ${order_detail_id.order_detail_id} has no Data or Data Disaccord`,
+			);
+		}
 	}
 }
