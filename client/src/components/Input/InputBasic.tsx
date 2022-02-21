@@ -51,7 +51,7 @@ function InputBasic({
         placeholder={placeholder}
         onChange={fillJoinForm}
       />
-      <ErrorMessage>{message}</ErrorMessage>
+      {<ErrorMessage>{message}</ErrorMessage>}
     </Wrapper>
   );
 }

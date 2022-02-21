@@ -83,6 +83,21 @@ export class ItemsController {
   })
   @ApiOkResponse({
     description: 'successful',
+    schema: {
+      example: {
+        "id": 999,
+        "title": "미래생활 순수PURE천연펄프 25m 30롤 x 3팩",
+        "contents": "미래생활 순수PURE천연펄프 25m 30롤 x 3팩",
+        "price": 26900,
+        "image_src": "http://gdimg.gmarket.co.kr/1899274105/still/600?ver=1642724241",
+        "user_id": 116,
+        "createdAt": "2022-02-16T07:59:25.000Z",
+        "updatedAt": "2022-02-16T07:59:25.000Z",
+        "user_storename": "TEST STORENAME",
+        "category_id": 4,
+        "category": "생활용품"
+      }
+    }
   })
   getDetails(@Param('id') id: number): Promise<item[]> {
     return this.itemsService.getDetails(+id)

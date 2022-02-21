@@ -53,20 +53,18 @@ export class CreateOrderDto {
 		enum: ['parcel', 'quick', 'self pick-up', 'no shipping'],
 		example: 'parcel',
 		description: 'shipping_method',
-		required: false,
+		required: true,
 	})
 	@IsString()
-	@IsOptional()
 	@IsEnum(Shipping_method)
 	readonly shipping_method: string;
 
 	@ApiProperty({
 		example: 3000,
 		description: 'shipping_charge',
-		required: false,
+		required: true,
 	})
 	@IsNumber()
-	@IsOptional()
 	readonly shipping_charge: number;
 
 	@ApiProperty({
@@ -81,10 +79,9 @@ export class CreateOrderDto {
 		],
 		example: 'delivered',
 		description: 'shipping_status',
-		required: false,
+		required: true,
 	})
 	@IsString()
-	@IsOptional()
 	@IsEnum(Shipping_status)
 	readonly shipping_status: string;
 

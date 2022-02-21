@@ -1,6 +1,3 @@
-import * as dotenv from 'dotenv';
-dotenv.config();
-
 import { initModels } from './init-models';
 import { Sequelize } from 'sequelize';
 import { config } from '../config/config';
