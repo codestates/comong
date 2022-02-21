@@ -15,6 +15,8 @@ import { CommentsModule } from './modules/comments/comments.module';
 import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { SocketModule } from './modules/socket/socket.module';
+import { SocketController } from './modules/socket/socket.controller';
+import { AppGateway } from './app.gateway';
 import * as path from 'path';
 
 
@@ -48,7 +50,7 @@ import * as path from 'path';
 			},
 		}),
 	],
-	controllers: [AppController],
-	providers: [AppService],
+	controllers: [AppController, SocketController],
+	providers: [AppService, AppGateway],
 })
 export class AppModule {}

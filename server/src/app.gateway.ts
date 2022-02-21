@@ -8,7 +8,7 @@ import {
 } from '@nestjs/websockets';
 import { Logger } from '@nestjs/common';
 import { Socket, Server } from 'socket.io';
-import { SocketService } from './socket.service';
+import { SocketService } from './modules/socket/socket.service';
 
 const corsOptions = {
 	origin: '*',
@@ -17,11 +17,11 @@ const corsOptions = {
 };
 
 @WebSocketGateway({
-	namespace: '/chat',
+	namespace: '/app',
 	cors: corsOptions,
 	transports: ['websocket'],
 })
-export class SocketGateway
+export class AppGateway
 	implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
 	constructor(private socketService: SocketService) {}
