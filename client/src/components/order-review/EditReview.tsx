@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import ButtonBasic from '../common/button/ButtonBasic';
+import StarRatings from './StarRatings';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -20,19 +21,12 @@ const ReviewWrapper = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  background-color: violet;
-`;
-
-const StarRate = styled.div`
-  width: 100px;
-  height: 30px;
-  background-color: red;
 `;
 
 const ReviewText = styled.div`
   width: 100%;
   height: 100%;
-  background-color: orange;
+  border: 1px solid black;
 `;
 
 const ButtonWrapper = styled.div`
@@ -54,7 +48,7 @@ function EditReview({ showEdit }: IEditReview) {
   return (
     <Wrapper className={showEdit ? 'show' : 'hide'}>
       <ReviewWrapper>
-        <StarRate></StarRate>
+        <StarRatings></StarRatings>
         <ReviewText></ReviewText>
       </ReviewWrapper>
       <ButtonWrapper>
