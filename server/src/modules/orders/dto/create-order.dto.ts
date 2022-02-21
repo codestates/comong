@@ -8,7 +8,6 @@ import {
 	ArrayMinSize,
 } from 'class-validator';
 import { PaymentStatus } from '../../payments/entities/statusEnum.entity';
-import { Shipping_method } from '../entities/shipping_methodEnum.entity';
 import { Shipping_status } from '../entities/shipping_statusEnum.entity';
 
 export class CreateOrderDto {
@@ -47,24 +46,6 @@ export class CreateOrderDto {
 	@IsNumber({},{ each: true })
 	@ArrayMinSize(1)
 	readonly order_detail_id: number[];
-
-	@ApiProperty({
-		enum: ['parcel', 'quick', 'self pick-up', 'no shipping'],
-		example: 'parcel',
-		description: 'shipping_method',
-		required: true,
-	})
-	@IsString()
-	@IsEnum(Shipping_method)
-	readonly shipping_method: string;
-
-	@ApiProperty({
-		example: 3000,
-		description: 'shipping_charge',
-		required: true,
-	})
-	@IsNumber()
-	readonly shipping_charge: number;
 
 	@ApiProperty({
 		enum: [
