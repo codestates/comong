@@ -10,8 +10,6 @@ export interface orderAttributes {
   total_amount?: number;
   status?: string;
   user_id: number;
-  shipping_method?: string;
-  shipping_charge?: number;
   shipping_status?: string;
   shipping_company?: string;
   shipping_code?: string;
@@ -21,7 +19,7 @@ export interface orderAttributes {
 
 export type orderPk = "id";
 export type orderId = order[orderPk];
-export type orderOptionalAttributes = "id" | "total_amount" | "status" | "shipping_method" | "shipping_charge" | "shipping_status" | "shipping_company" | "shipping_code" | "createdAt" | "updatedAt";
+export type orderOptionalAttributes = "id" | "total_amount" | "status" | "shipping_status" | "shipping_company" | "shipping_code" | "createdAt" | "updatedAt";
 export type orderCreationAttributes = Optional<orderAttributes, orderOptionalAttributes>;
 
 export class order extends Model<orderAttributes, orderCreationAttributes> implements orderAttributes {
@@ -29,8 +27,6 @@ export class order extends Model<orderAttributes, orderCreationAttributes> imple
   total_amount?: number;
   status?: string;
   user_id!: number;
-  shipping_method?: string;
-  shipping_charge?: number;
   shipping_status?: string;
   shipping_company?: string;
   shipping_code?: string;
@@ -102,14 +98,6 @@ export class order extends Model<orderAttributes, orderCreationAttributes> imple
         model: 'user',
         key: 'id'
       }
-    },
-    shipping_method: {
-      type: DataTypes.STRING(45),
-      allowNull: true
-    },
-    shipping_charge: {
-      type: DataTypes.INTEGER,
-      allowNull: true
     },
     shipping_status: {
       type: DataTypes.STRING(45),
