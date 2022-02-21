@@ -1,4 +1,6 @@
 import type { Sequelize } from "sequelize";
+import { bookmark as _bookmark } from "./bookmark";
+import type { bookmarkAttributes, bookmarkCreationAttributes } from "./bookmark";
 import { category as _category } from "./category";
 import type { categoryAttributes, categoryCreationAttributes } from "./category";
 import { category_has_user as _category_has_user } from "./category_has_user";
@@ -35,6 +37,7 @@ import { user_payment as _user_payment } from "./user_payment";
 import type { user_paymentAttributes, user_paymentCreationAttributes } from "./user_payment";
 
 export {
+  _bookmark as bookmark,
   _category as category,
   _category_has_user as category_has_user,
   _chat as chat,
@@ -55,6 +58,8 @@ export {
 };
 
 export type {
+  bookmarkAttributes,
+  bookmarkCreationAttributes,
   categoryAttributes,
   categoryCreationAttributes,
   category_has_userAttributes,
@@ -92,6 +97,7 @@ export type {
 };
 
 export function initModels(sequelize: Sequelize) {
+  const bookmark = _bookmark.initModel(sequelize);
   const category = _category.initModel(sequelize);
   const category_has_user = _category_has_user.initModel(sequelize);
   const chat = _chat.initModel(sequelize);
@@ -128,6 +134,8 @@ export function initModels(sequelize: Sequelize) {
   chat.hasMany(chat_has_item, { as: "chat_has_items", foreignKey: "chat_id"});
   chat_has_user.belongsTo(chat, { as: "chat", foreignKey: "chat_id"});
   chat.hasMany(chat_has_user, { as: "chat_has_users", foreignKey: "chat_id"});
+  bookmark.belongsTo(item, { as: "item", foreignKey: "item_id"});
+  item.hasMany(bookmark, { as: "bookmarks", foreignKey: "item_id"});
   chat_has_item.belongsTo(item, { as: "item", foreignKey: "item_id"});
   item.hasMany(chat_has_item, { as: "chat_has_items", foreignKey: "item_id"});
   item_has_category.belongsTo(item, { as: "item", foreignKey: "item_id"});
@@ -144,6 +152,8 @@ export function initModels(sequelize: Sequelize) {
   order.hasMany(user_payment, { as: "user_payments", foreignKey: "order_id"});
   order_detail_has_order.belongsTo(order_detail, { as: "order_detail", foreignKey: "order_detail_id"});
   order_detail.hasMany(order_detail_has_order, { as: "order_detail_has_orders", foreignKey: "order_detail_id"});
+  bookmark.belongsTo(user, { as: "user", foreignKey: "user_id"});
+  user.hasMany(bookmark, { as: "bookmarks", foreignKey: "user_id"});
   category_has_user.belongsTo(user, { as: "user", foreignKey: "user_id"});
   user.hasMany(category_has_user, { as: "category_has_users", foreignKey: "user_id"});
   chat_has_user.belongsTo(user, { as: "user", foreignKey: "user_id"});
@@ -166,6 +176,7 @@ export function initModels(sequelize: Sequelize) {
   user.hasMany(user_payment, { as: "user_payments", foreignKey: "user_id"});
 
   return {
+    bookmark: bookmark,
     category: category,
     category_has_user: category_has_user,
     chat: chat,

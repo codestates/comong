@@ -38,6 +38,8 @@ export class OrdersService {
 		const emailAddress = getUserdata.dataValues.email;
 		const storeName = getUserdata.dataValues.storename;
 		if (newOrder) {
+			// const message = newOrder;
+			// this.appGateway.handleNotification(message);
 			return await this.mailerService.sendOrderNotice(
 				{ storename: storeName },
 				emailAddress,
@@ -97,8 +99,6 @@ export class OrdersService {
 				}
 			}
 		}
-		const message = output;
-		this.appGateway.handleNotification(message);
 		return [output];
 	}
 
@@ -136,7 +136,7 @@ export class OrdersService {
 			const orderIdArr = orderList.map((elem) => {
 				return elem.dataValues.id;
 			});
-
+			console.log(orderList)
 			const orderJointableList = await models.order_detail_has_order.findAll({
 				where: {
 					order_id: {
