@@ -1,7 +1,7 @@
 import React, { Component, useRef, useState } from 'react';
 import styled from 'styled-components';
 import StepOne from '../components/add/StepOne';
-import ButtonBasic from '../components/common/ButtonBasic';
+import ButtonBasic from '../components/common/button/ButtonBasic';
 import CoEditor from '../components/common/CoEditor';
 
 
