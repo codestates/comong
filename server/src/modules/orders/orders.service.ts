@@ -6,7 +6,6 @@ import { UpdateOrderDetailDto } from './dto/update-orderdetail.dto';
 import { MailerService } from '../mailer/mailer.service';
 import { DeleteOrderdetailDto } from './dto/delete_orderdetail.dto';
 import { AppGateway } from 'src/app.gateway';
-import { Socket } from 'socket.io';
 import { CommentsModule } from '../comments/comments.module';
 const { Op } = require('sequelize');
 const models = require('../../models/index');
@@ -19,11 +18,9 @@ export class OrdersService {
 	) {}
 
 	async create(createOrder: CreateOrderDto) {
-		// console.log(createOrder);
 		const newOrder = await models.order.create({
 			...createOrder,
 		});
-		// console.log(newOrder.dataValues.id);
 		const newJoindataArr: object[] = [];
 		for (let elem of createOrder.order_detail_id) {
 			let newJoinData: { dataValues: object } =
@@ -100,7 +97,8 @@ export class OrdersService {
 				}
 			}
 		}
-		// this.appGateway.handleNotification(output)
+		const message = output;
+		this.appGateway.handleNotification(message);
 		return [output];
 	}
 
@@ -155,6 +153,13 @@ export class OrdersService {
 				for (let j = 0; j < orderJointableList.length; j++) {
 					if (orderList[i].id === orderJointableList[j].order_id) {
 						const order_detail_info = await models.order_detail.findOne({
+							include: [
+								{
+									model: models.user,
+									as: 'user',
+									attributes: ['id', 'storename', 'mobile'],
+								},
+							],
 							where: {
 								id: orderJointableList[j].order_detail_id,
 							},
@@ -180,18 +185,15 @@ export class OrdersService {
 	}
 
 	async updateOrderdetail(updateOrderdetail: UpdateOrderDetailDto) {
-		// console.log(updateOrderdetail.payload);
 		for (let i = 0; i < updateOrderdetail.data.length; i++) {
 			const order_detail = await models.order_detail.findOne({
 				where: {
 					id: updateOrderdetail.data[i].id,
 				},
 			});
-			console.log(order_detail);
 			if (
 				updateOrderdetail.data[i].item_id === order_detail.item_id &&
-				updateOrderdetail.data[i].peritem_price ===
-					order_detail.peritem_price
+				updateOrderdetail.data[i].peritem_price === order_detail.peritem_price
 			) {
 				await models.order_detail.update(
 					{
@@ -213,7 +215,6 @@ export class OrdersService {
 	}
 
 	async removeCart(order_detail_id: DeleteOrderdetailDto) {
-		console.log(order_detail_id.order_detail_id);
 		const isDestroyed = await models.order_detail.destroy({
 			where: {
 				id: order_detail_id.order_detail_id,
