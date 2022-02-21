@@ -52,19 +52,6 @@ export class AppGateway
 		client.emit('leftRoom', room);
 	}
 
-	@SubscribeMessage('chatToServer')
-	async handleMessage(
-		client: Socket,
-		message: {
-			nickname: string;
-			room: string;
-			text: string;
-		},
-	) {
-		console.log(message);
-		this.server.to(message.room).emit('chatToClient', message);
-	}
-
 	@SubscribeMessage('sendNotification')
 	async handleNotification(
 		client: Socket,

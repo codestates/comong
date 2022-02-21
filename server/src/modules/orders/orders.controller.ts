@@ -11,7 +11,6 @@ import {
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { UpdateOrderDto } from './dto/update-order.dto';
 import { CreateOrderDetailDto } from './dto/create-orderdetail.dto';
 import { UpdateOrderDetailDto } from './dto/update-orderdetail.dto';
 import { DeleteOrderdetailDto } from './dto/delete_orderdetail.dto';

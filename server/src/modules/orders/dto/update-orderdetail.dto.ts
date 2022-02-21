@@ -44,5 +44,5 @@ export class UpdateOrderDetailDto {
 	@IsArray()
 	@ValidateNested({ each: true })
 	@Type(() => order_detailPatchDto)
-	payload: order_detailPatchDto[];
+	data: order_detailPatchDto[];
 }
