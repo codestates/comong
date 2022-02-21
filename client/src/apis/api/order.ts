@@ -1,15 +1,18 @@
 import { apiClient } from '..';
+import { IOrderData } from '../../components/order-history/OrderHistory';
 
-export const getOrders = async (userId: number) => {
-  const params = {
-    user_id: userId,
-  };
+export interface IGetOrderParams {
+  user_id: number;
+  shipping_status?: string;
+  start?: string;
+  end?: string;
+}
 
+export const getOrders = async (params: IGetOrderParams) => {
   try {
     const response = await apiClient.get('/orders', { params });
-    let data = [];
+    let data: IOrderData[] = [];
     for (let key in response.data) {
-      console.log(response.data[key].order_detail_info);
       data.push(...response.data[key].order_detail_info);
     }
     return data;

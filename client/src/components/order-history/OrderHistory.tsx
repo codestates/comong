@@ -59,7 +59,7 @@ interface IOrderHistory {
 
 function OrderHistory({ search }: IOrderHistory) {
   const { userinfo } = useAppSelector((state) => state.userSlice);
-  const [orderData, setOrderData] = useState<IOrderData[]>();
+  const [orderData, setOrderData] = useState<IOrderData[] | []>([]);
 
   useEffect(() => {
     getOrdersById();
@@ -67,8 +67,8 @@ function OrderHistory({ search }: IOrderHistory) {
 
   const getOrdersById = async () => {
     try {
-      const data = await getOrders(userinfo?.id!);
-      setOrderData(data);
+      const data = await getOrders({ user_id: userinfo?.id! });
+      setOrderData(data!);
     } catch (error) {}
   };
 
@@ -83,7 +83,9 @@ function OrderHistory({ search }: IOrderHistory) {
 
   return (
     <div>
-      {search && <OrderHistorySearch></OrderHistorySearch>}
+      {search && (
+        <OrderHistorySearch setOrderData={setOrderData}></OrderHistorySearch>
+      )}
       <OrderHistoryList>{makeOrderHistoryListItem()}</OrderHistoryList>
     </div>
   );
