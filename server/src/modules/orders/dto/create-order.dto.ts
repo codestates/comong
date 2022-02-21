@@ -6,7 +6,6 @@ import {
 	IsOptional,
 	IsArray,
 	ArrayMinSize,
-	ValidateNested,
 } from 'class-validator';
 import { PaymentStatus } from '../../payments/entities/statusEnum.entity';
 import { Shipping_method } from '../entities/shipping_methodEnum.entity';

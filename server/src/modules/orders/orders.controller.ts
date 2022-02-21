@@ -14,6 +14,7 @@ import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { CreateOrderDetailDto } from './dto/create-orderdetail.dto';
 import { UpdateOrderDetailDto } from './dto/update-orderdetail.dto';
+import { DeleteOrderdetailDto } from './dto/delete_orderdetail.dto';
 import {
 	ApiTags,
 	ApiOkResponse,
@@ -160,8 +161,21 @@ export class OrdersController {
 		return this.ordersService.updateOrderdetail(orderdetail);
 	}
 
-	@Delete(':id')
-	remove(@Param('id') id: string) {
-		return this.ordersService.remove(+id);
+	@Delete('/cart')
+	@ApiHeader({
+		name: 'Authorization',
+		description: '사용자 인증 수단, 액세스 토큰 값',
+		required: true,
+		schema: {
+			example: 'bearer 23f43u9if13ekc23fm30jg549quneraf2fmsdf',
+		},
+	})
+	@ApiOperation({
+		summary: 'order_detail delete',
+		description: '장바구니의 항목 제거를 위한 order_detail delete request',
+	})
+	// @UseGuards(JwtAuthGuard)
+	removeCart(@Body() order_detail_id: DeleteOrderdetailDto) {
+		return this.ordersService.removeCart(order_detail_id);
 	}
 }
