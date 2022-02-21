@@ -36,36 +36,12 @@ export class AppGateway
 		this.logger.log(`Client connected: ${client.id}`);
 	}
 
-	@SubscribeMessage('join_room')
-	handleJoinRoom(client: Socket, room: string) {
-		const message = `${client.id} has joined the chat room: ${room}`;
-		this.logger.log(message);
-		client.join(room);
-		client.emit('joinedRoom', room);
-	}
-
-	@SubscribeMessage('leave_room')
-	handleLeaveRoom(client: Socket, room: string) {
-		const message = `${client.id} has joined the chat room: ${room}`;
-		this.logger.log(message);
-		client.leave(room);
-		client.emit('leftRoom', room);
-	}
-
 	@SubscribeMessage('sendNotification')
-	async handleNotification(
-		client: Socket,
-		message: {
-			nickname: string;
-			room: string;
-			text: string;
-			data: object;
-		},
-	) {
+	async handleNotification(message: object) {
 		console.log(message);
 		this.server
-			.to(message.room)
-			.emit('notificationToClient', message.text, message.data);
+			.to('testroomname01')
+			.emit('notificationToClient', message);
 	}
 
 	handleDisconnect(client: Socket, ...args: any[]) {
