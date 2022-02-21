@@ -4,8 +4,8 @@ import OrderHistory from '../../../components/order-history/OrderHistory';
 function UserOrderHistory() {
   return (
     <div>
-      <h2>최근 주문 내역</h2>
-      <OrderHistory></OrderHistory>
+      <h2>주문 내역</h2>
+      <OrderHistory search={true}></OrderHistory>
     </div>
   );
 }

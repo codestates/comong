@@ -48,6 +48,13 @@ const UserOrderState = styled.div`
   }
 `;
 
+const UserOrderHistoryWrapper = styled.div`
+  margin-top: 60px;
+  h2 {
+    margin-bottom: 20px;
+  }
+`;
+
 function MypageUserDefault() {
   return (
     <Wrapper>
@@ -69,6 +76,10 @@ function MypageUserDefault() {
           <span className="userOrder-content">0</span>
         </UserOrderState>
       </UserOrderStateWrapper>
+      <UserOrderHistoryWrapper>
+        <h2>최근 주문 내역</h2>
+        <OrderHistory></OrderHistory>
+      </UserOrderHistoryWrapper>
     </Wrapper>
   );
 }

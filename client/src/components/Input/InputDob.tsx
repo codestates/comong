@@ -32,7 +32,7 @@ interface IInputDob {
 
 function InputDob({ fillJoinForm }: IInputDob) {
   const { userinfo } = useAppSelector((state) => state.userSlice);
-  const [value, setValue] = useState(userinfo?.birthday);
+  const [value, setValue] = useState(userinfo?.birthday || '');
   const fillGenderInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
     setValue(value);

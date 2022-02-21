@@ -1,6 +1,6 @@
 export const config = {
   development: {
-    url: 'https://api.comong.kr',
+    url: 'https://dev1.comong.kr',
     authURL: 'https://api.comong.kr/',
     redirectURL: 'https://localhost:3000/join/oauth',
     oauth: {

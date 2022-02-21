@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import ErrorMessage from './ErrorMessage';
 
@@ -17,6 +17,7 @@ const Title = styled.span`
 export const Input = styled.input`
   height: 45px;
   padding: 1rem;
+  margin-bottom: 8px;
   border-radius: 5px;
   border: 1px solid ${(props) => props.theme.colors.textColor};
 
@@ -44,6 +45,12 @@ function InputBasic({
   value,
   message,
 }: InputBasicProps) {
+  const replaceTextToEmpty = (e: React.FormEvent<HTMLInputElement>) => {
+    e.currentTarget.value = e.currentTarget.value
+      .replace(/[^0-9.]/g, '')
+      .replace(/(\..*)\./g, '$1');
+  };
+
   return (
     <Wrapper>
       <Title>{title}</Title>
@@ -52,6 +59,7 @@ function InputBasic({
         type={type}
         value={value}
         placeholder={placeholder}
+        onInput={(e) => name === 'phone' && replaceTextToEmpty(e)}
         onChange={fillJoinForm}
       />
       {<ErrorMessage>{message}</ErrorMessage>}
