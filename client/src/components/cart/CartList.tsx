@@ -25,9 +25,13 @@ const CartList = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = () => {
     dispatch(getCartAsync());
     dispatch(setTotalPrice(cartData.cartSlice.subTotalPrice));
-  }, []);
+  };
 
   let data = cartData.cartSlice.data[0];
 

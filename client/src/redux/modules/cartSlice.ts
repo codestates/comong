@@ -1,17 +1,35 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { config } from '../../config/config';
 import { apiClient } from '../../apis';
+import { useNavigate } from 'react-router-dom';
 
 const env = 'development';
 const urlConfig = config[env];
 
 export interface Cart {
-  data: { [index: string]: { order_details: [] } }[];
+  data: {
+    [index: string]: {
+      order_details: [
+        {
+          id: string;
+          item: {};
+          item_id: number;
+          order_amount: number;
+          peritem_price: number;
+          status: string;
+          createdAt: string;
+          updatedAt: string;
+          user_id: number;
+        },
+      ];
+    };
+  }[];
   totalPrice: number;
   totalDelivery: number;
   totalSeller: number;
   subTotalPrice: { [index: string]: number };
+  remainItem: [];
 }
 
 const initialState: Cart = {
@@ -20,6 +38,7 @@ const initialState: Cart = {
   totalDelivery: 0,
   totalSeller: 0,
   subTotalPrice: {},
+  remainItem: [],
 };
 
 const cartSlice = createSlice({
@@ -56,6 +75,13 @@ const cartSlice = createSlice({
         )[0].order_amount -= 1;
       }
     },
+    deleteItem(state: any, action: PayloadAction<any>) {
+      let id = action.payload[0];
+      let groupName = action.payload[1];
+      let arr = [...state.data[0][groupName].order_details];
+      arr = arr.filter((el) => el.id !== id);
+      state.data[0][groupName].order_details = arr;
+    },
     setTotalPrice(state: any, action: PayloadAction<any>) {
       let sum = 0;
       for (let x in action.payload) {
@@ -77,19 +103,25 @@ const cartSlice = createSlice({
       let contents = action.payload;
       return { ...state, data: contents };
     });
+    builder.addCase(getCartAsync.rejected, (state, action) => {});
 
     builder.addCase(getCartPatchAsync.fulfilled, (state, action) => {});
   },
 });
 
-export let { increment, decrement, setTotalPrice, setSubTotalPrice } =
-  cartSlice.actions;
+export let {
+  increment,
+  decrement,
+  setTotalPrice,
+  setSubTotalPrice,
+  deleteItem,
+} = cartSlice.actions;
 
 export const getCartAsync = createAsyncThunk(
   'orders/get',
   async (id?: number) => {
     id = 2;
-    const response = await axios({
+    const response: AxiosResponse = await axios({
       url: `${urlConfig.url}/orders/cart?user_id=${id}`,
       method: 'get',
     });
@@ -98,12 +130,26 @@ export const getCartAsync = createAsyncThunk(
 );
 export const getCartPatchAsync = createAsyncThunk(
   'orders/patch',
-  async (id?: number) => {
+  async (data: [{ user_id: number }]) => {
+    const id: number = data[0].user_id;
     const response = await axios({
-      url: `${urlConfig.url}/orders/user_id=${id}`,
+      url: `${urlConfig.url}/orders/orderdetail`,
       method: 'patch',
-      data: {},
+      data: { data },
     });
+    console.log('response', response);
+    return response.data;
+  },
+);
+export const deleteCartAsync = createAsyncThunk(
+  'orders/delete',
+  async (id: number) => {
+    const response = await axios({
+      url: `${urlConfig.url}/orders/cart`,
+      method: 'delete',
+      data: { order_detail_id: id },
+    });
+    console.log('response', response);
     return response.data;
   },
 );

@@ -6,7 +6,7 @@ import CartList from '../components/cart/CartList';
 import type { RootState } from '../redux/configStore';
 import { setTotalPrice } from '../redux/modules/cartSlice';
 import { useNavigate } from 'react-router-dom';
-
+import { getCartPatchAsync } from '../redux/modules/cartSlice';
 const Container = styled.div`
   display: flex;
   margin-top: 65px;
@@ -168,16 +168,49 @@ const Cart = () => {
     delivery += 3000;
   }
 
-  const payHandler = () => {
+  const payHandler = async () => {
     let obj = cartData.cartSlice.data[0];
-    let tmp: [] = [];
+    let tmp: [{ user_id: number }] = [{ user_id: 1 }];
     for (let el in obj) {
+      console.log(obj[el].order_details);
       for (let x of obj[el].order_details) {
-        tmp.push(x);
+        let tmpObj: {
+          id: string;
+          item_id: number;
+          order_amount: number;
+          status: string;
+          user_id: number;
+          peritem_price: number;
+        } = {
+          id: '1',
+          item_id: 1,
+          order_amount: 2,
+          status: '1',
+          user_id: 3,
+          peritem_price: 1,
+        };
+        tmpObj.id = x.id;
+        tmpObj.user_id = x.user_id;
+        tmpObj.item_id = x.item_id;
+        tmpObj.order_amount = x.order_amount;
+        tmpObj.peritem_price = x.peritem_price;
+        tmpObj.status = x.status;
+        tmp.push(tmpObj);
       }
     }
-    console.log(tmp);
-    navigate('/payment');
+
+    tmp.splice(0, 1);
+
+    try {
+      const response = await dispatch(getCartPatchAsync(tmp)).unwrap();
+      navigate('/payment');
+    } catch (error) {
+      navigate('/');
+      console.log(error);
+    }
+
+    // console.log(tmp);
+
     return;
   };
 
