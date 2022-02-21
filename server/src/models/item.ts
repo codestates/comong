@@ -5,6 +5,7 @@ import type { chat, chatId } from './chat';
 import type { chat_has_item, chat_has_itemId } from './chat_has_item';
 import type { item_has_category, item_has_categoryId } from './item_has_category';
 import type { item_inventory, item_inventoryId } from './item_inventory';
+import type { item_review, item_reviewId } from './item_review';
 import type { order_detail, order_detailId } from './order_detail';
 import type { user, userId } from './user';
 
@@ -94,6 +95,18 @@ export class item extends Model<itemAttributes, itemCreationAttributes> implemen
   hasItem_inventory!: Sequelize.HasManyHasAssociationMixin<item_inventory, item_inventoryId>;
   hasItem_inventories!: Sequelize.HasManyHasAssociationsMixin<item_inventory, item_inventoryId>;
   countItem_inventories!: Sequelize.HasManyCountAssociationsMixin;
+  // item hasMany item_review via item_id
+  item_reviews!: item_review[];
+  getItem_reviews!: Sequelize.HasManyGetAssociationsMixin<item_review>;
+  setItem_reviews!: Sequelize.HasManySetAssociationsMixin<item_review, item_reviewId>;
+  addItem_review!: Sequelize.HasManyAddAssociationMixin<item_review, item_reviewId>;
+  addItem_reviews!: Sequelize.HasManyAddAssociationsMixin<item_review, item_reviewId>;
+  createItem_review!: Sequelize.HasManyCreateAssociationMixin<item_review>;
+  removeItem_review!: Sequelize.HasManyRemoveAssociationMixin<item_review, item_reviewId>;
+  removeItem_reviews!: Sequelize.HasManyRemoveAssociationsMixin<item_review, item_reviewId>;
+  hasItem_review!: Sequelize.HasManyHasAssociationMixin<item_review, item_reviewId>;
+  hasItem_reviews!: Sequelize.HasManyHasAssociationsMixin<item_review, item_reviewId>;
+  countItem_reviews!: Sequelize.HasManyCountAssociationsMixin;
   // item hasMany order_detail via item_id
   order_details!: order_detail[];
   getOrder_details!: Sequelize.HasManyGetAssociationsMixin<order_detail>;
