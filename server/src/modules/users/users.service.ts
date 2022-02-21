@@ -110,15 +110,17 @@ export class UsersService {
 			where: { id: user.id }
 		})
 		if (changed) {
-			if(changes.likes){
+			if(changes.likes ){
 				const likesArr = changes.likes.replace(/\[|\]/g, '').split(',').map( async (elements: string): Promise<{user_id: number}> => {
 					if(elements !== ''){
+						console.log(elements)
 						return  await models.category_has_user.create({
 							category_id: elements,
 							user_id: user.id,
 						})
 					}
 				})
+				console.log('likearr는', likesArr)
 				likesArr.unshift(
 					await models.category_has_user.destroy({
 						where: {
@@ -126,15 +128,9 @@ export class UsersService {
 						}
 					})
 				)
+				console.log('likearr는', likesArr)
 	
-				return Promise.all(likesArr).then(like => {
-					like.forEach(elements => {
-						console.log(elements, '여기여기')
-						if(!elements){
-							throw new BadRequestException('invalid value for property1');
-						} 
-					})
-				}).then( (): {} => {
+				return Promise.all(likesArr).then(() => {
 					return { message: 'successful' }
 				})
 			} else {
