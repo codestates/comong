@@ -148,14 +148,14 @@ export function initModels(sequelize: Sequelize) {
   item.hasMany(item_has_category, { as: "item_has_categories", foreignKey: "item_id"});
   item_inventory.belongsTo(item, { as: "item", foreignKey: "item_id"});
   item.hasMany(item_inventory, { as: "item_inventories", foreignKey: "item_id"});
-  item_review.belongsTo(item, { as: "item", foreignKey: "item_id"});
-  item.hasMany(item_review, { as: "item_reviews", foreignKey: "item_id"});
   order_detail.belongsTo(item, { as: "item", foreignKey: "item_id"});
   item.hasMany(order_detail, { as: "order_details", foreignKey: "item_id"});
   order_detail_has_order.belongsTo(order, { as: "order", foreignKey: "order_id"});
   order.hasMany(order_detail_has_order, { as: "order_detail_has_orders", foreignKey: "order_id"});
   user_payment.belongsTo(order, { as: "order", foreignKey: "order_id"});
   order.hasMany(user_payment, { as: "user_payments", foreignKey: "order_id"});
+  item_review.belongsTo(order_detail, { as: "order_detail", foreignKey: "order_detail_id"});
+  order_detail.hasMany(item_review, { as: "item_reviews", foreignKey: "order_detail_id"});
   order_detail_has_order.belongsTo(order_detail, { as: "order_detail", foreignKey: "order_detail_id"});
   order_detail.hasMany(order_detail_has_order, { as: "order_detail_has_orders", foreignKey: "order_detail_id"});
   replace_refund.belongsTo(order_detail, { as: "order_detail", foreignKey: "order_detail_id"});

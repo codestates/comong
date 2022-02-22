@@ -1,6 +1,6 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
-import type { item, itemId } from './item';
+import type { order_detail, order_detailId } from './order_detail';
 import type { user, userId } from './user';
 
 export interface item_reviewAttributes {
@@ -10,8 +10,8 @@ export interface item_reviewAttributes {
   score?: number;
   createdAt?: Date;
   updatedAt?: Date;
-  item_id: number;
   user_id: number;
+  order_detail_id: number;
 }
 
 export type item_reviewPk = "id";
@@ -26,14 +26,14 @@ export class item_review extends Model<item_reviewAttributes, item_reviewCreatio
   score?: number;
   createdAt?: Date;
   updatedAt?: Date;
-  item_id!: number;
   user_id!: number;
+  order_detail_id!: number;
 
-  // item_review belongsTo item via item_id
-  item!: item;
-  getItem!: Sequelize.BelongsToGetAssociationMixin<item>;
-  setItem!: Sequelize.BelongsToSetAssociationMixin<item, itemId>;
-  createItem!: Sequelize.BelongsToCreateAssociationMixin<item>;
+  // item_review belongsTo order_detail via order_detail_id
+  order_detail!: order_detail;
+  getOrder_detail!: Sequelize.BelongsToGetAssociationMixin<order_detail>;
+  setOrder_detail!: Sequelize.BelongsToSetAssociationMixin<order_detail, order_detailId>;
+  createOrder_detail!: Sequelize.BelongsToCreateAssociationMixin<order_detail>;
   // item_review belongsTo user via user_id
   user!: user;
   getUser!: Sequelize.BelongsToGetAssociationMixin<user>;
@@ -61,19 +61,19 @@ export class item_review extends Model<item_reviewAttributes, item_reviewCreatio
       allowNull: true,
       defaultValue: 0
     },
-    item_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'item',
-        key: 'id'
-      }
-    },
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
         model: 'user',
+        key: 'id'
+      }
+    },
+    order_detail_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'order_detail',
         key: 'id'
       }
     }
@@ -91,17 +91,17 @@ export class item_review extends Model<item_reviewAttributes, item_reviewCreatio
         ]
       },
       {
-        name: "fk_item_review_item1_idx",
-        using: "BTREE",
-        fields: [
-          { name: "item_id" },
-        ]
-      },
-      {
         name: "fk_item_review_user1_idx",
         using: "BTREE",
         fields: [
           { name: "user_id" },
+        ]
+      },
+      {
+        name: "fk_item_review_order_detail1_idx",
+        using: "BTREE",
+        fields: [
+          { name: "order_detail_id" },
         ]
       },
     ]

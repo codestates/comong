@@ -1,6 +1,7 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
 import type { item, itemId } from './item';
+import type { item_review, item_reviewId } from './item_review';
 import type { order, orderId } from './order';
 import type { order_detail_has_order, order_detail_has_orderId } from './order_detail_has_order';
 import type { replace_refund, replace_refundId } from './replace_refund';
@@ -37,6 +38,18 @@ export class order_detail extends Model<order_detailAttributes, order_detailCrea
   getItem!: Sequelize.BelongsToGetAssociationMixin<item>;
   setItem!: Sequelize.BelongsToSetAssociationMixin<item, itemId>;
   createItem!: Sequelize.BelongsToCreateAssociationMixin<item>;
+  // order_detail hasMany item_review via order_detail_id
+  item_reviews!: item_review[];
+  getItem_reviews!: Sequelize.HasManyGetAssociationsMixin<item_review>;
+  setItem_reviews!: Sequelize.HasManySetAssociationsMixin<item_review, item_reviewId>;
+  addItem_review!: Sequelize.HasManyAddAssociationMixin<item_review, item_reviewId>;
+  addItem_reviews!: Sequelize.HasManyAddAssociationsMixin<item_review, item_reviewId>;
+  createItem_review!: Sequelize.HasManyCreateAssociationMixin<item_review>;
+  removeItem_review!: Sequelize.HasManyRemoveAssociationMixin<item_review, item_reviewId>;
+  removeItem_reviews!: Sequelize.HasManyRemoveAssociationsMixin<item_review, item_reviewId>;
+  hasItem_review!: Sequelize.HasManyHasAssociationMixin<item_review, item_reviewId>;
+  hasItem_reviews!: Sequelize.HasManyHasAssociationsMixin<item_review, item_reviewId>;
+  countItem_reviews!: Sequelize.HasManyCountAssociationsMixin;
   // order_detail belongsToMany order via order_detail_id and order_id
   order_id_orders!: order[];
   getOrder_id_orders!: Sequelize.BelongsToManyGetAssociationsMixin<order>;
