@@ -17,10 +17,10 @@ import { useAppSelector } from './redux/configStore.hooks';
 import Mypage from './pages/mypage/Mypage';
 import MypageUserDefault from './pages/mypage/mypage_user/MypageUserDefault';
 import UserOrderHistory from './pages/mypage/mypage_user/UserOrderHistory';
+import { useState, useEffect } from 'react';
 
 function Routers() {
   const { role } = useAppSelector((state) => state.userSlice);
-  let current = window.location.href.split('/')[3];
 
   return (
     <BrowserRouter>
@@ -44,7 +44,7 @@ function Routers() {
         </Route>
         <Route path="/payment" element={<Payment />}></Route>
       </Routes>
-      {current === 'item' ? null : <MobileNav></MobileNav>}
+      <MobileNav></MobileNav>
     </BrowserRouter>
   );
 }

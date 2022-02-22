@@ -5,17 +5,35 @@ import { getCartAsync } from '../../redux/modules/cartSlice';
 import type { RootState } from '../../redux/configStore';
 import { increment, decrement } from '../../redux/modules/cartSlice';
 import { setTotalPrice } from '../../redux/modules/cartSlice';
+import { deleteItem } from '../../redux/modules/cartSlice';
+import { deleteCartAsync } from '../../redux/modules/cartSlice';
 
 const Container = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin: 15px 0px;
+  margin: 22px 0px;
 `;
 
 const CartListItemImageContainer = styled.div`
-  width: 60px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  /* flex-direction: column; */
+  width: 70px;
 `;
+
+const CheckBoxContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  /* flex-direction: row; */
+  justify-content: center;
+`;
+
+const CheckBox = styled.input`
+  width: 20px;
+`;
+
 const CartListItemImage = styled.img`
   width: 60px;
 `;
@@ -27,9 +45,24 @@ const CartListItemName = styled.div`
   font-size: 15px;
   font-weight: 400;
 `;
-const CartListItemPrice = styled.div`
+
+const PriceContainer = styled.div`
+  display: flex;
+  /* display: flex; */
+  align-items: center;
+  /* justify-content: center; */
+  /* width: 25px; */
+  font-size: 10px;
   width: 15%;
-  font-size: 20px;
+`;
+
+const CartListItemPrice = styled.div`
+  justify-content: flex-end;
+  align-items: flex-end;
+  vertical-align: middle;
+  text-align: right;
+  /* width: 20%; */
+  font-size: 18px;
   font-weight: 600;
 `;
 
@@ -72,6 +105,17 @@ const StockMinusButton = styled.button`
 const StockMinusIcon = styled.img`
   width: 10px;
 `;
+
+const DeleteBtn = styled.div`
+  display: flex;
+  align-items: center;
+  width: 25px;
+`;
+
+const DeleteBtnImg = styled.img`
+  width: 100%;
+`;
+
 const CartSellerItem = ({ data, storeName, groupName }: any) => {
   const cartData = useAppSelector((state: RootState) => state);
 
@@ -92,9 +136,19 @@ const CartSellerItem = ({ data, storeName, groupName }: any) => {
     dispatch(setTotalPrice(cartData.cartSlice.subTotalPrice));
   };
 
+  const deleteHandler = () => {
+    // console.log(cartData.cartSlice.data);
+    console.log(cartData.cartSlice.data[0]);
+    dispatch(deleteItem([id, groupName]));
+    dispatch(deleteCartAsync(id));
+  };
+
   return (
     <Container>
       <CartListItemImageContainer>
+        {/* <CheckBoxContainer>
+          <CheckBox type="checkbox"></CheckBox>
+        </CheckBoxContainer> */}
         <CartListItemImage src={img_src} />
       </CartListItemImageContainer>
       <NameAndStockContainer>
@@ -117,9 +171,14 @@ const CartSellerItem = ({ data, storeName, groupName }: any) => {
           </StockAddButton>
         </StockController>
       </NameAndStockContainer>
-      <CartListItemPrice>
-        {(price * stock).toLocaleString('en')}원
-      </CartListItemPrice>
+      <PriceContainer>
+        <CartListItemPrice>
+          {(price * stock).toLocaleString('en')}원
+        </CartListItemPrice>
+      </PriceContainer>
+      <DeleteBtn onClick={deleteHandler}>
+        <DeleteBtnImg src="/icons/cart/delete.png"></DeleteBtnImg>
+      </DeleteBtn>
     </Container>
   );
 };

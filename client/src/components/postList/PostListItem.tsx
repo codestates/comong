@@ -80,22 +80,15 @@ const ItemPrice = styled.div`
 
 const PostListItem = ({ post }: any) => {
   const img_src = post.image_src
-    ? post.image_src
+    ? post.image_src.split(',')[0]
     : 'https://imagedelivery.net/BOKuAiJyROlMLXwCcBYMqQ/fe9f218d-5134-4a76-ba20-bf97e5c21900/thumbnail';
   const seller = post.user.nickname ? post.user.nickname : 'hojin';
   const title = post.title;
   const id = post.id;
 
   const price = post.price.toLocaleString('en');
-  console.log('price', price);
-  // console.lo
-
-  // function AddComma(data_value: number) {
-  //   return data_value.toLocaleString('en');
-  // }
 
   return (
-    // <StLink to={`/list/${post.id}`}>
     <StLink to={`/item/${id}`}>
       <ItemContainer>
         <ItemImgContainer>

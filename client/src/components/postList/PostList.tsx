@@ -35,8 +35,6 @@ const ItemContainer = styled.div`
 function PostList() {
   const listData = useAppSelector((state: RootState) => state);
 
-  console.log(listData);
-
   const dispatch = useAppDispatch();
 
   useEffect(() => {

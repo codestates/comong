@@ -8,6 +8,7 @@ import type { RootState } from '../redux/configStore';
 import { Link } from 'react-router-dom';
 import Nav from '../components/Nav';
 import MobileNav from '../components/MobileNav';
+import { Viewer } from '@toast-ui/react-editor';
 
 const Container = styled.div`
   display: flex;
@@ -17,7 +18,7 @@ const Container = styled.div`
   align-items: center;
   font-family: Noto Sans KR;
   @media only screen and (max-width: 768px) {
-    margin-bottom: 70px;
+    /* margin-bottom: 70px; */
   }
 `;
 const PostContainer = styled.div`
@@ -310,8 +311,8 @@ const Post = () => {
   let seller = data.user_storename;
   let title = data.title;
   let contents = data.contents;
-  let price = data.price.toLocaleString('en');
-  let img_src = data.image_src;
+  let price = data.price;
+  let img_src = data.image_src.split(',');
 
   const stockHandler = (el: string) => {
     if (el === 'plus' && stock <= 98) setStock(stock + 1);
@@ -323,13 +324,19 @@ const Post = () => {
       <PostContainer>
         <ImgContainer>
           <MainImgContainer>
-            <MainImg src={img_src} />
+            <MainImg src={img_src[0]} />
           </MainImgContainer>
           <ThumbnailImgContainer>
+            {img_src.map(elements => {
+              return <ThumbnailImg src={elements} />
+            })}
+            {/*
             <ThumbnailImg src={img_src} />
             <ThumbnailImg src={img_src} />
             <ThumbnailImg src={img_src} />
             <ThumbnailImg src={img_src} />
+            */
+            }
           </ThumbnailImgContainer>
         </ImgContainer>
         <BottomContainer>
@@ -339,13 +346,13 @@ const Post = () => {
               <ContentsTitle>상품평</ContentsTitle>
             </ContentsTitleContainer>
             <Contentsline />
-            <ContentsArea>{contents}</ContentsArea>
+            <ContentsArea><Viewer initialValue={contents} /></ContentsArea>
           </ContentsContainer>
           <OrderContainer>
             <Category>{category}</Category>
             <Title>{title}</Title>
             <Seller>{seller}</Seller>
-            <Price>{price}원</Price>
+            <Price>{(price * stock).toLocaleString('en')}원</Price>
             <StockController>
               <StockMinusButton
                 onClick={() => {
