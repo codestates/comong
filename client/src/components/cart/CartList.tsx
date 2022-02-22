@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/configStore.hooks';
 import { getCartAsync } from '../../redux/modules/cartSlice';
 import type { RootState } from '../../redux/configStore';
 import { setTotalPrice } from '../../redux/modules/cartSlice';
+import { v4 as uuidv4 } from 'uuid';
 
 const SellerContainer = styled.div`
   background-color: white;
@@ -24,9 +25,13 @@ const CartList = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = () => {
     dispatch(getCartAsync());
     dispatch(setTotalPrice(cartData.cartSlice.subTotalPrice));
-  }, []);
+  };
 
   let data = cartData.cartSlice.data[0];
 
@@ -40,14 +45,14 @@ const CartList = () => {
   return (
     <>
       {list.map((el: any, i) => {
-        console.log(Array.isArray(el));
         return (
-          <div>
-            <SellerContainer>
-              <SellerName>{el.storeInfo.name}</SellerName>
-              <SellerLine />
+          <div key={uuidv4()}>
+            <SellerContainer key={uuidv4()}>
+              <SellerName key={uuidv4()}>{el.storeInfo.name}</SellerName>
+              <SellerLine key={uuidv4()} />
             </SellerContainer>
             <CartSeller
+              key={uuidv4()}
               storeName={el.storeInfo.name}
               groupName={group[i]}
               data={el.order_details}

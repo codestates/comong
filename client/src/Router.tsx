@@ -13,9 +13,14 @@ import Nav from './components/Nav';
 import MobileNav from './components/MobileNav';
 import Post from './pages/Post';
 import Payment from './pages/Payment';
+import { useAppSelector } from './redux/configStore.hooks';
+import Mypage from './pages/mypage/Mypage';
+import MypageUserDefault from './pages/mypage/mypage_user/MypageUserDefault';
+import UserOrderHistory from './pages/mypage/mypage_user/UserOrderHistory';
+import { useState, useEffect } from 'react';
 
 function Routers() {
-  let current = window.location.href.split('/')[3];
+  const { role } = useAppSelector((state) => state.userSlice);
 
   return (
     <BrowserRouter>
@@ -32,9 +37,14 @@ function Routers() {
           <Route path="oauth" element={<OauthGeneralJoin />}></Route>
           <Route path="oauth/seller" element={<OauthSellerJoin />}></Route>
         </Route>
+        <Route path="mypage/*" element={<Mypage />}>
+          <Route path="" element={<MypageUserDefault />}></Route>
+          <Route path="userOrderHistory" element={<UserOrderHistory />}></Route>
+          <Route path="modifyInfo" element={<GeneralJoin />}></Route>
+        </Route>
         <Route path="/payment" element={<Payment />}></Route>
       </Routes>
-      {current === 'item' ? null : <MobileNav></MobileNav>}
+      <MobileNav></MobileNav>
     </BrowserRouter>
   );
 }

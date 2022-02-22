@@ -8,6 +8,7 @@ import { ApiTags, ApiOperation, ApiCreatedResponse, ApiOkResponse, ApiHeader, Ap
 import JwtAuthGuard from '../../middleware/Jwtauthguard';
 import { getUser } from 'src/decorators/getUser';
 import { User } from '../users/entities/user.entity';
+import { CreateBookmarkDto } from './dto/create-bookmark.dto';
 //import { Auth } from '../../middleware/auth';
 
 @Controller('items')
@@ -74,17 +75,32 @@ export class ItemsController {
     return this.itemsService.getItems(+category, +number, key);
   }
 
-  @Get('/details:id')
+  @Get('/details/:id')
   @ApiOperation({ summary: '상품 상세 정보', description: '해당 상품의 상세 정보를 요청합니다.' })
-  @ApiQuery({
+  @ApiParam({
     name: 'id',
     required: true,
     description: '상품 Id'
   })
   @ApiOkResponse({
     description: 'successful',
+    schema: {
+      example: {
+        "id": 999,
+        "title": "미래생활 순수PURE천연펄프 25m 30롤 x 3팩",
+        "contents": "미래생활 순수PURE천연펄프 25m 30롤 x 3팩",
+        "price": 26900,
+        "image_src": "http://gdimg.gmarket.co.kr/1899274105/still/600?ver=1642724241",
+        "user_id": 116,
+        "createdAt": "2022-02-16T07:59:25.000Z",
+        "updatedAt": "2022-02-16T07:59:25.000Z",
+        "user_storename": "TEST STORENAME",
+        "category_id": 4,
+        "category": "생활용품"
+      }
+    }
   })
-  getDetails(@Query('id') id: number): Promise<item[]> {
+  getDetails(@Param('id') id: number): Promise<item[]> {
     return this.itemsService.getDetails(+id)
   }
 
@@ -131,6 +147,22 @@ export class ItemsController {
   @ApiBadRequestResponse({ description: 'invalid value for property' })
   remove(@Param('id') id: string) {
     return this.itemsService.remove(+id);
+  }
+
+  @Post('/bookmark')
+  @ApiHeader({
+    name: 'Authorization',
+    description: '사용자 인증 수단, 액세스 토큰 값',
+    required: true,
+    schema: {
+      example: 'bearer 23f43u9if13ekc23fm30jg549quneraf2fmsdf'
+    },
+  })
+  // @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: '북마크 추가', description: '원하는 상품에 대한 북마크 추가요청' })
+  @ApiCreatedResponse({ description: 'successful' })
+  createBookmark(@Body() data: CreateBookmarkDto) {
+    return this.itemsService.createBookmark(data)
   }
 
 }

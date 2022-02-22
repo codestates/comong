@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { IJoinPartial } from '../../pages/join/GeneralJoin';
+import { useAppSelector } from '../../redux/configStore.hooks';
 import LikesListItem from './LikesListItem';
 
 const Wrppaer = styled.div`
@@ -112,19 +113,21 @@ function InputLikes({ fillJoinForm }: IInpuLikes) {
     },
   ];
 
-  const [likes, setLikes] = useState<number[]>([]);
+  const { userinfo } = useAppSelector((state) => state.userSlice);
+  const userLikes = userinfo?.likes;
+  const [value, setValues] = useState(userLikes || []);
 
   useEffect(() => {
-    fillJoinForm({ likes });
-  }, [likes]);
+    fillJoinForm({ likes: value });
+  }, [value]);
 
   const fillList = (id: number) => {
-    setLikes([...likes, id]);
+    setValues([...value, id]);
   };
 
   const deleteListItem = (id: number) => {
-    let idx = likes.findIndex((el) => el === id);
-    setLikes([...likes.slice(0, idx), ...likes.slice(idx + 1)]);
+    let idx = value.findIndex((el) => el === id);
+    setValues([...value.slice(0, idx), ...value.slice(idx + 1)]);
   };
 
   const makeCategoryList = (categories: Array<ICategory>) => {
@@ -135,6 +138,7 @@ function InputLikes({ fillJoinForm }: IInpuLikes) {
           id={obj.id}
           fillList={fillList}
           deleteListItem={deleteListItem}
+          selected={value.includes(obj.id) ? true : false}
         >
           {obj.category}
         </LikesListItem>

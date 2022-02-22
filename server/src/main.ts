@@ -7,6 +7,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { setupSwagger } from 'src/util/swagger';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { MicroserviceOptions } from '@nestjs/microservices';
 dotenv.config();
 
 async function bootstrap() {
@@ -17,6 +18,9 @@ async function bootstrap() {
 			'https://www.comong.kr',
 			'https://test.comong.kr',
 			'https://comong.kr',
+			'https://api.comong.kr',
+			'https://dev1.comong.kr',
+
 		],
 		methods: 'GET,OPTIONS,PUT,PATCH,POST,DELETE',
 		allowedHeaders: ['Content-Type', 'Authorization'],

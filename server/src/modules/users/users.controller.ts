@@ -137,6 +137,7 @@ export class UsersController {
 				name: '박다현',
 				gender: 1,
 				age: null,
+				likes: {},
 				address1: '서울특별시 성북구 동선동1가',
 				address2: null,
 				phone: null,
@@ -151,6 +152,14 @@ export class UsersController {
 	@ApiBadRequestResponse({ description: 'invalid value for property' })
 	signIn(@Body() userInfo: SignInUserDto) {
 		return this.usersService.signIn(userInfo);
+	}
+
+	@Get('/token')
+	@ApiOperation({ summary: '엑세스 토큰 재발급', description: '리프레시 토큰 인증을 통해 엑세스 토큰을 갱신합니다.' })
+	@ApiOkResponse({ description: 'successful' })
+	@ApiBadRequestResponse({ description: 'refreshtoken has expired' })
+	reissueToken(){
+		return 0
 	}
 
 	@Get('/signout')

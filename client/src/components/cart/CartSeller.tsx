@@ -3,9 +3,9 @@ import CartSellerItem from './CartSellerItem';
 import { useState, useEffect } from 'react';
 import { setSubTotalPrice } from '../../redux/modules/cartSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/configStore.hooks';
-import { getListAsync } from '../../redux/modules/listSlice';
 import type { RootState } from '../../redux/configStore';
 import { setTotalPrice } from '../../redux/modules/cartSlice';
+import { v4 as uuidv4 } from 'uuid';
 
 const MainContainer = styled.div`
   display: flex;
@@ -77,6 +77,7 @@ const CartSeller = ({ data, storeName, groupName }: any) => {
         {data.map((el: any) => {
           return (
             <CartSellerItem
+              key={uuidv4()}
               storeName={storeName}
               groupName={groupName}
               data={el}

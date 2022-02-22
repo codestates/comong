@@ -1,10 +1,13 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
+import type { bookmark, bookmarkId } from './bookmark';
 import type { category, categoryId } from './category';
 import type { category_has_user, category_has_userId } from './category_has_user';
 import type { chat, chatId } from './chat';
 import type { chat_has_user, chat_has_userId } from './chat_has_user';
 import type { item, itemId } from './item';
+import type { item_review, item_reviewId } from './item_review';
+import type { notification, notificationId } from './notification';
 import type { order, orderId } from './order';
 import type { order_detail, order_detailId } from './order_detail';
 import type { refreshtoken, refreshtokenId } from './refreshtoken';
@@ -18,16 +21,17 @@ export interface userAttributes {
   email: string;
   mobile?: string;
   password?: string;
+  gender?: number;
+  birthday?: string;
+  role: number;
+  myimg_src?: string;
   createdAt?: Date;
   updatedAt?: Date;
-  gender?: string;
-  birthday?: string;
-  role: string;
 }
 
 export type userPk = "id";
 export type userId = user[userPk];
-export type userOptionalAttributes = "id" | "name" | "storename" | "mobile" | "password" | "createdAt" | "updatedAt" | "gender" | "birthday" | "role";
+export type userOptionalAttributes = "id" | "name" | "storename" | "mobile" | "password" | "gender" | "birthday" | "role" | "myimg_src" | "createdAt" | "updatedAt";
 export type userCreationAttributes = Optional<userAttributes, userOptionalAttributes>;
 
 export class user extends Model<userAttributes, userCreationAttributes> implements userAttributes {
@@ -37,12 +41,25 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   email!: string;
   mobile?: string;
   password?: string;
+  gender?: number;
+  birthday?: string;
+  role!: number;
+  myimg_src?: string;
   createdAt?: Date;
   updatedAt?: Date;
-  gender?: string;
-  birthday?: string;
-  role!: string;
 
+  // user hasMany bookmark via user_id
+  bookmarks!: bookmark[];
+  getBookmarks!: Sequelize.HasManyGetAssociationsMixin<bookmark>;
+  setBookmarks!: Sequelize.HasManySetAssociationsMixin<bookmark, bookmarkId>;
+  addBookmark!: Sequelize.HasManyAddAssociationMixin<bookmark, bookmarkId>;
+  addBookmarks!: Sequelize.HasManyAddAssociationsMixin<bookmark, bookmarkId>;
+  createBookmark!: Sequelize.HasManyCreateAssociationMixin<bookmark>;
+  removeBookmark!: Sequelize.HasManyRemoveAssociationMixin<bookmark, bookmarkId>;
+  removeBookmarks!: Sequelize.HasManyRemoveAssociationsMixin<bookmark, bookmarkId>;
+  hasBookmark!: Sequelize.HasManyHasAssociationMixin<bookmark, bookmarkId>;
+  hasBookmarks!: Sequelize.HasManyHasAssociationsMixin<bookmark, bookmarkId>;
+  countBookmarks!: Sequelize.HasManyCountAssociationsMixin;
   // user belongsToMany category via user_id and category_id
   category_id_categories!: category[];
   getCategory_id_categories!: Sequelize.BelongsToManyGetAssociationsMixin<category>;
@@ -103,6 +120,30 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasItem!: Sequelize.HasManyHasAssociationMixin<item, itemId>;
   hasItems!: Sequelize.HasManyHasAssociationsMixin<item, itemId>;
   countItems!: Sequelize.HasManyCountAssociationsMixin;
+  // user hasMany item_review via user_id
+  item_reviews!: item_review[];
+  getItem_reviews!: Sequelize.HasManyGetAssociationsMixin<item_review>;
+  setItem_reviews!: Sequelize.HasManySetAssociationsMixin<item_review, item_reviewId>;
+  addItem_review!: Sequelize.HasManyAddAssociationMixin<item_review, item_reviewId>;
+  addItem_reviews!: Sequelize.HasManyAddAssociationsMixin<item_review, item_reviewId>;
+  createItem_review!: Sequelize.HasManyCreateAssociationMixin<item_review>;
+  removeItem_review!: Sequelize.HasManyRemoveAssociationMixin<item_review, item_reviewId>;
+  removeItem_reviews!: Sequelize.HasManyRemoveAssociationsMixin<item_review, item_reviewId>;
+  hasItem_review!: Sequelize.HasManyHasAssociationMixin<item_review, item_reviewId>;
+  hasItem_reviews!: Sequelize.HasManyHasAssociationsMixin<item_review, item_reviewId>;
+  countItem_reviews!: Sequelize.HasManyCountAssociationsMixin;
+  // user hasMany notification via user_id
+  notifications!: notification[];
+  getNotifications!: Sequelize.HasManyGetAssociationsMixin<notification>;
+  setNotifications!: Sequelize.HasManySetAssociationsMixin<notification, notificationId>;
+  addNotification!: Sequelize.HasManyAddAssociationMixin<notification, notificationId>;
+  addNotifications!: Sequelize.HasManyAddAssociationsMixin<notification, notificationId>;
+  createNotification!: Sequelize.HasManyCreateAssociationMixin<notification>;
+  removeNotification!: Sequelize.HasManyRemoveAssociationMixin<notification, notificationId>;
+  removeNotifications!: Sequelize.HasManyRemoveAssociationsMixin<notification, notificationId>;
+  hasNotification!: Sequelize.HasManyHasAssociationMixin<notification, notificationId>;
+  hasNotifications!: Sequelize.HasManyHasAssociationsMixin<notification, notificationId>;
+  countNotifications!: Sequelize.HasManyCountAssociationsMixin;
   // user hasMany order via user_id
   orders!: order[];
   getOrders!: Sequelize.HasManyGetAssociationsMixin<order>;
@@ -193,7 +234,7 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
       allowNull: true
     },
     gender: {
-      type: DataTypes.STRING(45),
+      type: DataTypes.SMALLINT,
       allowNull: true
     },
     birthday: {
@@ -201,9 +242,13 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
       allowNull: true
     },
     role: {
-      type: DataTypes.STRING(15),
+      type: DataTypes.SMALLINT,
       allowNull: false,
-      defaultValue: "0"
+      defaultValue: 0
+    },
+    myimg_src: {
+      type: DataTypes.STRING(100),
+      allowNull: true
     }
   }, {
     sequelize,

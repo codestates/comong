@@ -1,7 +1,7 @@
 import React, { Dispatch } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import ButtonBasic from '../ButtonBasic';
+import ButtonBasic from '../button/ButtonBasic';
 
 const Wrapper = styled.div`
   height: 100%;

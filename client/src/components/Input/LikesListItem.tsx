@@ -24,6 +24,7 @@ interface ILikesListItem {
   children: string;
   fillList: (id: number) => void;
   deleteListItem: (id: number) => void;
+  selected?: boolean;
 }
 
 function LikesListItem({
@@ -31,12 +32,13 @@ function LikesListItem({
   children,
   fillList,
   deleteListItem,
+  selected,
 }: ILikesListItem) {
-  const [isClicked, setIsClicked] = useState(false);
+  const [isClicked, setIsClicked] = useState(selected);
 
   return (
     <ListItemWrapper
-      className={isClicked ? 'selected' : ''}
+      className={selected ? 'selected' : ''}
       onClick={() => {
         isClicked ? deleteListItem(id) : fillList(id);
         setIsClicked(!isClicked);
