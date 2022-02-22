@@ -10,6 +10,8 @@ import { getUser } from 'src/decorators/getUser';
 import { User } from '../users/entities/user.entity';
 import { CreateBookmarkDto } from './dto/create-bookmark.dto';
 import { CreateItemReviewDto } from './dto/create-itemreview.dto';
+import { DeleteItemReviewDto } from './dto/delete-itemreview.dto';
+import { UpdateItemReviewDto } from './dto/update-itemreview.dto';
 //import { Auth } from '../../middleware/auth';
 
 @Controller('items')
@@ -113,8 +115,21 @@ export class ItemsController {
     return this.itemsService.getCategoryList();
   }
 
-
-
+  @Patch('/itemreview')
+  @ApiHeader({
+    name: 'Authorization',
+    description: '사용자 인증 수단, 액세스 토큰 값',
+    required: true,
+    schema: {
+      example: 'bearer 23f43u9if13ekc23fm30jg549quneraf2fmsdf'
+    },
+  })
+  // @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: '구매리뷰 수정', description: '구매한 상품에 대한 구매후기 수정 요청' })
+  @ApiCreatedResponse({ description: 'successful' })
+  patchItemReview(@Body() data: UpdateItemReviewDto) {
+    return this.itemsService.patchItemreview(data)
+  }
 
   @Patch(':id')
   @ApiHeader({
@@ -133,7 +148,24 @@ export class ItemsController {
     return this.itemsService.update(+id, updateItemDto);
   }
 
-  @Delete(':id')
+  @Delete('/itemreview')
+  @ApiHeader({
+    name: 'Authorization',
+    description: '사용자 인증 수단, 액세스 토큰 값',
+    required: true,
+    schema: {
+      example: 'bearer 23f43u9if13ekc23fm30jg549quneraf2fmsdf'
+    },
+  })
+  @ApiOperation({ summary: '구매 리뷰 삭제', description: 'item_review 삭제 요청을 받습니다.' })
+  @ApiOkResponse({ description: 'successful'})
+  // @UseGuards(JwtAuthGuard)
+  @ApiBadRequestResponse({ description: 'invalid value for property' })
+  removeItemreview(@Body() item_review_id: DeleteItemReviewDto) {
+    return this.itemsService.removeItemreview(item_review_id);
+  }
+
+  @Delete('/:id')
   @ApiHeader({
     name: 'Authorization',
     description: '사용자 인증 수단, 액세스 토큰 값',
@@ -182,6 +214,7 @@ export class ItemsController {
     return this.itemsService.createItemreview(data)
   }
 
+
   @Get('/itemreview')
   @ApiHeader({
     name: 'Authorization',
@@ -191,10 +224,6 @@ export class ItemsController {
       example: 'bearer 23f43u9if13ekc23fm30jg549quneraf2fmsdf'
     },
   })
-  @ApiOperation({
-		summary: 'request for item_review list',
-		description: 'get item_review list by user_id',
-	})
 	@ApiQuery({
 		name: 'user_id',
 		required: true,
