@@ -19,18 +19,17 @@ const CoEditor = () => {
         baseURL: process.env.REACT_APP_URL,
         url: '/items/imageuploadurl'
       })
-      console.log(res.data.uploadURL)
+      //console.log(res.data.uploadURL)
       const results = res.data.uploadURL
       return results
     }
 
 
 
-    const handleClick = async () => {
+    const handleSave = async () => {
       const contents = await editorRef.current.getInstance().getMarkdown()
       //console.log(contents);
       await dispatch(setContents(contents)); 
-      console.log(editorState)
     };
 
     
@@ -73,15 +72,16 @@ const CoEditor = () => {
         <>
     <Label1>상세설명</Label1>
     <Editor
-      initialValue="hello react editor world!"
+      initialValue={editorState.contents}
       previewStyle="vertical"
       height="400px"
       initialEditType="markdown"
       useCommandShortcut={true}
+      onChange={handleSave}
       ref={editorRef}
     />
     </>;
-    <Btn1 onClick={handleClick}/>
+    <Btn1 onClick={handleSave}/>
       </div>
     )
 }

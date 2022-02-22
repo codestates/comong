@@ -6,11 +6,14 @@ import InputBasic from "../Input/InputBasic";
 interface Props {
     type: string;
     description: string;
-    param: string;
+    param?: any;
     getData: SetStateAction<any>;
+    handleInputData?: any;
+    values?: any;
 }
 
-const GeneralInput = ({type, description, getData, param}: Props) => {
+const GeneralInput = ({type, description, param, handleInputData, values}: Props) => {
+    const defaultValue = values[param]
     return (
         <>
             <Line>
@@ -18,7 +21,7 @@ const GeneralInput = ({type, description, getData, param}: Props) => {
                 <Label1>{type}</Label1>
                 </TextBox>
             
-            <Input onChange={(event) => getData(param, event)} />
+            <Input onChange={handleInputData(param)} defaultValue={values[param]} />
             <Label2>{description}</Label2>
             </Line>
 

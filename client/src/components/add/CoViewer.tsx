@@ -22,7 +22,7 @@ const CoViewer = () => {
 
     return (
         <>
-        <div>213123123123</div>
+        <Label1>미리보기</Label1>
         <Viewer
         initialValue={editorState.contents}
       	ref={ViewerRef}
@@ -30,5 +30,13 @@ const CoViewer = () => {
         </>
     )
 }
+
+const Label1 = styled.span.attrs(props => ({
+
+}))`
+    font-weight: 500;
+    font-size: 26px;
+
+`
 
 export default CoViewer

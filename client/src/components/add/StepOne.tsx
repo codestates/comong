@@ -4,25 +4,29 @@ import GeneralInput from "./GeneralInput";
 import { useAppDispatch, useAppSelector } from '../../redux/configStore.hooks';
 import { setContents, setStepOne } from '../../redux/modules/editorSlice'
 
+
 interface StepOneProps {
     step: number;
+    handleInputData: any;
+    values: any;
 }
 
-const StepOne = ({ step }: StepOneProps) => {
+const StepOne = ({ step, handleInputData, values }: StepOneProps) => {
     const dispatch = useAppDispatch();
 
     const [ data, setData ] = useState({title: ''})
+    
 
     const getData = (param: string, event: any) => {
         setData({
             ...data,
             [param]: event.target.value,
         })
-        console.log(data)
+        //console.log(data)
     } 
 
     const dispatchData = () =>{
-        console.log(data)
+        //console.log(data)
         dispatch(setStepOne({...data})); 
     }
     useEffect( () => {
@@ -35,7 +39,7 @@ const StepOne = ({ step }: StepOneProps) => {
 
 
         {itemEntity.map((elements, index) => {
-            return <GeneralInput type={elements[0]} description={elements[1]} param={elements[2]} getData={getData} key={index} />
+            return <GeneralInput type={elements[0]} description={elements[1]} param={elements[2]} handleInputData={handleInputData} values={values} getData={getData} key={index} />
         })}
 
 
