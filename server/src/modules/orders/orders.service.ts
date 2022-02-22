@@ -41,6 +41,7 @@ export class OrdersService {
 			// const message = newOrder;
 			// this.appGateway.handleNotification(message);
 			return await this.mailerService.sendOrderNotice(
+				newOrder,
 				{ storename: storeName },
 				emailAddress,
 				'COMONG 구매 발생 알림 메일',
