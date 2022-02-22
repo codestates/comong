@@ -3,13 +3,15 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getOrders } from '../../apis/api/order';
 import { useAppSelector } from '../../redux/configStore.hooks';
+import EditReview from '../order-review/EditReview';
 import OrderHistoryListItem from './OrderHistoryListItem';
+import OrderHistoryListItemWrapper from './OrderHistoryListItemWrapper';
 import OrderHistorySearch from './OrderHistorySearch';
 
 const OrderHistoryList = styled.ul`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
 `;
 
 const NoData = styled.div`
@@ -78,10 +80,10 @@ function OrderHistory({ search }: IOrderHistory) {
     }
     return orderData?.map((order) => {
       return (
-        <OrderHistoryListItem
+        <OrderHistoryListItemWrapper
           key={order.order_detail_info.id}
           order={order}
-        ></OrderHistoryListItem>
+        ></OrderHistoryListItemWrapper>
       );
     });
   };
