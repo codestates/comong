@@ -41,13 +41,11 @@ const NavMenu = styled.div<{
   color: ${(props) => props.mypageColor && props.theme.colors.accentColor};
   color: ${(props) => props.cartColor && props.theme.colors.accentColor};
   &:hover {
-    color: ${(props) => props.theme.colors.accentColor};
     transform: scale(1.05);
   }
 `;
 const NavMenuImg = styled.img`
   margin: auto;
-
   height: 32px;
 `;
 const NavMenuTitle = styled.p`
@@ -62,25 +60,56 @@ const MobileNav = () => {
 
   let current = window.location.href.split('/')[3];
 
+  const [isMobileNav, setIsMobileNav] = useState(true);
   const [homeColor, setHomeColor] = useState(false);
   const [categoryColor, setCategoryColor] = useState(false);
   const [mypageColor, setMypageColor] = useState(false);
   const [cartColor, setCartColor] = useState(false);
 
-  // useEffect(() => {
-  //   handleCurrentPageIconColor();
-  // }, [current, homeColor, categoryColor, mypageColor, cartColor]);
+  useEffect(() => {
+    handleCurrentPageIconColorForPageChange();
+    handleHidden();
+  }, [current]);
 
-  // const handleCurrentPageIconColor = () => {
-  //   setHomeColor(false);
-  //   setCategoryColor(false);
-  //   setMypageColor(false);
-  //   setCartColor(false);
-  //   if (current === '') setHomeColor(true);
-  //   else if (current === 'search') setCategoryColor(true);
-  //   else if (current === 'mypage') setMypageColor(true);
-  //   else if (current === 'cart') setCartColor(true);
-  // };
+  useEffect(() => {
+    handleCurrentPageIconColor();
+  }, [homeColor, categoryColor, mypageColor, cartColor]);
+
+  const handleCurrentPageIconColorForPageChange = () => {
+    setHomeColor(false);
+    setCategoryColor(false);
+    setMypageColor(false);
+    setCartColor(false);
+
+    if (current === '') {
+      setHomeColor(true);
+    } else if (current === 'search') {
+      setCategoryColor(true);
+    } else if (current === 'mypage') {
+      setMypageColor(true);
+    } else if (current === 'cart') {
+      setCartColor(true);
+    }
+  };
+  const handleCurrentPageIconColor = () => {
+    if (current === '') {
+      setHomeColor(true);
+    } else if (current === 'search') {
+      setCategoryColor(true);
+    } else if (current === 'mypage') {
+      setMypageColor(true);
+    } else if (current === 'cart') {
+      setCartColor(true);
+    }
+  };
+
+  console.log(isMobileNav);
+  const handleHidden = () => {
+    console.log(isMobileNav);
+    if (current === 'item' || current === 'cart' || current === 'payment')
+      setIsMobileNav(false);
+    else setIsMobileNav(true);
+  };
 
   const handleHover = (el: string) => {
     setHomeColor(false);
@@ -93,18 +122,23 @@ const MobileNav = () => {
     else if (el === 'cart') setCartColor(true);
   };
   const handleHoverOut = (el: string) => {
+    setHomeColor(false);
+    setCategoryColor(false);
+    setMypageColor(false);
+    setCartColor(false);
+
     if (el === 'home') setHomeColor(false);
     else if (el === 'category') setCategoryColor(false);
     else if (el === 'mypage') setMypageColor(false);
     else if (el === 'cart') setCartColor(false);
   };
 
-  return (
+  const NavSection = (
     <NavContainer>
       <NavMenuContainer>
         <NavMenu
           onMouseOver={() => handleHover('home')}
-          onMouseLeave={() => handleHoverOut('home')}
+          // onMouseLeave={() => handleHoverOut('home')}
           onMouseOut={() => handleHoverOut('home')}
           homeColor={homeColor}
           onClick={() => navigate('/')}
@@ -119,7 +153,7 @@ const MobileNav = () => {
         <NavMenu
           onMouseOver={() => handleHover('category')}
           // onMouseLeave={() => handleHoverOut('category')}
-          onMouseOut={() => handleHoverOut('home')}
+          onMouseOut={() => handleHoverOut('category')}
           categoryColor={categoryColor}
           onClick={() => navigate('/search')}
         >
@@ -133,7 +167,7 @@ const MobileNav = () => {
         <NavMenu
           onMouseOver={() => handleHover('mypage')}
           // onMouseLeave={() => handleHoverOut('mypage')}
-          onMouseOut={() => handleHoverOut('home')}
+          onMouseOut={() => handleHoverOut('mypage')}
           mypageColor={mypageColor}
           onClick={() => navigate('/mypage')}
         >
@@ -147,7 +181,7 @@ const MobileNav = () => {
         <NavMenu
           onMouseOver={() => handleHover('cart')}
           // onMouseLeave={() => handleHoverOut('cart')}
-          onMouseOut={() => handleHoverOut('home')}
+          onMouseOut={() => handleHoverOut('cart')}
           cartColor={cartColor}
           onClick={() => navigate('/cart')}
         >
@@ -161,6 +195,8 @@ const MobileNav = () => {
       </NavMenuContainer>
     </NavContainer>
   );
+
+  return <>{isMobileNav ? NavSection : null}</>;
 };
 
 export default MobileNav;

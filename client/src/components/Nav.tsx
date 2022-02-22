@@ -66,7 +66,7 @@ const NavMenu = styled.div<{
   @media only screen and (max-width: 768px) {
     display: none;
   }
-  &:hover {
+  :hover {
     color: ${(props) => props.theme.colors.accentColor};
     transform: scale(1.04);
   }
@@ -89,17 +89,20 @@ const Nav = () => {
   const [mypageColor, setMypageColor] = useState(false);
   const [cartColor, setCartColor] = useState(false);
 
+  let current = window.location.href.split('/')[3];
+
   useEffect(() => {
     handleCurrentPageIconColor();
-  }, [categoryColor, mypageColor, cartColor]);
+  }, [current]);
 
   const handleCurrentPageIconColor = () => {
-    let current = window.location.href.split('/')[3];
-    console.log(window.location.href.split('/'));
-    console.log(current.length);
+    setCartColor(false);
+    setMypageColor(false);
+    setCategoryColor(false);
+
     if (current === 'search') setCategoryColor(true);
-    else if (current === 'mypage') setMypageColor(true);
-    else if (current === 'cart') setCartColor(true);
+    if (current === 'login') setMypageColor(true);
+    if (current === 'cart') setCartColor(true);
   };
 
   return (
@@ -112,7 +115,7 @@ const Nav = () => {
             categoryColor={categoryColor}
             onClick={() => navigate('/search')}
           >
-            글쓰기(임시)
+            카테고리
           </NavMenu>
           <NavMenu
             mypageColor={mypageColor}

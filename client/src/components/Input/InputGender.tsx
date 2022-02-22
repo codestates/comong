@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { IJoinPartial } from '../../pages/join/GeneralJoin';
+import { useAppSelector } from '../../redux/configStore.hooks';
 
 const Wrapper = styled.div`
   margin-top: 20px;
@@ -39,9 +40,11 @@ interface IInputGender {
 }
 
 function InputGender({ fillJoinForm }: IInputGender) {
+  const { userinfo } = useAppSelector((state) => state.userSlice);
+
   const fillGenderInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
-    fillJoinForm({ [name]: value });
+    fillJoinForm({ [name]: Number(value) });
   };
 
   return (
@@ -53,8 +56,9 @@ function InputGender({ fillJoinForm }: IInputGender) {
             type="radio"
             id="man"
             name="gender"
-            value="0"
+            value="1"
             onChange={fillGenderInput}
+            defaultChecked={userinfo?.gender === 1 && true}
           />
           <label htmlFor="man">남성</label>
         </RadioBtnWrapper>
@@ -63,8 +67,9 @@ function InputGender({ fillJoinForm }: IInputGender) {
             type="radio"
             id="woman"
             name="gender"
-            value="1"
+            value="2"
             onChange={fillGenderInput}
+            defaultChecked={userinfo?.gender === 2 && true}
           />
           <label htmlFor="woman">여성</label>
         </RadioBtnWrapper>
