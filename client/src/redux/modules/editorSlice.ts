@@ -17,10 +17,10 @@ export interface EditorState {
 const initialState: EditorState = {
     title: '판매글의 제목',
     price: '0',
-    image_src: ['http://gdimg.gmarket.co.kr/981887465/still/600?ver=1583286904'],
+    image_src: [],
     contents: '콘텐츠입니다',
     user_storename: '싸게파는 판매자',
-    category: '기타 카테고리',
+    category: '1',
 };
 
 export const EditorSlice = createSlice({

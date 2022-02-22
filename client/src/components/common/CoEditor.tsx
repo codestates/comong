@@ -54,6 +54,8 @@ const CoEditor = () => {
                 }
               );
 
+              console.log(filename)
+
               const imageUrl = filename.data.result.variants[1];
               const thumbnailUrl = filename.data.result.variants[0];
               dispatch(pushImage(thumbnailUrl))

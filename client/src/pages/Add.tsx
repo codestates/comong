@@ -12,7 +12,7 @@ import { setStepOne } from '../redux/modules/editorSlice'
 
 const Add  = () => {
   const [step, setStep] = useState<number>(0)
-  const [data, setData] = useState<any>({title: '타이틀임시', category: '카테고리'})
+  const [data, setData] = useState<any>({title: '', category: ''})
 
   const editorState = useAppSelector((state) => state.editorSlice);
   const userState = useAppSelector((state) => state.userSlice)
