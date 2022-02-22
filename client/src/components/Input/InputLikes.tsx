@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { IJoinPartial } from '../../pages/join/GeneralJoin';
+import { useAppSelector } from '../../redux/configStore.hooks';
 import LikesListItem from './LikesListItem';
 
 const Wrppaer = styled.div`
@@ -112,11 +113,9 @@ function InputLikes({ fillJoinForm }: IInpuLikes) {
     },
   ];
 
-  // !TODO api 완성되면 바꾸기! 임시 작업 상태
-  // 스토어에서 가져온 likes(여기 userLikes라는 변수)가 먼저 선택 되어있어야함
-  // 화면상 표시 + joinform에 들어있어야함
-  let userLikes = [1, 2, 3]; // here
-  const [value, setValues] = useState<number[]>(userLikes);
+  const { userinfo } = useAppSelector((state) => state.userSlice);
+  const userLikes = userinfo?.likes;
+  const [value, setValues] = useState(userLikes || []);
 
   useEffect(() => {
     fillJoinForm({ likes: value });

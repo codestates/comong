@@ -11,6 +11,8 @@ import { User } from '../users/entities/user.entity';
 import { Op } from 'sequelize';
 import axios, {AxiosRequestConfig, AxiosResponse} from 'axios'
 import * as sequelize from 'sequelize'
+import { CreateBookmarkDto } from './dto/create-bookmark.dto';
+import { CreateItemReviewDto } from './dto/create-itemreview.dto';
 const models = require('../../models/index');
 
 @Injectable()
@@ -124,4 +126,71 @@ export class ItemsService {
     });
     return this.categoryLists;
   }
+
+  async createBookmark(data: CreateBookmarkDto) {
+    const [bookmark, created] = await models.bookmark.findOrCreate({
+      where: {
+        item_id: data.item_id
+      },
+      defaults: data
+    });
+    if (created) {
+      return { data: bookmark, message: `item_id: ${data.item_id} bookmark created`};
+    } else {
+      return { messgae: 'bookmark already exist'};
+    }
+  }
+
+  async createItemreview(data: CreateItemReviewDto) {
+    const [itemreview, created] = await models.item_review.findOrCreate({
+      where: {
+        item_id: data.item_id,
+        user_id: data.user_id
+      },
+      defaults: data
+    });
+    if (created) {
+      return { data: itemreview, message: `item_id: ${data.item_id} review created`};
+    } else {
+      return { messgae: 'review already exist'};
+    }
+  }
+
+  async getItemreview(user_id: number) {
+    if (!user_id) {
+			throw new BadRequestException('user_id must be included');
+    } else {
+      const itemreviewList = await models.item_review.findAll({
+        where: {
+          user_id: user_id
+        }
+      })
+      const itemIdArr = itemreviewList.map((elem) => {
+        return elem.dataValues.item_id
+      })
+      const itemList = await models.item.findAll({
+        where: {
+					id: {
+						[Op.or]: [itemIdArr],
+					},
+				},
+      })
+      let output = {};
+      for (let i = 0; i < itemreviewList.length; i++) {
+        output[`item_review_id_${itemreviewList[i].id}`] = {
+          item_reviewInfo: itemreviewList[i],
+          itemInfo: {}
+        };
+        for (let j = 0; j < itemList.length; j++) {
+          if (itemreviewList[i].item_id === itemList[j].id) {
+            output[`item_review_id_${itemreviewList[i].id}`]["itemInfo"] = itemList[j]
+            
+          }
+        };
+      };
+      return {data: output , message:'this will return item_review list'}
+    }
+  }
+
+
 }

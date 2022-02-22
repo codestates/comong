@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 const Message = styled.div`
-  margin: 10px 0 0 5px;
   color: red;
   font-size: 14px;
 

@@ -49,7 +49,7 @@ export class item_review extends Model<item_reviewAttributes, item_reviewCreatio
       primaryKey: true
     },
     contents: {
-      type: DataTypes.TEXT,
+      type: DataTypes.STRING(300),
       allowNull: true
     },
     image_src: {

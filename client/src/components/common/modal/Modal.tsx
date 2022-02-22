@@ -37,9 +37,10 @@ const ModalView = styled.div`
 interface ModalProps {
   children: JSX.Element;
   modalClosedNavigate?: string;
+  setShowModal?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function Modal({ children, modalClosedNavigate }: ModalProps) {
+function Modal({ children, modalClosedNavigate, setShowModal }: ModalProps) {
   const [isOpen, setIsOpen] = useState(true);
   const navigate = useNavigate();
 
@@ -48,6 +49,7 @@ function Modal({ children, modalClosedNavigate }: ModalProps) {
       navigate(modalClosedNavigate);
     }
     setIsOpen(!isOpen);
+    setShowModal && setShowModal(!isOpen);
   };
 
   return (

@@ -44,7 +44,7 @@ function InputGender({ fillJoinForm }: IInputGender) {
 
   const fillGenderInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
-    fillJoinForm({ [name]: value });
+    fillJoinForm({ [name]: Number(value) });
   };
 
   return (
