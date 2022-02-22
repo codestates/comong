@@ -12,7 +12,7 @@ import type { user, userId } from './user';
 
 export interface itemAttributes {
   id: number;
-  title: string;
+  title?: string;
   contents?: string;
   price?: number;
   createdAt?: Date;
@@ -23,12 +23,12 @@ export interface itemAttributes {
 
 export type itemPk = "id";
 export type itemId = item[itemPk];
-export type itemOptionalAttributes = "id" | "contents" | "price" | "createdAt" | "updatedAt" | "image_src";
+export type itemOptionalAttributes = "id" | "title" | "contents" | "price" | "createdAt" | "updatedAt" | "image_src";
 export type itemCreationAttributes = Optional<itemAttributes, itemOptionalAttributes>;
 
 export class item extends Model<itemAttributes, itemCreationAttributes> implements itemAttributes {
   id!: number;
-  title!: string;
+  title?: string;
   contents?: string;
   price?: number;
   createdAt?: Date;
@@ -148,7 +148,7 @@ export class item extends Model<itemAttributes, itemCreationAttributes> implemen
     },
     title: {
       type: DataTypes.STRING(45),
-      allowNull: false
+      allowNull: true
     },
     contents: {
       type: DataTypes.TEXT,

@@ -3,6 +3,7 @@ import { DataTypes, Model, Optional } from 'sequelize';
 import type { item, itemId } from './item';
 import type { order, orderId } from './order';
 import type { order_detail_has_order, order_detail_has_orderId } from './order_detail_has_order';
+import type { replace_refund, replace_refundId } from './replace_refund';
 import type { user, userId } from './user';
 
 export interface order_detailAttributes {
@@ -60,6 +61,18 @@ export class order_detail extends Model<order_detailAttributes, order_detailCrea
   hasOrder_detail_has_order!: Sequelize.HasManyHasAssociationMixin<order_detail_has_order, order_detail_has_orderId>;
   hasOrder_detail_has_orders!: Sequelize.HasManyHasAssociationsMixin<order_detail_has_order, order_detail_has_orderId>;
   countOrder_detail_has_orders!: Sequelize.HasManyCountAssociationsMixin;
+  // order_detail hasMany replace_refund via order_detail_id
+  replace_refunds!: replace_refund[];
+  getReplace_refunds!: Sequelize.HasManyGetAssociationsMixin<replace_refund>;
+  setReplace_refunds!: Sequelize.HasManySetAssociationsMixin<replace_refund, replace_refundId>;
+  addReplace_refund!: Sequelize.HasManyAddAssociationMixin<replace_refund, replace_refundId>;
+  addReplace_refunds!: Sequelize.HasManyAddAssociationsMixin<replace_refund, replace_refundId>;
+  createReplace_refund!: Sequelize.HasManyCreateAssociationMixin<replace_refund>;
+  removeReplace_refund!: Sequelize.HasManyRemoveAssociationMixin<replace_refund, replace_refundId>;
+  removeReplace_refunds!: Sequelize.HasManyRemoveAssociationsMixin<replace_refund, replace_refundId>;
+  hasReplace_refund!: Sequelize.HasManyHasAssociationMixin<replace_refund, replace_refundId>;
+  hasReplace_refunds!: Sequelize.HasManyHasAssociationsMixin<replace_refund, replace_refundId>;
+  countReplace_refunds!: Sequelize.HasManyCountAssociationsMixin;
   // order_detail belongsTo user via user_id
   user!: user;
   getUser!: Sequelize.BelongsToGetAssociationMixin<user>;
