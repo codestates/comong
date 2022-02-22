@@ -8,6 +8,7 @@ import type { RootState } from '../redux/configStore';
 import { Link } from 'react-router-dom';
 import Nav from '../components/Nav';
 import MobileNav from '../components/MobileNav';
+import { Viewer } from '@toast-ui/react-editor';
 
 const Container = styled.div`
   display: flex;
@@ -311,7 +312,7 @@ const Post = () => {
   let title = data.title;
   let contents = data.contents;
   let price = data.price;
-  let img_src = data.image_src;
+  let img_src = data.image_src.split(',');
 
   const stockHandler = (el: string) => {
     if (el === 'plus' && stock <= 98) setStock(stock + 1);
@@ -323,13 +324,19 @@ const Post = () => {
       <PostContainer>
         <ImgContainer>
           <MainImgContainer>
-            <MainImg src={img_src} />
+            <MainImg src={img_src[0]} />
           </MainImgContainer>
           <ThumbnailImgContainer>
+            {img_src.map(elements => {
+              return <ThumbnailImg src={elements} />
+            })}
+            {/*
             <ThumbnailImg src={img_src} />
             <ThumbnailImg src={img_src} />
             <ThumbnailImg src={img_src} />
             <ThumbnailImg src={img_src} />
+            */
+            }
           </ThumbnailImgContainer>
         </ImgContainer>
         <BottomContainer>
@@ -339,7 +346,7 @@ const Post = () => {
               <ContentsTitle>상품평</ContentsTitle>
             </ContentsTitleContainer>
             <Contentsline />
-            <ContentsArea>{contents}</ContentsArea>
+            <ContentsArea><Viewer initialValue={contents} /></ContentsArea>
           </ContentsContainer>
           <OrderContainer>
             <Category>{category}</Category>

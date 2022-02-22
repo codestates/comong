@@ -29,6 +29,8 @@ import { order_detail_has_order as _order_detail_has_order } from "./order_detai
 import type { order_detail_has_orderAttributes, order_detail_has_orderCreationAttributes } from "./order_detail_has_order";
 import { refreshtoken as _refreshtoken } from "./refreshtoken";
 import type { refreshtokenAttributes, refreshtokenCreationAttributes } from "./refreshtoken";
+import { replace_refund as _replace_refund } from "./replace_refund";
+import type { replace_refundAttributes, replace_refundCreationAttributes } from "./replace_refund";
 import { user as _user } from "./user";
 import type { userAttributes, userCreationAttributes } from "./user";
 import { user_address as _user_address } from "./user_address";
@@ -52,6 +54,7 @@ export {
   _order_detail as order_detail,
   _order_detail_has_order as order_detail_has_order,
   _refreshtoken as refreshtoken,
+  _replace_refund as replace_refund,
   _user as user,
   _user_address as user_address,
   _user_payment as user_payment,
@@ -88,6 +91,8 @@ export type {
   order_detail_has_orderCreationAttributes,
   refreshtokenAttributes,
   refreshtokenCreationAttributes,
+  replace_refundAttributes,
+  replace_refundCreationAttributes,
   userAttributes,
   userCreationAttributes,
   user_addressAttributes,
@@ -112,6 +117,7 @@ export function initModels(sequelize: Sequelize) {
   const order_detail = _order_detail.initModel(sequelize);
   const order_detail_has_order = _order_detail_has_order.initModel(sequelize);
   const refreshtoken = _refreshtoken.initModel(sequelize);
+  const replace_refund = _replace_refund.initModel(sequelize);
   const user = _user.initModel(sequelize);
   const user_address = _user_address.initModel(sequelize);
   const user_payment = _user_payment.initModel(sequelize);
@@ -152,6 +158,8 @@ export function initModels(sequelize: Sequelize) {
   order.hasMany(user_payment, { as: "user_payments", foreignKey: "order_id"});
   order_detail_has_order.belongsTo(order_detail, { as: "order_detail", foreignKey: "order_detail_id"});
   order_detail.hasMany(order_detail_has_order, { as: "order_detail_has_orders", foreignKey: "order_detail_id"});
+  replace_refund.belongsTo(order_detail, { as: "order_detail", foreignKey: "order_detail_id"});
+  order_detail.hasMany(replace_refund, { as: "replace_refunds", foreignKey: "order_detail_id"});
   bookmark.belongsTo(user, { as: "user", foreignKey: "user_id"});
   user.hasMany(bookmark, { as: "bookmarks", foreignKey: "user_id"});
   category_has_user.belongsTo(user, { as: "user", foreignKey: "user_id"});
@@ -170,6 +178,8 @@ export function initModels(sequelize: Sequelize) {
   user.hasMany(order_detail, { as: "order_details", foreignKey: "user_id"});
   refreshtoken.belongsTo(user, { as: "user", foreignKey: "user_id"});
   user.hasMany(refreshtoken, { as: "refreshtokens", foreignKey: "user_id"});
+  replace_refund.belongsTo(user, { as: "user", foreignKey: "user_id"});
+  user.hasMany(replace_refund, { as: "replace_refunds", foreignKey: "user_id"});
   user_address.belongsTo(user, { as: "user", foreignKey: "user_id"});
   user.hasMany(user_address, { as: "user_addresses", foreignKey: "user_id"});
   user_payment.belongsTo(user, { as: "user", foreignKey: "user_id"});
@@ -191,6 +201,7 @@ export function initModels(sequelize: Sequelize) {
     order_detail: order_detail,
     order_detail_has_order: order_detail_has_order,
     refreshtoken: refreshtoken,
+    replace_refund: replace_refund,
     user: user,
     user_address: user_address,
     user_payment: user_payment,

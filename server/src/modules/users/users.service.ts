@@ -23,26 +23,36 @@ export class UsersService {
 		console.log(user.likes.replace(/\[|\]/g, '').split(','))
 		const [newUser, isCreated]: [{id: number}, boolean] = await models.user.findOrCreate({
 			where: { email: user.email },
-			defaults: { ...user },
+			defaults: {
+				...user,
+				birthday: user.dob,
+				},
 		});
 
 		if (isCreated) {
-			const likesArr = user.likes.replace(/\[|\]/g, '').split(',').map( async (elements: string): Promise<{user_id: number}> => {
-				return  await models.category_has_user.create({
-					category_id: elements,
-					user_id: newUser.id,
+			if(user.likes) {
+				//console.log(user.likes, '라잌스')
+				const likesArr = user.likes.replace(/\[|\]/g, '').split(',').map( async (elements: string): Promise<{user_id: number}> => {
+					if(elements !== ''){
+						return  await models.category_has_user.create({
+							category_id: elements,
+							user_id: newUser.id,
+						})
+					}
 				})
-			})
-
-			return Promise.all(likesArr).then(like => {
-				like.forEach(elements => {
-					if( !(newUser.id === elements.user_id) ) {
-						throw new BadRequestException('invalid value for property');
-					} 
+	
+				return Promise.all(likesArr).then(like => {
+					like.forEach(elements => {
+						if( elements && !(newUser.id === elements.user_id) ) {
+							throw new BadRequestException('invalid value for property');
+						} 
+					})
+				}).then( (): {} => {
+					return { message: 'successful' }
 				})
-			}).then( (): {} => {
+			} else {
 				return { message: 'successful' }
-			})
+			}
 		} else {
 			throw new BadRequestException('invalid value for property');
 		}
@@ -68,14 +78,14 @@ export class UsersService {
 				{ model: models.category_has_user, as: 'category_has_users' , attributes: [ 'category_id'] },
 			]
 		});
-		try {
-			user['gender'] = parseInt(user['gender']);
-			user['role'] = parseInt(user['role'])
-		} catch(err) {
-			throw new InternalServerErrorException({ message: 'Internal Server Error' })
-		}
-		console.log(userInfo)
+
 		if (user) {
+			try {
+				user['gender'] = parseInt(user['gender']);
+				user['role'] = parseInt(user['role'])
+			} catch(err) {
+				throw new InternalServerErrorException({ message: 'Internal Server Error' })
+			}
 			const accessToken = this.tokenService.generateAccessToken(user.dataValues)
 			return { message: 'successful', user, accessToken };
 		} else {
@@ -92,33 +102,40 @@ export class UsersService {
 	}
 
 	async update(user: User, changes: UpdateUserDto) {
-		const changed = await models.user.update( changes, {
+		const changed = await models.user.update({
+			...changes,
+			birthday: changes.dob,
+		},
+		{
 			where: { id: user.id }
 		})
 		if (changed) {
-			const likesArr = changes.likes.replace(/\[|\]/g, '').split(',').map( async (elements: string): Promise<{user_id: number}> => {
-				return  await models.category_has_user.create({
-					category_id: elements,
-					user_id: user.id,
-				})
-			})
-			likesArr.unshift(
-				await models.category_has_user.destroy({
-					where: {
-						user_id: user.id
+			if(changes.likes ){
+				const likesArr = changes.likes.replace(/\[|\]/g, '').split(',').map( async (elements: string): Promise<{user_id: number}> => {
+					if(elements !== ''){
+						console.log(elements)
+						return  await models.category_has_user.create({
+							category_id: elements,
+							user_id: user.id,
+						})
 					}
 				})
-			)
-
-			return Promise.all(likesArr).then(like => {
-				like.forEach(elements => {
-					if( !(changed.id === elements.user_id) ){
-						throw new BadRequestException('invalid value for property');
-					} 
+				console.log('likearr는', likesArr)
+				likesArr.unshift(
+					await models.category_has_user.destroy({
+						where: {
+							user_id: user.id
+						}
+					})
+				)
+				console.log('likearr는', likesArr)
+	
+				return Promise.all(likesArr).then(() => {
+					return { message: 'successful' }
 				})
-			}).then( (): {} => {
+			} else {
 				return { message: 'successful' }
-			})
+			}
 		} else {
 			throw new BadRequestException('invalid value for property');
 		}

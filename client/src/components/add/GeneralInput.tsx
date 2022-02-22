@@ -1,4 +1,4 @@
-import React from "react";
+import React, { SetStateAction } from "react";
 import styled from "styled-components";
 import InputBasic from "../Input/InputBasic";
 
@@ -6,9 +6,13 @@ import InputBasic from "../Input/InputBasic";
 interface Props {
     type: string;
     description: string;
+    param?: any;
+    handleInputData?: any;
+    values?: any;
 }
 
-const GeneralInput = ({type, description}: Props) => {
+const GeneralInput = ({type, description, param, handleInputData, values}: Props) => {
+    const defaultValue = values[param]
     return (
         <>
             <Line>
@@ -16,7 +20,7 @@ const GeneralInput = ({type, description}: Props) => {
                 <Label1>{type}</Label1>
                 </TextBox>
             
-            <Input />
+            <Input onChange={handleInputData(param)} defaultValue={values[param]} />
             <Label2>{description}</Label2>
             </Line>
 

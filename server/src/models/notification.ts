@@ -5,7 +5,7 @@ import type { user, userId } from './user';
 export interface notificationAttributes {
   id: number;
   title?: string;
-  content?: string;
+  contents?: string;
   read?: number;
   createdAt?: Date;
   updatedAt?: Date;
@@ -14,13 +14,13 @@ export interface notificationAttributes {
 
 export type notificationPk = "id";
 export type notificationId = notification[notificationPk];
-export type notificationOptionalAttributes = "id" | "title" | "content" | "read" | "createdAt" | "updatedAt";
+export type notificationOptionalAttributes = "id" | "title" | "contents" | "read" | "createdAt" | "updatedAt";
 export type notificationCreationAttributes = Optional<notificationAttributes, notificationOptionalAttributes>;
 
 export class notification extends Model<notificationAttributes, notificationCreationAttributes> implements notificationAttributes {
   id!: number;
   title?: string;
-  content?: string;
+  contents?: string;
   read?: number;
   createdAt?: Date;
   updatedAt?: Date;
@@ -44,7 +44,7 @@ export class notification extends Model<notificationAttributes, notificationCrea
       type: DataTypes.STRING(45),
       allowNull: true
     },
-    content: {
+    contents: {
       type: DataTypes.TEXT,
       allowNull: true
     },
