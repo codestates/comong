@@ -87,15 +87,8 @@ const PostListItem = ({ post }: any) => {
   const id = post.id;
 
   const price = post.price.toLocaleString('en');
-  console.log('price', price);
-  // console.lo
-
-  // function AddComma(data_value: number) {
-  //   return data_value.toLocaleString('en');
-  // }
 
   return (
-    // <StLink to={`/list/${post.id}`}>
     <StLink to={`/item/${id}`}>
       <ItemContainer>
         <ItemImgContainer>
