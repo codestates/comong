@@ -1,26 +1,29 @@
-import React, { Component, useRef, useState } from 'react';
+import axios from 'axios';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { apiClient } from '../apis';
 import CoViewer from '../components/add/CoViewer';
 import StepOne from '../components/add/StepOne';
-import ButtonBasic from '../components/common/button/ButtonBasic';
 import CoEditor from '../components/common/CoEditor';
+import { useAppDispatch, useAppSelector } from '../redux/configStore.hooks';
+import { setStepOne } from '../redux/modules/editorSlice'
+
 
 
 const Add  = () => {
   const [step, setStep] = useState<number>(0)
   const [data, setData] = useState<any>({title: '타이틀임시', category: '카테고리'})
 
-  const navHandler = (move: number): void => {
-    const dMove = (step + move) >= 0 ? step + move : 0; 
-    setStep(dMove)
-  }
+  const editorState = useAppSelector((state) => state.editorSlice);
+  const userState = useAppSelector((state) => state.userSlice)
 
-  // handling form input data by taking onchange value and updating our previous form data state
+  const navHandler = (move: number): void => {
+    const dMove = step + move >= 0 ? step + move : 0;
+    setStep(dMove);
+  };
+
   const handleInputData = (input: any)=> (e: any) => {
-    // input value from the form
     const { value } = e.target;
-    console.log(data)
-    //updating for data state taking previous state and then adding new value to create new object
     setData((data: any): any => ({
       ...data,
       [input]: value
@@ -28,9 +31,25 @@ const Add  = () => {
  
   }
 
-  const submit = () => {
-    return 0
-  }
+  const submit = (): void => {
+    const payload = {
+      title: data.title,
+      contents: editorState.contents,
+      image_src: editorState.image_src.toString(),
+      category: parseInt(data.category),
+      price: parseInt(data.price),
+      stock: parseInt(data.stock),
+    }
+    axios({
+      method: 'post',
+      headers: {
+        'Authorization': `bearer ${userState.accessToken}`
+      },
+      data: payload,
+      baseURL: process.env.REACT_APP_URL,
+      url: '/items'
+    }).catch(res => console.log(res))
+  };
 
   return (
     <div>
@@ -40,40 +59,25 @@ const Add  = () => {
       { step === 2 && <CoViewer />}
       <NavBtnContainer>
         <BtnBox>
-          
-            {switch (step) {
-              case 1: 
-              return (
-                <Button onClick={() => navHandler(-1)} children={'이전'} />
-              );
-              case 2: 
-              return (
-                <Button onClick={() => navHandler(-1)} children={'이전'} />
-              )
-            }}
-          
-        { step > 0 && <Button onClick={() => navHandler(-1)} children={'이전'} />}
-        <Button onClick={() => navHandler(1)} children={'다음'} />
+        { step > 0 && step < 3 && <Button onClick={() => navHandler(-1)} children={'이전'} />}
+        { step < 2 && <Button onClick={() => navHandler(1)} children={'다음'} />}
+        { step >= 2 && <Button onClick={submit} children={'전송'} />}
         </BtnBox>
-      
       </NavBtnContainer>
       </AddContainer>
-      
-
-      
     </div>
-  ) 
+  );
 };
 const AddContainer = styled.div`
   font-family: 'Noto Sans KR', 'serif';
   width: 80%;
   height: 100%;
   margin: 0 auto;
-`
+`;
 const NavBtnContainer = styled.div`
   display: flex;
   justify-content: right;
-`
+`;
 
 const BtnBox = styled.div`
   display: flex;

@@ -7,7 +7,6 @@ interface Props {
     type: string;
     description: string;
     param?: any;
-    getData: SetStateAction<any>;
     handleInputData?: any;
     values?: any;
 }

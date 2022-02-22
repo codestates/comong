@@ -4,7 +4,7 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 import styled from "styled-components";
 import axios, { AxiosResponse } from "axios";
 import { useAppDispatch, useAppSelector } from '../../redux/configStore.hooks';
-import { setContents, pushImage } from '../../redux/modules/editorSlice'
+import { setEditorState, pushImage } from '../../redux/modules/editorSlice'
 
 const CoEditor = () => {
     const editorRef = useRef<any>()
@@ -29,7 +29,7 @@ const CoEditor = () => {
     const handleSave = async () => {
       const contents = await editorRef.current.getInstance().getMarkdown()
       //console.log(contents);
-      await dispatch(setContents(contents)); 
+      await dispatch(setEditorState(contents)); 
     };
 
     

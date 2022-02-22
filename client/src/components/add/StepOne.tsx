@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import GeneralInput from "./GeneralInput";
-import { useAppDispatch, useAppSelector } from '../../redux/configStore.hooks';
-import { setContents, setStepOne } from '../../redux/modules/editorSlice'
-
 
 interface StepOneProps {
     step: number;
@@ -12,37 +9,14 @@ interface StepOneProps {
 }
 
 const StepOne = ({ step, handleInputData, values }: StepOneProps) => {
-    const dispatch = useAppDispatch();
 
-    const [ data, setData ] = useState({title: ''})
-    
-
-    const getData = (param: string, event: any) => {
-        setData({
-            ...data,
-            [param]: event.target.value,
-        })
-        //console.log(data)
-    } 
-
-    const dispatchData = () =>{
-        //console.log(data)
-        dispatch(setStepOne({...data})); 
-    }
-    useEffect( () => {
-        dispatchData()
-    }, [data])
     return (
         <>
         <Label1> 기본정보 </Label1>
         <StepOneContainer>
-
-
         {itemEntity.map((elements, index) => {
-            return <GeneralInput type={elements[0]} description={elements[1]} param={elements[2]} handleInputData={handleInputData} values={values} getData={getData} key={index} />
+            return <GeneralInput type={elements[0]} description={elements[1]} param={elements[2]} handleInputData={handleInputData} values={values} key={index} />
         })}
-
-
         </StepOneContainer>
         </>
     )

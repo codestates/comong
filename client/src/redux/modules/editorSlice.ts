@@ -27,11 +27,7 @@ export const EditorSlice = createSlice({
   name: 'Editor',
   initialState: initialState,
   reducers: {
-    resetContents: (state, { payload }: PayloadAction<any>) => {
-        // ...
-        state.contents = [payload]
-    },
-    setContents(state, action: PayloadAction<EditorState>) {
+    setEditorState(state, action: PayloadAction<EditorState>) {
         state.contents = action.payload
     },
 
@@ -50,6 +46,6 @@ export const EditorSlice = createSlice({
   },
 });
 
-export let { resetContents, setContents, setStepOne, pushImage } = EditorSlice.actions;
+export let { setEditorState, setStepOne, pushImage } = EditorSlice.actions;
 
 export default EditorSlice.reducer;
