@@ -33,6 +33,7 @@ export class MailerService {
     }
 
     async sendOrderNotice(
+        newOrder: object,
         context: any = {},
         emailAddress: string,
         subject: string,
@@ -46,7 +47,7 @@ export class MailerService {
         });
         console.log(newMail)
         if(newMail && newMail.response.split(' ')[2] === 'OK'){
-            return new Object({ message: 'order_notice letter has been sent successfully' })
+            return new Object({ data: newOrder, message:'order_notice letter has been sent successfully' })
         } else {
             return new InternalServerErrorException('service unavailable(mailer)')
         }
