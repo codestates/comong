@@ -1,5 +1,6 @@
 import React, { Component, useRef, useState } from 'react';
 import styled from 'styled-components';
+import CoViewer from '../components/add/CoViewer';
 import StepOne from '../components/add/StepOne';
 import ButtonBasic from '../components/common/button/ButtonBasic';
 import CoEditor from '../components/common/CoEditor';
@@ -21,8 +22,9 @@ const Add  = () => {
   return (
     <div>
       <AddContainer>
-      { step === 0 && <StepOne />}
+      { step === 0 && <StepOne step={step} />}
       { step === 1 && <CoEditor />}
+      { step === 2 && <CoViewer />}
       <NavBtnContainer>
         <BtnBox>
         { step > 0 && <ButtonBasic buttonClickHandler={() => navHandler(-1)} children={'이전'} />}

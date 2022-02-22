@@ -7,8 +7,8 @@ const urlConfig = config[env];
 
 export interface EditorState {
     title: string;
-    price: number;
-    image_src: string;
+    price: string;
+    image_src: Array<string>;
     contents: any;
     user_storename: string;
     category: string;
@@ -16,8 +16,8 @@ export interface EditorState {
 
 const initialState: EditorState = {
     title: '판매글의 제목',
-    price: 0,
-    image_src: 'http://gdimg.gmarket.co.kr/981887465/still/600?ver=1583286904',
+    price: '0',
+    image_src: ['http://gdimg.gmarket.co.kr/981887465/still/600?ver=1583286904'],
     contents: '콘텐츠입니다',
     user_storename: '싸게파는 판매자',
     category: '기타 카테고리',
@@ -35,9 +35,21 @@ export const EditorSlice = createSlice({
         state.contents = action.payload
     },
 
+    setStepOne(state, action: PayloadAction<any>) {
+        console.log(action.payload)
+        state.title = action.payload.title
+        state.price = action.payload.price
+        state.category = action.payload.category
+    },
+
+    pushImage(state, action: PayloadAction<any>) {
+        console.log(action.payload)
+        state.image_src.push(action.payload)
+    },
+
   },
 });
 
-export let { resetContents, setContents } = EditorSlice.actions;
+export let { resetContents, setContents, setStepOne, pushImage } = EditorSlice.actions;
 
 export default EditorSlice.reducer;
