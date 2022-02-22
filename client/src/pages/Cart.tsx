@@ -7,6 +7,8 @@ import type { RootState } from '../redux/configStore';
 import { setTotalPrice } from '../redux/modules/cartSlice';
 import { useNavigate } from 'react-router-dom';
 import { getCartPatchAsync } from '../redux/modules/cartSlice';
+import { postOrderAsync } from '../redux/modules/cartSlice';
+
 const Container = styled.div`
   display: flex;
   margin-top: 65px;
@@ -202,7 +204,8 @@ const Cart = () => {
     tmp.splice(0, 1);
 
     try {
-      const response = await dispatch(getCartPatchAsync(tmp)).unwrap();
+      await dispatch(getCartPatchAsync(tmp));
+      await dispatch(postOrderAsync());
       navigate('/payment');
     } catch (error) {
       navigate('/');

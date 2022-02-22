@@ -29,11 +29,6 @@ const PostContainer = styled.div`
   justify-content: center;
   align-items: center;
   background-color: white;
-  @media only screen and (max-width: 1200px) {
-    width: 100%;
-  }
-  @media only screen and (max-width: 768px) {
-  }
 `;
 
 const ImgContainer = styled.div`

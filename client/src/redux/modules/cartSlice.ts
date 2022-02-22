@@ -30,6 +30,19 @@ export interface Cart {
   totalSeller: number;
   subTotalPrice: { [index: string]: number };
   remainItem: [];
+  orderInfo: [
+    {
+      createdAt: string;
+      id: number;
+      shipping_code: string;
+      shipping_company: string;
+      shipping_status: string;
+      status: string;
+      total_amount: number;
+      updatedAt: string;
+      user_id: number;
+    },
+  ];
 }
 
 const initialState: Cart = {
@@ -39,6 +52,19 @@ const initialState: Cart = {
   totalSeller: 0,
   subTotalPrice: {},
   remainItem: [],
+  orderInfo: [
+    {
+      createdAt: '2022-02-22T08:25:19.968Z',
+      id: 41,
+      shipping_code: '01234567890',
+      shipping_company: 'cj대한통운',
+      shipping_status: 'delivered',
+      status: 'paid',
+      total_amount: 150000,
+      updatedAt: '2022-02-22T08:25:19.968Z',
+      user_id: 2,
+    },
+  ],
 };
 
 const cartSlice = createSlice({
@@ -104,8 +130,15 @@ const cartSlice = createSlice({
       return { ...state, data: contents };
     });
     builder.addCase(getCartAsync.rejected, (state, action) => {});
-
+    builder.addCase(getCartPatchAsync.pending, (state, action) => {});
     builder.addCase(getCartPatchAsync.fulfilled, (state, action) => {});
+    builder.addCase(getCartPatchAsync.rejected, (state, action) => {});
+    builder.addCase(postOrderAsync.pending, (state, action) => {});
+    builder.addCase(postOrderAsync.fulfilled, (state, action) => {
+      console.log('action.payload', action.payload);
+      state.orderInfo = action.payload.data;
+    });
+    builder.addCase(postOrderAsync.rejected, (state, action) => {});
   },
 });
 
@@ -120,11 +153,13 @@ export let {
 export const getCartAsync = createAsyncThunk(
   'orders/get',
   async (id?: number) => {
-    id = 2;
-    const response: AxiosResponse = await axios({
-      url: `${urlConfig.url}/orders/cart?user_id=${id}`,
-      method: 'get',
-    });
+    id = 213;
+
+    const response = await apiClient.get(
+      `${urlConfig.url}/orders/cart?user_id=${id}`,
+      {},
+    );
+
     return response.data;
   },
 );
@@ -132,11 +167,13 @@ export const getCartPatchAsync = createAsyncThunk(
   'orders/patch',
   async (data: [{ user_id: number }]) => {
     const id: number = data[0].user_id;
-    const response = await axios({
-      url: `${urlConfig.url}/orders/orderdetail`,
-      method: 'patch',
-      data: { data },
-    });
+
+    const response = await apiClient.patch(
+      `${urlConfig.url}/orders/orderdetail`,
+      {
+        data: data,
+      },
+    );
     console.log('response', response);
     return response.data;
   },
@@ -144,14 +181,46 @@ export const getCartPatchAsync = createAsyncThunk(
 export const deleteCartAsync = createAsyncThunk(
   'orders/delete',
   async (id: number) => {
-    const response = await axios({
-      url: `${urlConfig.url}/orders/cart`,
-      method: 'delete',
+    const response = await apiClient.delete(`${urlConfig.url}/orders/cart`, {
       data: { order_detail_id: id },
     });
+
     console.log('response', response);
     return response.data;
   },
 );
+
+export const postOrderAsync = createAsyncThunk('orders/post', async () => {
+  let data = {
+    total_amount: 150000,
+    status: 'paid',
+    user_id: 2,
+    order_detail_id: [16, 14],
+    shipping_status: 'delivered',
+    shipping_company: 'cj대한통운',
+    shipping_code: '01234567890',
+  };
+  const response = await apiClient.post(`${urlConfig.url}/orders`, {
+    total_amount: 150000,
+    status: 'paid',
+    user_id: 2,
+    order_detail_id: [14, 16],
+    shipping_status: 'delivered',
+    shipping_company: 'cj대한통운',
+    shipping_code: '01234567890',
+  });
+  // const response = await apiClient.post(`${urlConfig.url}/orders`, {
+  //   data: data,
+  // });
+  // const response = await apiClient.post(`${urlConfig.url}/orders`, {
+  //   data: { data },
+  // });
+  // const response = await apiClient.post(`${urlConfig.url}/orders`, {
+  //   { data:data },
+  // });
+
+  console.log('response-order_post_data', response.data);
+  return response.data;
+});
 
 export default cartSlice.reducer;

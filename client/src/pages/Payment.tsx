@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import React, { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../redux/configStore.hooks';
 import { getCartAsync } from '../redux/modules/cartSlice';
-import CartList from '../components/cart/CartList';
 import type { RootState } from '../redux/configStore';
 import { setTotalPrice } from '../redux/modules/cartSlice';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +9,35 @@ import { getCartPatchAsync } from '../redux/modules/cartSlice';
 import Destination from '../components/Payment/Destination';
 import OrderCustomer from '../components/Payment/OrderCustomer';
 import OrderInfo from '../components/Payment/OrderInfo';
+import { Form, Input, Button } from 'antd';
+import queryString from 'query-string';
+
+declare global {
+  interface Window {
+    ReactNativeWebView: {
+      postMessage: Function;
+    };
+    IMP: {
+      init: Function;
+      request_pay: Function;
+    };
+  }
+}
+
+type paymentData = {
+  pg: string;
+  order_id: number;
+  pay_method: string;
+  merchant_uid: string;
+  name: string;
+  amount: string;
+  buyer_name: string;
+  buyer_tel: string;
+  buyer_email: string;
+};
+
+const { Item } = Form;
+
 const Container = styled.div`
   display: flex;
   margin-top: 65px;
@@ -163,6 +191,44 @@ const OrderButton = styled.button`
   width: 100%;
 `;
 
+const Paymentcontainer = styled.div`
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  color: black;
+  font-size: large;
+  font-weight: bold;
+  background-color: #bdbdbd;
+`;
+
+const Wrapper = styled.div`
+  padding: 5rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+`;
+
+const Header = styled.div`
+  font-weight: bold;
+  text-align: center;
+  padding: 2rem;
+  padding-top: 0;
+  font-size: 3rem;
+`;
+
+const FormContainer = styled(Form)`
+  width: 350px;
+  border-radius: 3px;
+
+  .ant-row {
+    margin-bottom: 1rem;
+  }
+`;
+
 const Payment = () => {
   const cartData = useAppSelector((state: RootState) => state);
   const navigate = useNavigate();
@@ -182,6 +248,7 @@ const Payment = () => {
 
   const payHandler = async () => {
     let obj = cartData.cartSlice.data[0];
+    console.log(obj);
     let tmp: [{ user_id: number }] = [{ user_id: 1 }];
     for (let el in obj) {
       console.log(obj[el].order_details);
@@ -221,10 +288,48 @@ const Payment = () => {
       console.log(error);
     }
 
-    // console.log(tmp);
-
     return;
   };
+
+  const handleSubmit = (values: any) => {
+    // e.preventDefault();
+    console.log('Received values of form: ', values);
+    console.log('orderInfo', cartData.cartSlice.orderInfo[0]);
+    let orderInfo = cartData.cartSlice.orderInfo[0];
+    const userCode = process.env.REACT_APP_IMPORT_CLIENT_ID;
+    /* 결제 데이터 */
+    const {
+      pg = 'kcp',
+      pay_method = 'card',
+      merchant_uid,
+      name = '홍길동',
+      amount = orderInfo.total_amount,
+      buyer_name = '홍길동',
+      buyer_tel = '01012341234',
+      buyer_email = 'candymask0712@gmail.com',
+    } = values;
+
+    const data: paymentData = {
+      order_id: orderInfo.id,
+      pg,
+      pay_method,
+      merchant_uid,
+      name,
+      amount,
+      buyer_name,
+      buyer_tel,
+      buyer_email,
+    };
+
+    const { IMP } = window;
+    IMP.init(userCode);
+    IMP.request_pay(data, callback);
+  };
+
+  function callback(response: object) {
+    const query = queryString.stringify(response);
+    navigate(`/test/payment/result?${query}`, { replace: true });
+  }
 
   return (
     <Container>
@@ -268,6 +373,76 @@ const Payment = () => {
           </ContentsContainer>
         </ContentsBackground>
       </CartContainer>
+      <Paymentcontainer>
+        <div>this is Test-payment page</div>
+        <div>Project Test-payment contents will be tested in this page</div>
+        <p>I'mport TEST</p>
+        <button id="check_module" type="button">
+          Test Button
+        </button>
+        <div>{`${process.env.REACT_APP_IMPORT_CLIENT_ID}`}</div>
+      </Paymentcontainer>
+      <Header>아임포트 결제 테스트</Header>
+      <FormContainer onFinish={handleSubmit}>
+        <Item
+          name="item_id"
+          initialValue={'아임포트 결제 데이터 분석'}
+          rules={[{ required: true, message: '상품ID는 필수입력입니다' }]}
+        >
+          <Input size="large" addonBefore="상품ID" />
+        </Item>
+        <Item
+          name="order_id"
+          initialValue={'type order_id'}
+          rules={[{ required: true, message: 'order_id는 필수입력입니다' }]}
+        >
+          <Input size="large" addonBefore="order_id" />
+        </Item>
+        <Item
+          name="amount"
+          initialValue={'39000'}
+          rules={[{ required: true, message: '결제금액은 필수입력입니다' }]}
+        >
+          <Input size="large" type="number" addonBefore="결제금액" />
+          {/* )} */}
+        </Item>
+        <Item
+          name="merchant_uid"
+          initialValue={`min_${new Date().getTime()}`}
+          rules={[{ required: true, message: '주문번호는 필수입력입니다' }]}
+        >
+          <Input size="large" addonBefore="주문번호" />
+        </Item>
+        <Item
+          name="buyer_name"
+          initialValue={'홍길동'}
+          rules={[{ required: true, message: '구매자 이름은 필수입력입니다' }]}
+        >
+          <Input size="large" addonBefore="이름" />
+        </Item>
+        <Item
+          name="buyer_tel"
+          initialValue={'01012341234'}
+          rules={[
+            { required: true, message: '구매자 전화번호는 필수입력입니다' },
+          ]}
+        >
+          <Input size="large" type="number" addonBefore="전화번호" />
+          {/* )} */}
+        </Item>
+        <Item
+          name="buyer_email"
+          initialValue={'example@example.com'}
+          rules={[
+            { required: true, message: '구매자 이메일은 필수입력입니다' },
+          ]}
+        >
+          <Input size="large" addonBefore="이메일" />
+        </Item>
+        <Button type="primary" htmlType="submit" size="large">
+          결제하기
+        </Button>
+      </FormContainer>
     </Container>
   );
 };
