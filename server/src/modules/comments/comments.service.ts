@@ -11,13 +11,13 @@ export class CommentsService {
   async createItemreview(data: CreateItemReviewDto) {
     const [itemreview, created] = await models.item_review.findOrCreate({
       where: {
-        item_id: data.item_id,
+        order_detail_id: data.order_detail_id,
         user_id: data.user_id
       },
-      defaults: data
+      defaults: data 
     });
     if (created) {
-      return { data: itemreview, message: `item_id: ${data.item_id} review created`};
+      return { data: itemreview, message: `order_detail_id: ${data.order_detail_id} review created`};
     } else {
       return { messgae: 'review already exist'};
     }
@@ -54,26 +54,46 @@ export class CommentsService {
           user_id: user_id
         }
       })
-      const itemIdArr = itemreviewList.map((elem) => {
-        return elem.dataValues.item_id
+      const orderDeatilIdArr = itemreviewList.map((elem) => {
+        return elem.dataValues.order_detail_id
       })
-      const itemList = await models.item.findAll({
+      const orderDetailList = await models.order_detail.findAll({
         where: {
 					id: {
-						[Op.or]: [itemIdArr],
+						[Op.or]: [orderDeatilIdArr],
 					},
 				},
       })
+      const itemIdArr = orderDetailList.map((elem) => {
+        return elem.item_id
+      }) 
+      console.log(itemIdArr)
+      let setItemIdArr = new Set(itemIdArr);
+		  let uniqueItemIdArr = [...setItemIdArr];
+
+      const itemList = await models.item.findAll({
+        where: {
+          id: {
+            [Op.or]: uniqueItemIdArr
+          }
+        }
+      })
+
       let output = {};
       for (let i = 0; i < itemreviewList.length; i++) {
         output[`item_review_id_${itemreviewList[i].id}`] = {
           item_reviewInfo: itemreviewList[i],
+          orderDeailInfo: {},
           itemInfo: {}
         };
-        for (let j = 0; j < itemList.length; j++) {
-          if (itemreviewList[i].item_id === itemList[j].id) {
-            output[`item_review_id_${itemreviewList[i].id}`]["itemInfo"] = itemList[j]
-            
+        for (let j = 0; j < orderDetailList.length; j++) {
+          if (itemreviewList[i].order_detail_id === orderDetailList[j].id) {
+            output[`item_review_id_${itemreviewList[i].id}`]['orderDeailInfo'] = orderDetailList[j] 
+          }
+          for (let k = 0; k < itemList.length; k++) {
+            if (orderDetailList[j].item_id === itemList[k].id) {
+              output[`item_review_id_${itemreviewList[i].id}`]['itemInfo'] = itemList[k]
+            }
           }
         };
       };

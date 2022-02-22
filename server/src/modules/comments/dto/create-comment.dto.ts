@@ -28,12 +28,12 @@ export class CreateItemReviewDto {
 	score: number;
 	
   @ApiProperty({
-		example: 369, 
-    description: 'item_id',
+		example: 34, 
+    description: 'order_detail_id',
 		required: true,
 	})
 	@IsNumber()
-  item_id: number;
+  order_detail_id: number;
 	
   @ApiProperty({
 		example: 2, 
