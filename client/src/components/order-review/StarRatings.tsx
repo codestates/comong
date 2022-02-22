@@ -4,22 +4,15 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
-  width: 150px;
+  width: 200px;
   height: 30px;
   display: flex;
-  align-items: center;
-  background-color: pink;
+  justify-content: center;
 `;
 
 const Stars = styled.div`
   display: flex;
   align-items: center;
-`;
-
-const Rate = styled.span`
-  margin-top: 4px;
-  margin-left: 8px;
-  font-weight: 700;
 `;
 
 function StarRatings() {
@@ -30,7 +23,9 @@ function StarRatings() {
     for (let i = 1; i <= num; i++) {
       stars.push(
         <FontAwesomeIcon
+          key={i}
           icon={faStar}
+          size="2x"
           color={rate >= i ? 'red' : '#B8B8B8'}
           onClick={() => setRate(i)}
         />,
@@ -42,7 +37,6 @@ function StarRatings() {
   return (
     <Wrapper>
       <Stars>{makeStars(5)}</Stars>
-      <Rate>{rate}</Rate>
     </Wrapper>
   );
 }
