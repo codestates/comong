@@ -13,6 +13,8 @@ import axios, {AxiosRequestConfig, AxiosResponse} from 'axios'
 import * as sequelize from 'sequelize'
 import { CreateBookmarkDto } from './dto/create-bookmark.dto';
 import { CreateItemReviewDto } from './dto/create-itemreview.dto';
+import { DeleteItemReviewDto } from './dto/delete-itemreview.dto';
+import { UpdateItemReviewDto } from './dto/update-itemreview.dto';
 const models = require('../../models/index');
 
 @Injectable()
@@ -156,6 +158,28 @@ export class ItemsService {
     }
   }
 
+  async patchItemreview(data: UpdateItemReviewDto) {
+    const reviewUpdate = await models.item_review.update(
+      {
+        ...data
+      },
+      {
+        where: {
+          id: data.item_review_id,
+        },
+      },
+    );
+    if(reviewUpdate[0] === 1) {
+      return {
+				message: `item_review_id:${data.item_review_id} updated`,
+			};
+		} else {
+			throw new BadRequestException(
+				`item_review_id: ${data.item_review_id} has no Data or Data Disaccord`,
+			);
+		}
+  }
+
   async getItemreview(user_id: number) {
     if (!user_id) {
 			throw new BadRequestException('user_id must be included');
@@ -188,9 +212,26 @@ export class ItemsService {
           }
         };
       };
-      return {data: output , message:'this will return item_review list'}
+      return {data: output , message:'successful'}
     }
   }
 
-
+  async removeItemreview(item_review_id: DeleteItemReviewDto) {
+    // console.log(item_review_id.item_review_id)
+		const isDestroyed = await models.item_review.destroy({
+			where: {
+				id: item_review_id.item_review_id,
+			},
+		});
+		if (isDestroyed === 1) {
+			return {
+				message: `item_review_id:${item_review_id.item_review_id} destroyed`,
+			};
+		} else {
+			throw new BadRequestException(
+				`item_review_id: ${item_review_id.item_review_id} has no Data or Data Disaccord`,
+			);
+		}
+	}
+  
 }
