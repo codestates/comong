@@ -21,7 +21,7 @@ export class CreateOrderDto {
 
 	@ApiProperty({
 		enum: ['paid', 'pending'],
-		example: 'paid',
+		example: 'pending',
 		description: 'status',
 		required: true,
 	})
