@@ -4,6 +4,7 @@ import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { getCloudUrl } from '../../apis/api/items';
 import ButtonBasic from '../common/button/ButtonBasic';
+import Preview from '../Preview';
 import StarRatings from './StarRatings';
 
 const Wrapper = styled.div`
@@ -78,13 +79,8 @@ const PreviewList = styled.ul`
   height: 100px;
   margin-bottom: 1rem;
   background-color: white;
-`;
-
-const Preview = styled.img`
-  width: 100px;
-  height: 100px;
-  position: relative;
-  background-color: pink;
+  display: flex;
+  gap: 10px;
 `;
 
 interface IEditReview {
@@ -93,16 +89,24 @@ interface IEditReview {
 
 function EditReview({ showEdit }: IEditReview) {
   const fileRef = useRef<HTMLInputElement>(null);
-  const [preview, setPreview] = useState('');
+  const [preview, setPreview] = useState<string[]>([]);
 
   const previewUploader = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const uploadFile = e.currentTarget.files?.[0];
     const data = uploadFile && (await getCloudUrl(uploadFile));
-    setPreview(data[0]);
+    setPreview([...preview, data[0]]);
   };
 
   const previewHandler = () => {
-    return <Preview src={preview}></Preview>;
+    return preview.map((el, idx) => {
+      return (
+        <Preview src={el} idx={idx} deletePreview={deletePreview}></Preview>
+      );
+    });
+  };
+
+  const deletePreview = (idx: number) => {
+    setPreview([...preview.slice(0, idx), ...preview.slice(idx + 1)]);
   };
 
   // const previewHandler = (e) => {
