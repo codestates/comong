@@ -51,6 +51,7 @@ const ReviewText = styled.textarea`
   padding: 1rem;
   border: 1px solid ${(props) => props.theme.colors.darkGrey};
   background-color: ${(props) => props.theme.colors.lightGrey};
+  opacity: 0.7;
 `;
 
 const PhotoWrapper = styled.div`
@@ -90,12 +91,17 @@ const PreviewList = styled.ul`
   gap: 10px;
 `;
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  gap: 2rem;
+`;
+
 interface IEditReview {
-  showEdit: boolean;
+  setShowEdit: React.Dispatch<React.SetStateAction<boolean>>;
   order: IOrderData;
 }
 
-function EditReview({ showEdit, order }: IEditReview) {
+function EditReview({ setShowEdit, order }: IEditReview) {
   const fileRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string[]>([]);
   const { userinfo } = useAppSelector((state) => state.userSlice);
@@ -141,7 +147,7 @@ function EditReview({ showEdit, order }: IEditReview) {
   };
 
   return (
-    <Wrapper className={showEdit ? 'show' : 'hide'}>
+    <Wrapper>
       <RatingsWrapper>
         <span>상품은 만족하셨나요?</span>
         <StarRatings fillPostForm={fillPostForm}></StarRatings>
@@ -166,9 +172,18 @@ function EditReview({ showEdit, order }: IEditReview) {
         />
         <PreviewList>{previewHandler()}</PreviewList>
       </PhotoWrapper>
-      <ButtonBasic type="extraSmall" buttonClickHandler={postReview}>
-        등록
-      </ButtonBasic>
+      <ButtonWrapper>
+        <ButtonBasic type="extraSmall" buttonClickHandler={postReview}>
+          등록
+        </ButtonBasic>
+        <ButtonBasic
+          type="extraSmall"
+          lightStyle={true}
+          buttonClickHandler={() => setShowEdit(false)}
+        >
+          취소
+        </ButtonBasic>
+      </ButtonWrapper>
     </Wrapper>
   );
 }
