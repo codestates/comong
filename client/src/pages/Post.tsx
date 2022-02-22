@@ -17,7 +17,7 @@ const Container = styled.div`
   align-items: center;
   font-family: Noto Sans KR;
   @media only screen and (max-width: 768px) {
-    margin-bottom: 70px;
+    /* margin-bottom: 70px; */
   }
 `;
 const PostContainer = styled.div`
@@ -310,7 +310,7 @@ const Post = () => {
   let seller = data.user_storename;
   let title = data.title;
   let contents = data.contents;
-  let price = data.price.toLocaleString('en');
+  let price = data.price;
   let img_src = data.image_src;
 
   const stockHandler = (el: string) => {
@@ -345,7 +345,7 @@ const Post = () => {
             <Category>{category}</Category>
             <Title>{title}</Title>
             <Seller>{seller}</Seller>
-            <Price>{price}원</Price>
+            <Price>{(price * stock).toLocaleString('en')}원</Price>
             <StockController>
               <StockMinusButton
                 onClick={() => {

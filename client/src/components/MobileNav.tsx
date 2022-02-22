@@ -60,6 +60,7 @@ const MobileNav = () => {
 
   let current = window.location.href.split('/')[3];
 
+  const [isMobileNav, setIsMobileNav] = useState(true);
   const [homeColor, setHomeColor] = useState(false);
   const [categoryColor, setCategoryColor] = useState(false);
   const [mypageColor, setMypageColor] = useState(false);
@@ -67,7 +68,9 @@ const MobileNav = () => {
 
   useEffect(() => {
     handleCurrentPageIconColorForPageChange();
+    handleHidden();
   }, [current]);
+
   useEffect(() => {
     handleCurrentPageIconColor();
   }, [homeColor, categoryColor, mypageColor, cartColor]);
@@ -100,6 +103,14 @@ const MobileNav = () => {
     }
   };
 
+  console.log(isMobileNav);
+  const handleHidden = () => {
+    console.log(isMobileNav);
+    if (current === 'item' || current === 'cart' || current === 'payment')
+      setIsMobileNav(false);
+    else setIsMobileNav(true);
+  };
+
   const handleHover = (el: string) => {
     setHomeColor(false);
     setCategoryColor(false);
@@ -122,7 +133,7 @@ const MobileNav = () => {
     else if (el === 'cart') setCartColor(false);
   };
 
-  return (
+  const NavSection = (
     <NavContainer>
       <NavMenuContainer>
         <NavMenu
@@ -184,6 +195,8 @@ const MobileNav = () => {
       </NavMenuContainer>
     </NavContainer>
   );
+
+  return <>{isMobileNav ? NavSection : null}</>;
 };
 
 export default MobileNav;

@@ -146,9 +146,9 @@ const CartSellerItem = ({ data, storeName, groupName }: any) => {
   return (
     <Container>
       <CartListItemImageContainer>
-        <CheckBoxContainer>
+        {/* <CheckBoxContainer>
           <CheckBox type="checkbox"></CheckBox>
-        </CheckBoxContainer>
+        </CheckBoxContainer> */}
         <CartListItemImage src={img_src} />
       </CartListItemImageContainer>
       <NameAndStockContainer>

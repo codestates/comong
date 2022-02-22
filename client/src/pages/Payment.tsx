@@ -8,6 +8,8 @@ import { setTotalPrice } from '../redux/modules/cartSlice';
 import { useNavigate } from 'react-router-dom';
 import { getCartPatchAsync } from '../redux/modules/cartSlice';
 import Destination from '../components/Payment/Destination';
+import OrderCustomer from '../components/Payment/OrderCustomer';
+import OrderInfo from '../components/Payment/OrderInfo';
 const Container = styled.div`
   display: flex;
   margin-top: 65px;
@@ -16,7 +18,7 @@ const Container = styled.div`
   align-items: center;
   font-family: Noto Sans KR;
   @media only screen and (max-width: 768px) {
-    margin-bottom: 70px;
+    /* margin-bottom: 70px; */
   }
 `;
 const CartContainer = styled.div`
@@ -58,27 +60,21 @@ const ContentsContainer = styled.div`
   margin-top: 30px;
   width: 80%;
   max-width: 1200px;
-  justify-content: center;
+  justify-content: space-evenly;
+
   @media only screen and (max-width: 1200px) {
     width: 100%;
     flex-direction: column;
   }
 `;
-
-const CartListContainer = styled.div`
-  font-family: Noto Sans KR;
-  font-weight: 700;
-  width: 65%;
-  position: sticky;
-  margin-right: 20px;
-  top: 64px;
-  background-color: white;
+const InfoContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 20px;
-  justify-content: flex-start;
-  box-shadow: 0px 0px 12px ${(props) => props.theme.colors.whiteForShadow};
-  border-radius: 5px;
+  justify-content: center;
+  width: 65%;
+  @media only screen and (max-width: 1200px) {
+    width: 100%;
+  }
 `;
 
 const OrderContainer = styled.div`
@@ -238,8 +234,11 @@ const Payment = () => {
         </TitleContainer>
         <ContentsBackground>
           <ContentsContainer>
-            <Destination></Destination>
-            {/* <CartListContainer></CartListContainer> */}
+            <InfoContainer>
+              <OrderCustomer></OrderCustomer>
+              <Destination></Destination>
+              <OrderInfo></OrderInfo>
+            </InfoContainer>
             <OrderContainer>
               <OrderTitle>전체 합계</OrderTitle>
               <OrderLine />
