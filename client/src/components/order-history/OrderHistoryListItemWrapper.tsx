@@ -16,7 +16,7 @@ function OrderHistoryListItemWrapper({ order }: OrderHistoryListItemWrapper) {
         showEdit={showEdit}
         setShowEdit={setShowEdit}
       ></OrderHistoryListItem>
-      {showEdit && <EditReview showEdit={showEdit}></EditReview>}
+      {showEdit && <EditReview order={order} showEdit={showEdit}></EditReview>}
     </li>
   );
 }

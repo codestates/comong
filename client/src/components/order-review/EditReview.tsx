@@ -2,8 +2,15 @@ import { faCamera } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
+import {
+  IPostCommentForm,
+  IPostCommentFormPartial,
+  postComments,
+} from '../../apis/api/comment';
 import { getCloudUrl } from '../../apis/api/items';
+import { useAppSelector } from '../../redux/configStore.hooks';
 import ButtonBasic from '../common/button/ButtonBasic';
+import { IOrderData } from '../order-history/OrderHistory';
 import Preview from '../Preview';
 import StarRatings from './StarRatings';
 
@@ -85,11 +92,20 @@ const PreviewList = styled.ul`
 
 interface IEditReview {
   showEdit: boolean;
+  order: IOrderData;
 }
 
-function EditReview({ showEdit }: IEditReview) {
+function EditReview({ showEdit, order }: IEditReview) {
   const fileRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string[]>([]);
+  const { userinfo } = useAppSelector((state) => state.userSlice);
+  const [postForm, setPostForm] = useState<IPostCommentForm>({
+    contents: '',
+    image_src: preview,
+    score: 0,
+    order_detail_id: order?.order_detail_info.id,
+    user_id: userinfo?.id!,
+  });
 
   const previewUploader = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const uploadFile = e.currentTarget.files?.[0];
@@ -109,29 +125,33 @@ function EditReview({ showEdit }: IEditReview) {
     setPreview([...preview.slice(0, idx), ...preview.slice(idx + 1)]);
   };
 
-  // const previewHandler = (e) => {
-  //   if (!preview) {
-  //     if (isImgLoading) {
-  //       return <Indicator type="postForm">로딩중</Indicator>;
-  //     } else if (postForm.image_src) {
-  //       return <PreviewImg src={postForm.image_src}></PreviewImg>;
-  //     } else {
-  //       return <Indicator type="postForm">이미지를 등록해주세요</Indicator>;
-  //     }
-  //   } else {
-  //     return <PreviewImg src={preview}></PreviewImg>;
-  //   }
-  // };
+  const fillPostForm = (data: IPostCommentFormPartial) => {
+    setPostForm({ ...postForm, ...data });
+  };
+
+  const postReview = async () => {
+    if (postForm.score === 0) {
+      console.log('점수를 입력해주세요');
+      return;
+    }
+    try {
+      const response = await postComments({ ...postForm, image_src: preview });
+      console.log('등록되었습니다');
+    } catch (error) {}
+  };
 
   return (
     <Wrapper className={showEdit ? 'show' : 'hide'}>
       <RatingsWrapper>
         <span>상품은 만족하셨나요?</span>
-        <StarRatings></StarRatings>
+        <StarRatings fillPostForm={fillPostForm}></StarRatings>
       </RatingsWrapper>
       <TextWrapper>
         <span>어떤 점이 좋았나요?</span>
-        <ReviewText placeholder="상품평을 입력해주세요"></ReviewText>
+        <ReviewText
+          onChange={(e) => fillPostForm({ contents: e.currentTarget.value })}
+          placeholder="상품평을 입력해주세요"
+        ></ReviewText>
       </TextWrapper>
       <PhotoWrapper>
         <PhotoInput onClick={() => fileRef.current?.click()}>
@@ -146,7 +166,7 @@ function EditReview({ showEdit }: IEditReview) {
         />
         <PreviewList>{previewHandler()}</PreviewList>
       </PhotoWrapper>
-      <ButtonBasic type="extraSmall" buttonClickHandler={() => {}}>
+      <ButtonBasic type="extraSmall" buttonClickHandler={postReview}>
         등록
       </ButtonBasic>
     </Wrapper>

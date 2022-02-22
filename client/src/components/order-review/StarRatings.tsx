@@ -2,6 +2,7 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import styled from 'styled-components';
+import { IPostCommentFormPartial } from '../../apis/api/comment';
 
 const Wrapper = styled.div`
   width: 200px;
@@ -15,7 +16,11 @@ const Stars = styled.div`
   align-items: center;
 `;
 
-function StarRatings() {
+interface IStarRatings {
+  fillPostForm: (data: IPostCommentFormPartial) => void;
+}
+
+function StarRatings({ fillPostForm }: IStarRatings) {
   const [rate, setRate] = useState(0);
 
   const makeStars = (num: number) => {
@@ -27,7 +32,10 @@ function StarRatings() {
           icon={faStar}
           size="2x"
           color={rate >= i ? 'red' : '#B8B8B8'}
-          onClick={() => setRate(i)}
+          onClick={() => {
+            setRate(i);
+            fillPostForm({ score: i });
+          }}
         />,
       );
     }
