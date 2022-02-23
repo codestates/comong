@@ -127,7 +127,6 @@ export class ItemsService {
   }
 
   async createBookmark(data: CreateBookmarkDto) {
-    console.log(data.user_id)
     const [bookmark, created] = await models.bookmark.findOrCreate({
       where: {
         item_id: data.item_id
@@ -140,4 +139,5 @@ export class ItemsService {
       return { messgae: 'bookmark already exist'};
     }
   }
+  
 }

@@ -1,36 +1,86 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { Controller, Get, Post, Body, Patch, Query, Delete, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiCreatedResponse, ApiOkResponse, ApiHeader, ApiBadRequestResponse, ApiParam, ApiQuery } from '@nestjs/swagger';
 import { CommentsService } from './comments.service';
-import { CreateCommentDto } from './dto/create-comment.dto';
-import { UpdateCommentDto } from './dto/update-comment.dto';
+import JwtAuthGuard from '../../middleware/Jwtauthguard';
+import { CreateItemReviewDto } from './dto/create-comment.dto';
+import { UpdateItemReviewDto } from './dto/update-comment.dto';
+import { DeleteItemReviewDto } from './dto/delete-commnet.dto';
 
 @Controller('comments')
 @ApiTags('상품 문의 및 후기 관련')
 export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
 
-  @Post()
-  create(@Body() createCommentDto: CreateCommentDto) {
-    return this.commentsService.create(createCommentDto);
+  @Post('/')
+  @ApiHeader({
+    name: 'Authorization',
+    description: '사용자 인증 수단, 액세스 토큰 값',
+    required: true,
+    schema: {
+      example: 'bearer 23f43u9if13ekc23fm30jg549quneraf2fmsdf'
+    },
+  })
+  // @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: '구매리뷰 추가', description: '구매한 상품에 대한 구매후기 추가 요청' })
+  @ApiCreatedResponse({ description: 'successful' })
+  createItemReview(@Body() data: CreateItemReviewDto) {
+    return this.commentsService.createItemreview(data)
   }
 
-  @Get()
-  findAll() {
-    return this.commentsService.findAll();
+  @Get('/')
+  @ApiHeader({
+    name: 'Authorization',
+    description: '사용자 인증 수단, 액세스 토큰 값',
+    required: true,
+    schema: {
+      example: 'bearer 23f43u9if13ekc23fm30jg549quneraf2fmsdf'
+    },
+  })
+	@ApiQuery({
+		name: 'user_id',
+		required: true,
+		description: '유저 아이디',
+	})
+	@ApiOkResponse({
+		description: 'successful',
+	})
+  // @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: '구매후기 리스트', description: '구매한 상품에 대한후기 리스트 요청' })
+  @ApiCreatedResponse({ description: 'successful' })
+  getItemReview(@Query('user_id') user_id: number) {
+    return this.commentsService.getItemreview(user_id)
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.commentsService.findOne(+id);
+  @Patch('/')
+  @ApiHeader({
+    name: 'Authorization',
+    description: '사용자 인증 수단, 액세스 토큰 값',
+    required: true,
+    schema: {
+      example: 'bearer 23f43u9if13ekc23fm30jg549quneraf2fmsdf'
+    },
+  })
+  // @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: '구매리뷰 수정', description: '구매한 상품에 대한 구매후기 수정 요청' })
+  @ApiCreatedResponse({ description: 'successful' })
+  patchItemReview(@Body() data: UpdateItemReviewDto) {
+    return this.commentsService.patchItemreview(data)
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCommentDto: UpdateCommentDto) {
-    return this.commentsService.update(+id, updateCommentDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.commentsService.remove(+id);
+  @Delete('/')
+  @ApiHeader({
+    name: 'Authorization',
+    description: '사용자 인증 수단, 액세스 토큰 값',
+    required: true,
+    schema: {
+      example: 'bearer 23f43u9if13ekc23fm30jg549quneraf2fmsdf'
+    },
+  })
+  @ApiOperation({ summary: '구매 리뷰 삭제', description: 'item_review 삭제 요청을 받습니다.' })
+  @ApiOkResponse({ description: 'successful'})
+  // @UseGuards(JwtAuthGuard)
+  @ApiBadRequestResponse({ description: 'invalid value for property' })
+  removeItemreview(@Body() item_review_id: DeleteItemReviewDto) {
+    return this.commentsService.removeItemreview(item_review_id);
   }
 }

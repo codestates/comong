@@ -112,9 +112,6 @@ export class ItemsController {
     return this.itemsService.getCategoryList();
   }
 
-
-
-
   @Patch(':id')
   @ApiHeader({
     name: 'Authorization',
@@ -132,7 +129,7 @@ export class ItemsController {
     return this.itemsService.update(+id, updateItemDto);
   }
 
-  @Delete(':id')
+  @Delete('/:id')
   @ApiHeader({
     name: 'Authorization',
     description: '사용자 인증 수단, 액세스 토큰 값',

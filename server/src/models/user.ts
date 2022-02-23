@@ -11,6 +11,7 @@ import type { notification, notificationId } from './notification';
 import type { order, orderId } from './order';
 import type { order_detail, order_detailId } from './order_detail';
 import type { refreshtoken, refreshtokenId } from './refreshtoken';
+import type { replace_refund, replace_refundId } from './replace_refund';
 import type { user_address, user_addressId } from './user_address';
 import type { user_payment, user_paymentId } from './user_payment';
 
@@ -180,6 +181,18 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasRefreshtoken!: Sequelize.HasManyHasAssociationMixin<refreshtoken, refreshtokenId>;
   hasRefreshtokens!: Sequelize.HasManyHasAssociationsMixin<refreshtoken, refreshtokenId>;
   countRefreshtokens!: Sequelize.HasManyCountAssociationsMixin;
+  // user hasMany replace_refund via user_id
+  replace_refunds!: replace_refund[];
+  getReplace_refunds!: Sequelize.HasManyGetAssociationsMixin<replace_refund>;
+  setReplace_refunds!: Sequelize.HasManySetAssociationsMixin<replace_refund, replace_refundId>;
+  addReplace_refund!: Sequelize.HasManyAddAssociationMixin<replace_refund, replace_refundId>;
+  addReplace_refunds!: Sequelize.HasManyAddAssociationsMixin<replace_refund, replace_refundId>;
+  createReplace_refund!: Sequelize.HasManyCreateAssociationMixin<replace_refund>;
+  removeReplace_refund!: Sequelize.HasManyRemoveAssociationMixin<replace_refund, replace_refundId>;
+  removeReplace_refunds!: Sequelize.HasManyRemoveAssociationsMixin<replace_refund, replace_refundId>;
+  hasReplace_refund!: Sequelize.HasManyHasAssociationMixin<replace_refund, replace_refundId>;
+  hasReplace_refunds!: Sequelize.HasManyHasAssociationsMixin<replace_refund, replace_refundId>;
+  countReplace_refunds!: Sequelize.HasManyCountAssociationsMixin;
   // user hasMany user_address via user_id
   user_addresses!: user_address[];
   getUser_addresses!: Sequelize.HasManyGetAssociationsMixin<user_address>;
