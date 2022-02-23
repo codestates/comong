@@ -7,17 +7,19 @@ export interface bookmarkAttributes {
   id: number;
   user_id: number;
   item_id: number;
+  ismarked?: number;
 }
 
 export type bookmarkPk = "id";
 export type bookmarkId = bookmark[bookmarkPk];
-export type bookmarkOptionalAttributes = "id";
+export type bookmarkOptionalAttributes = "id" | "ismarked";
 export type bookmarkCreationAttributes = Optional<bookmarkAttributes, bookmarkOptionalAttributes>;
 
 export class bookmark extends Model<bookmarkAttributes, bookmarkCreationAttributes> implements bookmarkAttributes {
   id!: number;
   user_id!: number;
   item_id!: number;
+  ismarked?: number;
 
   // bookmark belongsTo item via item_id
   item!: item;
@@ -53,6 +55,11 @@ export class bookmark extends Model<bookmarkAttributes, bookmarkCreationAttribut
         model: 'item',
         key: 'id'
       }
+    },
+    ismarked: {
+      type: DataTypes.TINYINT,
+      allowNull: true,
+      defaultValue: 0
     }
   }, {
     sequelize,
