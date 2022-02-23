@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { stat } from 'fs';
 import { apiClient } from '../../apis';
 import { ILoginForm } from '../../components/form/LoginForm';
 import { useAppSelector } from '../configStore.hooks';
@@ -39,17 +40,6 @@ const userSlice = createSlice({
       delete state.role;
       delete state.userinfo;
     },
-    addBookmark: (state, action) => {
-      console.log(action.payload);
-      if (!!state.userinfo) {
-        console.log('됨');
-        state.userinfo.bookmarks = [
-          ...state.userinfo.bookmarks,
-          action.payload,
-        ];
-        console.log(state.userinfo.bookmarks);
-      }
-    },
   },
   extraReducers: (builder) => {
     builder.addCase(postSigninAsync.fulfilled, (state, action) => {
@@ -62,8 +52,11 @@ const userSlice = createSlice({
             (el: { category_id: number }) => el.category_id,
           )
         : [];
+      const bookmarks = user.bookmarks.map(
+        (obj: { item_id: number }) => obj.item_id,
+      );
       delete user.category_has_users;
-      const userinfo = { ...user, likes, bookmarks: [] };
+      const userinfo = { ...user, likes, bookmarks };
       apiClient.defaults.headers.common[
         'Authorization'
       ] = `bearer ${accessToken}`;
@@ -77,7 +70,14 @@ const userSlice = createSlice({
 
     builder.addCase(postBookmarkAsync.fulfilled, (state, action) => {
       // 북마크 state 업데이트
-      console.log(action);
+      if (!!state.userinfo) {
+        const bookmarks = state.userinfo.bookmarks;
+        const marked = bookmarks.findIndex((el) => el === action.payload);
+        state.userinfo.bookmarks =
+          marked === -1
+            ? [...bookmarks, action.payload]
+            : [...bookmarks.slice(0, marked), ...bookmarks.slice(marked + 1)];
+      }
     });
   },
 });
@@ -93,18 +93,12 @@ export const postSigninAsync = createAsyncThunk(
 
 export const postBookmarkAsync = createAsyncThunk(
   'bookmark/post',
-  async (itemid: number) => {
-    const { userinfo } = useAppSelector((state) => state.userSlice);
-    let ismarked = userinfo?.bookmarks.includes(itemid);
-    const body = {
-      user_id: userinfo?.id,
-      item_id: itemid,
-      ismarked: !ismarked,
-    };
+  async (body: { user_id: number; item_id: number; ismarked: boolean }) => {
     const response = await apiClient.post('/items/bookmark', body);
-    return response.data;
+    console.log(response);
+    return body.item_id;
   },
 );
 
-export const { logout, addBookmark } = userSlice.actions;
+export const { logout } = userSlice.actions;
 export default userSlice.reducer;

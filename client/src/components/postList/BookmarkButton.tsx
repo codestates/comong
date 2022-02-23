@@ -1,9 +1,10 @@
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { userInfo } from 'os';
 import React from 'react';
 import styled from 'styled-components';
 import { useAppDispatch, useAppSelector } from '../../redux/configStore.hooks';
-import { addBookmark } from '../../redux/modules/userSlice';
+import { postBookmarkAsync } from '../../redux/modules/userSlice';
 
 const Wrapper = styled.div`
   background-color: white;
@@ -37,15 +38,29 @@ function BookmarkButton({ selected, itemId }: IBookmarkButton) {
   const { userinfo } = useAppSelector((state) => state.userSlice);
 
   console.log(selected, itemId);
+  const setBookmarkHandler = async () => {
+    // 스토어 북마크 추가
+    try {
+      const ismarked = userinfo?.bookmarks.includes(itemId);
+      const params = {
+        user_id: userinfo?.id!,
+        item_id: itemId,
+        ismarked: !ismarked,
+      };
+      const response = await dispatch(postBookmarkAsync(params)).unwrap();
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+      console.log('로그인 하세요!');
+    }
+  };
 
   return (
     <Wrapper
       className={selected ? 'selected' : ''}
       onClick={(e) => {
         e.preventDefault();
-        console.log('hi');
-        // 스토어 북마크 추가
-        dispatch(addBookmark(itemId));
+        setBookmarkHandler();
       }}
     >
       <FontAwesomeIcon icon={faHeart} />
