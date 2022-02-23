@@ -1,12 +1,7 @@
-import {
-  createSlice,
-  createAsyncThunk,
-  isRejectedWithValue,
-} from '@reduxjs/toolkit';
-import { Axios, AxiosError } from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { apiClient } from '../../apis';
 import { ILoginForm } from '../../components/form/LoginForm';
+import { useAppSelector } from '../configStore.hooks';
 
 // !TODO 타입 다시 확인하기
 interface IUserInfo {
@@ -19,7 +14,8 @@ interface IUserInfo {
   name: string;
   role: number;
   updatedAt: string;
-  likes: number[] | [];
+  likes: number[];
+  bookmarks: number[];
 }
 
 export interface IUser {
@@ -67,6 +63,10 @@ const userSlice = createSlice({
       // rejected 된 경우 userSlice state를 바꾸고 싶다면 여기서 처리
       return;
     });
+
+    builder.addCase(postBookmarkAsync.fulfilled, (state, action) => {
+      // 북마크 state 업데이트
+    });
   },
 });
 
@@ -74,9 +74,22 @@ export const postSigninAsync = createAsyncThunk(
   'LOGIN_USER',
   async (form: ILoginForm) => {
     console.log('1번, 여기서 비동기 작업하고 data 리턴');
-    console.log(form);
     const response = await apiClient.post(`/users/signin`, form);
-    console.log(response);
+    return response.data;
+  },
+);
+
+export const postBookmarkAsync = createAsyncThunk(
+  'bookmark/post',
+  async (itemid: number) => {
+    const { userinfo } = useAppSelector((state) => state.userSlice);
+    let ismarked = userinfo?.bookmarks.includes(itemid);
+    const body = {
+      user_id: userinfo?.id,
+      item_id: itemid,
+      ismarked: !ismarked,
+    };
+    const response = await apiClient.post('/items/bookmark', body);
     return response.data;
   },
 );

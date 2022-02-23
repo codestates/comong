@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import BookmarkButton from './BookmarkButton';
+import { useAppSelector } from '../../redux/configStore.hooks';
 
 const StLink = styled(Link)`
   all: unset;
@@ -46,6 +48,7 @@ const TextContainer = styled.div`
   margin-top: 10px;
   margin-bottom: 10px;
   height: 100px;
+  position: relative;
 `;
 
 const ItemSeller = styled.div`
@@ -87,6 +90,7 @@ const PostListItem = ({ post }: any) => {
   const id = post.id;
 
   const price = post.price.toLocaleString('en');
+  const { userinfo } = useAppSelector((state) => state.userSlice);
 
   return (
     <StLink to={`/item/${id}`}>
@@ -98,6 +102,9 @@ const PostListItem = ({ post }: any) => {
           <ItemSeller>{seller}</ItemSeller>
           <ItemTitle>{title}</ItemTitle>
           <ItemPrice>{price}원</ItemPrice>
+          <BookmarkButton
+            selected={userinfo?.bookmarks.includes(id) || false}
+          ></BookmarkButton>
         </TextContainer>
       </ItemContainer>
     </StLink>
