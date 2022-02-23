@@ -54,4 +54,30 @@ export class MailerService {
             
         
     }
+
+    async sendPaymentNotice(
+        newPayment: object,
+        context: any = {},
+        emailAddress: string,
+        subject: string,
+        templateName: string,
+    ): Promise<object>{
+        const newMail = await this.mailer.sendMail({
+            to: emailAddress,
+            subject,
+            template: `${templateName}`,
+            context,
+        });
+        console.log(newMail)
+        if(newMail && newMail.response.split(' ')[2] === 'OK'){
+            return new Object({ 
+                data: newPayment, 
+                message:'payment_notice letter has been sent successfully' 
+            })
+        } else {
+            return new InternalServerErrorException('service unavailable(mailer)')
+        }
+            
+        
+    }
 }

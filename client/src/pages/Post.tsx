@@ -5,10 +5,14 @@ import styled, { css } from 'styled-components';
 import { useAppDispatch, useAppSelector } from '../redux/configStore.hooks';
 import { getItemAsync } from '../redux/modules/itemSlice';
 import type { RootState } from '../redux/configStore';
-import { Link } from 'react-router-dom';
-import Nav from '../components/Nav';
-import MobileNav from '../components/MobileNav';
+
 import { Viewer } from '@toast-ui/react-editor';
+import { getCartPatchAsync } from '../redux/modules/cartSlice';
+import { config } from '../config/config';
+import { apiClient } from '../apis';
+
+const env = 'development';
+const urlConfig = config[env];
 
 const Container = styled.div`
   display: flex;
@@ -29,11 +33,6 @@ const PostContainer = styled.div`
   justify-content: center;
   align-items: center;
   background-color: white;
-  @media only screen and (max-width: 1200px) {
-    width: 100%;
-  }
-  @media only screen and (max-width: 768px) {
-  }
 `;
 
 const ImgContainer = styled.div`
@@ -41,6 +40,7 @@ const ImgContainer = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+
   width: 100%;
   margin: 40px 0px;
 `;
@@ -87,6 +87,7 @@ const ContentsContainer = styled.div`
   @media only screen and (max-width: 768px) {
   }
 `;
+
 const Contentsline = styled.hr`
   margin-top: 20px;
   size: 5;
@@ -293,9 +294,7 @@ const Post = () => {
   const itemData = useAppSelector((state: RootState) => state);
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(getItemAsync(postId));
-  }, []);
+  const data2 = itemData.itemSlice.data;
 
   const [width, setWidth] = useState(window.innerWidth);
 
@@ -303,6 +302,10 @@ const Post = () => {
   useEffect(() => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    dispatch(getItemAsync(postId));
   }, []);
 
   let data = itemData.itemSlice.data;
@@ -313,10 +316,36 @@ const Post = () => {
   let contents = data.contents;
   let price = data.price;
   let img_src = data.image_src.split(',');
+  console.log(itemData.itemSlice.data);
+  console.log('contents', contents);
 
   const stockHandler = (el: string) => {
     if (el === 'plus' && stock <= 98) setStock(stock + 1);
     if (el === 'minus' && stock >= 2) setStock(stock - 1);
+  };
+
+  const addCart = () => {
+    const user_id = itemData.userSlice.userinfo?.id as number;
+    let tmpObj: {
+      user_id: number;
+      item_id: number;
+      order_amount: number;
+      status: string;
+      peritem_price: number;
+    } = {
+      user_id: user_id,
+      item_id: id,
+      order_amount: 1,
+      status: 'pending',
+      peritem_price: price,
+    };
+    console.log(tmpObj);
+
+    let response = apiClient.post(
+      `${urlConfig.url}/orders/orderdetail`,
+      tmpObj,
+    );
+    console.log(response);
   };
 
   return (
@@ -327,16 +356,15 @@ const Post = () => {
             <MainImg src={img_src[0]} />
           </MainImgContainer>
           <ThumbnailImgContainer>
-            {img_src.map(elements => {
-              return <ThumbnailImg src={elements} />
+            {img_src.map((elements) => {
+              return <ThumbnailImg src={elements} />;
             })}
             {/*
             <ThumbnailImg src={img_src} />
             <ThumbnailImg src={img_src} />
             <ThumbnailImg src={img_src} />
             <ThumbnailImg src={img_src} />
-            */
-            }
+            */}
           </ThumbnailImgContainer>
         </ImgContainer>
         <BottomContainer>
@@ -346,7 +374,9 @@ const Post = () => {
               <ContentsTitle>상품평</ContentsTitle>
             </ContentsTitleContainer>
             <Contentsline />
-            <ContentsArea><Viewer initialValue={contents} /></ContentsArea>
+            <ContentsArea>
+              <Viewer initialValue={contents} />
+            </ContentsArea>
           </ContentsContainer>
           <OrderContainer>
             <Category>{category}</Category>
@@ -371,7 +401,7 @@ const Post = () => {
               </StockAddButton>
             </StockController>
             <ButtonContainer>
-              <CartButton>장바구니</CartButton>
+              <CartButton onClick={addCart}>장바구니</CartButton>
               <OrderButton>상품구매</OrderButton>
             </ButtonContainer>
           </OrderContainer>

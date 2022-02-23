@@ -30,13 +30,14 @@ export class OrdersService {
 				});
 			newJoindataArr.push(newJoinData.dataValues);
 		}
-		const getUserdata = await models.user.findOne({
+		const itemInfo = await models.order_detail.findOne({
+			include: { model: models.user, as: 'user' },
 			where: {
-				id: createOrder.user_id,
-			},
-		});
-		const emailAddress = getUserdata.dataValues.email;
-		const storeName = getUserdata.dataValues.storename;
+				id: createOrder.order_detail_id[0]
+			}
+		})
+		const emailAddress = itemInfo.dataValues.user.email;
+		const storeName = itemInfo.dataValues.user.storename;
 		if (newOrder) {
 			// const message = newOrder;
 			// this.appGateway.handleNotification(message);

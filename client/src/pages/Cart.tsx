@@ -7,6 +7,13 @@ import type { RootState } from '../redux/configStore';
 import { setTotalPrice } from '../redux/modules/cartSlice';
 import { useNavigate } from 'react-router-dom';
 import { getCartPatchAsync } from '../redux/modules/cartSlice';
+import { postOrderAsync } from '../redux/modules/cartSlice';
+import { config } from '../config/config';
+import { apiClient } from '../apis';
+
+const env = 'development';
+const urlConfig = config[env];
+
 const Container = styled.div`
   display: flex;
   margin-top: 65px;
@@ -15,7 +22,7 @@ const Container = styled.div`
   align-items: center;
   font-family: Noto Sans KR;
   @media only screen and (max-width: 768px) {
-    margin-bottom: 70px;
+    /* margin-bottom: 70px; */
   }
 `;
 const CartContainer = styled.div`
@@ -59,13 +66,17 @@ const ContentsContainer = styled.div`
   max-width: 1200px;
   justify-content: center;
   @media only screen and (max-width: 1200px) {
+    flex-direction: column;
     width: 100%;
+    /* margin-bottom: 300px; */
   }
 `;
 
 const CartListContainer = styled.div`
   font-family: Noto Sans KR;
   font-weight: 700;
+  min-height: 600px;
+  /* height: 600px; */
   width: 65%;
   position: sticky;
   margin-right: 20px;
@@ -77,6 +88,12 @@ const CartListContainer = styled.div`
   justify-content: flex-start;
   box-shadow: 0px 0px 12px ${(props) => props.theme.colors.whiteForShadow};
   border-radius: 5px;
+  @media only screen and (max-width: 1200px) {
+    width: 100%;
+    /* margin-bottom: 300px; */
+  }
+  @media only screen and (max-width: 768px) {
+  }
 `;
 
 const OrderContainer = styled.div`
@@ -93,20 +110,42 @@ const OrderContainer = styled.div`
   justify-content: center;
   box-shadow: 0px 0px 12px ${(props) => props.theme.colors.whiteForShadow};
   border-radius: 5px;
+  @media only screen and (max-width: 1200px) {
+    bottom: 0px;
+    width: 100%;
+    height: 200px;
+  }
+  @media only screen and (max-width: 768px) {
+  }
 `;
 const OrderTitle = styled.div`
   font-size: 18px;
   margin-bottom: 10px;
+  @media only screen and (max-width: 1200px) {
+    display: none;
+  }
+  @media only screen and (max-width: 768px) {
+  }
 `;
 const OrderLine = styled.hr`
   margin-top: 10px;
   margin-bottom: 0px;
   width: 100%;
+  @media only screen and (max-width: 1200px) {
+    display: none;
+  }
+  @media only screen and (max-width: 768px) {
+  }
 `;
 
 const OrderTextContainer = styled.div`
   margin-top: 20px;
   margin-bottom: 15px;
+  @media only screen and (max-width: 1200px) {
+    display: none;
+  }
+  @media only screen and (max-width: 768px) {
+  }
 `;
 const OrderText = styled.div`
   display: flex;
@@ -156,8 +195,19 @@ const Cart = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
+  const isLogin = cartData.userSlice.isLogin;
+  const userInfo = cartData.userSlice.userinfo;
+  const id = userInfo?.id;
+  console.log(id);
+
+  // let response = apiClient.get(`${urlConfig.url}/items/details/${id}`, {
+  //   data: {},
+  // });
+
+  // console.log('respnse', response);
+
   useEffect(() => {
-    dispatch(getCartAsync());
+    dispatch(getCartAsync(id));
     dispatch(setTotalPrice(cartData.cartSlice.subTotalPrice));
   }, []);
 
@@ -189,6 +239,7 @@ const Cart = () => {
           user_id: 3,
           peritem_price: 1,
         };
+        console.log(x.user_id);
         tmpObj.id = x.id;
         tmpObj.user_id = x.user_id;
         tmpObj.item_id = x.item_id;
@@ -202,14 +253,13 @@ const Cart = () => {
     tmp.splice(0, 1);
 
     try {
-      const response = await dispatch(getCartPatchAsync(tmp)).unwrap();
+      await dispatch(getCartPatchAsync(tmp));
+      await dispatch(postOrderAsync());
       navigate('/payment');
     } catch (error) {
       navigate('/');
       console.log(error);
     }
-
-    // console.log(tmp);
 
     return;
   };
