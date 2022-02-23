@@ -20,7 +20,7 @@ interface Post {
 
 const PostListWrapper = styled.div`
   width: 80%;
-  max-width: 1600px;
+  max-width: 1400px;
   padding: 10px;
   display: flex;
   margin: auto;

@@ -44,6 +44,14 @@ const ItemImg = styled.img`
     /* object-fit: contain; */
     transform: scale(1.07);
   }
+  @media only screen and (max-width: 1200px) {
+    height: 270px;
+    width: 100%;
+  }
+  @media only screen and (max-width: 768px) {
+    height: 170px;
+    width: 100%;
+  }
 `;
 
 const TextContainer = styled.div`
@@ -59,7 +67,7 @@ const TextContainer = styled.div`
 const ItemSeller = styled.div`
   width: 100%;
   margin: auto;
-  font-size: 14px;
+  font-size: 13px;
   margin-top: 0.3rem;
   margin-bottom: 0.3rem;
   line-height: 100%;
@@ -69,7 +77,7 @@ const ItemSeller = styled.div`
 const ItemTitle = styled.div`
   width: 100%;
   margin: auto;
-  font-size: 15px;
+  font-size: 14px;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   font-weight: 300;
@@ -79,7 +87,7 @@ const ItemTitle = styled.div`
 const ItemPrice = styled.div`
   width: 100%;
   margin: auto;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   margin-top: 15px;
   margin-bottom: 5px;
