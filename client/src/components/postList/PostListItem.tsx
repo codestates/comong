@@ -86,7 +86,7 @@ const PostListItem = ({ post }: any) => {
   const img_src = post.image_src
     ? post.image_src.split(',')[0]
     : 'https://imagedelivery.net/BOKuAiJyROlMLXwCcBYMqQ/fe9f218d-5134-4a76-ba20-bf97e5c21900/thumbnail';
-  const seller = post.user.nickname ? post.user.nickname : 'hojin';
+  const seller = post.user?.nickname ? post.user?.nickname : 'hojin';
   const title = post.title;
   const id = post.id;
 

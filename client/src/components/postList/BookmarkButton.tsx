@@ -36,8 +36,6 @@ function BookmarkButton({ selected, itemId }: IBookmarkButton) {
   // useerslice에서 북마크 리스트 받아와서 해당하는 거만 빨갛게 표시
   const dispatch = useAppDispatch();
   const { userinfo } = useAppSelector((state) => state.userSlice);
-
-  console.log(selected, itemId);
   const setBookmarkHandler = async () => {
     // 스토어 북마크 추가
     try {

@@ -1,5 +1,6 @@
-import axios, { AxiosError, AxiosRequestConfig } from 'axios';
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { apiClient } from '..';
+import { IItem } from '../../pages/mypage/mypage_user/MypageBookmarks';
 
 export const getItems = async () => {
   try {
@@ -7,6 +8,25 @@ export const getItems = async () => {
     return data;
   } catch (err) {
     console.log(err);
+  }
+};
+
+export interface IAxiosBookmark {
+  id: number;
+  ismarked: number;
+  item: IItem;
+  item_id: number;
+  user_id: number;
+}
+
+export const getBookmarks = async (userid: number) => {
+  try {
+    const response = await apiClient.get(`/items/bookmark?user_id=${userid}`);
+    const data: IAxiosBookmark[] = response.data;
+    const bookmarks = data.map((obj) => obj.item);
+    return bookmarks;
+  } catch (error) {
+    console.log(error);
   }
 };
 
