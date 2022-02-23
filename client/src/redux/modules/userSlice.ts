@@ -39,6 +39,17 @@ const userSlice = createSlice({
       delete state.role;
       delete state.userinfo;
     },
+    addBookmark: (state, action) => {
+      console.log(action.payload);
+      if (!!state.userinfo) {
+        console.log('됨');
+        state.userinfo.bookmarks = [
+          ...state.userinfo.bookmarks,
+          action.payload,
+        ];
+        console.log(state.userinfo.bookmarks);
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(postSigninAsync.fulfilled, (state, action) => {
@@ -52,7 +63,7 @@ const userSlice = createSlice({
           )
         : [];
       delete user.category_has_users;
-      const userinfo = { ...user, likes };
+      const userinfo = { ...user, likes, bookmarks: [] };
       apiClient.defaults.headers.common[
         'Authorization'
       ] = `bearer ${accessToken}`;
@@ -66,6 +77,7 @@ const userSlice = createSlice({
 
     builder.addCase(postBookmarkAsync.fulfilled, (state, action) => {
       // 북마크 state 업데이트
+      console.log(action);
     });
   },
 });
@@ -94,5 +106,5 @@ export const postBookmarkAsync = createAsyncThunk(
   },
 );
 
-export const { logout } = userSlice.actions;
+export const { logout, addBookmark } = userSlice.actions;
 export default userSlice.reducer;

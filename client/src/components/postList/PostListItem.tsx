@@ -91,6 +91,7 @@ const PostListItem = ({ post }: any) => {
 
   const price = post.price.toLocaleString('en');
   const { userinfo } = useAppSelector((state) => state.userSlice);
+  const bookmarks = userinfo?.bookmarks;
 
   return (
     <StLink to={`/item/${id}`}>
@@ -103,7 +104,8 @@ const PostListItem = ({ post }: any) => {
           <ItemTitle>{title}</ItemTitle>
           <ItemPrice>{price}원</ItemPrice>
           <BookmarkButton
-            selected={userinfo?.bookmarks.includes(id) || false}
+            itemId={id}
+            selected={bookmarks ? !!bookmarks.includes(id) : false}
           ></BookmarkButton>
         </TextContainer>
       </ItemContainer>
