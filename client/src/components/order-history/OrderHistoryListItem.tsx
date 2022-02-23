@@ -3,13 +3,14 @@ import styled from 'styled-components';
 import ButtonSimple from '../common/button/ButtonSimple';
 import { IOrderData } from './OrderHistory';
 
-const Wrapper = styled.li`
+const Wrapper = styled.div`
   height: 200px;
   padding: 0 20px;
   display: flex;
   justify-content: space-around;
   align-items: center;
   border: 1px solid ${(props) => props.theme.colors.darkGrey};
+  background-color: white;
 `;
 
 const OrderImg = styled.img`
@@ -104,9 +105,15 @@ const ButtonWrapper = styled.div`
 
 interface IOrderHistoryListItem {
   order: IOrderData;
+  showEdit: boolean;
+  setShowEdit: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function OrderHistoryListItem({ order }: IOrderHistoryListItem) {
+function OrderHistoryListItem({
+  order,
+  showEdit,
+  setShowEdit,
+}: IOrderHistoryListItem) {
   const { item_info: itemInfo, order_detail_info: orderInfo } = order;
 
   return (
@@ -129,7 +136,13 @@ function OrderHistoryListItem({ order }: IOrderHistoryListItem) {
         </OrderSellerInfo>
       </OrderInfo>
       <ButtonWrapper>
-        <ButtonSimple buttonClickHandler={() => {}}>후기 쓰기</ButtonSimple>
+        <ButtonSimple
+          buttonClickHandler={() => {
+            setShowEdit(!showEdit);
+          }}
+        >
+          후기 쓰기
+        </ButtonSimple>
         <ButtonSimple buttonClickHandler={() => {}}>
           교환/환불 요청
         </ButtonSimple>

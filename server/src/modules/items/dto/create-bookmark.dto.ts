@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber } from 'class-validator';
+import { IsNumber, IsBoolean } from 'class-validator';
 
 export class CreateBookmarkDto {
 	@ApiProperty({
@@ -17,4 +17,12 @@ export class CreateBookmarkDto {
 	})
 	@IsNumber()
 	item_id: number;
+
+	@ApiProperty({
+		example: 450,
+		description: 'ismarked',
+		required: true,
+	})
+	@IsBoolean()
+	ismarked: boolean;
 }
