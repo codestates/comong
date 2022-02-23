@@ -17,7 +17,7 @@ export class PaymentsService {
 			const validationData = await this.paymentValidator(
 				createPaymentDto.imp_uid,
 			);
-			console.log(validationData)
+			console.log(validationData);
 			const { amount, status } = validationData;
 			if (
 				amount === createPaymentDto.total_amount &&
@@ -62,20 +62,46 @@ export class PaymentsService {
 							id: createPaymentDto.user_id,
 						},
 					});
+					const order_detailList = await models.order_detail.findAll({
+						where: {
+							id: {
+								[Op.or]: [updateList],
+							},
+						},
+					});
+					const itemIdArr = order_detailList.map((elem) => {
+						return elem.item_id;
+					});
+					const itemList = await models.item.findAll({
+						where: {
+							id: {
+								[Op.or]: [itemIdArr],
+							},
+						},
+					});
+					const itemTitleArr = itemList.map((elem) => {
+						return elem.title;
+					});
+
 					//paymentTime
 					const paymentTime = new Date(validationData.paid_at);
-					//itemTitle
-					const itemTitle = 'item title Test';
 					validationData['paymentTime'] = paymentTime;
-					validationData['itemTitle'] = itemTitle;
+					//itemTitle
+					if (itemTitleArr.length === 1) {
+						const itemTitle = itemTitleArr[0];
+						validationData['itemTitle'] = itemTitle;
+					} else {
+						const itemTitle = `${itemTitleArr[0]} 외 ${itemTitleArr.length - 1}건`;
+						validationData['itemTitle'] = itemTitle;
+					}
 					//card_quota
-					if (validationData.card_quota === 0 ) {
+					if (validationData.card_quota === 0) {
 						validationData['card_quota'] = '일시불';
 					} else {
 						validationData['card_quota'] = `${validationData.card_quota} 개월`;
 					}
 
-					const emailAddress = user.email
+					const emailAddress = user.email;
 					return await this.mailerService.sendPaymentNotice(
 						user_payment,
 						validationData,
