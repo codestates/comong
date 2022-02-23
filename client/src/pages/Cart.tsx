@@ -8,6 +8,11 @@ import { setTotalPrice } from '../redux/modules/cartSlice';
 import { useNavigate } from 'react-router-dom';
 import { getCartPatchAsync } from '../redux/modules/cartSlice';
 import { postOrderAsync } from '../redux/modules/cartSlice';
+import { config } from '../config/config';
+import { apiClient } from '../apis';
+
+const env = 'development';
+const urlConfig = config[env];
 
 const Container = styled.div`
   display: flex;
@@ -190,8 +195,19 @@ const Cart = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
+  const isLogin = cartData.userSlice.isLogin;
+  const userInfo = cartData.userSlice.userinfo;
+  const id = userInfo?.id;
+  console.log(id);
+
+  // let response = apiClient.get(`${urlConfig.url}/items/details/${id}`, {
+  //   data: {},
+  // });
+
+  // console.log('respnse', response);
+
   useEffect(() => {
-    dispatch(getCartAsync());
+    dispatch(getCartAsync(id));
     dispatch(setTotalPrice(cartData.cartSlice.subTotalPrice));
   }, []);
 
@@ -244,8 +260,6 @@ const Cart = () => {
       navigate('/');
       console.log(error);
     }
-
-    // console.log(tmp);
 
     return;
   };

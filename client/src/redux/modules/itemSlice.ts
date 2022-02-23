@@ -53,6 +53,7 @@ export const getItemAsync = createAsyncThunk(
         data: {},
       },
     );
+    console.log(response);
     return response.data;
   },
 );

@@ -155,4 +155,4 @@ const Container = styled.div`
   }
 `;
 
-export default { PaymentResult };
+export default PaymentResult;

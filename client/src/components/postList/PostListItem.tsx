@@ -7,7 +7,7 @@ const StLink = styled(Link)`
 `;
 
 const ItemContainer = styled.div`
-  width: 90%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -15,36 +15,44 @@ const ItemContainer = styled.div`
   font-family: roboto;
   background-color: #fdfdfd;
   &:hover {
-    transform: scale(1.03);
+    transform: scale(1.005);
   }
   overflow: hidden;
-  box-shadow: 0px 0px 12px #eeeeee;
+  /* box-shadow: 0px 0px 12px #eeeeee; */
+  height: 320px;
 `;
 
 const ItemImgContainer = styled.div`
   cursor: pointer;
   overflow: hidden;
-  height: 100%;
-  width: 80%;
+  display: flex;
+  justify-content: center;
+
+  width: 90%;
   margin: auto;
-  border-radius: 5px;
+  border-radius: 20px;
 `;
 
 const ItemImg = styled.img`
-  height: 100%;
+  /* height: 100%;
+  width: 100%; */
+  height: 250px;
   width: 100%;
-  object-fit: contain;
+
+  object-fit: cover;
   &:hover {
-    transform: scale(1.1);
+    /* object-fit: contain; */
+    transform: scale(1.07);
   }
 `;
 
 const TextContainer = styled.div`
   cursor: pointer;
-  width: 80%;
+  /* width: 80%; */
   margin: auto;
   margin-top: 10px;
   margin-bottom: 10px;
+  width: 90%;
   height: 100px;
 `;
 
@@ -71,10 +79,10 @@ const ItemTitle = styled.div`
 const ItemPrice = styled.div`
   width: 100%;
   margin: auto;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
-  margin-top: 0.3rem;
-  margin-bottom: 0.3rem;
+  margin-top: 15px;
+  margin-bottom: 5px;
   color: #414141;
 `;
 

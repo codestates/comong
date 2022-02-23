@@ -1,8 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import axios, { AxiosError, AxiosResponse } from 'axios';
 import { config } from '../../config/config';
 import { apiClient } from '../../apis';
-import { useNavigate } from 'react-router-dom';
 
 const env = 'development';
 const urlConfig = config[env];
@@ -147,7 +145,7 @@ export let {
 export const getCartAsync = createAsyncThunk(
   'orders/get',
   async (id?: number) => {
-    id = 213;
+    console.log(id);
 
     const response = await apiClient.get(
       `${urlConfig.url}/orders/cart?user_id=${id}`,
@@ -159,9 +157,8 @@ export const getCartAsync = createAsyncThunk(
 );
 export const getCartPatchAsync = createAsyncThunk(
   'orders/patch',
-  async (data: [{ user_id: number }]) => {
-    const id: number = data[0].user_id;
-
+  async (data: [{ user_id: number | undefined }]) => {
+    console.log('orders-patch', data);
     const response = await apiClient.patch(
       `${urlConfig.url}/orders/orderdetail`,
       {
