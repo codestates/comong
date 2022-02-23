@@ -294,8 +294,13 @@ const Payment = () => {
   const handleSubmit = (values: any) => {
     // e.preventDefault();
     console.log('Received values of form: ', values);
-    console.log('orderInfo', cartData.cartSlice.orderInfo[0]);
-    let orderInfo = cartData.cartSlice.orderInfo[0];
+    // console.log('type-orderInfo', typeof cartData.cartSlice.orderInfo);
+    // console.log(
+    //   'type-isArray-orderInfo',
+    //   Array.isArray(cartData.cartSlice.orderInfo),
+    // );
+    console.log('orderInfo', cartData.cartSlice.orderInfo);
+    let orderInfo = cartData.cartSlice.orderInfo;
     const userCode = process.env.REACT_APP_IMPORT_CLIENT_ID;
     /* 결제 데이터 */
     const {
@@ -304,13 +309,17 @@ const Payment = () => {
       merchant_uid,
       name = '홍길동',
       amount = orderInfo.total_amount,
+      // amount = '1',
       buyer_name = '홍길동',
       buyer_tel = '01012341234',
       buyer_email = 'candymask0712@gmail.com',
     } = values;
 
+    console.log(orderInfo);
+    console.log(orderInfo.id);
     const data: paymentData = {
       order_id: orderInfo.id,
+      // order_id: 213,
       pg,
       pay_method,
       merchant_uid,
@@ -327,6 +336,7 @@ const Payment = () => {
   };
 
   function callback(response: object) {
+    console.log(response);
     const query = queryString.stringify(response);
     navigate(`/test/payment/result?${query}`, { replace: true });
   }

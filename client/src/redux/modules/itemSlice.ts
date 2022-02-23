@@ -36,8 +36,7 @@ const itemSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getItemAsync.fulfilled, (state, action) => {
       let contents = action.payload;
-      // console.log('contents', contents);
-      // return { ...state, data: contents };
+
       return { ...state, data: contents };
     });
   },
@@ -54,8 +53,6 @@ export const getItemAsync = createAsyncThunk(
         data: {},
       },
     );
-
-    // console.log(response.data);
     return response.data;
   },
 );

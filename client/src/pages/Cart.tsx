@@ -17,7 +17,7 @@ const Container = styled.div`
   align-items: center;
   font-family: Noto Sans KR;
   @media only screen and (max-width: 768px) {
-    margin-bottom: 70px;
+    /* margin-bottom: 70px; */
   }
 `;
 const CartContainer = styled.div`
@@ -61,13 +61,17 @@ const ContentsContainer = styled.div`
   max-width: 1200px;
   justify-content: center;
   @media only screen and (max-width: 1200px) {
+    flex-direction: column;
     width: 100%;
+    /* margin-bottom: 300px; */
   }
 `;
 
 const CartListContainer = styled.div`
   font-family: Noto Sans KR;
   font-weight: 700;
+  min-height: 600px;
+  /* height: 600px; */
   width: 65%;
   position: sticky;
   margin-right: 20px;
@@ -79,6 +83,12 @@ const CartListContainer = styled.div`
   justify-content: flex-start;
   box-shadow: 0px 0px 12px ${(props) => props.theme.colors.whiteForShadow};
   border-radius: 5px;
+  @media only screen and (max-width: 1200px) {
+    width: 100%;
+    /* margin-bottom: 300px; */
+  }
+  @media only screen and (max-width: 768px) {
+  }
 `;
 
 const OrderContainer = styled.div`
@@ -95,20 +105,42 @@ const OrderContainer = styled.div`
   justify-content: center;
   box-shadow: 0px 0px 12px ${(props) => props.theme.colors.whiteForShadow};
   border-radius: 5px;
+  @media only screen and (max-width: 1200px) {
+    bottom: 0px;
+    width: 100%;
+    height: 200px;
+  }
+  @media only screen and (max-width: 768px) {
+  }
 `;
 const OrderTitle = styled.div`
   font-size: 18px;
   margin-bottom: 10px;
+  @media only screen and (max-width: 1200px) {
+    display: none;
+  }
+  @media only screen and (max-width: 768px) {
+  }
 `;
 const OrderLine = styled.hr`
   margin-top: 10px;
   margin-bottom: 0px;
   width: 100%;
+  @media only screen and (max-width: 1200px) {
+    display: none;
+  }
+  @media only screen and (max-width: 768px) {
+  }
 `;
 
 const OrderTextContainer = styled.div`
   margin-top: 20px;
   margin-bottom: 15px;
+  @media only screen and (max-width: 1200px) {
+    display: none;
+  }
+  @media only screen and (max-width: 768px) {
+  }
 `;
 const OrderText = styled.div`
   display: flex;
@@ -191,6 +223,7 @@ const Cart = () => {
           user_id: 3,
           peritem_price: 1,
         };
+        console.log(x.user_id);
         tmpObj.id = x.id;
         tmpObj.user_id = x.user_id;
         tmpObj.item_id = x.item_id;

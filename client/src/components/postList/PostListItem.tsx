@@ -78,11 +78,26 @@ const ItemPrice = styled.div`
   color: #414141;
 `;
 
-const PostListItem = ({ post }: any) => {
+interface Props {
+  post: {
+    contents: string;
+    createdAt: string;
+    id: number;
+    image_src: string;
+    item_has_categories: [];
+    price: number;
+    title: string;
+    updatedAT: string;
+    user: { storename: string };
+    user_id: number;
+  };
+}
+
+const PostListItem = ({ post }: Props) => {
   const img_src = post.image_src
     ? post.image_src.split(',')[0]
     : 'https://imagedelivery.net/BOKuAiJyROlMLXwCcBYMqQ/fe9f218d-5134-4a76-ba20-bf97e5c21900/thumbnail';
-  const seller = post.user.nickname ? post.user.nickname : 'hojin';
+  const seller = post.user.storename ? post.user.storename : 'hojin';
   const title = post.title;
   const id = post.id;
 

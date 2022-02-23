@@ -18,12 +18,14 @@ import Mypage from './pages/mypage/Mypage';
 import MypageUserDefault from './pages/mypage/mypage_user/MypageUserDefault';
 import UserOrderHistory from './pages/mypage/mypage_user/UserOrderHistory';
 import { useState, useEffect } from 'react';
+import { ScrollToTop } from './index';
 
 function Routers() {
   const { role } = useAppSelector((state) => state.userSlice);
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Nav></Nav>
       <Routes>
         <Route path="/" element={<List />}></Route>

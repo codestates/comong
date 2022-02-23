@@ -103,9 +103,7 @@ const MobileNav = () => {
     }
   };
 
-  console.log(isMobileNav);
   const handleHidden = () => {
-    console.log(isMobileNav);
     if (current === 'item' || current === 'cart' || current === 'payment')
       setIsMobileNav(false);
     else setIsMobileNav(true);
@@ -138,7 +136,6 @@ const MobileNav = () => {
       <NavMenuContainer>
         <NavMenu
           onMouseOver={() => handleHover('home')}
-          // onMouseLeave={() => handleHoverOut('home')}
           onMouseOut={() => handleHoverOut('home')}
           homeColor={homeColor}
           onClick={() => navigate('/')}
@@ -152,7 +149,6 @@ const MobileNav = () => {
         </NavMenu>
         <NavMenu
           onMouseOver={() => handleHover('category')}
-          // onMouseLeave={() => handleHoverOut('category')}
           onMouseOut={() => handleHoverOut('category')}
           categoryColor={categoryColor}
           onClick={() => navigate('/search')}
@@ -166,7 +162,6 @@ const MobileNav = () => {
         </NavMenu>
         <NavMenu
           onMouseOver={() => handleHover('mypage')}
-          // onMouseLeave={() => handleHoverOut('mypage')}
           onMouseOut={() => handleHoverOut('mypage')}
           mypageColor={mypageColor}
           onClick={() => navigate('/mypage')}
@@ -180,7 +175,6 @@ const MobileNav = () => {
         </NavMenu>
         <NavMenu
           onMouseOver={() => handleHover('cart')}
-          // onMouseLeave={() => handleHoverOut('cart')}
           onMouseOut={() => handleHoverOut('cart')}
           cartColor={cartColor}
           onClick={() => navigate('/cart')}

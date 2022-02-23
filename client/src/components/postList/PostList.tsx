@@ -5,6 +5,19 @@ import { useAppDispatch, useAppSelector } from '../../redux/configStore.hooks';
 import { getListAsync } from '../../redux/modules/listSlice';
 import type { RootState } from '../../redux/configStore';
 
+interface Post {
+  contents: string;
+  createdAt: string;
+  id: number;
+  image_src: string;
+  item_has_categories: [];
+  price: number;
+  title: string;
+  updatedAT: string;
+  user: { storename: string };
+  user_id: number;
+}
+
 const PostListWrapper = styled.div`
   width: 80%;
   max-width: 1600px;
@@ -43,21 +56,13 @@ function PostList() {
 
   return (
     <PostListWrapper>
-      {listData.listSlice.data?.map(
-        (post: {
-          id: number;
-          title: string;
-          contents: string;
-          price: number;
-          image_src: string;
-        }) => {
-          return (
-            <ItemContainer key={post.id + post.title}>
-              <PostListItem key={post.id} post={post} />
-            </ItemContainer>
-          );
-        },
-      )}
+      {listData.listSlice.data?.map((post: Post) => {
+        return (
+          <ItemContainer key={post.id + post.title}>
+            <PostListItem key={post.id} post={post} />
+          </ItemContainer>
+        );
+      })}
     </PostListWrapper>
   );
 }
