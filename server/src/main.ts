@@ -61,6 +61,7 @@ async function bootstrap() {
 		const httpsOptions = {
 			key: fs.readFileSync('./secrets/comong.key.pem', 'utf8'),
 			cert: fs.readFileSync('./secrets/comong.crt.pem', 'utf8'),
+			ca: fs.readFileSync('./secrets/comong.chain.pem', 'utf-8')
 		};
 		const app = await NestFactory.create<NestExpressApplication>(AppModule, {
 			httpsOptions,

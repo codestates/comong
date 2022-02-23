@@ -76,6 +76,7 @@ export class UsersService {
 			where: { ...userInfo },
 			include: [
 				{ model: models.category_has_user, as: 'category_has_users' , attributes: [ 'category_id'] },
+				{ model: models.bookmark, as: 'bookmarks' , attributes: [ 'id' ,'item_id', 'ismarked'] },
 			]
 		});
 
