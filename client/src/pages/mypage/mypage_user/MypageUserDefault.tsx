@@ -69,7 +69,7 @@ function MypageUserDefault() {
         </UserOrderState>
         <UserOrderState>
           <span className="userOrder-title">발송 완료</span>
-          <span className="userOrder-content">0P</span>
+          <span className="userOrder-content">0</span>
         </UserOrderState>
         <UserOrderState>
           <span className="userOrder-title">취소 완료</span>
