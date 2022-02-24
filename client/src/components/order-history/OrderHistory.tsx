@@ -81,7 +81,6 @@ function OrderHistory({ search }: IOrderHistory) {
     return orderData?.map((order) => {
       return (
         <OrderHistoryListItemWrapper
-          key={order.order_detail_info.id}
           order={order}
         ></OrderHistoryListItemWrapper>
       );

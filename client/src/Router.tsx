@@ -17,13 +17,20 @@ import { useAppSelector } from './redux/configStore.hooks';
 import Mypage from './pages/mypage/Mypage';
 import MypageUserDefault from './pages/mypage/mypage_user/MypageUserDefault';
 import UserOrderHistory from './pages/mypage/mypage_user/UserOrderHistory';
-import { useState, useEffect } from 'react';
+
+import MypageBookmarks from './pages/mypage/mypage_user/MypageBookmarks';
+import MypageReviews from './pages/mypage/mypage_user/MypageReviews';
+
+import { ScrollToTop } from './index';
+import PaymentResult from './pages/PaymentResult';
+
 
 function Routers() {
   const { role } = useAppSelector((state) => state.userSlice);
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Nav></Nav>
       <Routes>
         <Route path="/" element={<List />}></Route>
@@ -40,9 +47,12 @@ function Routers() {
         <Route path="mypage/*" element={<Mypage />}>
           <Route path="" element={<MypageUserDefault />}></Route>
           <Route path="userOrderHistory" element={<UserOrderHistory />}></Route>
+          <Route path="reviews" element={<MypageReviews />}></Route>
+          <Route path="bookmarks" element={<MypageBookmarks />}></Route>
           <Route path="modifyInfo" element={<GeneralJoin />}></Route>
         </Route>
         <Route path="/payment" element={<Payment />}></Route>
+        <Route path="/paymentresult" element={<PaymentResult />}></Route>
       </Routes>
       <MobileNav></MobileNav>
     </BrowserRouter>

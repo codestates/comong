@@ -5,7 +5,7 @@ const DestinationContainer = styled.div`
   font-family: Noto Sans KR;
   font-weight: 700;
   width: 100%;
-  position: sticky;
+  /* position: sticky; */
   /* margin-top: 10px; */
   margin-right: 20px;
   top: 64px;

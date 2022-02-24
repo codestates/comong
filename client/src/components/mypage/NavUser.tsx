@@ -67,8 +67,12 @@ function NavUser() {
           <Link to="/mypage/userOrderHistory">
             <li className={getSelectedClass('userOrderHistory')}>주문 내역</li>
           </Link>
-          <li>내가 쓴 후기</li>
-          <li>찜 리스트</li>
+          <Link to="/mypage/reviews">
+            <li className={getSelectedClass('reviews')}>내가 쓴 후기</li>
+          </Link>
+          <Link to="/mypage/bookmarks">
+            <li className={getSelectedClass('bookmarks')}>찜 리스트</li>
+          </Link>
         </ul>
       </MenuWrapper>
       <MenuWrapper>

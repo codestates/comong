@@ -41,19 +41,28 @@ const InputContainerShort = styled.div`
 const InputContainerLong = styled.div`
   display: flex;
   margin: 20px 10px;
-  width: 500px;
+  width: 300px;
   justify-content: space-between;
+  @media only screen and (max-width: 1200px) {
+  }
+  @media only screen and (max-width: 768px) {
+  }
 `;
 const InputTitle = styled.div`
   margin: 5px 10px;
   font-size: 20px;
+  @media only screen and (max-width: 1200px) {
+    font-size: 15px;
+  }
+  @media only screen and (max-width: 768px) {
+  }
 `;
 const IntputContents = styled.input`
   /* margin: 5px 10px;/ */
 `;
 const IntputContentsLong = styled.input`
   /* margin: 5px 10px;/ */
-  width: 370px;
+  /* width: 170px; */
 `;
 
 const Destination = () => {

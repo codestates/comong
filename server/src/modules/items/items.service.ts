@@ -129,7 +129,8 @@ export class ItemsService {
   async createBookmark(data: CreateBookmarkDto) {
     const [bookmark, created] = await models.bookmark.findOrCreate({
       where: {
-        item_id: data.item_id
+        item_id: data.item_id,
+        user_id: data.user_id
       },
       defaults: data
     });

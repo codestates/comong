@@ -18,8 +18,10 @@
     "@types/react-redux": "^7.1.22",
     "@types/styled-components": "^5.1.22",
     "@types/uuid": "^8.3.4",
+    "antd": "^4.18.8",
     "axios": "^0.25.0",
     "dotenv": "^16.0.0",
+    "query-string": "^7.1.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.6",
@@ -31,7 +33,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "HTTPS=true SSL_CRT_FILE=./cert.pem SSL_KEY_FILE=./key.pem react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
