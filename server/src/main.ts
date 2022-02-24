@@ -7,7 +7,6 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { setupSwagger } from 'src/util/swagger';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { MicroserviceOptions } from '@nestjs/microservices';
 dotenv.config();
 
 async function bootstrap() {
@@ -61,6 +60,7 @@ async function bootstrap() {
 		const httpsOptions = {
 			key: fs.readFileSync('./secrets/comong.key.pem', 'utf8'),
 			cert: fs.readFileSync('./secrets/comong.crt.pem', 'utf8'),
+			ca: fs.readFileSync('./secrets/comong.chain.pem', 'utf-8')
 		};
 		const app = await NestFactory.create<NestExpressApplication>(AppModule, {
 			httpsOptions,

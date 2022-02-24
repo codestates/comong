@@ -39,6 +39,7 @@ export interface IItem {
   price: number;
   title: string;
   user_id: number;
+  user: { storename: string };
 }
 
 function MypageBookmarks() {
@@ -52,6 +53,13 @@ function MypageBookmarks() {
   const fetchData = async () => {
     try {
       const data = userinfo && (await getBookmarks(userinfo.id));
+      console.log(data);
+      // !TODO 데이터 없어서 임시 적용
+      if (data) {
+        for (let i = 0; i < data?.length; i++) {
+          data[i].user = { storename: '임시상점' };
+        }
+      }
       console.log(data);
       data && setBookmarks(data);
     } catch (error) {

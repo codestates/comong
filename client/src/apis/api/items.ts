@@ -24,6 +24,7 @@ export const getBookmarks = async (userid: number) => {
     const response = await apiClient.get(`/items/bookmark?user_id=${userid}`);
     const data: IAxiosBookmark[] = response.data;
     const bookmarks = data.map((obj) => obj.item);
+    console.log(data);
     return bookmarks;
   } catch (error) {
     console.log(error);

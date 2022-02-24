@@ -28,7 +28,7 @@ const CoEditor = () => {
 
     const handleSave = async () => {
       const contents = await editorRef.current.getInstance().getMarkdown()
-      //console.log(contents);
+      console.log(editorRef.current);
       await dispatch(setEditorState(contents)); 
     };
 

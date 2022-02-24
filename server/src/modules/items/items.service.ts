@@ -129,15 +129,47 @@ export class ItemsService {
   async createBookmark(data: CreateBookmarkDto) {
     const [bookmark, created] = await models.bookmark.findOrCreate({
       where: {
-        item_id: data.item_id
+        item_id: data.item_id,
+        user_id: data.user_id
       },
       defaults: data
     });
     if (created) {
       return { data: bookmark, message: `item_id: ${data.item_id} bookmark created`};
     } else {
-      return { messgae: 'bookmark already exist'};
+      const bookmark =  await models.bookmark.findOne({
+        where: {
+          item_id: data.item_id,
+          user_id: data.user_id
+        }
+      })
+      await models.bookmark.update(
+        {
+          ismarked: data.ismarked ? 1 : 0,
+        },
+        {
+          where: {
+            id: bookmark.id,
+          },
+        }
+      )
+      return { messgae: 'bookmark updated successfully'};
     }
+  }
+
+  async getbookmarks(user_id: number) {
+    const bookmarkList = await models.bookmark.findAll({
+      include: [
+        { model: models.item, as: 'item'},
+      ],
+      where: {
+        user_id: user_id
+      }
+    })
+    let output = bookmarkList.filter((elem) => {
+      return elem.ismarked === 1;
+    })
+    return output
   }
   
 }
