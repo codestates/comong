@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { apiClient } from '../apis';
-import CoViewer from '../components/add/CoViewer';
+import Preview from '../components/add/Preview';
 import StepOne from '../components/add/StepOne';
 import CoEditor from '../components/common/CoEditor';
 import { useAppDispatch, useAppSelector } from '../redux/configStore.hooks';
@@ -59,7 +59,7 @@ const Add = () => {
           />
         )}
         {step === 1 && <CoEditor />}
-        {step === 2 && <CoViewer />}
+        {step === 2 && <Preview />}
         <NavBtnContainer>
           <BtnBox>
             {step > 0 && step < 3 && (

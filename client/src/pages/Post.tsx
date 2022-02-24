@@ -10,6 +10,7 @@ import { Viewer } from '@toast-ui/react-editor';
 import { getCartPatchAsync } from '../redux/modules/cartSlice';
 import { config } from '../config/config';
 import { apiClient } from '../apis';
+import CoViewer from '../components/common/CoViewer';
 
 const env = 'development';
 const urlConfig = config[env];
@@ -296,6 +297,8 @@ const Post = () => {
 
   const data2 = itemData.itemSlice.data;
 
+  const[imgIdx, setImgIdx] = useState(0)
+
   const [width, setWidth] = useState(window.innerWidth);
 
   const handleResize = () => setWidth(window.innerWidth);
@@ -353,11 +356,11 @@ const Post = () => {
       <PostContainer>
         <ImgContainer>
           <MainImgContainer>
-            <MainImg src={img_src[0]} />
+            <MainImg src={img_src[imgIdx]} />
           </MainImgContainer>
           <ThumbnailImgContainer>
-            {img_src.map((elements) => {
-              return <ThumbnailImg src={elements} />;
+            {img_src.map((elements, index) => {
+              return <ThumbnailImg src={elements} onClick={() => setImgIdx(index)} />;
             })}
             {/*
             <ThumbnailImg src={img_src} />
@@ -375,7 +378,7 @@ const Post = () => {
             </ContentsTitleContainer>
             <Contentsline />
             <ContentsArea>
-              <Viewer initialValue={contents} />
+              <CoViewer editorState={contents} />
             </ContentsArea>
           </ContentsContainer>
           <OrderContainer>

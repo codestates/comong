@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/configStore.hooks';
 interface ViewerProps {
 }
 
-const CoViewer = () => {
+const Preview = () => {
     const ViewerRef = useRef<any>()
 
     const dispatch = useAppDispatch();
@@ -39,4 +39,4 @@ const Label1 = styled.span.attrs(props => ({
 
 `
 
-export default CoViewer
+export default Preview
