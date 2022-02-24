@@ -100,7 +100,7 @@ export class OrdersController {
 		},
 	})
 	@ApiOperation({
-		summary: '회원, 배송상태, 주문 기간정보에 따른, 주문 내역 정보',
+		summary: '일반회원, 배송상태, 주문 기간정보에 따른, 주문 내역 정보',
 		description:
 			'요청에 따라 주문내역을 가져옵니다. user_id 와 배송상태,  검색 기간을 지정할 수 있습니다. 배송상태와 기간이 없을경우  전체 상품을 표시합니다.',
 	})
