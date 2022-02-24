@@ -19,6 +19,7 @@ export class OrdersService {
 
 	async create(createOrder: CreateOrderDto) {
 		const newOrder = await models.order.create({
+			id: String(createOrder.user_id) + '#' + String(new Date().getTime()),
 			...createOrder,
 		});
 		const newJoindataArr: object[] = [];
@@ -30,13 +31,22 @@ export class OrdersService {
 				});
 			newJoindataArr.push(newJoinData.dataValues);
 		}
-		const getUserdata = await models.user.findOne({
+		const itemInfo = await models.order_detail.findOne({
+			include: { model: models.user, as: 'user' },
 			where: {
-				id: createOrder.user_id,
+				id: createOrder.order_detail_id[0],
 			},
 		});
-		const emailAddress = getUserdata.dataValues.email;
-		const storeName = getUserdata.dataValues.storename;
+		const sellerInfo = await models.item.findOne({
+			include: { model: models.user, as: 'user' },
+			where: {
+				id: itemInfo.item_id,
+			},
+		});
+		const emailAddress = sellerInfo.dataValues.user.email;
+		const storeName = sellerInfo.dataValues.user.storename;
+		// console.log(emailAddress)
+		// console.log(storeName)
 		if (newOrder) {
 			// const message = newOrder;
 			// this.appGateway.handleNotification(message);
@@ -47,6 +57,25 @@ export class OrdersService {
 				'COMONG 구매 발생 알림 메일',
 				'order_notice',
 			);
+		} else {
+			throw new BadRequestException('invalid request or value for property');
+		}
+	}
+
+	async updateOrder(data: UpdateOrderDto) {
+		const isUpdate = await models.order.update(
+			{
+				...data
+			},
+			{
+				where: {
+					id: data.order_id,
+				},
+			},
+		);
+		console.log(isUpdate)
+		if (isUpdate[0] === 1) {
+			return { message: 'update successful' };
 		} else {
 			throw new BadRequestException('invalid request or value for property');
 		}
@@ -119,6 +148,124 @@ export class OrdersService {
 						? shipping_status
 						: {
 								[Op.or]: [
+									'pending',
+									'delivered',
+									'processing',
+									'paymentdue',
+									'canceled',
+									'returned',
+									'pick-up available',
+									'intransit',
+								],
+						  },
+					createdAt: {
+						[Op.gte]: start ? new Date(start) : new Date('1022-01-01'),
+						[Op.lte]: end ? new Date(end) : new Date('3022-01-01'),
+					},
+				},
+			});
+			const paidOrderList = orderList.filter((elem) => {
+				return elem.status === 'paid';
+			});
+			const orderIdArr = paidOrderList.map((elem) => {
+				return elem.dataValues.id;
+			});
+
+			const orderJointableList = await models.order_detail_has_order.findAll({
+				where: {
+					order_id: {
+						[Op.or]: [orderIdArr],
+					},
+				},
+			});
+			let output = {};
+			for (let i = 0; i < paidOrderList.length; i++) {
+				output[`order_id: ${paidOrderList[i].id}`] = {
+					order_info: paidOrderList[i],
+					order_detail_info: [],
+				};
+				for (let j = 0; j < orderJointableList.length; j++) {
+					if (paidOrderList[i].id === orderJointableList[j].order_id) {
+						const order_detail_info = await models.order_detail.findOne({
+							include: [
+								{
+									model: models.user,
+									as: 'user',
+									attributes: ['id', 'storename', 'mobile'],
+								},
+							],
+							where: {
+								id: orderJointableList[j].order_detail_id,
+							},
+						});
+						const item_info = await models.item.findOne({
+							where: {
+								id: order_detail_info.dataValues.item_id,
+							},
+						});
+						output[`order_id: ${paidOrderList[i].id}`][
+							'order_detail_info'
+						].push({
+							order_detail_info,
+							item_info,
+						});
+					}
+				}
+			}
+			return output;
+		}
+	}
+
+	async getSellorOrders(
+		user_id: number,
+		shipping_status: string,
+		start: string,
+		end: string,
+	) {
+		if (!user_id) {
+			throw new BadRequestException('at least user_id is needed for query');
+		} else {
+			const selleritemlist = await models.item.findAll({
+				where: {
+					user_id: user_id,
+				},
+			});
+			const selleritemIdArr = selleritemlist.map((elem) => {
+				return elem.id;
+			});
+			const sellerOrderDetailList = await models.order_detail.findAll({
+				where: {
+					item_id: {
+						[Op.or]: [selleritemIdArr],
+					},
+				},
+			});
+			const sellerOrderDetailArr = sellerOrderDetailList.map((elem) => {
+				return elem.id;
+			});
+			const orderJoinList = await models.order_detail_has_order.findAll({
+				where: {
+					order_detail_id: {
+						[Op.or]: [sellerOrderDetailArr],
+					},
+				},
+			});
+			const sellerOrderIdArr = orderJoinList.map((elem) => {
+				return elem.order_id;
+			});
+			let setSellerOrderIdArr = new Set(sellerOrderIdArr);
+			let uniqueSellerOrderIdArr = [...setSellerOrderIdArr];
+
+			const orderList = await models.order.findAll({
+				where: {
+					id: {
+						[Op.or]: [uniqueSellerOrderIdArr],
+					},
+					shipping_status: shipping_status
+						? shipping_status
+						: {
+								[Op.or]: [
+									'pending',
 									'delivered',
 									'processing',
 									'paymentdue',
@@ -137,7 +284,7 @@ export class OrdersService {
 			const orderIdArr = orderList.map((elem) => {
 				return elem.dataValues.id;
 			});
-			console.log(orderList)
+			// console.log(orderList)
 			const orderJointableList = await models.order_detail_has_order.findAll({
 				where: {
 					order_id: {

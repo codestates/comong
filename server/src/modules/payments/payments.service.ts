@@ -4,21 +4,23 @@ dotenv.config();
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import { UpdatePaymentDto } from './dto/update-payment.dto';
+import { MailerService } from '../mailer/mailer.service';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 const { Op } = require('sequelize');
 const models = require('../../models/index');
 
 @Injectable()
 export class PaymentsService {
+	constructor(private readonly mailerService: MailerService) {}
 	async create(createPaymentDto: CreatePaymentDto) {
 		if (createPaymentDto.status === 'paid') {
 			const validationData = await this.paymentValidator(
 				createPaymentDto.imp_uid,
 			);
+			console.log(validationData);
 			const { amount, status } = validationData;
 			if (
-				amount === createPaymentDto.total_amount &&
-				status === createPaymentDto.status
+				amount === createPaymentDto.total_amount
 			) {
 				const [user_payment, isCreated] =
 					await models.user_payment.findOrCreate({
@@ -54,7 +56,58 @@ export class PaymentsService {
 							},
 						},
 					);
-					return { data: user_payment, message: 'payment successful' };
+					const user = await models.user.findOne({
+						where: {
+							id: createPaymentDto.user_id,
+						},
+					});
+					const order_detailList = await models.order_detail.findAll({
+						where: {
+							id: {
+								[Op.or]: [updateList],
+							},
+						},
+					});
+					const itemIdArr = order_detailList.map((elem) => {
+						return elem.item_id;
+					});
+					const itemList = await models.item.findAll({
+						where: {
+							id: {
+								[Op.or]: [itemIdArr],
+							},
+						},
+					});
+					const itemTitleArr = itemList.map((elem) => {
+						return elem.title;
+					});
+
+					//paymentTime
+					const paymentTime = new Date(validationData.paid_at);
+					validationData['paymentTime'] = paymentTime;
+					//itemTitle
+					if (itemTitleArr.length === 1) {
+						const itemTitle = itemTitleArr[0];
+						validationData['itemTitle'] = itemTitle;
+					} else {
+						const itemTitle = `${itemTitleArr[0]} 외 ${itemTitleArr.length - 1}건`;
+						validationData['itemTitle'] = itemTitle;
+					}
+					//card_quota
+					if (validationData.card_quota === 0) {
+						validationData['card_quota'] = '일시불';
+					} else {
+						validationData['card_quota'] = `${validationData.card_quota} 개월`;
+					}
+
+					const emailAddress = user.email;
+					return await this.mailerService.sendPaymentNotice(
+						user_payment,
+						validationData,
+						emailAddress,
+						'COMONG 결제 알림 메일',
+						'payment_notice',
+					);
 				} else {
 					return {
 						message: `payment data of 'order_id: ${createPaymentDto.order_id}' exist`,

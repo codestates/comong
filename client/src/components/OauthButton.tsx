@@ -25,9 +25,9 @@ interface IOauthImgList {
 
 function OauthButton({ type }: IOauthButton) {
   const oauhthImgList: IOauthImgList = {
-    naver: './img/OauthNaver.png',
-    kakao: './img/OauthKakao.png',
-    google: './img/OauthGoogle.png',
+    naver: '/img/OauthNaver.png',
+    kakao: '/img/OauthKakao.png',
+    google: '/img/OauthGoogle.png',
   };
 
   const makeRandomString = (num: number) => {
