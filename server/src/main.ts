@@ -7,7 +7,6 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { setupSwagger } from 'src/util/swagger';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { MicroserviceOptions } from '@nestjs/microservices';
 dotenv.config();
 
 async function bootstrap() {
