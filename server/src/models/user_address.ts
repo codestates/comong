@@ -12,11 +12,12 @@ export interface user_addressAttributes {
   country?: string;
   telephone?: string;
   mobile?: string;
+  email?: string;
 }
 
 export type user_addressPk = "id";
 export type user_addressId = user_address[user_addressPk];
-export type user_addressOptionalAttributes = "id" | "address_line1" | "address_line2" | "city" | "postal_code" | "country" | "telephone" | "mobile";
+export type user_addressOptionalAttributes = "id" | "address_line1" | "address_line2" | "city" | "postal_code" | "country" | "telephone" | "mobile" | "email";
 export type user_addressCreationAttributes = Optional<user_addressAttributes, user_addressOptionalAttributes>;
 
 export class user_address extends Model<user_addressAttributes, user_addressCreationAttributes> implements user_addressAttributes {
@@ -29,6 +30,7 @@ export class user_address extends Model<user_addressAttributes, user_addressCrea
   country?: string;
   telephone?: string;
   mobile?: string;
+  email?: string;
 
   // user_address belongsTo user via user_id
   user!: user;
@@ -77,6 +79,10 @@ export class user_address extends Model<user_addressAttributes, user_addressCrea
       allowNull: true
     },
     mobile: {
+      type: DataTypes.STRING(45),
+      allowNull: true
+    },
+    email: {
       type: DataTypes.STRING(45),
       allowNull: true
     }

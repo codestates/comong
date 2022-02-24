@@ -1,9 +1,9 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe, UseGuards } from '@nestjs/common';
 import { PaymentsService } from './payments.service';
-import { CreatePaymentDto } from './dto/create-payment.dto';
 import { UpdatePaymentDto } from './dto/update-payment.dto';
 import JwtAuthGuard from '../../middleware/Jwtauthguard';
 import { ApiTags, ApiOperation, ApiCreatedResponse, ApiBadGatewayResponse, ApiOkResponse, ApiBadRequestResponse, ApiHeader, ApiBearerAuth } from '@nestjs/swagger';
+import { CreatePaymentDto } from './dto/create-payment.dto';
 
 @Controller('payments')
 @ApiTags('결제')
