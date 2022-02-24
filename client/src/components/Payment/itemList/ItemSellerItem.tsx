@@ -53,7 +53,9 @@ const ItemSellerItem = ({ data, storeName, groupName }: any) => {
   const cartData = useAppSelector((state: RootState) => state);
   const dispatch = useAppDispatch();
   const name = data.item.title;
-  const img_src = data.item.image_src;
+  const img_src = data.item.image_src
+    ? data.item.image_src.split(',')[0]
+    : 'https://imagedelivery.net/BOKuAiJyROlMLXwCcBYMqQ/fe9f218d-5134-4a76-ba20-bf97e5c21900/thumbnail';
   const stock = data.order_amount;
   const price = data.peritem_price;
 

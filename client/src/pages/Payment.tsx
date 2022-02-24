@@ -11,6 +11,7 @@ import OrderCustomer from '../components/Payment/OrderCustomer';
 import OrderInfo from '../components/Payment/OrderInfo';
 import { Form, Input, Button } from 'antd';
 import queryString from 'query-string';
+import { setPaymentInfo } from '../redux/modules/cartSlice';
 
 declare global {
   interface Window {
@@ -86,6 +87,7 @@ const ContentsBackground = styled.div`
 const ContentsContainer = styled.div`
   display: flex;
   margin-top: 30px;
+  margin-bottom: 30px;
   width: 80%;
   max-width: 1200px;
   justify-content: space-evenly;
@@ -93,6 +95,7 @@ const ContentsContainer = styled.div`
   @media only screen and (max-width: 1200px) {
     width: 100%;
     flex-direction: column;
+    margin-bottom: 0px;
   }
 `;
 const InfoContainer = styled.div`
@@ -202,6 +205,7 @@ const Paymentcontainer = styled.div`
   font-size: large;
   font-weight: bold;
   background-color: #bdbdbd;
+  display: none;
 `;
 
 const Wrapper = styled.div`
@@ -218,12 +222,13 @@ const Header = styled.div`
   padding: 2rem;
   padding-top: 0;
   font-size: 3rem;
+  display: none;
 `;
 
 const FormContainer = styled(Form)`
   width: 350px;
   border-radius: 3px;
-
+  display: none;
   .ant-row {
     margin-bottom: 1rem;
   }
@@ -234,19 +239,10 @@ const Payment = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(getCartAsync());
-    dispatch(setTotalPrice(cartData.cartSlice.subTotalPrice));
-  }, []);
+  let orderInfo = cartData.cartSlice.orderInfo;
+  console.log('delivery', cartData.cartSlice.totalDelivery);
 
-  let sum = 0;
-  let delivery = 0;
-  for (let x in cartData.cartSlice.subTotalPrice) {
-    sum += Number(cartData.cartSlice.subTotalPrice[x]);
-    delivery += 3000;
-  }
-
-  const payHandler = async () => {
+  const payHandler = async (values: any) => {
     let obj = cartData.cartSlice.data[0];
     console.log(obj);
     let tmp: [{ user_id: number }] = [{ user_id: 1 }];
@@ -288,19 +284,8 @@ const Payment = () => {
       console.log(error);
     }
 
-    return;
-  };
-
-  const handleSubmit = (values: any) => {
-    // e.preventDefault();
     console.log('Received values of form: ', values);
-    // console.log('type-orderInfo', typeof cartData.cartSlice.orderInfo);
-    // console.log(
-    //   'type-isArray-orderInfo',
-    //   Array.isArray(cartData.cartSlice.orderInfo),
-    // );
-    console.log('orderInfo', cartData.cartSlice.orderInfo);
-    let orderInfo = cartData.cartSlice.orderInfo;
+
     const userCode = process.env.REACT_APP_IMPORT_CLIENT_ID;
     /* 결제 데이터 */
     const {
@@ -308,7 +293,7 @@ const Payment = () => {
       pay_method = 'card',
       merchant_uid,
       name = '홍길동',
-      amount = orderInfo.total_amount,
+      amount = cartData.cartSlice.totalPrice + cartData.cartSlice.totalDelivery,
       // amount = '1',
       buyer_name = '홍길동',
       buyer_tel = '01012341234',
@@ -319,7 +304,6 @@ const Payment = () => {
     console.log(orderInfo.id);
     const data: paymentData = {
       order_id: orderInfo.id,
-      // order_id: 213,
       pg,
       pay_method,
       merchant_uid,
@@ -335,10 +319,33 @@ const Payment = () => {
     IMP.request_pay(data, callback);
   };
 
-  function callback(response: object) {
+  // const handleSubmit = (values: any) => {};
+
+  function callback(response: {
+    paid_amount: number;
+    imp_uid: string;
+    merchant_uid: string;
+    buyer_name: string;
+    status: string;
+    success: boolean;
+    error_msg: string;
+  }) {
     console.log(response);
     const query = queryString.stringify(response);
-    navigate(`/test/payment/result?${query}`, { replace: true });
+    let data = {
+      user_id: orderInfo.user_id,
+      order_id: orderInfo.id,
+      total_amount: response.paid_amount,
+      imp_uid: response.imp_uid,
+      merchant_uid: response.merchant_uid,
+      buyer_name: response.buyer_name,
+      status: response.status,
+      success: response.success,
+      error_msg: response.error_msg,
+    };
+    console.log('payment-data', data);
+    dispatch(setPaymentInfo(data));
+    navigate(`/paymentresult`);
   }
 
   return (
@@ -361,13 +368,13 @@ const Payment = () => {
                 <OrderText>
                   <OrderTextTitle>총 상품금액</OrderTextTitle>
                   <OrderTextContents>
-                    {sum.toLocaleString('en')}원
+                    {cartData.cartSlice.totalPrice.toLocaleString('en')}원
                   </OrderTextContents>
                 </OrderText>
                 <OrderText>
                   <OrderTextTitle>총 배송비</OrderTextTitle>
                   <OrderTextContents>
-                    {delivery.toLocaleString('en')}원
+                    {cartData.cartSlice.totalDelivery.toLocaleString('en')}원
                   </OrderTextContents>
                 </OrderText>
               </OrderTextContainer>
@@ -375,7 +382,11 @@ const Payment = () => {
               <OrderTotalPrice>
                 <OrderTotalPriceTtile>전체금액</OrderTotalPriceTtile>
                 <OrderTotalPriceContents>
-                  {(sum + delivery).toLocaleString('en')}원
+                  {(
+                    cartData.cartSlice.totalPrice +
+                    cartData.cartSlice.totalDelivery
+                  ).toLocaleString('en')}
+                  원
                 </OrderTotalPriceContents>
               </OrderTotalPrice>
               <OrderButton onClick={payHandler}>상품 구매하기</OrderButton>
@@ -393,7 +404,7 @@ const Payment = () => {
         <div>{`${process.env.REACT_APP_IMPORT_CLIENT_ID}`}</div>
       </Paymentcontainer>
       <Header>아임포트 결제 테스트</Header>
-      <FormContainer onFinish={handleSubmit}>
+      <FormContainer>
         <Item
           name="item_id"
           initialValue={'아임포트 결제 데이터 분석'}

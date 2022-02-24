@@ -56,23 +56,23 @@ const ItemSeller = ({ data, storeName, groupName }: any) => {
   const Cartdata = useAppSelector((state: RootState) => state);
   const dispatch = useAppDispatch();
 
-  let sellerTotal: number | string = 0;
+  // let sellerTotal: number | string = 0;
 
-  for (let i = 0; i < data.length; i++) {
-    sellerTotal += data[i].peritem_price * data[i].order_amount;
-  }
+  // for (let i = 0; i < data.length; i++) {
+  //   sellerTotal += data[i].peritem_price * data[i].order_amount;
+  // }
 
-  useEffect(() => {
-    dispatch(setSubTotalPrice([groupName, sellerTotal]));
-    dispatch(setTotalPrice(Cartdata.cartSlice.subTotalPrice));
-  }, [sellerTotal]);
+  // useEffect(() => {
+  //   dispatch(setSubTotalPrice([groupName, sellerTotal]));
+  //   dispatch(setTotalPrice(Cartdata.cartSlice.subTotalPrice));
+  // }, [sellerTotal]);
 
-  let subTotalPrice: number | string = Number(
-    Cartdata.cartSlice.subTotalPrice[groupName],
-  );
+  // let subTotalPrice: number | string = Number(
+  //   Cartdata.cartSlice.subTotalPrice[groupName],
+  // );
 
-  let deliveryFee: number | string = 3000;
-  let total: number | string = Number(subTotalPrice) + deliveryFee;
+  // let deliveryFee: number | string = 3000;
+  // let total: number | string = Number(subTotalPrice) + deliveryFee;
 
   return (
     <MainContainer>
@@ -92,21 +92,24 @@ const ItemSeller = ({ data, storeName, groupName }: any) => {
         <CartSumPrice>
           <CartSumPriceTitle>상품금액</CartSumPriceTitle>
           <CartSumPriceContents>
-            {subTotalPrice.toLocaleString('en')}원
+            {Cartdata.cartSlice.totalPrice.toLocaleString('en')}원
           </CartSumPriceContents>
         </CartSumPrice>
         <CartSumIcon src="/icons/cart/plus.png" />
         <CartSumPrice>
           <CartSumPriceTitle>배송비</CartSumPriceTitle>
           <CartSumPriceContents>
-            {deliveryFee.toLocaleString('en')}원
+            {Cartdata.cartSlice.totalDelivery.toLocaleString('en')}원
           </CartSumPriceContents>
         </CartSumPrice>
         <CartSumIcon src="/icons/cart/equal.png" />
         <CartSumPrice>
           <CartSumPriceTitle>주문금액</CartSumPriceTitle>
           <CartSumPriceContents>
-            {total.toLocaleString('en')}원
+            {(
+              Cartdata.cartSlice.totalPrice + Cartdata.cartSlice.totalDelivery
+            ).toLocaleString('en')}
+            원
           </CartSumPriceContents>
         </CartSumPrice>
       </CartSumContainer>

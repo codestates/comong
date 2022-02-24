@@ -39,6 +39,27 @@ export interface Cart {
     updatedAt: string;
     user_id: number;
   };
+  paymentInfo: {
+    user_id?: number;
+    order_id?: number;
+    total_amount?: number;
+    imp_uid?: string;
+    merchant_uid?: string;
+    buyer_name?: string;
+    success?: boolean;
+    status?: string;
+    error_msg?: string;
+  };
+  shipInfo: {
+    name?: string;
+    buyer_name?: string;
+    buyer_tel?: string;
+    buyer_email?: string;
+    buyer_address?: string;
+    ship_name?: string;
+    ship_tel?: string;
+    ship_address?: string;
+  };
 }
 
 const initialState: Cart = {
@@ -59,6 +80,8 @@ const initialState: Cart = {
     updatedAt: '2022-02-22T08:25:19.968Z',
     user_id: 2,
   },
+  paymentInfo: {},
+  shipInfo: {},
 };
 
 const cartSlice = createSlice({
@@ -108,11 +131,20 @@ const cartSlice = createSlice({
 
       state.totalPrice = sum;
     },
+    setDelivery(state, action) {
+      state.totalDelivery = action.payload;
+    },
     setSubTotalPrice(state, action) {
       let keyName = action.payload[0];
       let value = action.payload[1];
 
       state.subTotalPrice[keyName] = value;
+    },
+    setPaymentInfo(state, action) {
+      state.paymentInfo = action.payload;
+    },
+    setShipInfo(state, action) {
+      state.paymentInfo = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -138,8 +170,10 @@ export let {
   increment,
   decrement,
   setTotalPrice,
+  setDelivery,
   setSubTotalPrice,
   deleteItem,
+  setPaymentInfo,
 } = cartSlice.actions;
 
 export const getCartAsync = createAsyncThunk(
@@ -181,37 +215,26 @@ export const deleteCartAsync = createAsyncThunk(
   },
 );
 
-export const postOrderAsync = createAsyncThunk('orders/post', async () => {
-  let data = {
-    total_amount: 150000,
-    status: 'paid',
-    user_id: 2,
-    order_detail_id: [16, 14],
-    shipping_status: 'delivered',
-    shipping_company: 'cj대한통운',
-    shipping_code: '01234567890',
-  };
-  const response = await apiClient.post(`${urlConfig.url}/orders`, {
-    total_amount: 150000,
-    status: 'pending',
-    user_id: 213,
-    order_detail_id: [14, 16],
-    shipping_status: 'delivered',
-    shipping_company: 'cj대한통운',
-    shipping_code: '01234567890',
-  });
-  // const response = await apiClient.post(`${urlConfig.url}/orders`, {
-  //   data: data,
-  // });
-  // const response = await apiClient.post(`${urlConfig.url}/orders`, {
-  //   data: { data },
-  // });
-  // const response = await apiClient.post(`${urlConfig.url}/orders`, {
-  //   { data:data },
-  // });
-
-  console.log('response-order_post_data', response.data);
-  return response.data;
-});
+export const postOrderAsync = createAsyncThunk(
+  'orders/post',
+  async (data?: {}) => {
+    console.log('postOrderAsync 들어옴');
+    console.log('postOrderAsync-data', data);
+    const response = await apiClient.post(`${urlConfig.url}/orders`, data);
+    // const response = await apiClient.post(`${urlConfig.url}/orders`, { data });
+    // const response = await apiClient.post(`${urlConfig.url}/orders`, {
+    //   data: data,
+    // });
+    // const response = await apiClient.post(`${urlConfig.url}/orders`, {
+    //   data: { data },
+    // });
+    // const response = await apiClient.post(`${urlConfig.url}/orders`, {
+    //   { data:data },
+    // });
+    console.log('postOrderAsync-response', response);
+    console.log('response-order_post_data', response.data);
+    return response.data;
+  },
+);
 
 export default cartSlice.reducer;

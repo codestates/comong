@@ -5,6 +5,7 @@ import { getCartAsync } from '../redux/modules/cartSlice';
 import CartList from '../components/cart/CartList';
 import type { RootState } from '../redux/configStore';
 import { setTotalPrice } from '../redux/modules/cartSlice';
+import { setDelivery } from '../redux/modules/cartSlice';
 import { useNavigate } from 'react-router-dom';
 import { getCartPatchAsync } from '../redux/modules/cartSlice';
 import { postOrderAsync } from '../redux/modules/cartSlice';
@@ -22,7 +23,6 @@ const Container = styled.div`
   align-items: center;
   font-family: Noto Sans KR;
   @media only screen and (max-width: 768px) {
-    /* margin-bottom: 70px; */
   }
 `;
 const CartContainer = styled.div`
@@ -62,13 +62,14 @@ const ContentsBackground = styled.div`
 const ContentsContainer = styled.div`
   display: flex;
   margin-top: 30px;
+  margin-bottom: 30px;
   width: 80%;
   max-width: 1200px;
   justify-content: center;
   @media only screen and (max-width: 1200px) {
     flex-direction: column;
-    width: 100%;
-    /* margin-bottom: 300px; */
+    width: 95%;
+    margin-bottom: 0px;
   }
 `;
 
@@ -76,7 +77,7 @@ const CartListContainer = styled.div`
   font-family: Noto Sans KR;
   font-weight: 700;
   min-height: 600px;
-  /* height: 600px; */
+
   width: 65%;
   position: sticky;
   margin-right: 20px;
@@ -90,9 +91,9 @@ const CartListContainer = styled.div`
   border-radius: 5px;
   @media only screen and (max-width: 1200px) {
     width: 100%;
-    /* margin-bottom: 300px; */
   }
   @media only screen and (max-width: 768px) {
+    margin-bottom: 200px;
   }
 `;
 
@@ -200,39 +201,63 @@ const Cart = () => {
   const id = userInfo?.id;
   console.log(id);
 
+  useEffect(() => {
+    if (!isLogin) navigate('/login');
+  }, []);
+
   // let response = apiClient.get(`${urlConfig.url}/items/details/${id}`, {
   //   data: {},
   // });
 
   // console.log('respnse', response);
 
-  useEffect(() => {
-    dispatch(getCartAsync(id));
-    dispatch(setTotalPrice(cartData.cartSlice.subTotalPrice));
-  }, []);
-
   let sum = 0;
   let delivery = 0;
   for (let x in cartData.cartSlice.subTotalPrice) {
     sum += Number(cartData.cartSlice.subTotalPrice[x]);
-    delivery += 3000;
+    if (Number(cartData.cartSlice.subTotalPrice[x]) > 0) delivery += 3000;
   }
+  console.log(
+    'cartData.cartSlice.subTotalPrice',
+    cartData.cartSlice.subTotalPrice,
+  );
+  console.log('delivery', delivery);
+  useEffect(() => {
+    updateCartData();
+  }, [delivery]);
+
+  const updateCartData = () => {
+    dispatch(getCartAsync(id));
+    dispatch(setTotalPrice(cartData.cartSlice.subTotalPrice));
+    dispatch(setDelivery(delivery));
+  };
+
+  console.log('sum', sum, 'delivery', delivery);
+  console.log(
+    'cartData.cartSlice.totalDelivery',
+    cartData.cartSlice.totalDelivery,
+  );
+  console.log('cartData.cartSlice.totalPrice)', cartData.cartSlice.totalPrice);
+  console.log(
+    'cartData.cartSlice.totalDelivery',
+    cartData.cartSlice.totalDelivery,
+  );
 
   const payHandler = async () => {
     let obj = cartData.cartSlice.data[0];
-    let tmp: [{ user_id: number }] = [{ user_id: 1 }];
+    let tmp: [{ user_id: number; id?: number }] = [{ user_id: 1 }];
     for (let el in obj) {
       console.log(obj[el].order_details);
       for (let x of obj[el].order_details) {
         let tmpObj: {
-          id: string;
+          id: number;
           item_id: number;
           order_amount: number;
           status: string;
           user_id: number;
           peritem_price: number;
         } = {
-          id: '1',
+          id: 1,
           item_id: 1,
           order_amount: 2,
           status: '1',
@@ -240,7 +265,7 @@ const Cart = () => {
           peritem_price: 1,
         };
         console.log(x.user_id);
-        tmpObj.id = x.id;
+        tmpObj.id = Number(x.id);
         tmpObj.user_id = x.user_id;
         tmpObj.item_id = x.item_id;
         tmpObj.order_amount = x.order_amount;
@@ -252,14 +277,47 @@ const Cart = () => {
 
     tmp.splice(0, 1);
 
-    try {
-      await dispatch(getCartPatchAsync(tmp));
-      await dispatch(postOrderAsync());
-      navigate('/payment');
-    } catch (error) {
-      navigate('/');
-      console.log(error);
-    }
+    console.log('cartData.cartSlice.totalPrice', cartData.cartSlice.totalPrice);
+    console.log(
+      'cartData.cartSlice.totalDelivery',
+      cartData.cartSlice.totalDelivery,
+    );
+
+    let arr = tmp.map((el) => el.id);
+    let obj2 = {
+      total_amount:
+        cartData.cartSlice.totalPrice + cartData.cartSlice.totalDelivery,
+      status: 'pending',
+      user_id: cartData.userSlice.userinfo?.id,
+      order_detail_id: arr,
+      shipping_status: 'pending',
+      // shipping_status: 'delivered',
+      shipping_company: 'cj대한통운',
+      shipping_code: '01234567890',
+    };
+    console.log('obj2', obj2);
+    await dispatch(getCartPatchAsync(tmp));
+    await dispatch(postOrderAsync(obj2));
+    navigate('/payment');
+    // try {
+    //   await dispatch(getCartPatchAsync(tmp));
+    //   await dispatch(
+    //     postOrderAsync({
+    //       total_amount:
+    //         cartData.cartSlice.totalPrice + cartData.cartSlice.totalDelivery,
+    //       status: 'pending',
+    //       user_id: cartData.userSlice.userinfo?.id,
+    //       order_detail_id: arr,
+    //       shipping_status: 'delivered',
+    //       shipping_company: 'cj대한통운',
+    //       shipping_code: '01234567890',
+    //     }),
+    //   );
+    //   navigate('/payment');
+    // } catch (error) {
+    //   navigate('/');
+    //   console.log(error);
+    // }
 
     return;
   };
@@ -282,13 +340,13 @@ const Cart = () => {
                 <OrderText>
                   <OrderTextTitle>총 상품금액</OrderTextTitle>
                   <OrderTextContents>
-                    {sum.toLocaleString('en')}원
+                    {cartData.cartSlice.totalPrice.toLocaleString('en')}원
                   </OrderTextContents>
                 </OrderText>
                 <OrderText>
                   <OrderTextTitle>총 배송비</OrderTextTitle>
                   <OrderTextContents>
-                    {delivery.toLocaleString('en')}원
+                    {cartData.cartSlice.totalDelivery.toLocaleString('en')}원
                   </OrderTextContents>
                 </OrderText>
               </OrderTextContainer>
@@ -296,7 +354,11 @@ const Cart = () => {
               <OrderTotalPrice>
                 <OrderTotalPriceTtile>전체금액</OrderTotalPriceTtile>
                 <OrderTotalPriceContents>
-                  {(sum + delivery).toLocaleString('en')}원
+                  {(
+                    cartData.cartSlice.totalPrice +
+                    cartData.cartSlice.totalDelivery
+                  ).toLocaleString('en')}
+                  원
                 </OrderTotalPriceContents>
               </OrderTotalPrice>
               <OrderButton onClick={payHandler}>상품 구매하기</OrderButton>
