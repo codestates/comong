@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import Nav from '../components/Nav';
 import MobileNav from '../components/MobileNav';
 import { Viewer } from '@toast-ui/react-editor';
+import CoViewer from '../components/common/CoViewer';
 
 const Container = styled.div`
   display: flex;
@@ -290,7 +291,7 @@ const Post = () => {
   const { pathname } = useLocation();
   const postId = Number(pathname.split('/')[2]);
   const [stock, setStock] = useState(1);
-  const itemData = useAppSelector((state: RootState) => state);
+  const itemData = useAppSelector((state: RootState) => state.itemSlice.data);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -305,14 +306,14 @@ const Post = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  let data = itemData.itemSlice.data;
+  let data = itemData;
   let id = data.id;
   let category = data.category;
   let seller = data.user_storename;
   let title = data.title;
   let contents = data.contents;
   let price = data.price;
-  let img_src = data.image_src.split(',');
+  let img_src = data.image_src.split(',').slice(0,6);
 
   const stockHandler = (el: string) => {
     if (el === 'plus' && stock <= 98) setStock(stock + 1);
@@ -346,7 +347,7 @@ const Post = () => {
               <ContentsTitle>상품평</ContentsTitle>
             </ContentsTitleContainer>
             <Contentsline />
-            <ContentsArea><Viewer initialValue={contents} /></ContentsArea>
+            <ContentsArea><CoViewer editorState={contents} /></ContentsArea>
           </ContentsContainer>
           <OrderContainer>
             <Category>{category}</Category>

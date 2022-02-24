@@ -9,6 +9,7 @@ const nodemailer = require('nodemailer');
 import { MailerService } from '../mailer/mailer.service';
 import { TokenService } from 'src/util/token';
 import { v4 as uuid } from 'uuid'
+import * as sequelize from 'sequelize'
 
 export type User = any;
 
@@ -76,8 +77,8 @@ export class UsersService {
 			where: { ...userInfo },
 			include: [
 				{ model: models.category_has_user, as: 'category_has_users' , attributes: [ 'category_id'] },
-				{ model: models.bookmark, as: 'bookmarks' , attributes: [ 'id' ,'item_id', 'ismarked'] },
-			]
+				{ model: models.bookmark, as: 'bookmarks', where: {ismarked: 1} ,attributes: ['item_id'], required: false},
+			], 
 		});
 
 		if (user) {
