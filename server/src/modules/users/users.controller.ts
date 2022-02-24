@@ -30,7 +30,8 @@ import {
 import JwtAuthGuard from '../../middleware/Jwtauthguard';
 import { getUser } from '../../decorators/getUser'
 import { User } from './entities/user.entity';
-import { BcryptPipe } from 'src/util/bcrypt.pipe';
+import { BcryptPasswordHashPipe } from 'src/util/bcryptpasswordhashpipe';
+import { BcryptPasswordValidationPipe } from 'src/util/bcrypepasswordvalidationpipe';
 
 @Controller('users')
 @ApiTags('회원 정보 관련')
@@ -47,7 +48,7 @@ export class UsersController {
 	@ApiBadRequestResponse({ description: 'invalid value for property' })
 	@ApiInternalServerErrorResponse({ description: 'service unavailable(mailer)'})
 	@UsePipes(ValidationPipe)
-	@UsePipes(BcryptPipe)
+	@UsePipes(BcryptPasswordHashPipe)
 	async create(@Body() user: CreateUserDto) {
 		return this.usersService.create(user)
 	}
@@ -152,6 +153,7 @@ export class UsersController {
 		},
 	})
 	@ApiBadRequestResponse({ description: 'invalid value for property' })
+	@UsePipes(BcryptPasswordValidationPipe)
 	signIn(@Body() userInfo: SignInUserDto) {
 		return this.usersService.signIn(userInfo);
 	}

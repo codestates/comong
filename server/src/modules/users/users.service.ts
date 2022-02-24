@@ -74,6 +74,7 @@ export class UsersService {
 	}
 
 	async signIn(userInfo: SignInUserDto): Promise<{}>{
+		/*
 		let user = await models.user.findOne({
 			where: { ...userInfo },
 			include: [
@@ -81,7 +82,9 @@ export class UsersService {
 				{ model: models.bookmark, as: 'bookmarks', where: {ismarked: 1} ,attributes: ['item_id'], required: false},
 			], 
 		});
-
+		*/
+		const user = userInfo
+		//console.log(user)
 		if (user) {
 			try {
 				user['gender'] = parseInt(user['gender']);
@@ -89,7 +92,7 @@ export class UsersService {
 			} catch(err) {
 				throw new InternalServerErrorException({ message: 'Internal Server Error' })
 			}
-			const accessToken = this.tokenService.generateAccessToken(user.dataValues)
+			const accessToken = this.tokenService.generateAccessToken(user)
 			return { message: 'successful', user, accessToken };
 		} else {
 			return { message: 'err', user };
