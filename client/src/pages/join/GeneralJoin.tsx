@@ -8,7 +8,6 @@ import BasicInfo from '../../components/form/BasicInfo';
 import ErrorMessage from '../../components/Input/ErrorMessage';
 import InputAdress from '../../components/Input/InputAdress';
 import { useAppSelector } from '../../redux/configStore.hooks';
-import bcrypt from 'bcrypt';
 
 const Form = styled.form`
   &.mypage {
@@ -32,7 +31,6 @@ export interface IJoinForm {
 export type IJoinPartial = Partial<IJoinForm>;
 
 function GeneralJoin() {
-  console.log('123')
   const { userinfo } = useAppSelector((state) => state.userSlice);
   const [joinForm, setJoinForm] = useState<IJoinForm>({
     name: userinfo?.name || '',

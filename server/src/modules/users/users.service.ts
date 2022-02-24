@@ -21,7 +21,8 @@ export class UsersService {
 	
 
 	async create(user: CreateUserDto) {
-		console.log(user.likes.replace(/\[|\]/g, '').split(','))
+		console.log(user)
+		//console.log(user.likes.replace(/\[|\]/g, '').split(','))
 		const [newUser, isCreated]: [{id: number}, boolean] = await models.user.findOrCreate({
 			where: { email: user.email },
 			defaults: {
