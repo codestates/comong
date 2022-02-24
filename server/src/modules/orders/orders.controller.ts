@@ -137,9 +137,51 @@ export class OrdersController {
 		return this.ordersService.getOrders(user_id, shipping_status, start, end);
 	}
 
-	@Get(':id')
-	findOne(@Param('id') id: string) {
-		return this.ordersService.findOne(+id);
+	@Get('/seller')
+	@ApiHeader({
+		name: 'Authorization',
+		description: '사용자 인증 수단, 액세스 토큰 값',
+		required: true,
+		schema: {
+			example: 'bearer 23f43u9if13ekc23fm30jg549quneraf2fmsdf',
+		},
+	})
+	@ApiOperation({
+		summary: '판매회원, 배송상태, 주문 기간정보에 따른, 주문 내역 정보',
+		description:
+			'요청에 따라 주문내역을 가져옵니다. user_id 와 배송상태,  검색 기간을 지정할 수 있습니다. 배송상태와 기간이 없을경우  전체 상품을 표시합니다.',
+	})
+	@ApiQuery({
+		name: 'user_id',
+		required: true,
+		description: '유저 아이디',
+	})
+	@ApiQuery({
+		name: 'shipping_status',
+		required: false,
+		description: '배송 상태',
+	})
+	@ApiQuery({
+		name: 'start',
+		required: false,
+		description: '검색기간 시작 시점 설정',
+	})
+	@ApiQuery({
+		name: 'end',
+		required: false,
+		description: '검색기간 종료 시점 설정',
+	})
+	@ApiOkResponse({
+		description: 'successful',
+	})
+	// @UseGuards(JwtAuthGuard)
+	getSellerOrders(
+		@Query('user_id') user_id: number,
+		@Query('shipping_status') shipping_status: string,
+    @Query('start') start: string,
+    @Query('end') end: string
+	) {
+		return this.ordersService.getSellorOrders(user_id, shipping_status, start, end);
 	}
 
 	@Patch('/orderdetail')

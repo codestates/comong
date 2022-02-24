@@ -36,8 +36,16 @@ export class OrdersService {
 				id: createOrder.order_detail_id[0]
 			}
 		})
-		const emailAddress = itemInfo.dataValues.user.email;
-		const storeName = itemInfo.dataValues.user.storename;
+		const sellerInfo = await models.item.findOne({
+			include: { model: models.user, as: 'user' },
+			where: {
+				id: itemInfo.item_id
+			}
+		})
+		const emailAddress = sellerInfo.dataValues.user.email;
+		const storeName = sellerInfo.dataValues.user.storename;
+		// console.log(emailAddress)
+		// console.log(storeName)
 		if (newOrder) {
 			// const message = newOrder;
 			// this.appGateway.handleNotification(message);
@@ -180,6 +188,85 @@ export class OrdersService {
 			}
 			return output;
 		}
+	}
+
+	async getSellorOrders(
+		user_id: number,
+		shipping_status: string,
+		start: string,
+		end: string,
+	) {
+		// if (!user_id) {
+		// 	throw new BadRequestException('at least user_id is needed for query');
+		// } else {
+		// 	const orderList = await models.order.findAll({
+		// 		where: {
+		// 			user_id: user_id,
+		// 			shipping_status: shipping_status
+		// 				? shipping_status
+		// 				: {
+		// 						[Op.or]: [
+		// 							'delivered',
+		// 							'processing',
+		// 							'paymentdue',
+		// 							'canceled',
+		// 							'returned',
+		// 							'pick-up available',
+		// 							'intransit',
+		// 						],
+		// 				  },
+		// 			createdAt: {
+		// 				[Op.gte]: start ? new Date(start) : new Date('1022-01-01'),
+		// 				[Op.lte]: end ? new Date(end) : new Date('3022-01-01'),
+		// 			},
+		// 		},
+		// 	});
+		// 	const orderIdArr = orderList.map((elem) => {
+		// 		return elem.dataValues.id;
+		// 	});
+		// 	console.log(orderList)
+		// 	const orderJointableList = await models.order_detail_has_order.findAll({
+		// 		where: {
+		// 			order_id: {
+		// 				[Op.or]: [orderIdArr],
+		// 			},
+		// 		},
+		// 	});
+		// 	let output = {};
+		// 	for (let i = 0; i < orderList.length; i++) {
+		// 		output[`order_id: ${orderList[i].id}`] = {
+		// 			order_info: orderList[i],
+		// 			order_detail_info: [],
+		// 		};
+		// 		for (let j = 0; j < orderJointableList.length; j++) {
+		// 			if (orderList[i].id === orderJointableList[j].order_id) {
+		// 				const order_detail_info = await models.order_detail.findOne({
+		// 					include: [
+		// 						{
+		// 							model: models.user,
+		// 							as: 'user',
+		// 							attributes: ['id', 'storename', 'mobile'],
+		// 						},
+		// 					],
+		// 					where: {
+		// 						id: orderJointableList[j].order_detail_id,
+		// 					},
+		// 				});
+		// 				const item_info = await models.item.findOne({
+		// 					where: {
+		// 						id: order_detail_info.dataValues.item_id,
+		// 					},
+		// 				});
+		// 				output[`order_id: ${orderList[i].id}`]['order_detail_info'].push({
+		// 					order_detail_info,
+		// 					item_info,
+		// 				});
+		// 			}
+		// 		}
+		// 	}
+		// 	return output;
+		// }
+		return 'this will return orderlist for sellor'
 	}
 
 	findOne(id: number) {

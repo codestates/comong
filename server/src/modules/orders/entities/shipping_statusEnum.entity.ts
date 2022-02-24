@@ -1,4 +1,5 @@
 export enum Shipping_status {
+  'pending',
   'delivered',
   'processing',
   'paymentdue',

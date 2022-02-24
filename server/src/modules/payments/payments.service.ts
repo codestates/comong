@@ -20,8 +20,7 @@ export class PaymentsService {
 			console.log(validationData);
 			const { amount, status } = validationData;
 			if (
-				amount === createPaymentDto.total_amount &&
-				status === createPaymentDto.status
+				amount === createPaymentDto.total_amount
 			) {
 				const [user_payment, isCreated] =
 					await models.user_payment.findOrCreate({
