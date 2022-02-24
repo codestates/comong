@@ -49,6 +49,7 @@ export class CreateOrderDto {
 
 	@ApiProperty({
 		enum: [
+			'pending',
 			'delivered',
 			'processing',
 			'paymentdue',
@@ -57,7 +58,7 @@ export class CreateOrderDto {
 			'pick-up available',
 			'intransit',
 		],
-		example: 'delivered',
+		example: 'pending',
 		description: 'shipping_status',
 		required: true,
 	})
