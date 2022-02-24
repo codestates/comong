@@ -104,6 +104,7 @@ export class UsersController {
 		description: 'invalid value for property or account',
 	})
 	@UseGuards(JwtAuthGuard)
+	@UsePipes(BcryptPasswordHashPipe)
 	update(@getUser() user: User,@Body() changes: UpdateUserDto) {
 		return this.usersService.update(user, changes);
 	}
