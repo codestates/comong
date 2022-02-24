@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
+import { UpdateOrderDto } from './dto/update-order.dto';
 import { CreateOrderDetailDto } from './dto/create-orderdetail.dto';
 import { UpdateOrderDetailDto } from './dto/update-orderdetail.dto';
 import { DeleteOrderdetailDto } from './dto/delete_orderdetail.dto';
@@ -44,6 +45,24 @@ export class OrdersController {
 	// @UseGuards(JwtAuthGuard)
 	create(@Body() createOrder: CreateOrderDto) {
 		return this.ordersService.create(createOrder);
+	}
+
+	@Patch()
+	@ApiHeader({
+		name: 'Authorization',
+		description: '사용자 인증 수단, 액세스 토큰 값',
+		required: true,
+		schema: {
+			example: 'bearer 23f43u9if13ekc23fm30jg549quneraf2fmsdf',
+		},
+	})
+	@ApiOperation({
+		summary: 'order update',
+		description: '주문 정보에 대한 patch request',
+	})
+	// @UseGuards(JwtAuthGuard)
+	updateOrder(@Body() data: UpdateOrderDto) {
+		return this.ordersService.updateOrder(data);
 	}
 
 	@Post('/orderdetail')
