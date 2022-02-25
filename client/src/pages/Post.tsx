@@ -362,12 +362,6 @@ const Post = () => {
             {img_src.map((elements, index) => {
               return <ThumbnailImg src={elements} onClick={() => setImgIdx(index)} />;
             })}
-            {/*
-            <ThumbnailImg src={img_src} />
-            <ThumbnailImg src={img_src} />
-            <ThumbnailImg src={img_src} />
-            <ThumbnailImg src={img_src} />
-            */}
           </ThumbnailImgContainer>
         </ImgContainer>
         <BottomContainer>
