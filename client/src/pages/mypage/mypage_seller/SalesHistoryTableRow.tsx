@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import ButtonSimple from '../../../components/common/button/ButtonSimple';
 import { ISalesList } from './MypageSellerDefault';
+import SaleHistoryDetails from './SaleHistoryDetails';
 import { cellWidth } from './SalesHistoryTableProperty';
 
 const SalesHistoryListItem = styled.div`
@@ -67,7 +68,8 @@ const SalesItemBasicInfo = styled.div`
   width: 80%;
 
   span.item__title {
-    width: 80%;
+    max-width: 80%;
+    margin-right: 2px;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -99,38 +101,42 @@ interface ISalesHistoryTableRow {
 }
 
 function SalesHistoryTableRow({ order }: ISalesHistoryTableRow) {
+  const [showDetails, setShowDetails] = useState(false);
   const { order_detail_info: orderItemInfo, order_info: orderInfo } = order;
   // orderItemInfo는 배열임
   console.log(orderItemInfo);
   console.log(orderInfo);
 
   return (
-    <SalesHistoryListItem>
-      <Cell className="order-date">
-        <span>{orderInfo.createdAt.split('T')[0]}</span>
-        <span className="order-number">{orderInfo.id}</span>
-      </Cell>
-      <Cell className="order-info">
-        <SalesImg src={orderItemInfo[0].item_info.image_src}></SalesImg>
-        <SalesItemBasicInfo>
-          <span className="item__title">
-            {orderItemInfo[0].item_info.title}
-          </span>
-          {orderItemInfo.length > 1 && (
-            <span> 외 {orderItemInfo.length - 1}건</span>
-          )}
-        </SalesItemBasicInfo>
-      </Cell>
-      <Cell className="order-price">
-        <span>{orderInfo.total_amount}원</span>
-      </Cell>
-      <Cell className="order-status">
-        <SalesStatus>{orderStatus[orderInfo.status]}</SalesStatus>
-        <ButtonWrapper>
-          <ButtonSimple buttonClickHandler={() => {}}>송장입력</ButtonSimple>
-        </ButtonWrapper>
-      </Cell>
-    </SalesHistoryListItem>
+    <>
+      <SalesHistoryListItem onClick={() => setShowDetails(!showDetails)}>
+        <Cell className="order-date">
+          <span>{orderInfo.createdAt.split('T')[0]}</span>
+          <span className="order-number">{orderInfo.id}</span>
+        </Cell>
+        <Cell className="order-info">
+          <SalesImg src={orderItemInfo[0].item_info.image_src}></SalesImg>
+          <SalesItemBasicInfo>
+            <span className="item__title">
+              {orderItemInfo[0].item_info.title}
+            </span>
+            {orderItemInfo.length > 1 && (
+              <span>외 {orderItemInfo.length - 1}건</span>
+            )}
+          </SalesItemBasicInfo>
+        </Cell>
+        <Cell className="order-price">
+          <span>{orderInfo.total_amount}원</span>
+        </Cell>
+        <Cell className="order-status">
+          <SalesStatus>{orderStatus[orderInfo.status]}</SalesStatus>
+          <ButtonWrapper>
+            <ButtonSimple buttonClickHandler={() => {}}>송장입력</ButtonSimple>
+          </ButtonWrapper>
+        </Cell>
+      </SalesHistoryListItem>
+      {showDetails && <SaleHistoryDetails order={order}></SaleHistoryDetails>}
+    </>
   );
 }
 

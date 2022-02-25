@@ -13,7 +13,7 @@ const Wrapper = styled.div`
 
 const SliceHistoryWrapper = styled.div``;
 
-interface IOrderDetailInfo {
+export interface IOrderDetailInfo {
   item_info: IItem;
   order_detail_info: {
     reatedAt: string;

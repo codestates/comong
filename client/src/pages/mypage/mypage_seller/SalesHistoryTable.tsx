@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { ISalesList } from './MypageSellerDefault';
+import SaleHistoryDetails from './SaleHistoryDetails';
 import SalesHistoryTableProperty from './SalesHistoryTableProperty';
 import SalesHistoryTableRow from './SalesHistoryTableRow';
 
