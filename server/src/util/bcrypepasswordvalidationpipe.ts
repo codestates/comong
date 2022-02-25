@@ -16,11 +16,15 @@ export class BcryptPasswordValidationPipe implements PipeTransform {
 
         //기존 사용자(db 인덱스 218번 이하) 호환성 유지
         if(!userInfo){
-            throw new BadRequestException
+            throw new BadRequestException('invalid value for property');
         }
 
         if(userInfo.id <= 218){
-            return userInfo.dataValues
+            if(user.password === userInfo.password){
+                return userInfo.dataValues
+            } else {
+                throw new BadRequestException('invalid value for property');
+            }            
         } else {
             const result = bcrypt.compareSync(user.password, userInfo.dataValues.password)
 
@@ -28,7 +32,7 @@ export class BcryptPasswordValidationPipe implements PipeTransform {
                 delete userInfo.dataValues.password
                 return userInfo.dataValues
             } else {
-                throw new BadRequestException
+                throw new BadRequestException('invalid value for property');
             }
         }
 
