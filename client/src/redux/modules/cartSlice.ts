@@ -60,6 +60,26 @@ export interface Cart {
     ship_tel?: string;
     ship_address?: string;
   };
+  addressInfo: {
+    user_id?: number;
+    email?: string;
+    address_line1?: string;
+    address_line2?: string;
+    postal_code?: number;
+    city?: string;
+    country?: string;
+    telephone?: string;
+    mobile?: string;
+  };
+  destinationInfo: {
+    name?: string;
+    tel?: string;
+    email?: string;
+    postCode?: string;
+    address1?: string;
+    address2?: string;
+  };
+  testInfo: {};
 }
 
 const initialState: Cart = {
@@ -82,6 +102,9 @@ const initialState: Cart = {
   },
   paymentInfo: {},
   shipInfo: {},
+  addressInfo: {},
+  destinationInfo: {},
+  testInfo: {},
 };
 
 const cartSlice = createSlice({
@@ -144,7 +167,13 @@ const cartSlice = createSlice({
       state.paymentInfo = action.payload;
     },
     setShipInfo(state, action) {
-      state.paymentInfo = action.payload;
+      state.shipInfo = action.payload;
+    },
+    setDestinationInfo(state: any, action: any) {
+      state.destinationInfo = action.payload;
+    },
+    setTestInfo(state, action) {
+      state.testInfo = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -163,6 +192,12 @@ const cartSlice = createSlice({
       state.orderInfo = action.payload.data;
     });
     builder.addCase(postOrderAsync.rejected, (state, action) => {});
+    builder.addCase(getUsersAsync.pending, (state, action) => {});
+    builder.addCase(getUsersAsync.fulfilled, (state, action) => {
+      console.log('action.payload.address', action.payload.address);
+      state.addressInfo = action.payload.address;
+    });
+    builder.addCase(getUsersAsync.rejected, (state, action) => {});
   },
 });
 
@@ -174,6 +209,8 @@ export let {
   setSubTotalPrice,
   deleteItem,
   setPaymentInfo,
+  setDestinationInfo,
+  setTestInfo,
 } = cartSlice.actions;
 
 export const getCartAsync = createAsyncThunk(
@@ -185,6 +222,8 @@ export const getCartAsync = createAsyncThunk(
       `${urlConfig.url}/orders/cart?user_id=${id}`,
       {},
     );
+
+    console.log('cartslice', response.data);
 
     return response.data;
   },
@@ -218,21 +257,16 @@ export const deleteCartAsync = createAsyncThunk(
 export const postOrderAsync = createAsyncThunk(
   'orders/post',
   async (data?: {}) => {
-    console.log('postOrderAsync 들어옴');
-    console.log('postOrderAsync-data', data);
     const response = await apiClient.post(`${urlConfig.url}/orders`, data);
-    // const response = await apiClient.post(`${urlConfig.url}/orders`, { data });
-    // const response = await apiClient.post(`${urlConfig.url}/orders`, {
-    //   data: data,
-    // });
-    // const response = await apiClient.post(`${urlConfig.url}/orders`, {
-    //   data: { data },
-    // });
-    // const response = await apiClient.post(`${urlConfig.url}/orders`, {
-    //   { data:data },
-    // });
-    console.log('postOrderAsync-response', response);
-    console.log('response-order_post_data', response.data);
+    return response.data;
+  },
+);
+
+export const getUsersAsync = createAsyncThunk(
+  'users/address/get',
+  async (id?: number) => {
+    const response = await apiClient.get(`${urlConfig.url}/users/address`);
+    console.log(response);
     return response.data;
   },
 );

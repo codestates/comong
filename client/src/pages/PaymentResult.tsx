@@ -67,6 +67,7 @@ function PaymentResult() {
     };
 
     console.log(tmp);
+    const destination = payData.cartSlice.destinationInfo;
 
     const paymentValidationOptions: AxiosRequestConfig = {
       method: 'POST',
@@ -81,6 +82,11 @@ function PaymentResult() {
         merchant_uid: data.merchant_uid,
         buyer_name: data.buyer_name,
         status: data.status,
+        address_line1: destination.address1,
+        address_line2: destination.address2,
+        postal_code: destination.postCode,
+        email: destination.email,
+        contact: destination.tel,
       },
     };
     await axios(paymentValidationOptions)

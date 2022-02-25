@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import React, { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../redux/configStore.hooks';
-import { getCartAsync } from '../redux/modules/cartSlice';
+import { getCartAsync, getUsersAsync } from '../redux/modules/cartSlice';
 import type { RootState } from '../redux/configStore';
 import { setTotalPrice } from '../redux/modules/cartSlice';
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +12,9 @@ import OrderInfo from '../components/Payment/OrderInfo';
 import { Form, Input, Button } from 'antd';
 import queryString from 'query-string';
 import { setPaymentInfo } from '../redux/modules/cartSlice';
+import Modal from './Modal';
+import { getEnvironmentData } from 'worker_threads';
+import { setDestinationInfo } from '../redux/modules/cartSlice';
 
 declare global {
   interface Window {
@@ -46,6 +49,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   font-family: Noto Sans KR;
+
   @media only screen and (max-width: 768px) {
     /* margin-bottom: 70px; */
   }
@@ -90,11 +94,10 @@ const ContentsContainer = styled.div`
   margin-bottom: 30px;
   width: 80%;
   max-width: 1200px;
-  justify-content: space-evenly;
-
+  justify-content: center;
   @media only screen and (max-width: 1200px) {
-    width: 100%;
     flex-direction: column;
+    width: 95%;
     margin-bottom: 0px;
   }
 `;
@@ -107,6 +110,72 @@ const InfoContainer = styled.div`
     width: 100%;
   }
 `;
+
+const DestinationContainer = styled.div`
+  font-family: Noto Sans KR;
+  font-weight: 700;
+  width: 95%;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  top: 64px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  justify-content: flex-start;
+  box-shadow: 0px 0px 12px ${(props) => props.theme.colors.whiteForShadow};
+  border-radius: 5px;
+  @media only screen and (max-width: 1200px) {
+    width: 100%;
+  }
+`;
+
+const Title = styled.div``;
+
+const TitleLine = styled.hr`
+  margin: 15px 0px;
+`;
+
+const Contents = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const AutoInfoButton = styled.input``;
+
+const InputContainerShort = styled.div`
+  display: flex;
+  margin: 20px 10px;
+  width: 300px;
+  justify-content: space-between;
+`;
+
+const UserContents = styled.div``;
+
+const InputContainerLong = styled.div`
+  display: flex;
+  margin: 20px 10px;
+  width: 300px;
+  justify-content: space-between;
+`;
+
+const InputTitle = styled.div`
+  margin: 5px 10px;
+  font-size: 20px;
+`;
+
+const AddressContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+const IntputContents = styled.input``;
+
+const PostCodeContainer = styled.div``;
+const InputPostCode = styled.input``;
+const ButtonPostCode = styled.button`
+  /* width: 20px; */
+`;
+const IntputContentsLong = styled.input``;
 
 const OrderContainer = styled.div`
   font-family: Noto Sans KR;
@@ -239,6 +308,41 @@ const Payment = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
+  const [autoInfo, setAutoInfo] = useState<boolean>(false);
+
+  console.log('cartData.cartSlice.addressInfo', cartData.cartSlice.addressInfo);
+
+  let defaultData = {
+    name: cartData.userSlice.userinfo?.name || '',
+    tel: cartData.cartSlice.addressInfo.mobile || '',
+    email: cartData.cartSlice.addressInfo.email || '',
+    postCode: String(cartData.cartSlice.addressInfo.postal_code) || '',
+    address1: cartData.cartSlice.addressInfo.address_line1 || '',
+    address2: cartData.cartSlice.addressInfo.address_line2 || '',
+  };
+  const [shipData, setShipData] = useState<{
+    name: string;
+    tel: string;
+    email: string;
+    postCode: string;
+    address1: string;
+    address2: string;
+  }>({
+    name: '',
+    tel: '',
+    email: '',
+    postCode: '',
+    address1: '',
+    address2: '',
+  });
+
+  const [name, setName] = useState('');
+  const [tel, setTel] = useState('');
+  const [email, setEmail] = useState('');
+  const [postCode, setPostCode] = useState('');
+  const [address1, setAddress1] = useState('');
+  const [address2, setAddress2] = useState('');
+
   let orderInfo = cartData.cartSlice.orderInfo;
   console.log('delivery', cartData.cartSlice.totalDelivery);
 
@@ -345,9 +449,79 @@ const Payment = () => {
     };
     console.log('payment-data', data);
     dispatch(setPaymentInfo(data));
+    let list = {
+      name: name,
+      tel: tel,
+      email: email,
+      postCode: postCode,
+      address1: address1,
+      address2: address2,
+    };
+    dispatch(setDestinationInfo(list));
     navigate(`/paymentresult`);
   }
 
+  const handleComplete = (data: any) => {
+    let fullAddress = data.address;
+    let extraAddress = '';
+
+    if (data.addressType === 'R') {
+      if (data.bname !== '') {
+        extraAddress += data.bname;
+      }
+      if (data.buildingName !== '') {
+        extraAddress +=
+          extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
+      }
+      fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
+    }
+
+    console.log(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+  };
+
+  const getData = (data: any) => {
+    console.log(data);
+  };
+
+  const postCodeStyle = {
+    display: 'block',
+    position: 'absolute',
+    top: '50px',
+    zIndex: '100',
+    padding: '7px',
+  };
+  const changeShipName = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setName(e.target.value);
+  const changeShipTel = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setTel(e.target.value);
+  const changeShipEmail = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setEmail(e.target.value);
+  const changeShipPostCode = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setPostCode(e.target.value);
+  const changeShipAddress1 = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setAddress1(e.target.value);
+  const changeShipAddress2 = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setAddress2(e.target.value);
+
+  const handleAutoInfo = () => {
+    setAutoInfo(!autoInfo);
+    if (!autoInfo) {
+      setName(defaultData.name);
+      setTel(defaultData.tel);
+      setEmail(defaultData.email);
+      setPostCode(defaultData.postCode);
+      setAddress1(defaultData.address1);
+      setAddress2(defaultData.address2);
+    } else {
+      setName('');
+      setTel('');
+      setEmail('');
+      setPostCode('');
+      setAddress1('');
+      setAddress2('');
+    }
+    console.log('shipData', shipData);
+  };
   return (
     <Container>
       <CartContainer>
@@ -357,8 +531,87 @@ const Payment = () => {
         <ContentsBackground>
           <ContentsContainer>
             <InfoContainer>
-              <OrderCustomer></OrderCustomer>
-              <Destination></Destination>
+              <DestinationContainer>
+                <Title>보내는 사람</Title>
+                <TitleLine></TitleLine>
+                <Contents>
+                  <InputContainerShort>
+                    <InputTitle>이름</InputTitle>
+
+                    <UserContents>{defaultData.name}</UserContents>
+                  </InputContainerShort>
+                  <InputContainerShort>
+                    <InputTitle>연락처</InputTitle>
+                    <UserContents>{defaultData.tel}</UserContents>
+                  </InputContainerShort>
+                  <InputContainerLong>
+                    <InputTitle>이메일</InputTitle>
+                    <UserContents>{defaultData.email}</UserContents>
+                  </InputContainerLong>
+                  <InputContainerLong>
+                    <InputTitle>주소</InputTitle>
+                    <AddressContainer>
+                      <PostCodeContainer>
+                        <UserContents>{defaultData.postCode}</UserContents>
+                        <ButtonPostCode>주소찾기</ButtonPostCode>
+                      </PostCodeContainer>
+                      <UserContents>{defaultData.address1}</UserContents>
+                      <UserContents>{defaultData.address2}</UserContents>
+                    </AddressContainer>
+                  </InputContainerLong>
+                </Contents>
+              </DestinationContainer>
+              <DestinationContainer>
+                <Title>보내는 사람</Title>
+                <TitleLine></TitleLine>
+                <Contents>
+                  <label>
+                    <AutoInfoButton
+                      type="radio"
+                      id="radio"
+                      checked={autoInfo}
+                      onClick={handleAutoInfo}
+                    />
+                    보내는사람과 동일
+                  </label>
+                  <InputContainerShort>
+                    <InputTitle>이름</InputTitle>
+                    <IntputContents value={name} onChange={changeShipName} />
+                  </InputContainerShort>
+                  <InputContainerShort>
+                    <InputTitle>연락처</InputTitle>
+                    <IntputContents
+                      value={tel}
+                      onChange={changeShipTel}
+                    ></IntputContents>
+                  </InputContainerShort>
+                  <InputContainerShort>
+                    <InputTitle>이메일</InputTitle>
+                    <IntputContents
+                      value={email}
+                      onChange={changeShipEmail}
+                    ></IntputContents>
+                  </InputContainerShort>
+                  <InputContainerLong>
+                    <InputTitle>주소</InputTitle>
+                    <AddressContainer>
+                      <IntputContentsLong
+                        value={postCode}
+                        onChange={changeShipPostCode}
+                      ></IntputContentsLong>
+                      <IntputContentsLong
+                        value={address1}
+                        onChange={changeShipAddress1}
+                      ></IntputContentsLong>
+                      <IntputContentsLong
+                        value={address2}
+                        onChange={changeShipAddress2}
+                      ></IntputContentsLong>
+                    </AddressContainer>
+                  </InputContainerLong>
+                </Contents>
+              </DestinationContainer>
+
               <OrderInfo></OrderInfo>
             </InfoContainer>
             <OrderContainer>

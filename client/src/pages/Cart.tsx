@@ -11,6 +11,7 @@ import { getCartPatchAsync } from '../redux/modules/cartSlice';
 import { postOrderAsync } from '../redux/modules/cartSlice';
 import { config } from '../config/config';
 import { apiClient } from '../apis';
+import { getUsersAsync } from '../redux/modules/cartSlice';
 
 const env = 'development';
 const urlConfig = config[env];
@@ -298,6 +299,11 @@ const Cart = () => {
     console.log('obj2', obj2);
     await dispatch(getCartPatchAsync(tmp));
     await dispatch(postOrderAsync(obj2));
+    await dispatch(getUsersAsync(cartData.userSlice.userinfo?.id));
+    console.log(
+      'cartData.cartSlice.addressInfo',
+      cartData.cartSlice.addressInfo,
+    );
     navigate('/payment');
     // try {
     //   await dispatch(getCartPatchAsync(tmp));
