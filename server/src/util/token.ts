@@ -5,13 +5,13 @@ import { response } from 'express'
 Injectable()
 export class TokenService{
 
-    generateAccessToken(payload: {password?: string}): string{
+    async generateAccessToken(payload: {password?: string}): Promise<string>{
         //console.log(payload)
         if(payload['password']){
             delete payload.password
         }
         //console.log(payload)
-        const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, {
+        const accessToken = await jwt.sign(payload, process.env.ACCESS_SECRET, {
             expiresIn: '1h',
         });
 
