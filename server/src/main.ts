@@ -55,7 +55,8 @@ async function bootstrap() {
 
 	if (
 		fs.existsSync('./secrets/comong.key.pem') &&
-		fs.existsSync('./secrets/comong.crt.pem')
+		fs.existsSync('./secrets/comong.crt.pem') &&
+		fs.existsSync('./secrets/comong.chain.pem')
 	) {
 		const httpsOptions = {
 			key: fs.readFileSync('./secrets/comong.key.pem', 'utf8'),

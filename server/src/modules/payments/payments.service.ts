@@ -18,10 +18,9 @@ export class PaymentsService {
 				createPaymentDto.imp_uid,
 			);
 			console.log(validationData);
-			const { amount, status } = validationData;
+			const { amount } = validationData;
 			if (
-				amount === createPaymentDto.total_amount &&
-				status === createPaymentDto.status
+				amount === createPaymentDto.total_amount
 			) {
 				const [user_payment, isCreated] =
 					await models.user_payment.findOrCreate({
@@ -32,6 +31,12 @@ export class PaymentsService {
 					const orderUpdate = await models.order.update(
 						{
 							status: 'paid',
+							address_line1: createPaymentDto.address_line1,
+							address_line2: createPaymentDto.address_line2,
+							postal_code: createPaymentDto.postal_code,
+							email: createPaymentDto.email,
+							contact: createPaymentDto.contact,
+							buyer_name: createPaymentDto.buyer_name
 						},
 						{
 							where: {

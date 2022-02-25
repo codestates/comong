@@ -69,14 +69,14 @@ const OrderCustomer = () => {
           <InputTitle>연락처</InputTitle>
           <IntputContents></IntputContents>
         </InputContainerShort>
-        {/* <InputContainerLong>
-          <InputTitle>주소</InputTitle>
+        <InputContainerLong>
+          <InputTitle>이메일</InputTitle>
           <IntputContentsLong></IntputContentsLong>
         </InputContainerLong>
         <InputContainerLong>
-          <InputTitle>배송메세지</InputTitle>
+          <InputTitle>주소</InputTitle>
           <IntputContentsLong></IntputContentsLong>
-        </InputContainerLong> */}
+        </InputContainerLong>
       </Contents>
     </DestinationContainer>
   );

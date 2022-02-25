@@ -1,17 +1,20 @@
 import { BadRequestException, Injectable, BadGatewayException, InternalServerErrorException, Response } from '@nestjs/common';
 import * as jwt from 'jsonwebtoken'
 import { response } from 'express'
+require('dotenv').config()
 
-Injectable()
+
+@Injectable()
 export class TokenService{
 
-    generateAccessToken(payload: {password?: string}): string{
+    async generateAccessToken(payload: {password?: string}): Promise<string>{
         //console.log(payload)
+        console.log(process.env.ACCESS_SECRET)
         if(payload['password']){
             delete payload.password
         }
         //console.log(payload)
-        const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, {
+        const accessToken = await jwt.sign(payload, process.env.ACCESS_SECRET, {
             expiresIn: '1h',
         });
 

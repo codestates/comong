@@ -1,12 +1,9 @@
-import { Injectable, BadRequestException, Request, ForbiddenException, InternalServerErrorException, Response } from '@nestjs/common';
+import { Injectable, BadRequestException, ForbiddenException, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 require('dotenv').config;
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { SignInUserDto } from './dto/signin-user.dto';
-import { Logger } from '@nestjs/common';
 const models = require('../../models/index');
-const nodemailer = require('nodemailer');
-import { MailerService } from '../mailer/mailer.service';
 import { TokenService } from 'src/util/token';
 import { v4 as uuid } from 'uuid'
 import * as sequelize from 'sequelize'
@@ -20,42 +17,82 @@ export class UsersService {
 		) {}
 	
 
-	async create(user: CreateUserDto) {
-		console.log(user.likes.replace(/\[|\]/g, '').split(','))
+	async create(info: any) {
+		//console.log(info)
+		const { user, address, likes } = info
+		//console.log(user.likes.replace(/\[|\]/g, '').split(','))
 		const [newUser, isCreated]: [{id: number}, boolean] = await models.user.findOrCreate({
 			where: { email: user.email },
 			defaults: {
 				...user,
-				birthday: user.dob,
 				},
 		});
 
 		if (isCreated) {
-			if(user.likes) {
+			//관심 카테고리 등록
+			const infoArr = []
+			if(Object.keys(likes).length>0) {
 				//console.log(user.likes, '라잌스')
-				const likesArr = user.likes.replace(/\[|\]/g, '').split(',').map( async (elements: string): Promise<{user_id: number}> => {
+				const likesArr = likes.replace(/\[|\]/g, '').split(',')
+				likesArr.forEach( async (elements: string): Promise<void> => {
 					if(elements !== ''){
-						return  await models.category_has_user.create({
+						infoArr.push(models.category_has_user.create({
 							category_id: elements,
 							user_id: newUser.id,
-						})
+						}))
 					}
 				})
-	
-				return Promise.all(likesArr).then(like => {
-					like.forEach(elements => {
-						if( elements && !(newUser.id === elements.user_id) ) {
-							throw new BadRequestException('invalid value for property');
-						} 
-					})
-				}).then( (): {} => {
-					return { message: 'successful' }
-				})
-			} else {
-				return { message: 'successful' }
 			}
+
+			if(Object.keys(address).length>0) {
+				infoArr.push(models.user_address.create({
+					user_id: newUser.id,
+					...address,
+				}))
+			}
+
+			//console.log(infoArr)
+
+			return Promise.all(infoArr).then(result => {
+				result.forEach((elements, index) => {
+					console.log(elements, `${index} 번째 앨리먼트는`)
+					if(elements[0] === 0 || elements[0] === 1){
+						return { message: 'successful' }
+					} else {
+						throw new BadRequestException('invalid value for property');
+					}
+				})
+			}).then( (): {} => {
+				return { message: 'successful' }
+			})
+
 		} else {
-			throw new BadRequestException('invalid value for property');
+			throw new BadRequestException('invalid value for property123');
+		}
+	}
+
+	async getAddress(user: User): Promise<{}> {
+		const address = await models.user_address.findOne({
+			//raw: true,
+			include: [
+				{ model: models.user, as: 'user', where: { email: user.email }, attributes: []}
+			],
+			attributes: [
+				'user_id',
+				[sequelize.col('user.email'), 'email'],
+				'address_line1',
+				'address_line2',
+				'postal_code',
+				'city',
+				'country',
+				'telephone',
+				'mobile',
+			]
+		})
+		if(address){
+			return { message: 'successful', address}
+		} else {
+			throw new NotFoundException('address does not exist')
 		}
 	}
 
@@ -73,6 +110,7 @@ export class UsersService {
 	}
 
 	async signIn(userInfo: SignInUserDto): Promise<{}>{
+		/*
 		let user = await models.user.findOne({
 			where: { ...userInfo },
 			include: [
@@ -80,7 +118,9 @@ export class UsersService {
 				{ model: models.bookmark, as: 'bookmarks', where: {ismarked: 1} ,attributes: ['item_id'], required: false},
 			], 
 		});
-
+		*/
+		const user = userInfo
+		//console.log(user)
 		if (user) {
 			try {
 				user['gender'] = parseInt(user['gender']);
@@ -88,7 +128,7 @@ export class UsersService {
 			} catch(err) {
 				throw new InternalServerErrorException({ message: 'Internal Server Error' })
 			}
-			const accessToken = this.tokenService.generateAccessToken(user.dataValues)
+			const accessToken = await this.tokenService.generateAccessToken(user)
 			return { message: 'successful', user, accessToken };
 		} else {
 			return { message: 'err', user };
@@ -103,44 +143,54 @@ export class UsersService {
 		return user;
 	}
 
-	async update(user: User, changes: UpdateUserDto) {
-		const changed = await models.user.update({
-			...changes,
-			birthday: changes.dob,
-		},
-		{
-			where: { id: user.id }
-		})
-		if (changed) {
-			if(changes.likes ){
-				const likesArr = changes.likes.replace(/\[|\]/g, '').split(',').map( async (elements: string): Promise<{user_id: number}> => {
-					if(elements !== ''){
-						console.log(elements)
-						return  await models.category_has_user.create({
-							category_id: elements,
-							user_id: user.id,
-						})
-					}
-				})
-				console.log('likearr는', likesArr)
-				likesArr.unshift(
-					await models.category_has_user.destroy({
-						where: {
-							user_id: user.id
-						}
-					})
-				)
-				console.log('likearr는', likesArr)
-	
-				return Promise.all(likesArr).then(() => {
-					return { message: 'successful' }
-				})
-			} else {
-				return { message: 'successful' }
-			}
-		} else {
-			throw new BadRequestException('invalid value for property');
+	async update(userInfoFromToken: User, info: any) {
+		const {user, likes, address} = info
+		console.log(info)
+
+		const infoArr = []
+		if(Object.keys(user).length>0) {
+			infoArr.push(models.user.update({
+				...user,
+			},
+			{
+				where: { id: userInfoFromToken.id }
+			}))			
 		}
+
+		if(Object.keys(likes).length>0) {
+			//console.log(user.likes, '라잌스')
+			const likesArr = likes.replace(/\[|\]/g, '').split(',')
+			likesArr.forEach( async (elements: string): Promise<void> => {
+				if(elements !== ''){
+					infoArr.push(models.category_has_user.create({
+						category_id: elements,
+						user_id: userInfoFromToken.id,
+					}))
+				}
+			})
+		}
+
+		if(Object.keys(address).length>0) {
+			infoArr.push(models.user_address.update({
+				...address,
+			},{
+			where: {
+				user_id: userInfoFromToken.id,
+			}}))
+		}
+		//console.log(infoArr)
+		return Promise.all(infoArr).then(result => {
+			result.forEach(elements => {
+				console.log(elements[0])
+				if(elements[0] === 0 || elements[0] === 1){
+					return { message: 'successful' }
+				} else {
+					throw new BadRequestException('invalid value for property');
+				}
+			})
+		}).then( (): {} => {
+			return { message: 'successful' }
+		})
 	}
 
 	async remove(user) {

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import GeneralInput from "./GeneralInput";
+import { ReactComponent as HeartIcon} from './heartIcon.svg'
 
 interface StepOneProps {
     step: number;
@@ -30,6 +31,12 @@ const StepOneContainer = styled.div`
 const TypeContainer = styled.div`
     display: flex;
     flex-direction: column;
+`
+
+const Heart = styled(HeartIcon)`
+    fill: #dd576f;
+    width: 50px;
+    height: 50px;
 `
 
 const InputContainer = styled.div`
