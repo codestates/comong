@@ -12,12 +12,12 @@ export class CreatePaymentDto {
 	readonly user_id: number;
 
 	@ApiProperty({
-		example: 10,
+		example: "213#1645686591873",
 		description: 'order_id',
 		required: true,
 	})
-	@IsNumber()
-	readonly order_id: number;
+	@IsString()
+	readonly order_id: string;
 
 	@ApiProperty({
 		example: 'card',
@@ -57,9 +57,8 @@ export class CreatePaymentDto {
 	@ApiProperty({
 		example: '홍길동',
 		description: 'buyer_name',
-		required: false,
+		required: true,
 	})
-	@IsOptional()
 	@IsString()
 	readonly buyer_name: string;
 
@@ -72,4 +71,45 @@ export class CreatePaymentDto {
 	@IsString()
 	@IsEnum(PaymentStatus)
 	readonly status: string;
+
+	@ApiProperty({
+		example: '서울특별시 종로구 청와대로 1',
+		description: 'address_line1',
+		required: true,
+	})
+	@IsString()
+	readonly address_line1: string;
+
+	@ApiProperty({
+		example: '대통령 비서실',
+		description: 'address_line2',
+		required: false,
+	})
+	@IsString()
+	@IsOptional()
+	readonly address_line2: string;
+
+	@ApiProperty({
+		example: '03048',
+		description: 'postal_code',
+		required: true,
+	})
+	@IsString()
+	readonly postal_code: string;
+
+	@ApiProperty({
+		example: 'webmaster@president.go.kr',
+		description: 'email',
+		required: true,
+	})
+	@IsString()
+	readonly email: string;
+
+	@ApiProperty({
+		example: '010-1234-5678',
+		description: 'contact',
+		required: true,
+	})
+	@IsString()
+	readonly contact: string;
 }
