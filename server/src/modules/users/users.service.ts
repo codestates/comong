@@ -7,6 +7,8 @@ const models = require('../../models/index');
 import { TokenService } from 'src/util/token';
 import { v4 as uuid } from 'uuid'
 import * as sequelize from 'sequelize'
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 export type User = any;
 

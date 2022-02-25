@@ -9,6 +9,7 @@ import JwtAuthGuard from '../../middleware/Jwtauthguard';
 import { getUser } from 'src/decorators/getUser';
 import { User } from '../users/entities/user.entity';
 import { CreateBookmarkDto } from './dto/create-bookmark.dto';
+import { StockManagement } from './dto/stockmanagement.dto';
 //import { Auth } from '../../middleware/auth';
 
 @Controller('items')
@@ -187,5 +188,21 @@ export class ItemsController {
 	getbookmarks(@Query('user_id') user_id: number) {
 		return this.itemsService.getbookmarks(user_id);
 	}
+
+  @Post('/stockmanagement')
+  @ApiHeader({
+    name: 'Authorization',
+    description: '사용자 인증 수단, 액세스 토큰 값',
+    required: true,
+    schema: {
+      example: 'bearer 23f43u9if13ekc23fm30jg549quneraf2fmsdf'
+    },
+  })
+  // @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: '개발용 재고입력 기능', description: '개발 단계에서 테스트를 위한 재고 입력' })
+  @ApiCreatedResponse({ description: 'successful' })
+  stockmanagement(@Body() data: StockManagement) {
+    return this.itemsService.stockmanagement(data)
+  }
 
 }
