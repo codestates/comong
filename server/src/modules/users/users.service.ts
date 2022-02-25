@@ -18,7 +18,7 @@ export class UsersService {
 	
 
 	async create(info: any) {
-		console.log(info)
+		//console.log(info)
 		const { user, address, likes } = info
 		//console.log(user.likes.replace(/\[|\]/g, '').split(','))
 		const [newUser, isCreated]: [{id: number}, boolean] = await models.user.findOrCreate({
@@ -36,7 +36,7 @@ export class UsersService {
 				const likesArr = likes.replace(/\[|\]/g, '').split(',')
 				likesArr.forEach( async (elements: string): Promise<void> => {
 					if(elements !== ''){
-						infoArr.push(await models.category_has_user.create({
+						infoArr.push(models.category_has_user.create({
 							category_id: elements,
 							user_id: newUser.id,
 						}))
@@ -45,15 +45,17 @@ export class UsersService {
 			}
 
 			if(Object.keys(address).length>0) {
-				infoArr.push(await models.user_address.create({
+				infoArr.push(models.user_address.create({
 					user_id: newUser.id,
 					...address,
 				}))
 			}
 
+			//console.log(infoArr)
+
 			return Promise.all(infoArr).then(result => {
-				result.forEach(elements => {
-					//console.log(elements[0])
+				result.forEach((elements, index) => {
+					console.log(elements, `${index} 번째 앨리먼트는`)
 					if(elements[0] === 0 || elements[0] === 1){
 						return { message: 'successful' }
 					} else {
@@ -65,7 +67,7 @@ export class UsersService {
 			})
 
 		} else {
-			throw new BadRequestException('invalid value for property');
+			throw new BadRequestException('invalid value for property123');
 		}
 	}
 

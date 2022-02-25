@@ -62,7 +62,7 @@ export class signUpTransformPipe implements PipeTransform {
         //console.log(userArr)
         //console.log(addressArr)
 
-        return { user: userObject, address: addressObject, likes: likesArr.flat(1) }
+        return { user: userObject, address: addressObject, likes: user.likes }
 
     }
 }
