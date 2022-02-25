@@ -1,15 +1,25 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import ButtonSimple from '../../../components/common/button/ButtonSimple';
+import { ISalesList } from './MypageSellerDefault';
+import { cellWidth } from './SalesHistoryTableProperty';
 
 const SalesHistoryListItem = styled.div`
   width: 100%;
   display: flex;
+  font-size: 14px;
+
   > div {
-    border-right: 1px solid black;
+    border-right: 1px solid ${(props) => props.theme.colors.darkGrey};
+    border-bottom: 1px solid black;
   }
   > div:last-child {
     border-right: none;
+  }
+
+  &:hover {
+    cursor: pointer;
+    background-color: ${(props) => props.theme.colors.greyForBackGround};
   }
 `;
 
@@ -19,22 +29,28 @@ const center = css`
   align-items: center;
 `;
 
-const Div = styled.div`
+const Cell = styled.div`
   ${center}
+  ${cellWidth}
+
   &.order-date {
-    width: 15%;
     flex-direction: column;
+    gap: 8px;
+
+    span.order-number {
+      font-size: 12px;
+    }
   }
+
   &.order-info {
-    width: 40%;
-    justify-content: space-around;
+    justify-content: flex-start;
+    padding: 10px;
+    gap: 10px;
   }
   &.order-price {
-    width: 15%;
     flex-direction: column;
   }
   &.order-status {
-    width: 30%;
     justify-content: space-around;
   }
 `;
@@ -47,36 +63,73 @@ const SalesImg = styled.img`
 
 const SalesItemBasicInfo = styled.div`
   display: flex;
-  flex-direction: column;
+  line-height: 1.2rem;
+  width: 80%;
+
+  span.item__title {
+    width: 80%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
 `;
 
-const ButtonWrapper = styled.div``;
+const SalesStatus = styled.div`
+  width: 40%;
+  text-align: center;
+`;
 
-const SalesStatus = styled.div``;
+const ButtonWrapper = styled.div`
+  width: 80px;
+`;
 
-function SalesHistoryTableRow() {
+export const orderStatus: {
+  [key: string]: string;
+  paid: string;
+  pending: string;
+} = {
+  paid: '결제 완료',
+  pending: '결제 대기 중',
+};
+
+interface ISalesHistoryTableRow {
+  order: ISalesList;
+}
+
+function SalesHistoryTableRow({ order }: ISalesHistoryTableRow) {
+  const { order_detail_info: orderItemInfo, order_info: orderInfo } = order;
+  // orderItemInfo는 배열임
+  console.log(orderItemInfo);
+  console.log(orderInfo);
+
   return (
     <SalesHistoryListItem>
-      <Div className="order-date">
-        <span>2022.01.13</span>
-        <span>주문번호</span>
-      </Div>
-      <Div className="order-info">
-        <SalesImg></SalesImg>
+      <Cell className="order-date">
+        <span>{orderInfo.createdAt.split('T')[0]}</span>
+        <span className="order-number">{orderInfo.id}</span>
+      </Cell>
+      <Cell className="order-info">
+        <SalesImg src={orderItemInfo[0].item_info.image_src}></SalesImg>
         <SalesItemBasicInfo>
-          <span className="item__title">판매 상품 제목 어쩌구</span>
+          <span className="item__title">
+            {orderItemInfo[0].item_info.title}
+          </span>
+          {orderItemInfo.length > 1 && (
+            <span> 외 {orderItemInfo.length - 1}건</span>
+          )}
         </SalesItemBasicInfo>
-      </Div>
-      <Div className="order-price">
-        <span>800000원</span>
-        <span>1개</span>
-      </Div>
-      <Div className="order-status">
-        <SalesStatus>구매 확정</SalesStatus>
+      </Cell>
+      <Cell className="order-price">
+        <span>{orderInfo.total_amount}원</span>
+      </Cell>
+      <Cell className="order-status">
+        <SalesStatus>{orderStatus[orderInfo.status]}</SalesStatus>
         <ButtonWrapper>
-          <ButtonSimple buttonClickHandler={() => {}}>배송조회</ButtonSimple>
+          <ButtonSimple buttonClickHandler={() => {}}>송장입력</ButtonSimple>
         </ButtonWrapper>
-      </Div>
+      </Cell>
     </SalesHistoryListItem>
   );
 }

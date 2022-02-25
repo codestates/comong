@@ -4,7 +4,6 @@ import OrderHistory from '../../../components/order-history/OrderHistory';
 
 const Wrapper = styled.div`
   padding: 60px 0;
-
   height: 100vh;
 `;
 

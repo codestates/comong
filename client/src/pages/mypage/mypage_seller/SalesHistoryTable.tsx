@@ -1,5 +1,6 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
+import { ISalesList } from './MypageSellerDefault';
 import SalesHistoryTableProperty from './SalesHistoryTableProperty';
 import SalesHistoryTableRow from './SalesHistoryTableRow';
 
@@ -9,11 +10,17 @@ const Wrapper = styled.div`
   border-bottom: 1px solid black;
 `;
 
-function SalesHistoryTable() {
+interface ISalesHistoryTable {
+  salesList: ISalesList[];
+}
+
+function SalesHistoryTable({ salesList }: ISalesHistoryTable) {
   return (
     <Wrapper>
       <SalesHistoryTableProperty></SalesHistoryTableProperty>
-      <SalesHistoryTableRow></SalesHistoryTableRow>
+      {salesList?.map((order) => {
+        return <SalesHistoryTableRow order={order}></SalesHistoryTableRow>;
+      })}
     </Wrapper>
   );
 }
