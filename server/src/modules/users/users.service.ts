@@ -60,6 +60,32 @@ export class UsersService {
 		}
 	}
 
+	async getAddress(user: User): Promise<{}> {
+		const address = await models.user_address.findOne({
+			//raw: true,
+			include: [
+				{ model: models.user, as: 'user', where: { email: user.email }, attributes: []}
+			],
+			attributes: [
+				'user_id',
+				[sequelize.col('user.email'), 'email'],
+				'address_line1',
+				'address_line2',
+				'postal_code',
+				'city',
+				'country',
+				'telephone',
+				'mobile',
+				
+			]
+		})
+		if(address){
+			return { message: 'successful', address}
+		} else {
+			throw new BadRequestException('invalid value for property');
+		}
+	}
+
 	async isDuplicate(email: string) {
 		const user = await models.user.findOne({where: { email: email }})
 		if(!user){

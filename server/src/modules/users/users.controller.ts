@@ -53,6 +53,18 @@ export class UsersController {
 		return this.usersService.create(user)
 	}
 
+	@Get('address')
+	@ApiOperation({
+		summary: '주소 정보',
+		description: '주소 정보를 요청합니다.',
+	})
+	@ApiOkResponse({ description: 'successful' })
+	@ApiInternalServerErrorResponse({ description: 'service unavailable'})
+	@UseGuards(JwtAuthGuard)
+	getAddress(@getUser() user: User): Promise<{}> {
+		return this.usersService.getAddress(user)
+	}
+
 	@Get('isduplicate/:email')
 	@ApiOperation({
 		summary: '이메일 중복 검사',
