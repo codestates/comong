@@ -45,7 +45,6 @@ function LoginForm() {
     try {
       const response = await dispatch(postSigninAsync(form)).unwrap();
       console.log(response);
-      setMessage('');
       navigate('/');
     } catch (error) {
       setMessage('아이디 혹은 비밀번호를 확인해 주세요');

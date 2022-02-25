@@ -57,13 +57,8 @@ const InputTitle = styled.div`
   @media only screen and (max-width: 768px) {
   }
 `;
-const IntputContents = styled.input`
-  /* margin: 5px 10px;/ */
-`;
-const IntputContentsLong = styled.input`
-  /* margin: 5px 10px;/ */
-  /* width: 170px; */
-`;
+const IntputContents = styled.input``;
+const IntputContentsLong = styled.input``;
 
 const Destination = () => {
   return (
@@ -83,10 +78,10 @@ const Destination = () => {
           <InputTitle>주소</InputTitle>
           <IntputContentsLong></IntputContentsLong>
         </InputContainerLong>
-        <InputContainerLong>
+        {/* <InputContainerLong>
           <InputTitle>배송메세지</InputTitle>
           <IntputContentsLong></IntputContentsLong>
-        </InputContainerLong>
+        </InputContainerLong> */}
       </Contents>
     </DestinationContainer>
   );

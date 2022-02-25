@@ -27,14 +27,14 @@ const ItemList = () => {
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    getData();
-  }, []);
+  // useEffect(() => {
+  //   getData();
+  // }, []);
 
-  const getData = () => {
-    dispatch(getCartAsync());
-    dispatch(setTotalPrice(cartData.cartSlice.subTotalPrice));
-  };
+  // const getData = () => {
+  //   dispatch(getCartAsync());
+  //   dispatch(setTotalPrice(cartData.cartSlice.subTotalPrice));
+  // };
 
   let data = cartData.cartSlice.data[0];
 

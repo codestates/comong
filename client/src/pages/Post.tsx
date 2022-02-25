@@ -359,12 +359,6 @@ const Post = () => {
             {img_src.map((elements) => {
               return <ThumbnailImg src={elements} />;
             })}
-            {/*
-            <ThumbnailImg src={img_src} />
-            <ThumbnailImg src={img_src} />
-            <ThumbnailImg src={img_src} />
-            <ThumbnailImg src={img_src} />
-            */}
           </ThumbnailImgContainer>
         </ImgContainer>
         <BottomContainer>

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import React, { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../redux/configStore.hooks';
-import { getCartAsync } from '../redux/modules/cartSlice';
+import { getCartAsync, getUsersAsync } from '../redux/modules/cartSlice';
 import type { RootState } from '../redux/configStore';
 import { setTotalPrice } from '../redux/modules/cartSlice';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +11,10 @@ import OrderCustomer from '../components/Payment/OrderCustomer';
 import OrderInfo from '../components/Payment/OrderInfo';
 import { Form, Input, Button } from 'antd';
 import queryString from 'query-string';
+import { setPaymentInfo } from '../redux/modules/cartSlice';
+import Modal from './Modal';
+import { getEnvironmentData } from 'worker_threads';
+import { setDestinationInfo } from '../redux/modules/cartSlice';
 
 declare global {
   interface Window {
@@ -45,6 +49,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   font-family: Noto Sans KR;
+
   @media only screen and (max-width: 768px) {
     /* margin-bottom: 70px; */
   }
@@ -86,13 +91,14 @@ const ContentsBackground = styled.div`
 const ContentsContainer = styled.div`
   display: flex;
   margin-top: 30px;
+  margin-bottom: 30px;
   width: 80%;
   max-width: 1200px;
-  justify-content: space-evenly;
-
+  justify-content: center;
   @media only screen and (max-width: 1200px) {
-    width: 100%;
     flex-direction: column;
+    width: 95%;
+    margin-bottom: 0px;
   }
 `;
 const InfoContainer = styled.div`
@@ -104,6 +110,72 @@ const InfoContainer = styled.div`
     width: 100%;
   }
 `;
+
+const DestinationContainer = styled.div`
+  font-family: Noto Sans KR;
+  font-weight: 700;
+  width: 95%;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  top: 64px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  justify-content: flex-start;
+  box-shadow: 0px 0px 12px ${(props) => props.theme.colors.whiteForShadow};
+  border-radius: 5px;
+  @media only screen and (max-width: 1200px) {
+    width: 100%;
+  }
+`;
+
+const Title = styled.div``;
+
+const TitleLine = styled.hr`
+  margin: 15px 0px;
+`;
+
+const Contents = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const AutoInfoButton = styled.input``;
+
+const InputContainerShort = styled.div`
+  display: flex;
+  margin: 20px 10px;
+  width: 300px;
+  justify-content: space-between;
+`;
+
+const UserContents = styled.div``;
+
+const InputContainerLong = styled.div`
+  display: flex;
+  margin: 20px 10px;
+  width: 300px;
+  justify-content: space-between;
+`;
+
+const InputTitle = styled.div`
+  margin: 5px 10px;
+  font-size: 20px;
+`;
+
+const AddressContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+const IntputContents = styled.input``;
+
+const PostCodeContainer = styled.div``;
+const InputPostCode = styled.input``;
+const ButtonPostCode = styled.button`
+  /* width: 20px; */
+`;
+const IntputContentsLong = styled.input``;
 
 const OrderContainer = styled.div`
   font-family: Noto Sans KR;
@@ -202,6 +274,7 @@ const Paymentcontainer = styled.div`
   font-size: large;
   font-weight: bold;
   background-color: #bdbdbd;
+  display: none;
 `;
 
 const Wrapper = styled.div`
@@ -218,12 +291,13 @@ const Header = styled.div`
   padding: 2rem;
   padding-top: 0;
   font-size: 3rem;
+  display: none;
 `;
 
 const FormContainer = styled(Form)`
   width: 350px;
   border-radius: 3px;
-
+  display: none;
   .ant-row {
     margin-bottom: 1rem;
   }
@@ -234,19 +308,45 @@ const Payment = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(getCartAsync());
-    dispatch(setTotalPrice(cartData.cartSlice.subTotalPrice));
-  }, []);
+  const [autoInfo, setAutoInfo] = useState<boolean>(false);
 
-  let sum = 0;
-  let delivery = 0;
-  for (let x in cartData.cartSlice.subTotalPrice) {
-    sum += Number(cartData.cartSlice.subTotalPrice[x]);
-    delivery += 3000;
-  }
+  console.log('cartData.cartSlice.addressInfo', cartData.cartSlice.addressInfo);
 
-  const payHandler = async () => {
+  let defaultData = {
+    name: cartData.userSlice.userinfo?.name || '',
+    tel: cartData.cartSlice.addressInfo.mobile || '',
+    email: cartData.cartSlice.addressInfo.email || '',
+    postCode: String(cartData.cartSlice.addressInfo.postal_code) || '',
+    address1: cartData.cartSlice.addressInfo.address_line1 || '',
+    address2: cartData.cartSlice.addressInfo.address_line2 || '',
+  };
+  const [shipData, setShipData] = useState<{
+    name: string;
+    tel: string;
+    email: string;
+    postCode: string;
+    address1: string;
+    address2: string;
+  }>({
+    name: '',
+    tel: '',
+    email: '',
+    postCode: '',
+    address1: '',
+    address2: '',
+  });
+
+  const [name, setName] = useState('');
+  const [tel, setTel] = useState('');
+  const [email, setEmail] = useState('');
+  const [postCode, setPostCode] = useState('');
+  const [address1, setAddress1] = useState('');
+  const [address2, setAddress2] = useState('');
+
+  let orderInfo = cartData.cartSlice.orderInfo;
+  console.log('delivery', cartData.cartSlice.totalDelivery);
+
+  const payHandler = async (values: any) => {
     let obj = cartData.cartSlice.data[0];
     console.log(obj);
     let tmp: [{ user_id: number }] = [{ user_id: 1 }];
@@ -288,19 +388,8 @@ const Payment = () => {
       console.log(error);
     }
 
-    return;
-  };
-
-  const handleSubmit = (values: any) => {
-    // e.preventDefault();
     console.log('Received values of form: ', values);
-    // console.log('type-orderInfo', typeof cartData.cartSlice.orderInfo);
-    // console.log(
-    //   'type-isArray-orderInfo',
-    //   Array.isArray(cartData.cartSlice.orderInfo),
-    // );
-    console.log('orderInfo', cartData.cartSlice.orderInfo);
-    let orderInfo = cartData.cartSlice.orderInfo;
+
     const userCode = process.env.REACT_APP_IMPORT_CLIENT_ID;
     /* 결제 데이터 */
     const {
@@ -308,7 +397,7 @@ const Payment = () => {
       pay_method = 'card',
       merchant_uid,
       name = '홍길동',
-      amount = orderInfo.total_amount,
+      amount = cartData.cartSlice.totalPrice + cartData.cartSlice.totalDelivery,
       // amount = '1',
       buyer_name = '홍길동',
       buyer_tel = '01012341234',
@@ -319,7 +408,6 @@ const Payment = () => {
     console.log(orderInfo.id);
     const data: paymentData = {
       order_id: orderInfo.id,
-      // order_id: 213,
       pg,
       pay_method,
       merchant_uid,
@@ -335,12 +423,105 @@ const Payment = () => {
     IMP.request_pay(data, callback);
   };
 
-  function callback(response: object) {
+  // const handleSubmit = (values: any) => {};
+
+  function callback(response: {
+    paid_amount: number;
+    imp_uid: string;
+    merchant_uid: string;
+    buyer_name: string;
+    status: string;
+    success: boolean;
+    error_msg: string;
+  }) {
     console.log(response);
     const query = queryString.stringify(response);
-    navigate(`/test/payment/result?${query}`, { replace: true });
+    let data = {
+      user_id: orderInfo.user_id,
+      order_id: orderInfo.id,
+      total_amount: response.paid_amount,
+      imp_uid: response.imp_uid,
+      merchant_uid: response.merchant_uid,
+      buyer_name: response.buyer_name,
+      status: response.status,
+      success: response.success,
+      error_msg: response.error_msg,
+    };
+    console.log('payment-data', data);
+    dispatch(setPaymentInfo(data));
+    let list = {
+      name: name,
+      tel: tel,
+      email: email,
+      postCode: postCode,
+      address1: address1,
+      address2: address2,
+    };
+    dispatch(setDestinationInfo(list));
+    navigate(`/paymentresult`);
   }
 
+  const handleComplete = (data: any) => {
+    let fullAddress = data.address;
+    let extraAddress = '';
+
+    if (data.addressType === 'R') {
+      if (data.bname !== '') {
+        extraAddress += data.bname;
+      }
+      if (data.buildingName !== '') {
+        extraAddress +=
+          extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
+      }
+      fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
+    }
+
+    console.log(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+  };
+
+  const getData = (data: any) => {
+    console.log(data);
+  };
+
+  const postCodeStyle = {
+    display: 'block',
+    position: 'absolute',
+    top: '50px',
+    zIndex: '100',
+    padding: '7px',
+  };
+  const changeShipName = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setName(e.target.value);
+  const changeShipTel = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setTel(e.target.value);
+  const changeShipEmail = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setEmail(e.target.value);
+  const changeShipPostCode = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setPostCode(e.target.value);
+  const changeShipAddress1 = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setAddress1(e.target.value);
+  const changeShipAddress2 = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setAddress2(e.target.value);
+
+  const handleAutoInfo = () => {
+    setAutoInfo(!autoInfo);
+    if (!autoInfo) {
+      setName(defaultData.name);
+      setTel(defaultData.tel);
+      setEmail(defaultData.email);
+      setPostCode(defaultData.postCode);
+      setAddress1(defaultData.address1);
+      setAddress2(defaultData.address2);
+    } else {
+      setName('');
+      setTel('');
+      setEmail('');
+      setPostCode('');
+      setAddress1('');
+      setAddress2('');
+    }
+    console.log('shipData', shipData);
+  };
   return (
     <Container>
       <CartContainer>
@@ -350,8 +531,87 @@ const Payment = () => {
         <ContentsBackground>
           <ContentsContainer>
             <InfoContainer>
-              <OrderCustomer></OrderCustomer>
-              <Destination></Destination>
+              <DestinationContainer>
+                <Title>보내는 사람</Title>
+                <TitleLine></TitleLine>
+                <Contents>
+                  <InputContainerShort>
+                    <InputTitle>이름</InputTitle>
+
+                    <UserContents>{defaultData.name}</UserContents>
+                  </InputContainerShort>
+                  <InputContainerShort>
+                    <InputTitle>연락처</InputTitle>
+                    <UserContents>{defaultData.tel}</UserContents>
+                  </InputContainerShort>
+                  <InputContainerLong>
+                    <InputTitle>이메일</InputTitle>
+                    <UserContents>{defaultData.email}</UserContents>
+                  </InputContainerLong>
+                  <InputContainerLong>
+                    <InputTitle>주소</InputTitle>
+                    <AddressContainer>
+                      <PostCodeContainer>
+                        <UserContents>{defaultData.postCode}</UserContents>
+                        <ButtonPostCode>주소찾기</ButtonPostCode>
+                      </PostCodeContainer>
+                      <UserContents>{defaultData.address1}</UserContents>
+                      <UserContents>{defaultData.address2}</UserContents>
+                    </AddressContainer>
+                  </InputContainerLong>
+                </Contents>
+              </DestinationContainer>
+              <DestinationContainer>
+                <Title>보내는 사람</Title>
+                <TitleLine></TitleLine>
+                <Contents>
+                  <label>
+                    <AutoInfoButton
+                      type="radio"
+                      id="radio"
+                      checked={autoInfo}
+                      onClick={handleAutoInfo}
+                    />
+                    보내는사람과 동일
+                  </label>
+                  <InputContainerShort>
+                    <InputTitle>이름</InputTitle>
+                    <IntputContents value={name} onChange={changeShipName} />
+                  </InputContainerShort>
+                  <InputContainerShort>
+                    <InputTitle>연락처</InputTitle>
+                    <IntputContents
+                      value={tel}
+                      onChange={changeShipTel}
+                    ></IntputContents>
+                  </InputContainerShort>
+                  <InputContainerShort>
+                    <InputTitle>이메일</InputTitle>
+                    <IntputContents
+                      value={email}
+                      onChange={changeShipEmail}
+                    ></IntputContents>
+                  </InputContainerShort>
+                  <InputContainerLong>
+                    <InputTitle>주소</InputTitle>
+                    <AddressContainer>
+                      <IntputContentsLong
+                        value={postCode}
+                        onChange={changeShipPostCode}
+                      ></IntputContentsLong>
+                      <IntputContentsLong
+                        value={address1}
+                        onChange={changeShipAddress1}
+                      ></IntputContentsLong>
+                      <IntputContentsLong
+                        value={address2}
+                        onChange={changeShipAddress2}
+                      ></IntputContentsLong>
+                    </AddressContainer>
+                  </InputContainerLong>
+                </Contents>
+              </DestinationContainer>
+
               <OrderInfo></OrderInfo>
             </InfoContainer>
             <OrderContainer>
@@ -361,13 +621,13 @@ const Payment = () => {
                 <OrderText>
                   <OrderTextTitle>총 상품금액</OrderTextTitle>
                   <OrderTextContents>
-                    {sum.toLocaleString('en')}원
+                    {cartData.cartSlice.totalPrice.toLocaleString('en')}원
                   </OrderTextContents>
                 </OrderText>
                 <OrderText>
                   <OrderTextTitle>총 배송비</OrderTextTitle>
                   <OrderTextContents>
-                    {delivery.toLocaleString('en')}원
+                    {cartData.cartSlice.totalDelivery.toLocaleString('en')}원
                   </OrderTextContents>
                 </OrderText>
               </OrderTextContainer>
@@ -375,7 +635,11 @@ const Payment = () => {
               <OrderTotalPrice>
                 <OrderTotalPriceTtile>전체금액</OrderTotalPriceTtile>
                 <OrderTotalPriceContents>
-                  {(sum + delivery).toLocaleString('en')}원
+                  {(
+                    cartData.cartSlice.totalPrice +
+                    cartData.cartSlice.totalDelivery
+                  ).toLocaleString('en')}
+                  원
                 </OrderTotalPriceContents>
               </OrderTotalPrice>
               <OrderButton onClick={payHandler}>상품 구매하기</OrderButton>
@@ -393,7 +657,7 @@ const Payment = () => {
         <div>{`${process.env.REACT_APP_IMPORT_CLIENT_ID}`}</div>
       </Paymentcontainer>
       <Header>아임포트 결제 테스트</Header>
-      <FormContainer onFinish={handleSubmit}>
+      <FormContainer>
         <Item
           name="item_id"
           initialValue={'아임포트 결제 데이터 분석'}

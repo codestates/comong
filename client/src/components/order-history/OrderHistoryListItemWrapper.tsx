@@ -5,6 +5,7 @@ import OrderHistoryListItem from './OrderHistoryListItem';
 
 interface OrderHistoryListItemWrapper {
   order: IOrderData;
+  key?: React.Key;
 }
 
 function OrderHistoryListItemWrapper({ order }: OrderHistoryListItemWrapper) {
@@ -16,7 +17,9 @@ function OrderHistoryListItemWrapper({ order }: OrderHistoryListItemWrapper) {
         showEdit={showEdit}
         setShowEdit={setShowEdit}
       ></OrderHistoryListItem>
-      {showEdit && <EditReview order={order} showEdit={showEdit}></EditReview>}
+      {showEdit && (
+        <EditReview order={order} setShowEdit={setShowEdit}></EditReview>
+      )}
     </li>
   );
 }
