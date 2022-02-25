@@ -30,7 +30,6 @@ const CartList = () => {
 
   const getData = () => {
     dispatch(getCartAsync());
-    dispatch(setTotalPrice(cartData.cartSlice.subTotalPrice));
   };
 
   let data = cartData.cartSlice.data[0];

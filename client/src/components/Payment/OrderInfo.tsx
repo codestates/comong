@@ -5,8 +5,8 @@ import ItemList from './itemList/ItemList';
 const DestinationContainer = styled.div`
   font-family: Noto Sans KR;
   font-weight: 700;
-  width: 100%;
-  margin-top: 10px;
+  width: 95%;
+  /* margin-top: 10px; */
   margin-right: 20px;
   top: 64px;
   background-color: white;
