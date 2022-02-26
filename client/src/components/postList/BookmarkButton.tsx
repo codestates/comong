@@ -54,7 +54,7 @@ function BookmarkButton({ selected, itemId }: IBookmarkButton) {
         item_id: itemId,
         ismarked: !ismarked,
       };
-      const response = await dispatch(postBookmarkAsync(params)).unwrap();
+      await dispatch(postBookmarkAsync(params)).unwrap();
     } catch (error) {
       console.log(error);
       console.log('로그인 하세요!');
