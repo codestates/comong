@@ -9,7 +9,6 @@ export class TokenService{
 
     async generateAccessToken(payload: {password?: string}): Promise<string>{
         //console.log(payload)
-        console.log(process.env.COMONG_ACCESS_SECRET)
         if(payload['password']){
             delete payload.password
         }
@@ -27,7 +26,7 @@ export class TokenService{
             delete payload.password
         }
         console.log(payload)
-        const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, {
+        const accessToken = jwt.sign(payload, process.env.COMONG_ACCESS_SECRET, {
             expiresIn: '1h',
         });
         response.cookie('refreshToken', accessToken, {

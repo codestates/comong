@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException, ForbiddenException, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { Injectable, BadRequestException, ForbiddenException, InternalServerErrorException, NotFoundException, ServiceUnavailableException } from '@nestjs/common';
 require('dotenv').config;
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -6,9 +6,9 @@ import { SignInUserDto } from './dto/signin-user.dto';
 const models = require('../../models/index');
 import { TokenService } from 'src/util/token';
 import { v4 as uuid } from 'uuid'
-import * as sequelize from 'sequelize'
-import * as dotenv from 'dotenv';
-dotenv.config();
+//import * as sequelize from 'sequelize'
+import { Transaction } from 'sequelize';
+const sequelize = models.sequelize
 
 export type User = any;
 
@@ -21,7 +21,7 @@ export class UsersService {
 
 	async create(info: any) {
 		//console.log(info)
-		const { user, address, likes } = info
+		const { user, address, likes } = info //파이프라인을 통해 입력값을 { user: ~~, address: ~~, likes: ~~ } 형태로 변형
 		//console.log(user.likes.replace(/\[|\]/g, '').split(','))
 		const [newUser, isCreated]: [{id: number}, boolean] = await models.user.findOrCreate({
 			where: { email: user.email },
@@ -30,44 +30,76 @@ export class UsersService {
 				},
 		});
 
+		//계정이 생성되었을 경우에만 관심 카테고리, 주소 테이블에 데이터 등록 진행
 		if (isCreated) {
 			//관심 카테고리 등록
-			const infoArr = []
-			if(Object.keys(likes).length>0) {
+			const workArr = []
+			if(likes && Object.keys(likes).length>0) {
 				//console.log(user.likes, '라잌스')
-				const likesArr = likes.replace(/\[|\]/g, '').split(',')
-				likesArr.forEach( async (elements: string): Promise<void> => {
-					if(elements !== ''){
-						infoArr.push(models.category_has_user.create({
-							category_id: elements,
+				const likesArr = likes.replace(/\[|\]/g, '').split(',') // like의 형태는 ['1', '2']와 같은 배열 형태의 문자열임
+				likesArr.forEach((elements) => {
+					if(elements !== ''){ //빈 문자열 제외(빈 배열일경우 빈문자열로 받아지는 경우라 제외)
+						const insertLikes = (transaction) => { // 프로미스의 형태로 새 transaction을 생성할 것이므로 transaction을 매개변수로 받는 함수 형태로 만듦
+							return new Promise((resolve, reject) => { //일반적인 프로미스 생성 형태
+								return models.category_has_user.create({ // 중간중간 정확하게 리턴해주는것이 중요
+									category_id: elements,
+									user_id: newUser.id,
+								}, {transaction: transaction}).then(insertedLikes => { //sequelize 모델의 함수 사용시 transaction 설정해야함, 여기서는 매개변수로 받는 transaction임
+									resolve(insertedLikes) //성공했을때 넘어가는 값은 방금 호출로 생성된 관심카테고리
+								}).catch(error => {
+									reject(error) //밑에서 다시 serviceunavilable exception 생성할 것이므로 그냥 error 만 넘겨줌
+								})
+							})
+						}
+						workArr.push(insertLikes)  //promise.all이 iterable 요소를 받으므로 배열안에 차곡차곡 함수를 쌓아줌
+					}
+				})
+			}
+
+			if(address && Object.keys(address).length>0) {
+				const insertAddress = (transaction) => {
+					return new Promise((resolve, reject) => {
+						return models.user_address.create({
 							user_id: newUser.id,
-						}))
-					}
-				})
+							...address,
+						}, {transaction: transaction}).then(insertedAddress => {
+							resolve(insertedAddress)
+						}).catch(error => {
+							reject(error)
+						})
+					})
+				}
+				workArr.push(insertAddress)
 			}
 
-			if(Object.keys(address).length>0) {
-				infoArr.push(models.user_address.create({
-					user_id: newUser.id,
-					...address,
-				}))
-			}
+			return new Promise((resolve, reject) => {  //실실적인 create 메서드의 리턴문
+				//console.log(workArr[0]) 
+				return models.sequelize.transaction().then(transaction => { //트랜잭션 생성 후 넘겨줌
+					const work = workArr.map(insertFunc => { 
+						return insertFunc(transaction) // 이 시점에서 프로미스가 pending이 되나요?? 저도잘모르겠습니다
+					})
 
-			//console.log(infoArr)
-
-			return Promise.all(infoArr).then(result => {
-				result.forEach((elements, index) => {
-					console.log(elements, `${index} 번째 앨리먼트는`)
-					if(elements[0] === 0 || elements[0] === 1){
-						return { message: 'successful' }
-					} else {
-						throw new BadRequestException('invalid value for property');
-					}
+					return Promise.all(work).then(values => {
+						//console.log(values, 'resolve')
+						transaction.commit() // 성공했을 경우 지금 transaction은 unmanaged transaction 이라 수동으로 commit을 해주어야 함
+						resolve({message: 'successful'})
+					}).catch(error => {
+						//console.log(error, '에러')
+						transaction.rollback() // 에러 발생 시에도 똑같이 수동으로 rollback 해주어야 함
+						reject(new ServiceUnavailableException('failed to connect to database server')) //에러 발생시 응답
+					})
 				})
-			}).then( (): {} => {
-				return { message: 'successful' }
 			})
-
+			/*
+			return Promise.all(inArr).then(result => {
+				result.forEach((elements): void => {
+					if(!elements){
+						throw new BadRequestException('invalid value for property4');
+					}
+				})
+				return { message: 'successful'}
+			})
+			*/
 		} else {
 			throw new BadRequestException('invalid value for property123');
 		}
@@ -150,7 +182,7 @@ export class UsersService {
 		console.log(info)
 
 		const infoArr = []
-		if(Object.keys(user).length>0) {
+		if(user && Object.keys(user).length>0) {
 			infoArr.push(models.user.update({
 				...user,
 			},
@@ -159,10 +191,10 @@ export class UsersService {
 			}))			
 		}
 
-		if(Object.keys(likes).length>0) {
+		if(likes && Object.keys(likes).length>0) {
 			//console.log(user.likes, '라잌스')
 			const likesArr = likes.replace(/\[|\]/g, '').split(',')
-			likesArr.forEach( async (elements: string): Promise<void> => {
+			likesArr.forEach((elements: string): void => {
 				if(elements !== ''){
 					infoArr.push(models.category_has_user.create({
 						category_id: elements,
@@ -172,7 +204,7 @@ export class UsersService {
 			})
 		}
 
-		if(Object.keys(address).length>0) {
+		if(address && Object.keys(address).length>0) {
 			infoArr.push(models.user_address.update({
 				...address,
 			},{
@@ -183,7 +215,7 @@ export class UsersService {
 		//console.log(infoArr)
 		return Promise.all(infoArr).then(result => {
 			result.forEach(elements => {
-				console.log(elements[0])
+				console.log(elements)
 				if(elements[0] === 0 || elements[0] === 1){
 					return { message: 'successful' }
 				} else {

@@ -16,6 +16,10 @@ const sequelize = new Sequelize(
   },
 );
 
-const models = initModels(sequelize);
+const models: {} = {
+  ...initModels(sequelize),
+  sequelize: sequelize,
+  Sequelize: Sequelize
+}
 
 module.exports = models;
