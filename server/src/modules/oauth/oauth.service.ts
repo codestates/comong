@@ -7,144 +7,175 @@ import { tokenMakerOutput } from './entities/tokenMakerOutput.entity';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { JwtService } from '@nestjs/jwt';
 const models = require('../../models/index');
+const Sequelize = models.sequelize;
 
 @Injectable()
 export class OauthService {
 	constructor(private readonly jwtService: JwtService) {}
 
 	async googleOauthlogin(url: string, res: any): Promise<any> {
-		console.log(url);
-
-		const accessTokenOptions: AxiosRequestConfig = {
-			method: 'POST',
-			url: url,
-		};
-		const response: AxiosResponse = await axios(accessTokenOptions).catch(
-			(err) => null,
-		);
-
-		if (!response) {
-			const HttpExcep = new HttpException(
-				'something wrong with authorizationCode',
-				HttpStatus.NON_AUTHORITATIVE_INFORMATION,
-			);
-			res.send(HttpExcep);
-		} else {
-			const accessToken = response.data.access_token;
-			const userInfoOptions: AxiosRequestConfig = {
-				method: 'GET',
-				url: `https://www.googleapis.com/oauth2/v2/userinfo?access_token=${accessToken}`,
+		const result = await Sequelize.transaction(async (t) => {
+			// console.log(url);
+			const accessTokenOptions: AxiosRequestConfig = {
+				method: 'POST',
+				url: url,
 			};
-			const googleDataResponse: AxiosResponse = await axios(userInfoOptions);
-			let { email } = googleDataResponse.data;
-			// console.log(email);
-			const existingUser = await models.user.findOne({
-				where: {
-					email: email,
-				},
-			});
+			const response: AxiosResponse = await axios(accessTokenOptions).catch(
+				(err) => null,
+			);
 
-			if (!existingUser) {
-				const newUser = await models.user.create({
-					email: email,
-				});
-				await this.tokenMaker(newUser, res);
+			if (!response) {
+				const HttpExcep = new HttpException(
+					'something wrong with authorizationCode',
+					HttpStatus.NON_AUTHORITATIVE_INFORMATION,
+				);
+				res.send(HttpExcep);
 			} else {
-				await this.tokenMaker(existingUser, res);
+				const accessToken = response.data.access_token;
+				const userInfoOptions: AxiosRequestConfig = {
+					method: 'GET',
+					url: `https://www.googleapis.com/oauth2/v2/userinfo?access_token=${accessToken}`,
+				};
+				const googleDataResponse: AxiosResponse = await axios(userInfoOptions);
+				let { email } = googleDataResponse.data;
+				// console.log(email);
+				const existingUser = await models.user.findOne({
+					where: {
+						email: email,
+					},
+					transaction: t,
+				});
+
+				if (!existingUser) {
+					const newUser = await models.user.create({
+						email: email,
+						transaction: t,
+					});
+					await this.tokenMaker(newUser, res);
+				} else {
+					await this.tokenMaker(existingUser, res);
+				}
 			}
-		}
+		})
+			.then((result: any) => {
+				return result;
+			})
+			.catch((err: any) => {
+				return err;
+			});
+		return result;
 	}
 
 	async kakaoOauthlogin(url: string, res: any): Promise<any> {
-		// console.log(url);
-
-		const accessTokenOptions: AxiosRequestConfig = {
-			method: 'POST',
-			url: url,
-		};
-		const response: AxiosResponse = await axios(accessTokenOptions).catch(
-			(err) => null,
-		);
-
-		if (!response) {
-			const HttpExcep = new HttpException(
-				'something wrong with authorizationCode',
-				HttpStatus.NON_AUTHORITATIVE_INFORMATION,
-			);
-			res.send(HttpExcep);
-		} else {
-			const accessToken = response.data.access_token;
-			const userInfoOptions: AxiosRequestConfig = {
-				method: 'GET',
-				url: 'https://kapi.kakao.com/v2/user/me',
-				headers: {
-					Authorization: `Bearer ${accessToken}`,
-				},
+		const result = await Sequelize.transaction(async (t) => {
+			// console.log(url);
+			const accessTokenOptions: AxiosRequestConfig = {
+				method: 'POST',
+				url: url,
 			};
-			const kakaoDataResponse: AxiosResponse = await axios(userInfoOptions);
-			let email = kakaoDataResponse.data.kakao_account.email;
-			console.log(email);
-			const existingUser = await models.user.findOne({
-				where: {
-					email: email,
-				},
-			});
+			const response: AxiosResponse = await axios(accessTokenOptions).catch(
+				(err) => null,
+			);
 
-			if (!existingUser) {
-				const newUser = await models.user.create({
-					email: email,
-				});
-				await this.tokenMaker(newUser, res);
+			if (!response) {
+				const HttpExcep = new HttpException(
+					'something wrong with authorizationCode',
+					HttpStatus.NON_AUTHORITATIVE_INFORMATION,
+				);
+				res.send(HttpExcep);
 			} else {
-				await this.tokenMaker(existingUser, res);
+				const accessToken = response.data.access_token;
+				const userInfoOptions: AxiosRequestConfig = {
+					method: 'GET',
+					url: 'https://kapi.kakao.com/v2/user/me',
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+					},
+				};
+				const kakaoDataResponse: AxiosResponse = await axios(userInfoOptions);
+				let email = kakaoDataResponse.data.kakao_account.email;
+				// console.log(email);
+				const existingUser = await models.user.findOne({
+					where: {
+						email: email,
+					},
+					transaction: t,
+				});
+
+				if (!existingUser) {
+					const newUser = await models.user.create({
+						email: email,
+						transaction: t,
+					});
+					await this.tokenMaker(newUser, res);
+				} else {
+					await this.tokenMaker(existingUser, res);
+				}
 			}
-		}
+		})
+			.then((result: any) => {
+				return result;
+			})
+			.catch((err: any) => {
+				return err;
+			});
+		return result;
 	}
 
 	async naverOauthlogin(url: string, res: any): Promise<any> {
-		// console.log(url);
-
-		const accessTokenOptions: AxiosRequestConfig = {
-			method: 'POST',
-			url: url,
-		};
-		const response: AxiosResponse = await axios(accessTokenOptions).catch(
-			(err) => null,
-		);
-		if (response.data.error === 'invalid_request') {
-			const HttpExcep = new HttpException(
-				'something wrong with authorizationCode',
-				HttpStatus.NON_AUTHORITATIVE_INFORMATION,
-			);
-			res.send(HttpExcep);
-		} else {
-			const accessToken = response.data.access_token;
-			const userInfoOptions: AxiosRequestConfig = {
-				method: 'GET',
-				url: 'https://openapi.naver.com/v1/nid/me',
-				headers: {
-					Authorization: `Bearer ${accessToken}`,
-				},
+		const result = await Sequelize.transaction(async (t) => {
+			// console.log(url);
+			const accessTokenOptions: AxiosRequestConfig = {
+				method: 'POST',
+				url: url,
 			};
-			const naverDataResponse: AxiosResponse = await axios(userInfoOptions);
-			// console.log(naverDataResponse);
-			let email = naverDataResponse.data.response.email;
-			console.log(email);
-			const existingUser = await models.user.findOne({
-				where: {
-					email: email,
-				},
-			});
-
-			if (!existingUser) {
-				const newUser = await models.user.create({
-					email: email,
-				});
-				await this.tokenMaker(newUser, res);
+			const response: AxiosResponse = await axios(accessTokenOptions).catch(
+				(err) => null,
+			);
+			if (response.data.error === 'invalid_request') {
+				const HttpExcep = new HttpException(
+					'something wrong with authorizationCode',
+					HttpStatus.NON_AUTHORITATIVE_INFORMATION,
+				);
+				res.send(HttpExcep);
 			} else {
-				await this.tokenMaker(existingUser, res);
+				const accessToken = response.data.access_token;
+				const userInfoOptions: AxiosRequestConfig = {
+					method: 'GET',
+					url: 'https://openapi.naver.com/v1/nid/me',
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+					},
+				};
+				const naverDataResponse: AxiosResponse = await axios(userInfoOptions);
+				// console.log(naverDataResponse);
+				let email = naverDataResponse.data.response.email;
+				// console.log(email);
+				const existingUser = await models.user.findOne({
+					where: {
+						email: email,
+					},
+					transaction: t,
+				});
+
+				if (!existingUser) {
+					const newUser = await models.user.create({
+						email: email,
+						transaction: t,
+					});
+					await this.tokenMaker(newUser, res);
+				} else {
+					await this.tokenMaker(existingUser, res);
+				}
 			}
-		}
+		})
+			.then((result: any) => {
+				return result;
+			})
+			.catch((err: any) => {
+				return err;
+			});
+		return result;
 	}
 
 	async tokenMaker(user: any, res: any) {
@@ -197,13 +228,17 @@ export class OauthService {
 		});
 
 		let isNeedSignup: boolean;
-		if(isSignedUp.dataValues.name) {
-			isNeedSignup = false
+		if (isSignedUp.dataValues.name) {
+			isNeedSignup = false;
 		} else {
-			isNeedSignup = true
+			isNeedSignup = true;
 		}
 
-		const oauthResponese = { data: newResponse, needSignup: isNeedSignup, message: 'ok' };
+		const oauthResponese = {
+			data: newResponse,
+			needSignup: isNeedSignup,
+			message: 'ok',
+		};
 		const output: tokenMakerOutput = {
 			newResponse: oauthResponese,
 			refreshToken: refreshToken,
