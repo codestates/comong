@@ -1,11 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
-import { IOrderDetailInfo, ISalesList } from './MypageSellerDefault';
+import {
+  IOrderDetailInfo,
+  ISalesList,
+} from '../../pages/mypage/mypage_seller/MypageSellerDefault';
 import SalesHistoryDetailsListItem from './SalesHistoryDetailsListItem';
 
 const Wrapper = styled.div`
   width: 100%;
-  padding: 2rem 5rem;
+  padding: 3rem 5rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -17,6 +20,7 @@ const Wrapper = styled.div`
 const ShippingWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  margin-bottom: 2rem;
 
   h3 {
     font-weight: 700;
@@ -68,8 +72,15 @@ function SaleHistoryDetails({ order }: ISaleHistoryDetails) {
           <div className="title">배송지</div>
           <div className="adress">
             <span>{orderInfo.postal_code}</span>
-            <span>{orderInfo.address_line1}</span>
-            <span>{orderInfo.address_line2}</span>
+            <span>
+              {orderInfo.address_line1} {orderInfo.address_line2}
+            </span>
+          </div>
+        </ShippingRow>
+        <ShippingRow>
+          <div className="title">배송업체</div>
+          <div className="adress">
+            <span>{orderInfo.shipping_company}</span>
           </div>
         </ShippingRow>
       </ShippingWrapper>

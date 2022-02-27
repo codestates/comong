@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { IOrderDetailInfo } from './MypageSellerDefault';
+import { IOrderDetailInfo } from '../../pages/mypage/mypage_seller/MypageSellerDefault';
 
 const Wrapper = styled.div`
   width: 100%;

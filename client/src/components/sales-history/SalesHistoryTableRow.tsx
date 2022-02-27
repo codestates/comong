@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
-import ButtonSimple from '../../../components/common/button/ButtonSimple';
-import { ISalesList } from './MypageSellerDefault';
+import ButtonSimple from '../common/button/ButtonSimple';
+import { ISalesList } from '../../pages/mypage/mypage_seller/MypageSellerDefault';
 import SaleHistoryDetails from './SaleHistoryDetails';
 import { cellWidth } from './SalesHistoryTableProperty';
+import { JsxElement } from 'typescript';
 
 const SalesHistoryListItem = styled.div`
   width: 100%;
@@ -14,6 +15,7 @@ const SalesHistoryListItem = styled.div`
     border-right: 1px solid ${(props) => props.theme.colors.darkGrey};
     border-bottom: 1px solid black;
   }
+
   > div:last-child {
     border-right: none;
   }
@@ -48,9 +50,11 @@ const Cell = styled.div`
     padding: 10px;
     gap: 10px;
   }
+
   &.order-price {
     flex-direction: column;
   }
+
   &.order-status {
     justify-content: space-around;
   }
@@ -107,6 +111,10 @@ function SalesHistoryTableRow({ order }: ISalesHistoryTableRow) {
   console.log(orderItemInfo);
   console.log(orderInfo);
 
+  const showButton: { [key: string]: JSX.Element } = {
+    paid: <ButtonSimple buttonClickHandler={() => {}}>결제 승인</ButtonSimple>,
+  };
+
   return (
     <>
       <SalesHistoryListItem onClick={() => setShowDetails(!showDetails)}>
@@ -130,9 +138,7 @@ function SalesHistoryTableRow({ order }: ISalesHistoryTableRow) {
         </Cell>
         <Cell className="order-status">
           <SalesStatus>{orderStatus[orderInfo.status]}</SalesStatus>
-          <ButtonWrapper>
-            <ButtonSimple buttonClickHandler={() => {}}>송장입력</ButtonSimple>
-          </ButtonWrapper>
+          <ButtonWrapper>{showButton[orderInfo.status]}</ButtonWrapper>
         </Cell>
       </SalesHistoryListItem>
       {showDetails && <SaleHistoryDetails order={order}></SaleHistoryDetails>}
