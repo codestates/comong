@@ -1,13 +1,9 @@
 import { Injectable, BadRequestException, ForbiddenException, InternalServerErrorException, NotFoundException, ServiceUnavailableException } from '@nestjs/common';
 require('dotenv').config;
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { SignInUserDto } from './dto/signin-user.dto';
 const models = require('../../models/index');
 import { TokenService } from 'src/util/token';
 import { v4 as uuid } from 'uuid'
-//import * as sequelize from 'sequelize'
-import { Transaction } from 'sequelize';
 const sequelize = models.sequelize
 
 export type User = any;
@@ -18,7 +14,6 @@ export class UsersService {
 		private readonly tokenService: TokenService
 		) {}
 	
-
 	async create(info: any) {
 		//console.log(info)
 		const { user, address, likes } = info //파이프라인을 통해 입력값을 { user: ~~, address: ~~, likes: ~~ } 형태로 변형
@@ -75,33 +70,24 @@ export class UsersService {
 			return new Promise((resolve, reject) => {  //실실적인 create 메서드의 리턴문
 				//console.log(workArr[0]) 
 				return models.sequelize.transaction().then(transaction => { //트랜잭션 생성 후 넘겨줌
-					const work = workArr.map(insertFunc => { 
-						return insertFunc(transaction) // 이 시점에서 프로미스가 pending이 되나요?? 저도잘모르겠습니다
-					})
 
-					return Promise.all(work).then(values => {
+					return Promise.all(
+						workArr.map(insertFunc => { 
+							return insertFunc(transaction) // 이 시점에서 프로미스가 pending이 되나요?? 저도잘모르겠습니다
+						})
+					).then(values => {
 						//console.log(values, 'resolve')
 						transaction.commit() // 성공했을 경우 지금 transaction은 unmanaged transaction 이라 수동으로 commit을 해주어야 함
 						resolve({message: 'successful'})
 					}).catch(error => {
 						//console.log(error, '에러')
 						transaction.rollback() // 에러 발생 시에도 똑같이 수동으로 rollback 해주어야 함
-						reject(new ServiceUnavailableException('failed to connect to database server')) //에러 발생시 응답
+						reject(new ServiceUnavailableException('a network-related or database instance-specific error occurred while inserting new data')) //에러 발생시 응답
 					})
 				})
 			})
-			/*
-			return Promise.all(inArr).then(result => {
-				result.forEach((elements): void => {
-					if(!elements){
-						throw new BadRequestException('invalid value for property4');
-					}
-				})
-				return { message: 'successful'}
-			})
-			*/
 		} else {
-			throw new BadRequestException('invalid value for property123');
+			throw new BadRequestException('invalid value for property');
 		}
 	}
 
