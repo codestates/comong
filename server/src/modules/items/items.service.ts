@@ -16,6 +16,7 @@ import { Op } from 'sequelize';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import * as sequelize from 'sequelize';
 import { CreateBookmarkDto } from './dto/create-bookmark.dto';
+import { StockManagement } from './dto/stockmanagement.dto';
 const models = require('../../models/index');
 
 @Injectable()
@@ -201,4 +202,47 @@ export class ItemsService {
 		});
 		return output;
 	}
+
+	async stockmanagement(data: StockManagement) {
+		console.log(data.insert_item_stock)
+		for (let i = 1; i < 5000; i++) {
+			const isExistItem = await models.item.findOne({
+				where: {
+					id: i
+				}
+			});
+			console.log(isExistItem)
+			if (isExistItem) {
+				const [item_inventory, isCreate] = await models.item_inventory.findOrCreate(
+					{
+						where: {
+							item_id: i
+						},
+						defaults: {
+							stock: data.insert_item_stock
+						}
+					}
+				);
+				if (isCreate) {
+					continue;
+				} else {
+					await models.item_inventory.update(
+						{
+							stock: data.insert_item_stock
+						},
+						{
+							where: {
+								item_id: i
+							}
+						}
+					);
+				}
+			} else {
+				continue;
+			}
+		}
+		return { message: 'stocks updated successfully'};
+	}
+
+
 }

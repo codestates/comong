@@ -23,6 +23,7 @@ async function bootstrap() {
 		],
 		methods: 'GET,OPTIONS,PUT,PATCH,POST,DELETE',
 		allowedHeaders: ['Content-Type', 'Authorization'],
+		transports: ['websocket', 'polling'],
 		exposedHeaders: ['Content-Type'],
 		credentials: true,
 	};

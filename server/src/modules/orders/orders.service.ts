@@ -65,7 +65,7 @@ export class OrdersService {
 	async updateOrder(data: UpdateOrderDto) {
 		const isUpdate = await models.order.update(
 			{
-				...data
+				...data,
 			},
 			{
 				where: {
@@ -73,7 +73,7 @@ export class OrdersService {
 				},
 			},
 		);
-		console.log(isUpdate)
+		console.log(isUpdate);
 		if (isUpdate[0] === 1) {
 			return { message: 'update successful' };
 		} else {
@@ -212,6 +212,8 @@ export class OrdersService {
 					}
 				}
 			}
+			// const message = output;
+			// this.appGateway.handleNotification(message);
 			return output;
 		}
 	}
@@ -313,6 +315,13 @@ export class OrdersService {
 							},
 						});
 						const item_info = await models.item.findOne({
+							include: [
+								{
+									model: models.item_inventory,
+									as: 'item_inventories',
+									attributes: ['stock'],
+								},
+							],
 							where: {
 								id: order_detail_info.dataValues.item_id,
 							},
@@ -324,6 +333,8 @@ export class OrdersService {
 					}
 				}
 			}
+			const message = output;
+			this.appGateway.handleNotification(message);
 			return output;
 		}
 	}
