@@ -92,6 +92,7 @@ const CartListContainer = styled.div`
   border-radius: 5px;
   @media only screen and (max-width: 1200px) {
     width: 100%;
+    margin-bottom: 200px;
   }
   @media only screen and (max-width: 768px) {
     margin-bottom: 200px;
@@ -305,25 +306,6 @@ const Cart = () => {
       cartData.cartSlice.addressInfo,
     );
     navigate('/payment');
-    // try {
-    //   await dispatch(getCartPatchAsync(tmp));
-    //   await dispatch(
-    //     postOrderAsync({
-    //       total_amount:
-    //         cartData.cartSlice.totalPrice + cartData.cartSlice.totalDelivery,
-    //       status: 'pending',
-    //       user_id: cartData.userSlice.userinfo?.id,
-    //       order_detail_id: arr,
-    //       shipping_status: 'delivered',
-    //       shipping_company: 'cj대한통운',
-    //       shipping_code: '01234567890',
-    //     }),
-    //   );
-    //   navigate('/payment');
-    // } catch (error) {
-    //   navigate('/');
-    //   console.log(error);
-    // }
 
     return;
   };

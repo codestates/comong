@@ -170,6 +170,7 @@ const cartSlice = createSlice({
       state.shipInfo = action.payload;
     },
     setDestinationInfo(state: any, action: any) {
+      console.log(action.payload);
       state.destinationInfo = action.payload;
     },
     setTestInfo(state, action) {

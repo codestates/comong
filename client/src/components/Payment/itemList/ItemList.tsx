@@ -45,9 +45,19 @@ const ItemList = () => {
     group.push(x);
   }
 
+  let sub_price = 0;
+  let arr: any = [];
+  for (let x in cartData.cartSlice.subTotalPrice) {
+    arr.push(cartData.cartSlice.subTotalPrice[x]);
+  }
+  console.log(arr);
+
   return (
     <>
       {list.map((el: any, i) => {
+        console.log('el', el);
+        console.log(cartData.cartSlice.subTotalPrice);
+
         return (
           <div key={uuidv4()}>
             <SellerContainer key={uuidv4()}>
@@ -59,6 +69,7 @@ const ItemList = () => {
               storeName={el.storeInfo.name}
               groupName={group[i]}
               data={el.order_details}
+              subTotal={arr[i]}
             ></ItemSeller>
           </div>
         );

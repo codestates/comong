@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
@@ -11,6 +11,7 @@ import { getCartPatchAsync } from '../redux/modules/cartSlice';
 import { config } from '../config/config';
 import { apiClient } from '../apis';
 import CoViewer from '../components/common/CoViewer';
+import { PostModal } from '../components/Modals/PostModal';
 
 const env = 'development';
 const urlConfig = config[env];
@@ -114,7 +115,9 @@ const ContentsArea = styled.div`
   margin: 20px 30px;
 `;
 
-const OrderContainer = styled.div`
+const OrderContainer = styled.div<{
+  isOpenModal?: boolean;
+}>`
   font-family: Noto Sans KR;
   font-weight: 700;
   width: 30%;
@@ -127,7 +130,7 @@ const OrderContainer = styled.div`
   padding: 20px;
   justify-content: center;
   box-shadow: 0px 0px 12px #eeeeee;
-  z-index: 12;
+  z-index: 0;
   @media only screen and (max-width: 1200px) {
     bottom: 0px;
     width: 100%;
@@ -136,22 +139,7 @@ const OrderContainer = styled.div`
   @media only screen and (max-width: 768px) {
   }
 `;
-const OrderContainerMobile = styled.div`
-  font-family: Noto Sans KR;
-  font-weight: 700;
-  width: 30%;
-  position: sticky;
-  height: 450px;
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  justify-content: center;
-  box-shadow: 0px 0px 12px ${(props) => props.theme.colors.whiteForShadow};
-  position: fixed;
-  bottom: 0px;
-  width: 100%;
-`;
+
 const Category = styled.div`
   color: gray;
   font-weight: 400;
@@ -235,10 +223,6 @@ const StockMinusIcon = styled.img`
   width: 15px;
 `;
 
-const StockSelector = styled.div`
-  width: 40px;
-`;
-
 const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -295,9 +279,11 @@ const Post = () => {
   const itemData = useAppSelector((state: RootState) => state);
   const dispatch = useAppDispatch();
 
+  const [isModal, setIsModal] = useState(false);
+
   const data2 = itemData.itemSlice.data;
 
-  const[imgIdx, setImgIdx] = useState(0)
+  const [imgIdx, setImgIdx] = useState(0);
 
   const [width, setWidth] = useState(window.innerWidth);
 
@@ -306,6 +292,14 @@ const Post = () => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const openModal = () => {
+    setModalVisible(true);
+  };
+  const closeModal = () => {
+    setModalVisible(false);
+  };
 
   useEffect(() => {
     dispatch(getItemAsync(postId));
@@ -338,7 +332,7 @@ const Post = () => {
     } = {
       user_id: user_id,
       item_id: id,
-      order_amount: 1,
+      order_amount: stock,
       status: 'pending',
       peritem_price: price,
     };
@@ -351,60 +345,83 @@ const Post = () => {
     console.log(response);
   };
 
+  const handleModal = () => {
+    setIsModal(!isModal);
+  };
+
   return (
-    <Container>
-      <PostContainer>
-        <ImgContainer>
-          <MainImgContainer>
-            <MainImg src={img_src[imgIdx]} />
-          </MainImgContainer>
-          <ThumbnailImgContainer>
-            {img_src.map((elements, index) => {
-              return <ThumbnailImg src={elements} onClick={() => setImgIdx(index)} />;
-            })}
-          </ThumbnailImgContainer>
-        </ImgContainer>
-        <BottomContainer>
-          <ContentsContainer>
-            <ContentsTitleContainer>
-              <ContentsTitle>상품 설명</ContentsTitle>
-              <ContentsTitle>상품평</ContentsTitle>
-            </ContentsTitleContainer>
-            <Contentsline />
-            <ContentsArea>
-              <CoViewer editorState={contents} />
-            </ContentsArea>
-          </ContentsContainer>
-          <OrderContainer>
-            <Category>{category}</Category>
-            <Title>{title}</Title>
-            <Seller>{seller}</Seller>
-            <Price>{(price * stock).toLocaleString('en')}원</Price>
-            <StockController>
-              <StockMinusButton
-                onClick={() => {
-                  stockHandler('minus');
-                }}
-              >
-                <StockMinusIcon src="/icons/post/minus.png" />
-              </StockMinusButton>
-              <StockDisplay>{stock}</StockDisplay>
-              <StockAddButton
-                onClick={() => {
-                  stockHandler('plus');
-                }}
-              >
-                <StockAddIcon src="/icons/post/plus.png" />
-              </StockAddButton>
-            </StockController>
-            <ButtonContainer>
-              <CartButton onClick={addCart}>장바구니</CartButton>
-              <OrderButton>상품구매</OrderButton>
-            </ButtonContainer>
-          </OrderContainer>
-        </BottomContainer>
-      </PostContainer>
-    </Container>
+    <>
+      <Container>
+        <PostContainer>
+          <ImgContainer>
+            <MainImgContainer>
+              <MainImg src={img_src[imgIdx]} />
+            </MainImgContainer>
+            <ThumbnailImgContainer>
+              {img_src.map((elements, index) => {
+                return (
+                  <ThumbnailImg
+                    src={elements}
+                    onClick={() => setImgIdx(index)}
+                  />
+                );
+              })}
+            </ThumbnailImgContainer>
+          </ImgContainer>
+
+          <BottomContainer>
+            <ContentsContainer>
+              <ContentsTitleContainer>
+                <ContentsTitle>상품 설명</ContentsTitle>
+                <ContentsTitle>상품평</ContentsTitle>
+              </ContentsTitleContainer>
+              <Contentsline />
+              <ContentsArea>
+                <CoViewer editorState={contents} />
+              </ContentsArea>
+            </ContentsContainer>
+
+            <OrderContainer>
+              <Category>{category}</Category>
+              <Title>{title}</Title>
+              <Seller>{seller}</Seller>
+              <Price>{(price * stock).toLocaleString('en')}원</Price>
+              <StockController>
+                <StockMinusButton
+                  onClick={() => {
+                    stockHandler('minus');
+                  }}
+                >
+                  <StockMinusIcon src="/icons/post/minus.png" />
+                </StockMinusButton>
+                <StockDisplay>{stock}</StockDisplay>
+                <StockAddButton
+                  onClick={() => {
+                    stockHandler('plus');
+                  }}
+                >
+                  <StockAddIcon src="/icons/post/plus.png" />
+                </StockAddButton>
+              </StockController>
+              {isModal ? (
+                <PostModal>장바구니에 상품이 담겼습니다</PostModal>
+              ) : null}
+              <ButtonContainer>
+                <CartButton
+                  onClick={() => {
+                    addCart();
+                    handleModal();
+                  }}
+                >
+                  장바구니
+                </CartButton>
+                <OrderButton>상품구매</OrderButton>
+              </ButtonContainer>
+            </OrderContainer>
+          </BottomContainer>
+        </PostContainer>
+      </Container>
+    </>
   );
 };
 
