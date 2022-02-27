@@ -1,10 +1,16 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useAppDispatch } from '../../redux/configStore.hooks';
+import { logout } from '../../redux/modules/userSlice';
 import { MenuWrapper, MyMenu } from './NavUser';
 
 const Wrapper = styled.div``;
 
 function NavSeller() {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   return (
     <Wrapper>
       <MyMenu>MY MENU</MyMenu>
@@ -23,12 +29,6 @@ function NavSeller() {
         </ul>
       </MenuWrapper>
       <MenuWrapper>
-        <h3>분석</h3>
-        <ul>
-          <li>구매 분석</li>
-        </ul>
-      </MenuWrapper>
-      <MenuWrapper>
         <h3>알림</h3>
         <ul>
           <li>알림</li>
@@ -38,6 +38,14 @@ function NavSeller() {
         <h3>내 정보</h3>
         <ul>
           <li>회원 정보 수정</li>
+          <li
+            onClick={() => {
+              dispatch(logout());
+              navigate('/login');
+            }}
+          >
+            로그아웃
+          </li>
         </ul>
       </MenuWrapper>
     </Wrapper>

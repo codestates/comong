@@ -13,6 +13,7 @@ const models = require('../../models/index');
 export class PaymentsService {
 	constructor(private readonly mailerService: MailerService) {}
 	async create(createPaymentDto: CreatePaymentDto) {
+		console.log(createPaymentDto);
 		if (createPaymentDto.status === 'paid') {
 			const validationData = await this.paymentValidator(
 				createPaymentDto.imp_uid,
