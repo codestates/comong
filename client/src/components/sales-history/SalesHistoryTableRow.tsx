@@ -4,7 +4,6 @@ import ButtonSimple from '../common/button/ButtonSimple';
 import { ISalesList } from '../../pages/mypage/mypage_seller/MypageSellerDefault';
 import SaleHistoryDetails from './SaleHistoryDetails';
 import { cellWidth } from './SalesHistoryTableProperty';
-import { JsxElement } from 'typescript';
 
 const SalesHistoryListItem = styled.div`
   width: 100%;
@@ -113,6 +112,7 @@ function SalesHistoryTableRow({ order }: ISalesHistoryTableRow) {
 
   const showButton: { [key: string]: JSX.Element } = {
     paid: <ButtonSimple buttonClickHandler={() => {}}>결제 승인</ButtonSimple>,
+    // 결제 승인 클릭 후, 상태는 배송 준비중으로 바뀌고 버튼은 송장 입력으로 바뀜
   };
 
   return (

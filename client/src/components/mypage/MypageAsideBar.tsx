@@ -6,14 +6,29 @@ import NavSeller from './NavSeller';
 import NavUser from './NavUser';
 
 const Wrapper = styled.div`
-  height: 100vh;
-  width: 200px;
+  height: auto;
+  max-width: 200px;
+  width: 18%;
   border: 1px solid ${(props) => props.theme.colors.lightGrey};
   background-color: white;
   z-index: 1;
+  position: fixed;
+  top: 60px;
+  left: 12%;
 
   @media only screen and (max-width: 1200px) {
-    position: absolute;
+    height: 100vh;
+    width: 200px;
+    top: 100px;
+    left: 0px;
+  }
+
+  @media only screen and (max-width: 768px) {
+    width: 100%;
+    max-width: 100%;
+    overflow: scroll;
+    padding: 0 30px 100px 30px;
+    top: 60px;
   }
 `;
 
@@ -32,6 +47,7 @@ const CloseBtn = styled.div``;
 interface IMypageAsideBar {
   setShowMenu?: (value: boolean) => void;
 }
+
 function MypageAsideBar({ setShowMenu }: IMypageAsideBar) {
   const [width, setWidth] = useState(window.innerWidth);
   const handleResize = () => setWidth(window.innerWidth);
