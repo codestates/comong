@@ -41,9 +41,29 @@ const ItemList = () => {
   let list = [];
   let group: string[] = [];
   for (let x in data) {
-    list.push(data[x]);
-    group.push(x);
+    list.unshift(data[x]);
+    group.unshift(x);
   }
+
+  console.log('list', list);
+  // let sub_price = 0;
+  // let arr: any = [];
+
+  // for (let x in cartData.cartSlice.subTotalPrice) {
+  //   if (cartData.cartSlice.subTotalPrice[x] > 0)
+  //     arr.push(cartData.cartSlice.subTotalPrice[x]);
+  // }
+  // console.log('arr', arr);
+  let arr = list.map((el, i) => {
+    console.log(el.order_details);
+    let sum = 0;
+    for (let x of el.order_details) {
+      sum += x.peritem_price * x.order_amount;
+    }
+
+    return sum;
+  });
+  console.log(arr);
 
   return (
     <>
@@ -59,6 +79,7 @@ const ItemList = () => {
               storeName={el.storeInfo.name}
               groupName={group[i]}
               data={el.order_details}
+              subTotal={arr[i]}
             ></ItemSeller>
           </div>
         );

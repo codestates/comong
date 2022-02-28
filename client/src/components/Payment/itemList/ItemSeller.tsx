@@ -77,7 +77,7 @@ const CartSumPriceContents = styled.div`
   }
 `;
 
-const ItemSeller = ({ data, storeName, groupName }: any) => {
+const ItemSeller = ({ data, storeName, groupName, subTotal }: any) => {
   const Cartdata = useAppSelector((state: RootState) => state);
   const dispatch = useAppDispatch();
 
@@ -117,24 +117,23 @@ const ItemSeller = ({ data, storeName, groupName }: any) => {
         <CartSumPrice>
           <CartSumPriceTitle>상품금액</CartSumPriceTitle>
           <CartSumPriceContents>
-            {Cartdata.cartSlice.totalPrice.toLocaleString('en')}원
+            {/* {Cartdata.cartSlice.totalPrice.toLocaleString('en')}원 */}
+            {subTotal}원
           </CartSumPriceContents>
         </CartSumPrice>
         <CartSumIcon src="/icons/cart/plus.png" />
         <CartSumPrice>
           <CartSumPriceTitle>배송비</CartSumPriceTitle>
           <CartSumPriceContents>
-            {Cartdata.cartSlice.totalDelivery.toLocaleString('en')}원
+            {/* {Cartdata.cartSlice.totalDelivery.toLocaleString('en')}원 */}
+            {3000}원
           </CartSumPriceContents>
         </CartSumPrice>
         <CartSumIcon src="/icons/cart/equal.png" />
         <CartSumPrice>
           <CartSumPriceTitle>주문금액</CartSumPriceTitle>
           <CartSumPriceContents>
-            {(
-              Cartdata.cartSlice.totalPrice + Cartdata.cartSlice.totalDelivery
-            ).toLocaleString('en')}
-            원
+            {(subTotal + 3000).toLocaleString('en')}원
           </CartSumPriceContents>
         </CartSumPrice>
       </CartSumContainer>

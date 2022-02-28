@@ -15,6 +15,7 @@ import { setPaymentInfo } from '../redux/modules/cartSlice';
 import Modal from './Modal';
 import { getEnvironmentData } from 'worker_threads';
 import { setDestinationInfo } from '../redux/modules/cartSlice';
+import { setSubTotalPrice } from '../redux/modules/cartSlice';
 
 declare global {
   interface Window {
@@ -308,6 +309,10 @@ const Payment = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    dispatch(setSubTotalPrice(['deleteAll']));
+  }, []);
+
   const [autoInfo, setAutoInfo] = useState<boolean>(false);
 
   console.log('cartData.cartSlice.addressInfo', cartData.cartSlice.addressInfo);
@@ -316,7 +321,7 @@ const Payment = () => {
     name: cartData.userSlice.userinfo?.name || '',
     tel: cartData.cartSlice.addressInfo.mobile || '',
     email: cartData.cartSlice.addressInfo.email || '',
-    postCode: String(cartData.cartSlice.addressInfo.postal_code) || '',
+    postCode: cartData.cartSlice.addressInfo.postal_code || '',
     address1: cartData.cartSlice.addressInfo.address_line1 || '',
     address2: cartData.cartSlice.addressInfo.address_line2 || '',
   };
@@ -509,7 +514,7 @@ const Payment = () => {
       setName(defaultData.name);
       setTel(defaultData.tel);
       setEmail(defaultData.email);
-      setPostCode(defaultData.postCode);
+      // setPostCode(defaultData.postCode);
       setAddress1(defaultData.address1);
       setAddress2(defaultData.address2);
     } else {
@@ -520,7 +525,6 @@ const Payment = () => {
       setAddress1('');
       setAddress2('');
     }
-    console.log('shipData', shipData);
   };
   return (
     <Container>
