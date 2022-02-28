@@ -7,8 +7,7 @@ import NavUser from './NavUser';
 
 const Wrapper = styled.div`
   height: auto;
-  max-width: 200px;
-  width: 18%;
+  width: 200px;
   border: 1px solid ${(props) => props.theme.colors.lightGrey};
   background-color: white;
   z-index: 1;
@@ -18,16 +17,15 @@ const Wrapper = styled.div`
 
   @media only screen and (max-width: 1200px) {
     height: 100vh;
-    width: 200px;
+    width: 18%;
     top: 100px;
     left: 0px;
   }
 
   @media only screen and (max-width: 768px) {
     width: 100%;
-    max-width: 100%;
     overflow: scroll;
-    padding: 0 30px 100px 30px;
+    padding: 0 20px 100px 20px;
     top: 60px;
   }
 `;
@@ -47,7 +45,6 @@ const CloseBtn = styled.div``;
 interface IMypageAsideBar {
   setShowMenu?: (value: boolean) => void;
 }
-
 function MypageAsideBar({ setShowMenu }: IMypageAsideBar) {
   const [width, setWidth] = useState(window.innerWidth);
   const handleResize = () => setWidth(window.innerWidth);

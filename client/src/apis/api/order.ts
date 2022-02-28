@@ -23,12 +23,25 @@ export const getOrdersSeller = async (params: IGetOrderParams) => {
   try {
     const response = await apiClient.get('/orders/seller', { params });
     const data = response.data;
-    console.log('here', data);
     let result = [];
     for (let key in data) {
       result.push(data[key]);
     }
     return result;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export interface IPatchOrderParams {
+  order_id: string;
+  shipping_status: string;
+}
+
+export const patchOrdersSeller = async (payload: IPatchOrderParams) => {
+  try {
+    await apiClient.patch('/orders', payload);
+    return;
   } catch (error) {
     console.log(error);
   }

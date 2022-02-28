@@ -10,7 +10,7 @@ const Wrapper = styled.div`
 
 export const cellWidth = css`
   &.order-date {
-    width: 18%;
+    width: 15%;
   }
   &.order-info {
     width: 50%;
@@ -19,7 +19,10 @@ export const cellWidth = css`
     width: 12%;
   }
   &.order-status {
-    width: 20%;
+    width: 13%;
+  }
+  &.order-cancel {
+    width: 10%;
   }
 `;
 
@@ -36,6 +39,7 @@ function SalesHistoryTableProperty() {
       <Div className="order-info">상품/주문정보</Div>
       <Div className="order-price">주문금액</Div>
       <Div className="order-status">진행상태</Div>
+      <Div className="order-cancel">취소/반품</Div>
     </Wrapper>
   );
 }

@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
-import ButtonSimple from '../common/button/ButtonSimple';
 import { ISalesList } from '../../pages/mypage/mypage_seller/MypageSellerDefault';
 import SaleHistoryDetails from './SaleHistoryDetails';
 import { cellWidth } from './SalesHistoryTableProperty';
+import SalesHistoryStatus from './SalesHistoryStatus';
+import ButtonSimple from '../common/button/ButtonSimple';
+import SalesHistoryTrackingNum from './SalesHistoryTrackingNum';
 
 const SalesHistoryListItem = styled.div`
   width: 100%;
   display: flex;
-  font-size: 14px;
+  font-size: 12.5px;
 
   > div {
     border-right: 1px solid ${(props) => props.theme.colors.darkGrey};
@@ -55,7 +57,12 @@ const Cell = styled.div`
   }
 
   &.order-status {
-    justify-content: space-around;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+  }
+  &.order-cancel {
+    padding: 0 8px;
   }
 `;
 
@@ -81,39 +88,14 @@ const SalesItemBasicInfo = styled.div`
   }
 `;
 
-const SalesStatus = styled.div`
-  width: 40%;
-  text-align: center;
-`;
-
-const ButtonWrapper = styled.div`
-  width: 80px;
-`;
-
-export const orderStatus: {
-  [key: string]: string;
-  paid: string;
-  pending: string;
-} = {
-  paid: '결제 완료',
-  pending: '결제 대기 중',
-};
-
 interface ISalesHistoryTableRow {
   order: ISalesList;
 }
 
 function SalesHistoryTableRow({ order }: ISalesHistoryTableRow) {
   const [showDetails, setShowDetails] = useState(false);
+  const [showTrackingNumForm, setShowTrackingNumForm] = useState(false);
   const { order_detail_info: orderItemInfo, order_info: orderInfo } = order;
-  // orderItemInfo는 배열임
-  console.log(orderItemInfo);
-  console.log(orderInfo);
-
-  const showButton: { [key: string]: JSX.Element } = {
-    paid: <ButtonSimple buttonClickHandler={() => {}}>결제 승인</ButtonSimple>,
-    // 결제 승인 클릭 후, 상태는 배송 준비중으로 바뀌고 버튼은 송장 입력으로 바뀜
-  };
 
   return (
     <>
@@ -137,10 +119,19 @@ function SalesHistoryTableRow({ order }: ISalesHistoryTableRow) {
           <span>{orderInfo.total_amount}원</span>
         </Cell>
         <Cell className="order-status">
-          <SalesStatus>{orderStatus[orderInfo.status]}</SalesStatus>
-          <ButtonWrapper>{showButton[orderInfo.status]}</ButtonWrapper>
+          <SalesHistoryStatus
+            order={order}
+            showTrackingNumForm={showTrackingNumForm}
+            setShowTrackingNumForm={setShowTrackingNumForm}
+          ></SalesHistoryStatus>
+        </Cell>
+        <Cell className="order-cancel">
+          <ButtonSimple buttonClickHandler={() => {}}>거래 취소</ButtonSimple>
         </Cell>
       </SalesHistoryListItem>
+      {showTrackingNumForm && (
+        <SalesHistoryTrackingNum></SalesHistoryTrackingNum>
+      )}
       {showDetails && <SaleHistoryDetails order={order}></SaleHistoryDetails>}
     </>
   );

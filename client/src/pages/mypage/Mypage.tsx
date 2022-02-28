@@ -28,6 +28,13 @@ const Wrapper = styled.div`
   }
 `;
 
+const NavWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background-color: pink;
+`;
+
 const MenuIcon = styled.img`
   width: 100%;
   height: 100%;
@@ -39,8 +46,8 @@ const MenuIcon = styled.img`
 // }
 
 const OutletWrapper = styled.div`
-  width: 50%;
-  margin-left: 30%;
+  width: 56%;
+  margin-left: 28%;
   margin-right: 25%;
 
   &.modifyInfo {
@@ -76,13 +83,15 @@ function Mypage() {
 
   return (
     <Wrapper>
-      {showMenu || width > 1200 ? (
-        <MypageAsideBar setShowMenu={setShowMenu}></MypageAsideBar>
-      ) : (
-        <div className="menuIcon">
-          <MenuIcon onClick={() => setShowMenu(true)} src="/icons/menu.png" />
-        </div>
-      )}
+      <NavWrapper>
+        {showMenu || width > 1200 ? (
+          <MypageAsideBar setShowMenu={setShowMenu}></MypageAsideBar>
+        ) : (
+          <div className="menuIcon">
+            <MenuIcon onClick={() => setShowMenu(true)} src="/icons/menu.png" />
+          </div>
+        )}
+      </NavWrapper>
       <OutletWrapper
         className={pathname.includes('modifyInfo') ? 'modifyInfo' : ''}
       >
