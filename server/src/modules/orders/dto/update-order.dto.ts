@@ -5,6 +5,7 @@ import {
 	IsOptional,
 } from 'class-validator';
 import { Shipping_status } from '../entities/shipping_statusEnum.entity';
+import { PaymentStatus } from 'src/modules/payments/entities/statusEnum.entity';
 
 export class UpdateOrderDto {
 	@ApiProperty({
@@ -14,6 +15,16 @@ export class UpdateOrderDto {
 	})
 	@IsString()
 	readonly order_id: string;
+
+	@ApiProperty({
+		enum: ['paid', 'pending', 'canceled'],
+		example: 'pending',
+		description: 'status',
+		required: true,
+	})
+	@IsString()
+	@IsEnum(PaymentStatus)
+	readonly status: string;
 	
 	@ApiProperty({
 		enum: [
