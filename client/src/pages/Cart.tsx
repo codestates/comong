@@ -16,6 +16,140 @@ import { getUsersAsync } from '../redux/modules/cartSlice';
 const env = 'development';
 const urlConfig = config[env];
 
+const Cart = () => {
+  const cartData = useAppSelector((state: RootState) => state);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const isLogin = cartData.userSlice.isLogin;
+  const userInfo = cartData.userSlice.userinfo;
+  const id = userInfo?.id;
+  console.log(id);
+
+  useEffect(() => {
+    if (!isLogin) navigate('/login');
+  }, []);
+
+  let sum = 0;
+  let delivery = 0;
+  for (let x in cartData.cartSlice.subTotalPrice) {
+    console.log(cartData.cartSlice.subTotalPrice);
+    sum += Number(cartData.cartSlice.subTotalPrice[x]);
+    if (Number(cartData.cartSlice.subTotalPrice[x]) > 0) delivery += 3000;
+  }
+
+  useEffect(() => {
+    updateCartData();
+  }, [delivery]);
+
+  const updateCartData = () => {
+    dispatch(getCartAsync(id));
+    dispatch(setTotalPrice(cartData.cartSlice.subTotalPrice));
+    dispatch(setDelivery(delivery));
+  };
+
+  const payHandler = async () => {
+    if (!isLogin) navigate('/login');
+    let obj = cartData.cartSlice.data[0];
+    let tmp: [{ user_id: number; id?: number }] = [{ user_id: 1 }];
+    for (let el in obj) {
+      for (let x of obj[el].order_details) {
+        let tmpObj: {
+          id: number;
+          item_id: number;
+          order_amount: number;
+          status: string;
+          user_id: number;
+          peritem_price: number;
+        } = {
+          id: 1,
+          item_id: 1,
+          order_amount: 2,
+          status: '1',
+          user_id: 3,
+          peritem_price: 1,
+        };
+        console.log(x.user_id);
+        tmpObj.id = Number(x.id);
+        tmpObj.user_id = x.user_id;
+        tmpObj.item_id = x.item_id;
+        tmpObj.order_amount = x.order_amount;
+        tmpObj.peritem_price = x.peritem_price;
+        tmpObj.status = x.status;
+        tmp.push(tmpObj);
+      }
+    }
+
+    tmp.splice(0, 1);
+
+    let arr = tmp.map((el) => el.id);
+    let obj2 = {
+      total_amount:
+        cartData.cartSlice.totalPrice + cartData.cartSlice.totalDelivery,
+      status: 'pending',
+      user_id: cartData.userSlice.userinfo?.id,
+      order_detail_id: arr,
+      shipping_status: 'pending',
+      shipping_company: 'cj대한통운',
+      shipping_code: '01234567890',
+    };
+    console.log('obj2', obj2);
+    await dispatch(getCartPatchAsync(tmp));
+    await dispatch(postOrderAsync(obj2));
+    await dispatch(getUsersAsync(cartData.userSlice.userinfo?.id));
+    navigate('/payment');
+
+    return;
+  };
+
+  return (
+    <Container>
+      <CartContainer>
+        <TitleContainer>
+          <CartTitle>장바구니</CartTitle>
+        </TitleContainer>
+        <ContentsBackground>
+          <ContentsContainer>
+            <CartListContainer>
+              <CartList></CartList>
+            </CartListContainer>
+            <OrderContainer>
+              <OrderTitle>전체 합계</OrderTitle>
+              <OrderLine />
+              <OrderTextContainer>
+                <OrderText>
+                  <OrderTextTitle>총 상품금액</OrderTextTitle>
+                  <OrderTextContents>
+                    {cartData.cartSlice.totalPrice.toLocaleString('en')}원
+                  </OrderTextContents>
+                </OrderText>
+                <OrderText>
+                  <OrderTextTitle>총 배송비</OrderTextTitle>
+                  <OrderTextContents>
+                    {cartData.cartSlice.totalDelivery.toLocaleString('en')}원
+                  </OrderTextContents>
+                </OrderText>
+              </OrderTextContainer>
+              <OrderLine />
+              <OrderTotalPrice>
+                <OrderTotalPriceTtile>전체금액</OrderTotalPriceTtile>
+                <OrderTotalPriceContents>
+                  {(
+                    cartData.cartSlice.totalPrice +
+                    cartData.cartSlice.totalDelivery
+                  ).toLocaleString('en')}
+                  원
+                </OrderTotalPriceContents>
+              </OrderTotalPrice>
+              <OrderButton onClick={payHandler}>상품 구매하기</OrderButton>
+            </OrderContainer>
+          </ContentsContainer>
+        </ContentsBackground>
+      </CartContainer>
+    </Container>
+  );
+};
+
 const Container = styled.div`
   display: flex;
   margin-top: 65px;
@@ -92,6 +226,7 @@ const CartListContainer = styled.div`
   border-radius: 5px;
   @media only screen and (max-width: 1200px) {
     width: 100%;
+    margin-bottom: 200px;
   }
   @media only screen and (max-width: 768px) {
     margin-bottom: 200px;
@@ -191,189 +326,5 @@ const OrderButton = styled.button`
   border-radius: 5px;
   width: 100%;
 `;
-
-const Cart = () => {
-  const cartData = useAppSelector((state: RootState) => state);
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-
-  const isLogin = cartData.userSlice.isLogin;
-  const userInfo = cartData.userSlice.userinfo;
-  const id = userInfo?.id;
-  console.log(id);
-
-  useEffect(() => {
-    if (!isLogin) navigate('/login');
-  }, []);
-
-  // let response = apiClient.get(`${urlConfig.url}/items/details/${id}`, {
-  //   data: {},
-  // });
-
-  // console.log('respnse', response);
-
-  let sum = 0;
-  let delivery = 0;
-  for (let x in cartData.cartSlice.subTotalPrice) {
-    sum += Number(cartData.cartSlice.subTotalPrice[x]);
-    if (Number(cartData.cartSlice.subTotalPrice[x]) > 0) delivery += 3000;
-  }
-  console.log(
-    'cartData.cartSlice.subTotalPrice',
-    cartData.cartSlice.subTotalPrice,
-  );
-  console.log('delivery', delivery);
-  useEffect(() => {
-    updateCartData();
-  }, [delivery]);
-
-  const updateCartData = () => {
-    dispatch(getCartAsync(id));
-    dispatch(setTotalPrice(cartData.cartSlice.subTotalPrice));
-    dispatch(setDelivery(delivery));
-  };
-
-  console.log('sum', sum, 'delivery', delivery);
-  console.log(
-    'cartData.cartSlice.totalDelivery',
-    cartData.cartSlice.totalDelivery,
-  );
-  console.log('cartData.cartSlice.totalPrice)', cartData.cartSlice.totalPrice);
-  console.log(
-    'cartData.cartSlice.totalDelivery',
-    cartData.cartSlice.totalDelivery,
-  );
-
-  const payHandler = async () => {
-    let obj = cartData.cartSlice.data[0];
-    let tmp: [{ user_id: number; id?: number }] = [{ user_id: 1 }];
-    for (let el in obj) {
-      console.log(obj[el].order_details);
-      for (let x of obj[el].order_details) {
-        let tmpObj: {
-          id: number;
-          item_id: number;
-          order_amount: number;
-          status: string;
-          user_id: number;
-          peritem_price: number;
-        } = {
-          id: 1,
-          item_id: 1,
-          order_amount: 2,
-          status: '1',
-          user_id: 3,
-          peritem_price: 1,
-        };
-        console.log(x.user_id);
-        tmpObj.id = Number(x.id);
-        tmpObj.user_id = x.user_id;
-        tmpObj.item_id = x.item_id;
-        tmpObj.order_amount = x.order_amount;
-        tmpObj.peritem_price = x.peritem_price;
-        tmpObj.status = x.status;
-        tmp.push(tmpObj);
-      }
-    }
-
-    tmp.splice(0, 1);
-
-    console.log('cartData.cartSlice.totalPrice', cartData.cartSlice.totalPrice);
-    console.log(
-      'cartData.cartSlice.totalDelivery',
-      cartData.cartSlice.totalDelivery,
-    );
-
-    let arr = tmp.map((el) => el.id);
-    let obj2 = {
-      total_amount:
-        cartData.cartSlice.totalPrice + cartData.cartSlice.totalDelivery,
-      status: 'pending',
-      user_id: cartData.userSlice.userinfo?.id,
-      order_detail_id: arr,
-      shipping_status: 'pending',
-      // shipping_status: 'delivered',
-      shipping_company: 'cj대한통운',
-      shipping_code: '01234567890',
-    };
-    console.log('obj2', obj2);
-    await dispatch(getCartPatchAsync(tmp));
-    await dispatch(postOrderAsync(obj2));
-    await dispatch(getUsersAsync(cartData.userSlice.userinfo?.id));
-    console.log(
-      'cartData.cartSlice.addressInfo',
-      cartData.cartSlice.addressInfo,
-    );
-    navigate('/payment');
-    // try {
-    //   await dispatch(getCartPatchAsync(tmp));
-    //   await dispatch(
-    //     postOrderAsync({
-    //       total_amount:
-    //         cartData.cartSlice.totalPrice + cartData.cartSlice.totalDelivery,
-    //       status: 'pending',
-    //       user_id: cartData.userSlice.userinfo?.id,
-    //       order_detail_id: arr,
-    //       shipping_status: 'delivered',
-    //       shipping_company: 'cj대한통운',
-    //       shipping_code: '01234567890',
-    //     }),
-    //   );
-    //   navigate('/payment');
-    // } catch (error) {
-    //   navigate('/');
-    //   console.log(error);
-    // }
-
-    return;
-  };
-
-  return (
-    <Container>
-      <CartContainer>
-        <TitleContainer>
-          <CartTitle>장바구니</CartTitle>
-        </TitleContainer>
-        <ContentsBackground>
-          <ContentsContainer>
-            <CartListContainer>
-              <CartList></CartList>
-            </CartListContainer>
-            <OrderContainer>
-              <OrderTitle>전체 합계</OrderTitle>
-              <OrderLine />
-              <OrderTextContainer>
-                <OrderText>
-                  <OrderTextTitle>총 상품금액</OrderTextTitle>
-                  <OrderTextContents>
-                    {cartData.cartSlice.totalPrice.toLocaleString('en')}원
-                  </OrderTextContents>
-                </OrderText>
-                <OrderText>
-                  <OrderTextTitle>총 배송비</OrderTextTitle>
-                  <OrderTextContents>
-                    {cartData.cartSlice.totalDelivery.toLocaleString('en')}원
-                  </OrderTextContents>
-                </OrderText>
-              </OrderTextContainer>
-              <OrderLine />
-              <OrderTotalPrice>
-                <OrderTotalPriceTtile>전체금액</OrderTotalPriceTtile>
-                <OrderTotalPriceContents>
-                  {(
-                    cartData.cartSlice.totalPrice +
-                    cartData.cartSlice.totalDelivery
-                  ).toLocaleString('en')}
-                  원
-                </OrderTotalPriceContents>
-              </OrderTotalPrice>
-              <OrderButton onClick={payHandler}>상품 구매하기</OrderButton>
-            </OrderContainer>
-          </ContentsContainer>
-        </ContentsBackground>
-      </CartContainer>
-    </Container>
-  );
-};
 
 export default Cart;

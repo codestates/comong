@@ -9,6 +9,7 @@ const nodemailer = require('nodemailer');
 import { MailerService } from '../mailer/mailer.service';
 import { TokenService } from 'src/util/token';
 import { v4 as uuid } from 'uuid'
+import * as sequelize from 'sequelize'
 
 export type User = any;
 
@@ -20,7 +21,8 @@ export class UsersService {
 	
 
 	async create(user: CreateUserDto) {
-		console.log(user.likes.replace(/\[|\]/g, '').split(','))
+		console.log(user)
+		//console.log(user.likes.replace(/\[|\]/g, '').split(','))
 		const [newUser, isCreated]: [{id: number}, boolean] = await models.user.findOrCreate({
 			where: { email: user.email },
 			defaults: {
@@ -72,13 +74,17 @@ export class UsersService {
 	}
 
 	async signIn(userInfo: SignInUserDto): Promise<{}>{
+		/*
 		let user = await models.user.findOne({
 			where: { ...userInfo },
 			include: [
 				{ model: models.category_has_user, as: 'category_has_users' , attributes: [ 'category_id'] },
-			]
+				{ model: models.bookmark, as: 'bookmarks', where: {ismarked: 1} ,attributes: ['item_id'], required: false},
+			], 
 		});
-
+		*/
+		const user = userInfo
+		//console.log(user)
 		if (user) {
 			try {
 				user['gender'] = parseInt(user['gender']);
@@ -86,7 +92,7 @@ export class UsersService {
 			} catch(err) {
 				throw new InternalServerErrorException({ message: 'Internal Server Error' })
 			}
-			const accessToken = this.tokenService.generateAccessToken(user.dataValues)
+			const accessToken = this.tokenService.generateAccessToken(user)
 			return { message: 'successful', user, accessToken };
 		} else {
 			return { message: 'err', user };

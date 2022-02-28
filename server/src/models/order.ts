@@ -6,7 +6,7 @@ import type { user, userId } from './user';
 import type { user_payment, user_paymentId } from './user_payment';
 
 export interface orderAttributes {
-  id: number;
+  id: string;
   total_amount?: number;
   status?: string;
   user_id: number;
@@ -15,15 +15,21 @@ export interface orderAttributes {
   shipping_code?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  address_line1?: string;
+  address_line2?: string;
+  postal_code?: string;
+  email?: string;
+  contact?: string;
+  buyer_name?: string;
 }
 
 export type orderPk = "id";
 export type orderId = order[orderPk];
-export type orderOptionalAttributes = "id" | "total_amount" | "status" | "shipping_status" | "shipping_company" | "shipping_code" | "createdAt" | "updatedAt";
+export type orderOptionalAttributes = "total_amount" | "status" | "shipping_status" | "shipping_company" | "shipping_code" | "createdAt" | "updatedAt" | "address_line1" | "address_line2" | "postal_code" | "email" | "contact" | "buyer_name";
 export type orderCreationAttributes = Optional<orderAttributes, orderOptionalAttributes>;
 
 export class order extends Model<orderAttributes, orderCreationAttributes> implements orderAttributes {
-  id!: number;
+  id!: string;
   total_amount?: number;
   status?: string;
   user_id!: number;
@@ -32,6 +38,12 @@ export class order extends Model<orderAttributes, orderCreationAttributes> imple
   shipping_code?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  address_line1?: string;
+  address_line2?: string;
+  postal_code?: string;
+  email?: string;
+  contact?: string;
+  buyer_name?: string;
 
   // order belongsToMany order_detail via order_id and order_detail_id
   order_detail_id_order_details!: order_detail[];
@@ -78,8 +90,7 @@ export class order extends Model<orderAttributes, orderCreationAttributes> imple
   static initModel(sequelize: Sequelize.Sequelize): typeof order {
     return order.init({
     id: {
-      autoIncrement: true,
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING(45),
       allowNull: false,
       primaryKey: true
     },
@@ -109,6 +120,30 @@ export class order extends Model<orderAttributes, orderCreationAttributes> imple
     },
     shipping_code: {
       type: DataTypes.STRING(100),
+      allowNull: true
+    },
+    address_line1: {
+      type: DataTypes.STRING(45),
+      allowNull: true
+    },
+    address_line2: {
+      type: DataTypes.STRING(45),
+      allowNull: true
+    },
+    postal_code: {
+      type: DataTypes.STRING(45),
+      allowNull: true
+    },
+    email: {
+      type: DataTypes.STRING(45),
+      allowNull: true
+    },
+    contact: {
+      type: DataTypes.STRING(45),
+      allowNull: true
+    },
+    buyer_name: {
+      type: DataTypes.STRING(45),
       allowNull: true
     }
   }, {

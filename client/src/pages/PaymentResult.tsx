@@ -11,6 +11,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 import { useAppDispatch, useAppSelector } from '../redux/configStore.hooks';
 import type { RootState } from '../redux/configStore';
 import { config } from '../config/config';
+import { apiClient } from '../apis';
 
 const env = 'development';
 const urlConfig = config[env];
@@ -68,6 +69,25 @@ function PaymentResult() {
 
     console.log(tmp);
     const destination = payData.cartSlice.destinationInfo;
+    console.log('data.total_amount', data.total_amount);
+
+    console.log({
+      data: {
+        user_id: data.user_id,
+        order_id: data.order_id,
+        payment_method: 'card',
+        total_amount: data.total_amount, //sum of total item price + shipping charge
+        imp_uid: data.imp_uid,
+        merchant_uid: data.merchant_uid,
+        buyer_name: data.buyer_name,
+        status: data.status,
+        address_line1: destination.address1,
+        address_line2: destination.address2,
+        postal_code: destination.postCode,
+        email: destination.email,
+        contact: destination.tel,
+      },
+    });
 
     const paymentValidationOptions: AxiosRequestConfig = {
       method: 'POST',
@@ -89,8 +109,13 @@ function PaymentResult() {
         contact: destination.tel,
       },
     };
+
+    // const response = await apiClient.patch(`${urlConfig.url}/payments`, {
+    //   data: data,
+    // });
+
     await axios(paymentValidationOptions)
-      .then((responese) => console.log(responese))
+      .then((responese) => console.log('POST요청보냄', responese))
       .catch((err) => console.log(err));
   };
 
