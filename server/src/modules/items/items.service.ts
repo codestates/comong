@@ -16,7 +16,9 @@ import { Op } from 'sequelize';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import * as sequelize from 'sequelize';
 import { CreateBookmarkDto } from './dto/create-bookmark.dto';
+import { StockManagement } from './dto/stockmanagement.dto';
 const models = require('../../models/index');
+const Sequelize = models.sequelize;
 
 @Injectable()
 export class ItemsService {
@@ -148,57 +150,120 @@ export class ItemsService {
 	}
 
 	async createBookmark(data: CreateBookmarkDto) {
-		const [bookmark, created] = await models.bookmark.findOrCreate({
-			where: {
-				item_id: data.item_id,
-				user_id: data.user_id,
-			},
-			defaults: data,
-		});
-		if (created) {
-			return {
-				data: bookmark,
-				message: `item_id: ${data.item_id} bookmark created`,
-			};
-		} else {
-			const bookmark = await models.bookmark.findOne({
+		const result = await Sequelize.transaction(async (t) => {
+			const [bookmark, created] = await models.bookmark.findOrCreate({
 				where: {
 					item_id: data.item_id,
 					user_id: data.user_id,
 				},
+				defaults: data,
+				transaction: t,
 			});
-			await models.bookmark.update(
-				{
-					ismarked: data.ismarked ? 1 : 0,
-				},
-				{
+			if (created) {
+				return {
+					data: bookmark,
+					message: `item_id: ${data.item_id} bookmark created`,
+				};
+			} else {
+				const bookmark = await models.bookmark.findOne({
 					where: {
-						id: bookmark.id,
+						item_id: data.item_id,
+						user_id: data.user_id,
 					},
-				},
-			);
-			return { messgae: 'bookmark updated successfully' };
-		}
+					transaction: t,
+				});
+				await models.bookmark.update(
+					{
+						ismarked: data.ismarked ? 1 : 0,
+					},
+					{
+						where: {
+							id: bookmark.id,
+						},
+						transaction: t,
+					},
+				);
+				return { messgae: 'bookmark updated successfully' };
+			}
+		}).then((result: any) => {
+			return result;
+		})
+		.catch((err: any) => {
+			return err;
+		});
+		return result;
 	}
 
 	async getbookmarks(user_id: number) {
-		const bookmarkList = await models.bookmark.findAll({
-			include: [
-				{
-					model: models.item,
-					as: 'item',
-					include: [
-						{ model: models.user, as: 'user', attributes: ['storename'] },
-					],
+		const result = await Sequelize.transaction(async (t) => {
+			const bookmarkList = await models.bookmark.findAll({
+				include: [
+					{
+						model: models.item,
+						as: 'item',
+						include: [
+							{ model: models.user, as: 'user', attributes: ['storename'] },
+						],
+					},
+				],
+				where: {
+					user_id: user_id,
 				},
-			],
-			where: {
-				user_id: user_id,
-			},
+				transaction: t,
+			});
+			let output = bookmarkList.filter((elem) => {
+				return elem.ismarked === 1;
+			});
+			return output;
+		}).then((result: any) => {
+			return result;
+		})
+		.catch((err: any) => {
+			return err;
 		});
-		let output = bookmarkList.filter((elem) => {
-			return elem.ismarked === 1;
-		});
-		return output;
+		return result;
 	}
+
+	async stockmanagement(data: StockManagement) {
+		console.log(data.insert_item_stock)
+		for (let i = 1; i < 5000; i++) {
+			const isExistItem = await models.item.findOne({
+				where: {
+					id: i
+				}
+			});
+			console.log(isExistItem)
+			if (isExistItem) {
+				const [item_inventory, isCreate] = await models.item_inventory.findOrCreate(
+					{
+						where: {
+							item_id: i
+						},
+						defaults: {
+							stock: data.insert_item_stock
+						}
+					}
+				);
+				if (isCreate) {
+					continue;
+				} else {
+					await models.item_inventory.update(
+						{
+							stock: data.insert_item_stock
+						},
+						{
+							where: {
+								item_id: i
+							}
+						}
+					);
+				}
+			} else {
+				continue;
+			}
+		}
+		return { message: 'stocks updated successfully'};
+	}
+
+
 }
