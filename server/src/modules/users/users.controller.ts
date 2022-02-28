@@ -26,6 +26,7 @@ import {
 	ApiParam,
 	ApiInternalServerErrorResponse,
 	ApiResponse,
+	ApiServiceUnavailableResponse,
 } from '@nestjs/swagger';
 import JwtAuthGuard from '../../middleware/Jwtauthguard';
 import { getUser } from '../../decorators/getUser'
@@ -47,7 +48,8 @@ export class UsersController {
 	@ApiCreatedResponse({ description: 'successful.' })
 	@ApiResponse({ status: 200, description: 'an confirmation letter has been sent' })
 	@ApiBadRequestResponse({ description: 'invalid value for property' })
-	@ApiInternalServerErrorResponse({ description: 'service unavailable(mailer)'})
+	@ApiServiceUnavailableResponse({ description: 'a network-related or database instance-specific error occurred while inserting new data' })
+	@ApiInternalServerErrorResponse({ description: 'internal server error(mailer)'})
 	@UsePipes(ValidationPipe)
 	@UsePipes(BcryptPasswordHashPipe)
 	//@UsePipes(signUpTransformPipe)
@@ -118,6 +120,7 @@ export class UsersController {
 	@ApiBadRequestResponse({
 		description: 'invalid value for property or account',
 	})
+	@ApiServiceUnavailableResponse({ description: 'a network-related or database instance-specific error occurred while inserting new data' })
 	@UseGuards(JwtAuthGuard)
 	@UsePipes(BcryptPasswordHashPipe)
 	update(@getUser() user: User,@Body(new signUpTransformPipe()) changes: UpdateUserDto) {

@@ -4,7 +4,7 @@ import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
 import { category } from './entities/category.entity';
 import { item } from './entities/item.entity'
-import { ApiTags, ApiOperation, ApiCreatedResponse, ApiOkResponse, ApiHeader, ApiBearerAuth, ApiBadRequestResponse, ApiParam, ApiQuery } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiCreatedResponse, ApiOkResponse, ApiHeader, ApiBearerAuth, ApiBadRequestResponse, ApiParam, ApiQuery, ApiServiceUnavailableResponse } from '@nestjs/swagger';
 import JwtAuthGuard from '../../middleware/Jwtauthguard';
 import { getUser } from 'src/decorators/getUser';
 import { User } from '../users/entities/user.entity';
@@ -30,6 +30,7 @@ export class ItemsController {
   @ApiOperation({ summary: '새로운 상품 등록', description: '새로운 상품을 등록합니다.' })
   @ApiCreatedResponse({ description: 'successful' })
   @ApiBadRequestResponse({ description: 'invalid value for property' })
+  @ApiServiceUnavailableResponse({ description: 'a network-related or database instance-specific error occurred while inserting new data' })
   @UseGuards(JwtAuthGuard)
   create(@Body() newItem: CreateItemDto, @getUser() user: User ) {
     return this.itemsService.create(newItem, user);
@@ -126,6 +127,7 @@ export class ItemsController {
   @ApiOperation({ summary: '상품 정보 수정', description: '상품 정보 수정 요청을 받습니다.' })
   @ApiOkResponse({ description: 'successful'})
   @ApiBadRequestResponse({ description: 'invalid value for property' })
+  @ApiServiceUnavailableResponse({ description: 'a network-related or database instance-specific error occurred while inserting new data' })
   update(@Param('id') id: string, @Body() updateItemDto: UpdateItemDto) {
     return this.itemsService.update(+id, updateItemDto);
   }
