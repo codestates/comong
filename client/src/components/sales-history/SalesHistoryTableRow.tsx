@@ -126,7 +126,7 @@ function SalesHistoryTableRow({ order }: ISalesHistoryTableRow) {
           ></SalesHistoryStatus>
         </Cell>
         <Cell className="order-cancel">
-          <ButtonSimple buttonClickHandler={() => {}}>거래 취소</ButtonSimple>
+          <span>{orderInfo.status === 'canceled' ? '처리완료' : '-'}</span>
         </Cell>
       </SalesHistoryListItem>
       {showTrackingNumForm && (

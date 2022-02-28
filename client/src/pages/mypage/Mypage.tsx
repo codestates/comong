@@ -30,9 +30,7 @@ const Wrapper = styled.div`
 
 const NavWrapper = styled.div`
   position: relative;
-  width: 100%;
   height: 100vh;
-  background-color: pink;
 `;
 
 const MenuIcon = styled.img`
@@ -48,7 +46,6 @@ const MenuIcon = styled.img`
 const OutletWrapper = styled.div`
   width: 56%;
   margin-left: 28%;
-  margin-right: 25%;
 
   &.modifyInfo {
     display: flex;
