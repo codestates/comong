@@ -116,7 +116,7 @@ interface Props {
   };
 }
 
-const PostListItem = ({ post }: Props) => {
+const SearchListItem = ({ post }: Props) => {
   const img_src = post.image_src
     ? post.image_src.split(',')[0]
     : 'https://imagedelivery.net/BOKuAiJyROlMLXwCcBYMqQ/fe9f218d-5134-4a76-ba20-bf97e5c21900/thumbnail';
@@ -148,4 +148,4 @@ const PostListItem = ({ post }: Props) => {
   );
 };
 
-export default PostListItem;
+export default SearchListItem;

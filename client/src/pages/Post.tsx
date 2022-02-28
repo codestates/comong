@@ -20,266 +20,10 @@ import { setSubTotalPrice } from '../redux/modules/cartSlice';
 import { setSubTotalPriceForOne } from '../redux/modules/cartSlice';
 import { setTotalPriceForOne } from '../redux/modules/cartSlice';
 import { setDelivery } from '../redux/modules/cartSlice';
+import { LoginNeedModal } from '../components/Modals/LoginNeedModal';
 
 const env = 'development';
 const urlConfig = config[env];
-
-const Container = styled.div`
-  display: flex;
-  margin-top: 65px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  font-family: Noto Sans KR;
-  @media only screen and (max-width: 768px) {
-    /* margin-bottom: 70px; */
-  }
-`;
-const PostContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-width: 1200px;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-`;
-
-const ImgContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-
-  width: 100%;
-  max-height: 450px;
-  margin: 40px 0px;
-`;
-const MainImgContainer = styled.div`
-  width: 50%;
-  height: 50%;
-`;
-const MainImg = styled.img`
-  width: 90%;
-  max-height: 500px;
-`;
-
-const ThumbnailImgContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 10%;
-  height: 25%;
-`;
-const ThumbnailImg = styled.img`
-  margin: 10px;
-  width: 100%;
-  max-height: 100px;
-`;
-
-const BottomContainer = styled.div`
-  background-color: white;
-  width: 100%;
-  display: flex;
-  margin-top: 30px;
-  justify-content: center;
-  @media only screen and (max-width: 1200px) {
-    flex-direction: column;
-  }
-  @media only screen and (max-width: 768px) {
-  }
-`;
-
-const ContentsContainer = styled.div`
-  width: 60%;
-  background-color: white;
-  @media only screen and (max-width: 1200px) {
-    width: 100%;
-    /* margin-bottom: 300px; */
-  }
-  @media only screen and (max-width: 768px) {
-  }
-`;
-
-const Contentsline = styled.hr`
-  margin-top: 20px;
-  size: 5;
-  width: 95%;
-  color: black;
-`;
-
-const ContentsTitleContainer = styled.div`
-  margin-left: 10px;
-  margin-top: 20px;
-  margin-bottom: 15px;
-  display: flex;
-`;
-const ContentsTitle = styled.span`
-  margin: 20px;
-  margin-bottom: 0px;
-  font-size: 18px;
-  font-weight: 600;
-`;
-const ContentsArea = styled.div`
-  background-color: white;
-  height: 2000px;
-  margin: 20px 30px;
-`;
-
-const OrderContainer = styled.div`
-  font-family: Noto Sans KR;
-  font-weight: 700;
-  width: 30%;
-  position: sticky;
-  height: 450px;
-  top: 64px;
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  justify-content: center;
-  box-shadow: 0px 0px 12px ${(props) => props.theme.colors.whiteForShadow};
-  border-radius: 5px;
-  @media only screen and (max-width: 1200px) {
-    bottom: 0px;
-    width: 100%;
-    height: 300px;
-  }
-  @media only screen and (max-width: 768px) {
-  }
-`;
-
-const Category = styled.div`
-  color: gray;
-  font-weight: 400;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  @media only screen and (max-width: 1200px) {
-    display: none;
-  }
-  @media only screen and (max-width: 768px) {
-  }
-`;
-
-const Title = styled.div`
-  margin-top: 5px;
-  margin-bottom: 10px;
-  color: ${(props) => props.theme.colors.charcol};
-  font-weight: 600;
-  font-size: 20px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  word-wrap: break-word;
-  height: 60px;
-  line-height: 27px;
-`;
-
-const Seller = styled.div`
-  margin-top: 5px;
-  margin-bottom: 5px;
-  color: ${(props) => props.theme.colors.charcol};
-  font-weight: 500;
-  @media only screen and (max-width: 1200px) {
-    display: none;
-  }
-  @media only screen and (max-width: 768px) {
-  }
-`;
-const Price = styled.div`
-  margin-top: 20px;
-  margin-bottom: 5px;
-  color: ${(props) => props.theme.colors.charcol};
-  font-weight: 700;
-  font-size: 27px;
-`;
-const StockController = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top: 20px;
-  margin-bottom: 10px;
-`;
-const StockAddButton = styled.button`
-  border: 2px solid grey;
-  border-radius: 50%;
-  background-color: white;
-  display: flex;
-  align-items: center;
-  width: 30px;
-  height: 30px;
-`;
-const StockAddIcon = styled.img`
-  width: 15px;
-`;
-const StockDisplay = styled.div`
-  width: 30px;
-  text-align: center;
-  font-size: 20px;
-  color: #4d4d4d;
-  margin: auto;
-  margin-left: 5px;
-  margin-right: 5px;
-`;
-const StockMinusButton = styled.button`
-  border: 2px solid grey;
-  border-radius: 50%;
-  background-color: white;
-  display: flex;
-  align-items: center;
-  width: 30px;
-  height: 30px;
-`;
-const StockMinusIcon = styled.img`
-  width: 15px;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  @media only screen and (max-width: 1200px) {
-    flex-direction: row;
-  }
-  @media only screen and (max-width: 768px) {
-  }
-`;
-
-const CartButton = styled.button`
-  margin: 10px 2px;
-  font-family: Noto Sans KR;
-  font-weight: 400;
-  font-size: 20px;
-  width: 100%;
-  height: 60px;
-  color: white;
-  background-color: ${(props) => props.theme.colors.accentColorMiddle};
-  border-radius: 5px;
-  text-align: center;
-  display: block;
-
-  @media only screen and (max-width: 1200px) {
-    width: 50%;
-  }
-  @media only screen and (max-width: 768px) {
-  }
-`;
-const OrderButton = styled.button`
-  margin: 10px;
-  font-family: Noto Sans KR;
-  font-weight: 400;
-  font-size: 20px;
-  height: 60px;
-  color: white;
-  background-color: ${(props) => props.theme.colors.accentColor};
-  border-radius: 5px;
-  width: 100%;
-  @media only screen and (max-width: 1200px) {
-    width: 50%;
-  }
-  @media only screen and (max-width: 768px) {
-  }
-`;
 
 const Post = () => {
   const navigate = useNavigate();
@@ -290,8 +34,11 @@ const Post = () => {
   const dispatch = useAppDispatch();
 
   const [isModal, setIsModal] = useState(false);
+  const [isLoginModal, setIsLoginModal] = useState(false);
 
   const [imgIdx, setImgIdx] = useState(0);
+
+  const isLogin = itemData.userSlice.isLogin;
 
   // const [width, setWidth] = useState(window.innerWidth);
 
@@ -322,6 +69,12 @@ const Post = () => {
   };
 
   const addCart = () => {
+    if (!isLogin) {
+      setIsLoginModal(!isLoginModal);
+      return;
+    }
+    setIsModal(!isModal);
+
     let tmpObj: {
       user_id: number;
       item_id: number;
@@ -342,11 +95,11 @@ const Post = () => {
     );
   };
 
-  const handleModal = () => {
-    setIsModal(!isModal);
-  };
-
   const payHandler = async () => {
+    if (!isLogin) {
+      setIsLoginModal(!isLoginModal);
+      return;
+    }
     const data = {
       user_id: user_id,
       item_id: id,
@@ -470,11 +223,13 @@ const Post = () => {
               {isModal ? (
                 <PostModal>장바구니에 상품이 담겼습니다</PostModal>
               ) : null}
+              {isLoginModal ? (
+                <LoginNeedModal>로그인이 필요합니다</LoginNeedModal>
+              ) : null}
               <ButtonContainer>
                 <CartButton
                   onClick={() => {
                     addCart();
-                    handleModal();
                   }}
                 >
                   장바구니
@@ -488,5 +243,262 @@ const Post = () => {
     </>
   );
 };
+
+const Container = styled.div`
+  display: flex;
+  margin-top: 65px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: Noto Sans KR;
+  @media only screen and (max-width: 768px) {
+    /* margin-bottom: 70px; */
+  }
+`;
+const PostContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1200px;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+`;
+
+const ImgContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  max-height: 450px;
+  margin: 40px 0px;
+`;
+const MainImgContainer = styled.div`
+  width: 50%;
+  height: 50%;
+`;
+const MainImg = styled.img`
+  width: 90%;
+  max-height: 500px;
+`;
+
+const ThumbnailImgContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 10%;
+  height: 25%;
+`;
+const ThumbnailImg = styled.img`
+  margin: 10px;
+  width: 100%;
+  max-height: 100px;
+`;
+
+const BottomContainer = styled.div`
+  background-color: white;
+  width: 100%;
+  display: flex;
+  margin-top: 30px;
+  justify-content: center;
+  @media only screen and (max-width: 1200px) {
+    flex-direction: column;
+  }
+  @media only screen and (max-width: 768px) {
+  }
+`;
+
+const ContentsContainer = styled.div`
+  width: 60%;
+  background-color: white;
+  @media only screen and (max-width: 1200px) {
+    width: 100%;
+    /* margin-bottom: 300px; */
+  }
+  @media only screen and (max-width: 768px) {
+  }
+`;
+
+const Contentsline = styled.hr`
+  margin-top: 20px;
+  size: 5;
+  width: 95%;
+  color: black;
+`;
+
+const ContentsTitleContainer = styled.div`
+  margin-left: 10px;
+  margin-top: 20px;
+  margin-bottom: 15px;
+  display: flex;
+`;
+const ContentsTitle = styled.span`
+  margin: 20px;
+  margin-bottom: 0px;
+  font-size: 18px;
+  font-weight: 600;
+`;
+const ContentsArea = styled.div`
+  background-color: white;
+  height: 2000px;
+  margin: 20px 30px;
+`;
+
+const OrderContainer = styled.div`
+  font-family: Noto Sans KR;
+  font-weight: 700;
+  width: 30%;
+  position: sticky;
+  height: 450px;
+  top: 64px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  justify-content: center;
+  box-shadow: 0px 0px 12px ${(props) => props.theme.colors.whiteForShadow};
+  border-radius: 5px;
+  @media only screen and (max-width: 1200px) {
+    bottom: 0px;
+    width: 100%;
+    height: 280px;
+  }
+  @media only screen and (max-width: 768px) {
+  }
+`;
+
+const Category = styled.div`
+  color: gray;
+  font-weight: 400;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  @media only screen and (max-width: 1200px) {
+    display: none;
+  }
+  @media only screen and (max-width: 768px) {
+  }
+`;
+
+const Title = styled.div`
+  margin-top: 5px;
+  margin-bottom: 10px;
+  color: ${(props) => props.theme.colors.charcol};
+  font-weight: 600;
+  font-size: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  height: 30px;
+  line-height: 27px;
+`;
+
+const Seller = styled.div`
+  margin-top: 5px;
+  margin-bottom: 5px;
+  color: ${(props) => props.theme.colors.charcol};
+  font-weight: 500;
+  @media only screen and (max-width: 1200px) {
+    display: none;
+  }
+  @media only screen and (max-width: 768px) {
+  }
+`;
+const Price = styled.div`
+  margin-top: 20px;
+  margin-bottom: 5px;
+  color: ${(props) => props.theme.colors.charcol};
+  font-weight: 700;
+  font-size: 27px;
+`;
+const StockController = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 10px;
+`;
+const StockAddButton = styled.button`
+  border: 2px solid grey;
+  border-radius: 50%;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+`;
+const StockAddIcon = styled.img`
+  width: 15px;
+`;
+const StockDisplay = styled.div`
+  width: 30px;
+  text-align: center;
+  font-size: 20px;
+  color: #4d4d4d;
+  margin: auto;
+  margin-left: 5px;
+  margin-right: 5px;
+`;
+const StockMinusButton = styled.button`
+  border: 2px solid grey;
+  border-radius: 50%;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+`;
+const StockMinusIcon = styled.img`
+  width: 15px;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  @media only screen and (max-width: 1200px) {
+    flex-direction: row;
+  }
+  @media only screen and (max-width: 768px) {
+  }
+`;
+
+const CartButton = styled.button`
+  margin: 10px 2px;
+  font-family: Noto Sans KR;
+  font-weight: 400;
+  font-size: 20px;
+  width: 100%;
+  height: 60px;
+  color: white;
+  background-color: ${(props) => props.theme.colors.accentColorMiddle};
+  border-radius: 5px;
+  text-align: center;
+  display: block;
+
+  @media only screen and (max-width: 1200px) {
+    width: 50%;
+  }
+  @media only screen and (max-width: 768px) {
+  }
+`;
+const OrderButton = styled.button`
+  margin: 10px;
+  font-family: Noto Sans KR;
+  font-weight: 400;
+  font-size: 20px;
+  height: 60px;
+  color: white;
+  background-color: ${(props) => props.theme.colors.accentColor};
+  border-radius: 5px;
+  width: 100%;
+  @media only screen and (max-width: 1200px) {
+    width: 50%;
+  }
+  @media only screen and (max-width: 768px) {
+  }
+`;
 
 export default Post;

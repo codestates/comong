@@ -5,6 +5,12 @@ import { useAppDispatch, useAppSelector } from '../../redux/configStore.hooks';
 import { getListAsync } from '../../redux/modules/listSlice';
 import type { RootState } from '../../redux/configStore';
 
+import { config } from '../../config/config';
+import { apiClient } from '../../apis';
+
+const env = 'development';
+const urlConfig = config[env];
+
 interface Post {
   contents: string;
   createdAt: string;
@@ -48,20 +54,59 @@ const ItemContainer = styled.div`
 function PostList() {
   const listData = useAppSelector((state: RootState) => state);
 
+  const [infoArray, setInfoArray] = React.useState<any[]>([]);
+
   const dispatch = useAppDispatch();
 
+  const observerRef = React.useRef<IntersectionObserver>();
+  const boxRef = React.useRef<HTMLDivElement>(null);
+
   useEffect(() => {
-    dispatch(getListAsync());
+    getInfo();
   }, []);
+
+  React.useEffect(() => {
+    observerRef.current = new IntersectionObserver(intersectionObserver); // IntersectionObserver
+    boxRef.current && observerRef.current.observe(boxRef.current);
+  }, [infoArray]);
+
+  const getInfo = async () => {
+    const res = await apiClient.get('items?number=12', {}); // 서버에서 데이터 가져오기
+    setInfoArray((curInfoArray) => [...curInfoArray, ...res.data]); // state에 추가
+    console.log(infoArray);
+    console.log('info data add...');
+  };
+
+  const intersectionObserver = (
+    entries: IntersectionObserverEntry[],
+    io: IntersectionObserver,
+  ) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        io.unobserve(entry.target);
+        getInfo();
+        // dispatch(getListAsync());
+      }
+    });
+  };
 
   return (
     <PostListWrapper>
-      {listData.listSlice.data?.map((post: Post) => {
-        return (
-          <ItemContainer key={post.id + post.title}>
-            <PostListItem key={post.id} post={post} />
-          </ItemContainer>
-        );
+      {infoArray?.map((post: Post, index) => {
+        console.log('infoArray.length', infoArray.length, 'index', index);
+        if (infoArray.length - 12 === index) {
+          return (
+            <ItemContainer key={post.id + post.title} ref={boxRef}>
+              <PostListItem key={post.id} post={post} />
+            </ItemContainer>
+          );
+        } else {
+          return (
+            <ItemContainer key={post.id + post.title}>
+              <PostListItem key={post.id} post={post} />
+            </ItemContainer>
+          );
+        }
       })}
     </PostListWrapper>
   );

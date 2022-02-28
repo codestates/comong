@@ -2,31 +2,54 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 export interface List {
-  data: string;
+  data: [
+    {
+      contents: string;
+      createdAt: string;
+      id: number;
+      image_src: string;
+      item_has_categories: [];
+      price: number;
+      title: string;
+      updatedAT: string;
+      user: { storename: string };
+      user_id: number;
+    }?,
+  ];
+  keyword?: string;
 }
 
 const initialState: List = {
-  data: '',
+  data: [],
+  keyword: '',
 };
 
 const navSearchSlice = createSlice({
   name: 'navSearch',
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    setReduxKeyword(state, action) {
+      state.keyword = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(navSearchAsync.fulfilled, (state, action) => {
-      let contents = action.payload;
-      return { ...state, data: contents };
+      // let contents = action.payload;
+      // return { ...state, data: contents };
+      state.data = action.payload;
     });
   },
 });
 
-export let {} = navSearchSlice.actions;
+export let { setReduxKeyword } = navSearchSlice.actions;
 
 export const navSearchAsync = createAsyncThunk(
   'search/post',
-  async (keyword) => {
-    const response = await axios.post(`${process.env.REACT_APP_URL}/search`);
+  async (keyword: string) => {
+    const response = await axios.get(
+      `${process.env.REACT_APP_URL}/items?keyword=${keyword}`,
+    );
+    console.log(response.data);
     return response.data;
   },
 );

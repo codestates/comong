@@ -12,6 +12,7 @@ import { postOrderAsync } from '../redux/modules/cartSlice';
 import { config } from '../config/config';
 import { apiClient } from '../apis';
 import { getUsersAsync } from '../redux/modules/cartSlice';
+import { CartModal } from '../components/Modals/CartModal';
 
 const env = 'development';
 const urlConfig = config[env];
@@ -20,6 +21,8 @@ const Cart = () => {
   const cartData = useAppSelector((state: RootState) => state);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
+  const [isModal, setIsModal] = useState(false);
 
   const isLogin = cartData.userSlice.isLogin;
   const userInfo = cartData.userSlice.userinfo;
@@ -51,6 +54,11 @@ const Cart = () => {
   const payHandler = async () => {
     if (!isLogin) navigate('/login');
     let obj = cartData.cartSlice.data[0];
+    console.log('pay-handler-obj', obj);
+    if (JSON.stringify(obj) === '{}') {
+      setIsModal(!isModal);
+      return;
+    }
     let tmp: [{ user_id: number; id?: number }] = [{ user_id: 1 }];
     for (let el in obj) {
       for (let x of obj[el].order_details) {
@@ -114,6 +122,9 @@ const Cart = () => {
               <CartList></CartList>
             </CartListContainer>
             <OrderContainer>
+              {isModal ? (
+                <CartModal>장바구니에 상품이 없습니다</CartModal>
+              ) : null}
               <OrderTitle>전체 합계</OrderTitle>
               <OrderLine />
               <OrderTextContainer>
