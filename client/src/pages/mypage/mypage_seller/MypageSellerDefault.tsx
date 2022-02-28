@@ -65,6 +65,7 @@ function MypageSellerDefault() {
 
   const fetchData = async () => {
     try {
+      console.log('hi');
       const response = await getOrdersSeller({ user_id: userinfo?.id! });
       setSalesList(response!);
     } catch (error) {}

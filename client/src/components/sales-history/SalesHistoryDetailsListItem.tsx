@@ -6,6 +6,8 @@ const Wrapper = styled.div`
   width: 100%;
   display: flex;
   font-size: 14px;
+  background-color: ${(props) => props.theme.colors.lightGrey};
+  border-radius: 4px;
 `;
 
 const Cell = styled.div`
@@ -14,29 +16,36 @@ const Cell = styled.div`
     display: flex;
     align-items: center;
     gap: 1rem;
-    background-color: pink;
   }
 
   &.info-price {
-    background-color: orange;
     width: 15%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 0.5rem;
+
+    > span:nth-child(2) {
+      font-weight: 700;
+    }
   }
 
   &.info-stock {
-    background-color: violet;
     width: 15%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5rem;
+    align-items: center;
+    font-weight: 700;
   }
 `;
 
 const SalesImg = styled.img`
   width: 70px;
   height: 70px;
-  background-color: orange;
+  border-radius: 4px;
 `;
 
 const SalesItemBasicInfo = styled.div`
@@ -73,7 +82,12 @@ function SalesHistoryDetailsListItem({ item }: ISalesHistoryDetailsListItem) {
         <span>{orderInfo.peritem_price}원</span>
         <span>{orderInfo.order_amount}개</span>
       </Cell>
-      <Cell className="info-stock"></Cell>
+      <Cell className="info-stock">
+        <span>재고</span>
+        <span>
+          {itemInfo.item_inventories && itemInfo.item_inventories[0].stock}개
+        </span>
+      </Cell>
     </Wrapper>
   );
 }

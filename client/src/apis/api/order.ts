@@ -23,7 +23,7 @@ export const getOrdersSeller = async (params: IGetOrderParams) => {
   try {
     const response = await apiClient.get('/orders/seller', { params });
     const data = response.data;
-    console.log(data);
+    console.log('here', data);
     let result = [];
     for (let key in data) {
       result.push(data[key]);
