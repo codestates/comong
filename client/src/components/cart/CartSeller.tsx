@@ -85,8 +85,10 @@ const CartSeller = ({ data, storeName, groupName }: any) => {
   }
 
   useEffect(() => {
-    dispatch(setSubTotalPrice([groupName, sellerTotal]));
-    dispatch(setTotalPrice(Cartdata.cartSlice.subTotalPrice));
+    if (groupName !== 'item') {
+      dispatch(setSubTotalPrice([groupName, sellerTotal]));
+      dispatch(setTotalPrice(Cartdata.cartSlice.subTotalPrice));
+    }
   }, [sellerTotal]);
 
   let subTotalPrice: number | string = Number(

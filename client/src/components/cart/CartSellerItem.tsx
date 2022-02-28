@@ -189,6 +189,7 @@ const CartSellerItem = ({ data, storeName, groupName }: any) => {
   };
 
   const deleteHandler = () => {
+    console.log('id/groupName', id, groupName);
     dispatch(deleteItem([id, groupName]));
     dispatch(deleteCartAsync(id));
   };
