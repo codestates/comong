@@ -111,6 +111,10 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState: initialState,
   reducers: {
+    setData(state, action) {
+      state.data = action.payload;
+    },
+
     increment(state, action) {
       let id = action.payload[0];
       let storeName = action.payload[1];
@@ -154,14 +158,27 @@ const cartSlice = createSlice({
 
       state.totalPrice = sum;
     },
+    setTotalPriceForOne(state, action) {
+      state.totalPrice = action.payload;
+    },
     setDelivery(state, action) {
       state.totalDelivery = action.payload;
     },
     setSubTotalPrice(state, action) {
       let keyName = action.payload[0];
       let value = action.payload[1];
+      console.log('keyName', keyName);
+      if (keyName === 'deleteAll') {
+        state.subTotalPrice = {};
+      } else {
+        state.subTotalPrice[keyName] = value;
+      }
+    },
+    setSubTotalPriceForOne(state, action) {
+      let keyName = action.payload[0];
+      let value = action.payload[1];
 
-      state.subTotalPrice[keyName] = value;
+      state.subTotalPrice = { keyName: value };
     },
     setPaymentInfo(state, action) {
       state.paymentInfo = action.payload;
@@ -181,6 +198,7 @@ const cartSlice = createSlice({
     builder.addCase(getCartAsync.pending, (state, action) => {});
     builder.addCase(getCartAsync.fulfilled, (state, action) => {
       let contents = action.payload;
+      console.log('getCartAsync-action.payload', contents);
       return { ...state, data: contents };
     });
     builder.addCase(getCartAsync.rejected, (state, action) => {});
@@ -199,15 +217,21 @@ const cartSlice = createSlice({
       state.addressInfo = action.payload.address;
     });
     builder.addCase(getUsersAsync.rejected, (state, action) => {});
+    builder.addCase(postOrderDetailAsync.pending, (state, action) => {});
+    builder.addCase(postOrderDetailAsync.fulfilled, (state, action) => {});
+    builder.addCase(postOrderDetailAsync.rejected, (state, action) => {});
   },
 });
 
 export let {
+  setData,
   increment,
   decrement,
   setTotalPrice,
+  setTotalPriceForOne,
   setDelivery,
   setSubTotalPrice,
+  setSubTotalPriceForOne,
   deleteItem,
   setPaymentInfo,
   setDestinationInfo,
@@ -226,6 +250,17 @@ export const getCartAsync = createAsyncThunk(
 
     console.log('cartslice', response.data);
 
+    return response.data;
+  },
+);
+export const postOrderDetailAsync = createAsyncThunk(
+  'orderdetail/post',
+  async (data: {}) => {
+    const response = await apiClient.post(
+      `${urlConfig.url}/orders/orderdetail`,
+      data,
+    );
+    console.log('post-orderDetail', response.data);
     return response.data;
   },
 );
@@ -259,6 +294,7 @@ export const postOrderAsync = createAsyncThunk(
   'orders/post',
   async (data?: {}) => {
     const response = await apiClient.post(`${urlConfig.url}/orders`, data);
+    console.log('postOrderAsync-response', response);
     return response.data;
   },
 );

@@ -133,10 +133,7 @@ const ItemSeller = ({ data, storeName, groupName, subTotal }: any) => {
         <CartSumPrice>
           <CartSumPriceTitle>주문금액</CartSumPriceTitle>
           <CartSumPriceContents>
-            {(
-              Cartdata.cartSlice.totalPrice + Cartdata.cartSlice.totalDelivery
-            ).toLocaleString('en')}
-            원
+            {(subTotal + 3000).toLocaleString('en')}원
           </CartSumPriceContents>
         </CartSumPrice>
       </CartSumContainer>

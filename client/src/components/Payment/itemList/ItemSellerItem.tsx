@@ -75,8 +75,19 @@ const CartListItemPrice = styled.div`
 
 const ItemSellerItem = ({ data, storeName, groupName }: any) => {
   const cartData = useAppSelector((state: RootState) => state);
+
+  console.log(data);
+
+  console.log(data.item.image_src);
+  console.log(
+    'data.item.image_src',
+    JSON.parse(JSON.stringify(data.item.image_src.split(',')[0])),
+  );
+
   const dispatch = useAppDispatch();
   const name = data.item.title;
+  // const img_src =
+  //   'https://imagedelivery.net/BOKuAiJyROlMLXwCcBYMqQ/fe9f218d-5134-4a76-ba20-bf97e5c21900/thumbnail';
   const img_src = data.item.image_src
     ? data.item.image_src.split(',')[0]
     : 'https://imagedelivery.net/BOKuAiJyROlMLXwCcBYMqQ/fe9f218d-5134-4a76-ba20-bf97e5c21900/thumbnail';

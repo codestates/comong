@@ -15,6 +15,7 @@ import { setPaymentInfo } from '../redux/modules/cartSlice';
 import Modal from './Modal';
 import { getEnvironmentData } from 'worker_threads';
 import { setDestinationInfo } from '../redux/modules/cartSlice';
+import { setSubTotalPrice } from '../redux/modules/cartSlice';
 
 declare global {
   interface Window {
@@ -307,6 +308,10 @@ const Payment = () => {
   const cartData = useAppSelector((state: RootState) => state);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(setSubTotalPrice(['deleteAll']));
+  }, []);
 
   const [autoInfo, setAutoInfo] = useState<boolean>(false);
 

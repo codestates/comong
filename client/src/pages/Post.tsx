@@ -5,13 +5,21 @@ import styled, { css } from 'styled-components';
 import { useAppDispatch, useAppSelector } from '../redux/configStore.hooks';
 import { getItemAsync } from '../redux/modules/itemSlice';
 import type { RootState } from '../redux/configStore';
-
+import { setData } from '../redux/modules/cartSlice';
 import { Viewer } from '@toast-ui/react-editor';
 import { getCartPatchAsync } from '../redux/modules/cartSlice';
+import { getCartAsync } from '../redux/modules/cartSlice';
 import { config } from '../config/config';
 import { apiClient } from '../apis';
 import CoViewer from '../components/common/CoViewer';
 import { PostModal } from '../components/Modals/PostModal';
+import { postOrderAsync } from '../redux/modules/cartSlice';
+import { postOrderDetailAsync } from '../redux/modules/cartSlice';
+import { getUsersAsync } from '../redux/modules/cartSlice';
+import { setSubTotalPrice } from '../redux/modules/cartSlice';
+import { setSubTotalPriceForOne } from '../redux/modules/cartSlice';
+import { setTotalPriceForOne } from '../redux/modules/cartSlice';
+import { setDelivery } from '../redux/modules/cartSlice';
 
 const env = 'development';
 const urlConfig = config[env];
@@ -30,7 +38,7 @@ const Container = styled.div`
 const PostContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 80%;
+  width: 100%;
   max-width: 1200px;
   justify-content: center;
   align-items: center;
@@ -44,6 +52,7 @@ const ImgContainer = styled.div`
   align-items: center;
 
   width: 100%;
+  max-height: 450px;
   margin: 40px 0px;
 `;
 const MainImgContainer = styled.div`
@@ -52,6 +61,7 @@ const MainImgContainer = styled.div`
 `;
 const MainImg = styled.img`
   width: 90%;
+  max-height: 500px;
 `;
 
 const ThumbnailImgContainer = styled.div`
@@ -60,17 +70,19 @@ const ThumbnailImgContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 10%;
-  height: 10%;
+  height: 25%;
 `;
 const ThumbnailImg = styled.img`
   margin: 10px;
   width: 100%;
+  max-height: 100px;
 `;
 
 const BottomContainer = styled.div`
   background-color: white;
   width: 100%;
   display: flex;
+  margin-top: 30px;
   justify-content: center;
   @media only screen and (max-width: 1200px) {
     flex-direction: column;
@@ -84,7 +96,7 @@ const ContentsContainer = styled.div`
   background-color: white;
   @media only screen and (max-width: 1200px) {
     width: 100%;
-    margin-bottom: 300px;
+    /* margin-bottom: 300px; */
   }
   @media only screen and (max-width: 768px) {
   }
@@ -115,22 +127,20 @@ const ContentsArea = styled.div`
   margin: 20px 30px;
 `;
 
-const OrderContainer = styled.div<{
-  isOpenModal?: boolean;
-}>`
+const OrderContainer = styled.div`
   font-family: Noto Sans KR;
   font-weight: 700;
   width: 30%;
   position: sticky;
   height: 450px;
-  top: 65px;
+  top: 64px;
   background-color: white;
   display: flex;
   flex-direction: column;
   padding: 20px;
   justify-content: center;
-  box-shadow: 0px 0px 12px #eeeeee;
-  z-index: 0;
+  box-shadow: 0px 0px 12px ${(props) => props.theme.colors.whiteForShadow};
+  border-radius: 5px;
   @media only screen and (max-width: 1200px) {
     bottom: 0px;
     width: 100%;
@@ -281,29 +291,21 @@ const Post = () => {
 
   const [isModal, setIsModal] = useState(false);
 
-  const data2 = itemData.itemSlice.data;
-
   const [imgIdx, setImgIdx] = useState(0);
 
-  const [width, setWidth] = useState(window.innerWidth);
+  // const [width, setWidth] = useState(window.innerWidth);
 
-  const handleResize = () => setWidth(window.innerWidth);
-  useEffect(() => {
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const [modalVisible, setModalVisible] = useState(false);
-  const openModal = () => {
-    setModalVisible(true);
-  };
-  const closeModal = () => {
-    setModalVisible(false);
-  };
+  // const handleResize = () => setWidth(window.innerWidth);
+  // useEffect(() => {
+  //   window.addEventListener('resize', handleResize);
+  //   return () => window.removeEventListener('resize', handleResize);
+  // }, []);
 
   useEffect(() => {
     dispatch(getItemAsync(postId));
   }, []);
+
+  const user_id = itemData.userSlice.userinfo?.id as number;
 
   let data = itemData.itemSlice.data;
   let id = data.id;
@@ -312,9 +314,7 @@ const Post = () => {
   let title = data.title;
   let contents = data.contents;
   let price = data.price;
-  let img_src = data.image_src.split(',');
-  console.log(itemData.itemSlice.data);
-  console.log('contents', contents);
+  let img_src = data.image_src.split(',').slice(0, 4);
 
   const stockHandler = (el: string) => {
     if (el === 'plus' && stock <= 98) setStock(stock + 1);
@@ -322,7 +322,6 @@ const Post = () => {
   };
 
   const addCart = () => {
-    const user_id = itemData.userSlice.userinfo?.id as number;
     let tmpObj: {
       user_id: number;
       item_id: number;
@@ -336,17 +335,83 @@ const Post = () => {
       status: 'pending',
       peritem_price: price,
     };
-    console.log(tmpObj);
 
     let response = apiClient.post(
       `${urlConfig.url}/orders/orderdetail`,
       tmpObj,
     );
-    console.log(response);
   };
 
   const handleModal = () => {
     setIsModal(!isModal);
+  };
+
+  const payHandler = async () => {
+    const data = {
+      user_id: user_id,
+      item_id: id,
+      order_amount: stock,
+      peritem_price: price,
+      status: 'pending',
+    };
+
+    console.log(data);
+
+    const response = await apiClient.post(
+      `${urlConfig.url}/orders/orderdetail`,
+      data,
+    );
+
+    console.log('response', response);
+    console.log('response.data.data.id', response.data.data.id);
+
+    const order_id = response.data.data.id;
+
+    const obj2 = {
+      total_amount:
+        itemData.cartSlice.totalPrice + itemData.cartSlice.totalDelivery,
+      status: 'pending',
+      user_id: user_id,
+      order_detail_id: [order_id],
+      shipping_status: 'pending',
+      shipping_company: 'cj대한통운',
+      shipping_code: '01234567890',
+    };
+
+    let itemInfo = {
+      title: title,
+      image_src: img_src[0],
+      order_aomunt: stock,
+      price: price,
+    };
+    let newData = [
+      {
+        item: {
+          order_details: [
+            {
+              id: order_id,
+              item_id: id,
+              order_amount: stock,
+              peritem_price: price,
+              status: 'pending',
+              user_id: user_id,
+              item: itemInfo,
+            },
+          ],
+          storeInfo: {
+            storename: seller,
+          },
+        },
+      },
+    ];
+    await dispatch(setData(newData));
+    await dispatch(postOrderDetailAsync(data));
+    await dispatch(setTotalPriceForOne(price * stock));
+    await dispatch(setDelivery(3000));
+    await dispatch(postOrderAsync(obj2));
+    await dispatch(getUsersAsync(user_id));
+
+    navigate('/payment');
   };
 
   return (
@@ -368,7 +433,6 @@ const Post = () => {
               })}
             </ThumbnailImgContainer>
           </ImgContainer>
-
           <BottomContainer>
             <ContentsContainer>
               <ContentsTitleContainer>
@@ -415,7 +479,7 @@ const Post = () => {
                 >
                   장바구니
                 </CartButton>
-                <OrderButton>상품구매</OrderButton>
+                <OrderButton onClick={payHandler}>상품구매</OrderButton>
               </ButtonContainer>
             </OrderContainer>
           </BottomContainer>
