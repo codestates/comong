@@ -13,14 +13,16 @@ const Heart = styled(HeartIcon)`
 `;
 
 const Wrapper = styled.div`
-  background-color: white;
+  /* background-color: white; */
   padding: 4px 8px;
-  position: absolute;
-  border: 1px solid ${(props) => props.theme.colors.darkGrey};
+  /* position: absolute; */
+  /* position: fixed; */
+  /* border: 1px solid ${(props) => props.theme.colors.darkGrey}; */
   color: ${(props) => props.theme.colors.darkGrey};
   border-radius: 8px;
-  right: 0;
-  bottom: 4px;
+  /* right: 100px;
+  bottom: 10px; */
+  z-index: -1;
 
   &.selected {
     border: 1px solid #dd576f;

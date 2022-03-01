@@ -71,8 +71,18 @@ function PostList() {
   }, [infoArray]);
 
   const getInfo = async () => {
-    const res = await apiClient.get('items?number=12', {}); // 서버에서 데이터 가져오기
-    setInfoArray((curInfoArray) => [...curInfoArray, ...res.data]); // state에 추가
+    // console.log('infoArray.length', infoArray.length);
+    // console.log(
+    //   'infoArray[infoArray.length].id',
+    //   infoArray[infoArray.length - 1].id,
+    // );
+
+    const apiId = infoArray.length > 0 ? infoArray[infoArray.length - 1].id : 0;
+
+    const res = await apiClient.get(`items?number=20&startindex=${apiId}`, {}); // 서버에서 데이터 가져오기
+    console.log('res.data', res.data);
+    setInfoArray((infoArray) => [...infoArray, ...res.data]); // state에 추가
+
     console.log(infoArray);
     console.log('info data add...');
   };
@@ -90,11 +100,12 @@ function PostList() {
     });
   };
 
+  console.log('infoArray', infoArray);
   return (
     <PostListWrapper>
       {infoArray?.map((post: Post, index) => {
         console.log('infoArray.length', infoArray.length, 'index', index);
-        if (infoArray.length - 12 === index) {
+        if (infoArray.length - 5 === index) {
           return (
             <ItemContainer key={post.id + post.title} ref={boxRef}>
               <PostListItem key={post.id} post={post} />

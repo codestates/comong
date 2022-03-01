@@ -21,6 +21,8 @@ import { setSubTotalPriceForOne } from '../redux/modules/cartSlice';
 import { setTotalPriceForOne } from '../redux/modules/cartSlice';
 import { setDelivery } from '../redux/modules/cartSlice';
 import { LoginNeedModal } from '../components/Modals/LoginNeedModal';
+import Comments from '../components/Comments/Comments';
+import { getCommentAsync } from '../redux/modules/itemSlice';
 
 const env = 'development';
 const urlConfig = config[env];
@@ -35,22 +37,12 @@ const Post = () => {
 
   const [isModal, setIsModal] = useState(false);
   const [isLoginModal, setIsLoginModal] = useState(false);
-
+  const [isComments, setIsComments] = useState(false);
   const [imgIdx, setImgIdx] = useState(0);
-
+  const [isDetail, setIsDetail] = useState();
   const isLogin = itemData.userSlice.isLogin;
 
-  // const [width, setWidth] = useState(window.innerWidth);
-
-  // const handleResize = () => setWidth(window.innerWidth);
-  // useEffect(() => {
-  //   window.addEventListener('resize', handleResize);
-  //   return () => window.removeEventListener('resize', handleResize);
-  // }, []);
-
-  useEffect(() => {
-    dispatch(getItemAsync(postId));
-  }, []);
+  let commentList: any = [];
 
   const user_id = itemData.userSlice.userinfo?.id as number;
 
@@ -62,6 +54,11 @@ const Post = () => {
   let contents = data.contents;
   let price = data.price;
   let img_src = data.image_src.split(',').slice(0, 4);
+
+  useEffect(() => {
+    dispatch(getItemAsync(postId));
+    dispatch(getCommentAsync(postId));
+  }, []);
 
   const stockHandler = (el: string) => {
     if (el === 'plus' && stock <= 98) setStock(stock + 1);
@@ -167,6 +164,12 @@ const Post = () => {
     navigate('/payment');
   };
 
+  const contentsHandler = (el: string) => {
+    if (el === 'description') setIsComments(false);
+    else setIsComments(true);
+  };
+
+  console.log(commentList);
   return (
     <>
       <Container>
@@ -189,15 +192,30 @@ const Post = () => {
           <BottomContainer>
             <ContentsContainer>
               <ContentsTitleContainer>
-                <ContentsTitle>상품 설명</ContentsTitle>
-                <ContentsTitle>상품평</ContentsTitle>
+                <ContentsTitle
+                  onClick={() => {
+                    contentsHandler('description');
+                  }}
+                >
+                  상품 설명
+                </ContentsTitle>
+                <ContentsTitle
+                  onClick={() => {
+                    contentsHandler('comments');
+                  }}
+                >
+                  상품평
+                </ContentsTitle>
               </ContentsTitleContainer>
               <Contentsline />
               <ContentsArea>
-                <CoViewer editorState={contents} />
+                {isComments ? (
+                  <Comments itemId={id} list={commentList} />
+                ) : (
+                  <CoViewer editorState={contents} />
+                )}
               </ContentsArea>
             </ContentsContainer>
-
             <OrderContainer>
               <Category>{category}</Category>
               <Title>{title}</Title>
