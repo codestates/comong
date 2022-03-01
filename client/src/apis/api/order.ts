@@ -15,6 +15,7 @@ export const getOrders = async (params: IGetOrderParams) => {
     for (let key in response.data) {
       data.push(...response.data[key].order_detail_info);
     }
+    console.log(data);
     return data;
   } catch (error) {}
 };

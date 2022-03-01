@@ -17,6 +17,27 @@ const Wrapper = styled.div`
   font-size: 14px;
 `;
 
+const TrackingNumWrapper = styled.div`
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+
+  h3 {
+    font-weight: 700;
+    font-size: 18px;
+  }
+
+  div.shipping {
+    background-color: ${(props) => props.theme.colors.lightGrey};
+    font-weight: 700;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    display: flex;
+    gap: 1rem;
+  }
+`;
+
 const ShippingWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -58,6 +79,15 @@ function SaleHistoryDetails({ order }: ISaleHistoryDetails) {
   console.log(orderInfo);
   return (
     <Wrapper>
+      {orderInfo.shipping_code && (
+        <TrackingNumWrapper>
+          <h3>송장 정보</h3>
+          <div className="shipping">
+            <span>{orderInfo.shipping_company}</span>
+            <span>{orderInfo.shipping_code}</span>
+          </div>
+        </TrackingNumWrapper>
+      )}
       <ShippingWrapper>
         <h3>배송지 정보</h3>
         <ShippingRow>
