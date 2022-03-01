@@ -20,9 +20,247 @@ import { setSubTotalPrice } from '../redux/modules/cartSlice';
 import { setSubTotalPriceForOne } from '../redux/modules/cartSlice';
 import { setTotalPriceForOne } from '../redux/modules/cartSlice';
 import { setDelivery } from '../redux/modules/cartSlice';
+import { LoginNeedModal } from '../components/Modals/LoginNeedModal';
+import Comments from '../components/Comments/Comments';
+import { getCommentAsync } from '../redux/modules/itemSlice';
 
 const env = 'development';
 const urlConfig = config[env];
+
+const Post = () => {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const postId = Number(pathname.split('/')[2]);
+  const [stock, setStock] = useState(1);
+  const itemData = useAppSelector((state: RootState) => state);
+  const dispatch = useAppDispatch();
+
+  const [isModal, setIsModal] = useState(false);
+  const [isLoginModal, setIsLoginModal] = useState(false);
+  const [isComments, setIsComments] = useState(false);
+  const [imgIdx, setImgIdx] = useState(0);
+  const [isDetail, setIsDetail] = useState();
+  const isLogin = itemData.userSlice.isLogin;
+
+  let commentList: any = [];
+
+  const user_id = itemData.userSlice.userinfo?.id as number;
+
+  let data = itemData.itemSlice.data;
+  let id = data.id;
+  let category = data.category;
+  let seller = data.user_storename;
+  let title = data.title;
+  let contents = data.contents;
+  let price = data.price;
+  let img_src = data.image_src.split(',').slice(0, 4);
+
+  useEffect(() => {
+    dispatch(getItemAsync(postId));
+    dispatch(getCommentAsync(postId));
+  }, []);
+
+  const stockHandler = (el: string) => {
+    if (el === 'plus' && stock <= 98) setStock(stock + 1);
+    if (el === 'minus' && stock >= 2) setStock(stock - 1);
+  };
+
+  const addCart = () => {
+    if (!isLogin) {
+      setIsLoginModal(!isLoginModal);
+      return;
+    }
+    setIsModal(!isModal);
+
+    let tmpObj: {
+      user_id: number;
+      item_id: number;
+      order_amount: number;
+      status: string;
+      peritem_price: number;
+    } = {
+      user_id: user_id,
+      item_id: id,
+      order_amount: stock,
+      status: 'pending',
+      peritem_price: price,
+    };
+
+    let response = apiClient.post(
+      `${urlConfig.url}/orders/orderdetail`,
+      tmpObj,
+    );
+  };
+
+  const payHandler = async () => {
+    if (!isLogin) {
+      setIsLoginModal(!isLoginModal);
+      return;
+    }
+    const data = {
+      user_id: user_id,
+      item_id: id,
+      order_amount: stock,
+      peritem_price: price,
+      status: 'pending',
+    };
+
+    console.log(data);
+
+    const response = await apiClient.post(
+      `${urlConfig.url}/orders/orderdetail`,
+      data,
+    );
+
+    console.log('response', response);
+    console.log('response.data.data.id', response.data.data.id);
+
+    const order_id = response.data.data.id;
+
+    const obj2 = {
+      total_amount:
+        itemData.cartSlice.totalPrice + itemData.cartSlice.totalDelivery,
+      status: 'pending',
+      user_id: user_id,
+      order_detail_id: [order_id],
+      shipping_status: 'pending',
+      shipping_company: 'cj대한통운',
+      shipping_code: '01234567890',
+    };
+
+    let itemInfo = {
+      title: title,
+      image_src: img_src[0],
+      order_aomunt: stock,
+      price: price,
+    };
+    let newData = [
+      {
+        item: {
+          order_details: [
+            {
+              id: order_id,
+              item_id: id,
+              order_amount: stock,
+              peritem_price: price,
+              status: 'pending',
+              user_id: user_id,
+              item: itemInfo,
+            },
+          ],
+          storeInfo: {
+            storename: seller,
+          },
+        },
+      },
+    ];
+    await dispatch(setData(newData));
+    await dispatch(postOrderDetailAsync(data));
+    await dispatch(setTotalPriceForOne(price * stock));
+    await dispatch(setDelivery(3000));
+    await dispatch(postOrderAsync(obj2));
+    await dispatch(getUsersAsync(user_id));
+
+    navigate('/payment');
+  };
+
+  const contentsHandler = (el: string) => {
+    if (el === 'description') setIsComments(false);
+    else setIsComments(true);
+  };
+
+  console.log(commentList);
+  return (
+    <>
+      <Container>
+        <PostContainer>
+          <ImgContainer>
+            <MainImgContainer>
+              <MainImg src={img_src[imgIdx]} />
+            </MainImgContainer>
+            <ThumbnailImgContainer>
+              {img_src.map((elements, index) => {
+                return (
+                  <ThumbnailImg
+                    src={elements}
+                    onClick={() => setImgIdx(index)}
+                  />
+                );
+              })}
+            </ThumbnailImgContainer>
+          </ImgContainer>
+          <BottomContainer>
+            <ContentsContainer>
+              <ContentsTitleContainer>
+                <ContentsTitle
+                  onClick={() => {
+                    contentsHandler('description');
+                  }}
+                >
+                  상품 설명
+                </ContentsTitle>
+                <ContentsTitle
+                  onClick={() => {
+                    contentsHandler('comments');
+                  }}
+                >
+                  상품평
+                </ContentsTitle>
+              </ContentsTitleContainer>
+              <Contentsline />
+              <ContentsArea>
+                {isComments ? (
+                  <Comments itemId={id} list={commentList} />
+                ) : (
+                  <CoViewer editorState={contents} />
+                )}
+              </ContentsArea>
+            </ContentsContainer>
+            <OrderContainer>
+              <Category>{category}</Category>
+              <Title>{title}</Title>
+              <Seller>{seller}</Seller>
+              <Price>{(price * stock).toLocaleString('en')}원</Price>
+              <StockController>
+                <StockMinusButton
+                  onClick={() => {
+                    stockHandler('minus');
+                  }}
+                >
+                  <StockMinusIcon src="/icons/post/minus.png" />
+                </StockMinusButton>
+                <StockDisplay>{stock}</StockDisplay>
+                <StockAddButton
+                  onClick={() => {
+                    stockHandler('plus');
+                  }}
+                >
+                  <StockAddIcon src="/icons/post/plus.png" />
+                </StockAddButton>
+              </StockController>
+              {isModal ? (
+                <PostModal>장바구니에 상품이 담겼습니다</PostModal>
+              ) : null}
+              {isLoginModal ? (
+                <LoginNeedModal>로그인이 필요합니다</LoginNeedModal>
+              ) : null}
+              <ButtonContainer>
+                <CartButton
+                  onClick={() => {
+                    addCart();
+                  }}
+                >
+                  장바구니
+                </CartButton>
+                <OrderButton onClick={payHandler}>상품구매</OrderButton>
+              </ButtonContainer>
+            </OrderContainer>
+          </BottomContainer>
+        </PostContainer>
+      </Container>
+    </>
+  );
+};
 
 const Container = styled.div`
   display: flex;
@@ -144,7 +382,7 @@ const OrderContainer = styled.div`
   @media only screen and (max-width: 1200px) {
     bottom: 0px;
     width: 100%;
-    height: 300px;
+    height: 280px;
   }
   @media only screen and (max-width: 768px) {
   }
@@ -171,7 +409,7 @@ const Title = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   word-wrap: break-word;
-  height: 60px;
+  height: 30px;
   line-height: 27px;
 `;
 
@@ -280,213 +518,5 @@ const OrderButton = styled.button`
   @media only screen and (max-width: 768px) {
   }
 `;
-
-const Post = () => {
-  const navigate = useNavigate();
-  const { pathname } = useLocation();
-  const postId = Number(pathname.split('/')[2]);
-  const [stock, setStock] = useState(1);
-  const itemData = useAppSelector((state: RootState) => state);
-  const dispatch = useAppDispatch();
-
-  const [isModal, setIsModal] = useState(false);
-
-  const [imgIdx, setImgIdx] = useState(0);
-
-  // const [width, setWidth] = useState(window.innerWidth);
-
-  // const handleResize = () => setWidth(window.innerWidth);
-  // useEffect(() => {
-  //   window.addEventListener('resize', handleResize);
-  //   return () => window.removeEventListener('resize', handleResize);
-  // }, []);
-
-  useEffect(() => {
-    dispatch(getItemAsync(postId));
-  }, []);
-
-  const user_id = itemData.userSlice.userinfo?.id as number;
-
-  let data = itemData.itemSlice.data;
-  let id = data.id;
-  let category = data.category;
-  let seller = data.user_storename;
-  let title = data.title;
-  let contents = data.contents;
-  let price = data.price;
-  let img_src = data.image_src.split(',').slice(0, 4);
-
-  const stockHandler = (el: string) => {
-    if (el === 'plus' && stock <= 98) setStock(stock + 1);
-    if (el === 'minus' && stock >= 2) setStock(stock - 1);
-  };
-
-  const addCart = () => {
-    let tmpObj: {
-      user_id: number;
-      item_id: number;
-      order_amount: number;
-      status: string;
-      peritem_price: number;
-    } = {
-      user_id: user_id,
-      item_id: id,
-      order_amount: stock,
-      status: 'pending',
-      peritem_price: price,
-    };
-
-    let response = apiClient.post(
-      `${urlConfig.url}/orders/orderdetail`,
-      tmpObj,
-    );
-  };
-
-  const handleModal = () => {
-    setIsModal(!isModal);
-  };
-
-  const payHandler = async () => {
-    const data = {
-      user_id: user_id,
-      item_id: id,
-      order_amount: stock,
-      peritem_price: price,
-      status: 'pending',
-    };
-
-    console.log(data);
-
-    const response = await apiClient.post(
-      `${urlConfig.url}/orders/orderdetail`,
-      data,
-    );
-
-    console.log('response', response);
-    console.log('response.data.data.id', response.data.data.id);
-
-    const order_id = response.data.data.id;
-
-    const obj2 = {
-      total_amount:
-        itemData.cartSlice.totalPrice + itemData.cartSlice.totalDelivery,
-      status: 'pending',
-      user_id: user_id,
-      order_detail_id: [order_id],
-      shipping_status: 'pending',
-      shipping_company: 'cj대한통운',
-      shipping_code: '01234567890',
-    };
-
-    let itemInfo = {
-      title: title,
-      image_src: img_src[0],
-      order_aomunt: stock,
-      price: price,
-    };
-    let newData = [
-      {
-        item: {
-          order_details: [
-            {
-              id: order_id,
-              item_id: id,
-              order_amount: stock,
-              peritem_price: price,
-              status: 'pending',
-              user_id: user_id,
-              item: itemInfo,
-            },
-          ],
-          storeInfo: {
-            storename: seller,
-          },
-        },
-      },
-    ];
-    await dispatch(setData(newData));
-    await dispatch(postOrderDetailAsync(data));
-    await dispatch(setTotalPriceForOne(price * stock));
-    await dispatch(setDelivery(3000));
-    await dispatch(postOrderAsync(obj2));
-    await dispatch(getUsersAsync(user_id));
-
-    navigate('/payment');
-  };
-
-  return (
-    <>
-      <Container>
-        <PostContainer>
-          <ImgContainer>
-            <MainImgContainer>
-              <MainImg src={img_src[imgIdx]} />
-            </MainImgContainer>
-            <ThumbnailImgContainer>
-              {img_src.map((elements, index) => {
-                return (
-                  <ThumbnailImg
-                    src={elements}
-                    onClick={() => setImgIdx(index)}
-                  />
-                );
-              })}
-            </ThumbnailImgContainer>
-          </ImgContainer>
-          <BottomContainer>
-            <ContentsContainer>
-              <ContentsTitleContainer>
-                <ContentsTitle>상품 설명</ContentsTitle>
-                <ContentsTitle>상품평</ContentsTitle>
-              </ContentsTitleContainer>
-              <Contentsline />
-              <ContentsArea>
-                <CoViewer editorState={contents} />
-              </ContentsArea>
-            </ContentsContainer>
-
-            <OrderContainer>
-              <Category>{category}</Category>
-              <Title>{title}</Title>
-              <Seller>{seller}</Seller>
-              <Price>{(price * stock).toLocaleString('en')}원</Price>
-              <StockController>
-                <StockMinusButton
-                  onClick={() => {
-                    stockHandler('minus');
-                  }}
-                >
-                  <StockMinusIcon src="/icons/post/minus.png" />
-                </StockMinusButton>
-                <StockDisplay>{stock}</StockDisplay>
-                <StockAddButton
-                  onClick={() => {
-                    stockHandler('plus');
-                  }}
-                >
-                  <StockAddIcon src="/icons/post/plus.png" />
-                </StockAddButton>
-              </StockController>
-              {isModal ? (
-                <PostModal>장바구니에 상품이 담겼습니다</PostModal>
-              ) : null}
-              <ButtonContainer>
-                <CartButton
-                  onClick={() => {
-                    addCart();
-                    handleModal();
-                  }}
-                >
-                  장바구니
-                </CartButton>
-                <OrderButton onClick={payHandler}>상품구매</OrderButton>
-              </ButtonContainer>
-            </OrderContainer>
-          </BottomContainer>
-        </PostContainer>
-      </Container>
-    </>
-  );
-};
 
 export default Post;

@@ -18,3 +18,17 @@ export const getOrders = async (params: IGetOrderParams) => {
     return data;
   } catch (error) {}
 };
+
+export const getOrdersSeller = async (params: IGetOrderParams) => {
+  try {
+    const response = await apiClient.get('/orders/seller', { params });
+    const data = response.data;
+    let result = [];
+    for (let key in data) {
+      result.push(data[key]);
+    }
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -15,6 +15,7 @@ export interface Item {
     user_storename: string;
     category: string;
   };
+  comments: [];
 }
 
 const initialState: Item = {
@@ -27,6 +28,7 @@ const initialState: Item = {
     user_storename: '싸게파는 판매자',
     category: '기타 카테고리',
   },
+  comments: [],
 };
 
 const itemSlice = createSlice({
@@ -38,6 +40,10 @@ const itemSlice = createSlice({
       let contents = action.payload;
 
       return { ...state, data: contents };
+    });
+    builder.addCase(getCommentAsync.fulfilled, (state, action) => {
+      console.log(action.payload);
+      state.comments = action.payload.data;
     });
   },
 });
@@ -52,6 +58,16 @@ export const getItemAsync = createAsyncThunk(
       {
         data: {},
       },
+    );
+    console.log(response);
+    return response.data;
+  },
+);
+export const getCommentAsync = createAsyncThunk(
+  'comments/details',
+  async (id?: number) => {
+    const response = await apiClient.get(
+      `${urlConfig.url}/comments/itemlist?item_id=${id}`,
     );
     console.log(response);
     return response.data;

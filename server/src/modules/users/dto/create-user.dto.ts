@@ -28,12 +28,21 @@ export class CreateUserDto {
 
     @ApiProperty({
         example: '01012345678',
-        description: '연락처',
+        description: '연락처1',
         required: false,
     })
     @IsOptional()
     @IsString()
-    readonly phone: string;
+    readonly mobile: string;
+
+    @ApiProperty({
+        example: '01012345678',
+        description: '연락처2',
+        required: false,
+    })
+    @IsOptional()
+    @IsString()
+    readonly telephone: string;
 
     @ApiProperty({
         example: '1',
@@ -60,7 +69,7 @@ export class CreateUserDto {
     })
     @IsOptional()
     @IsString()
-    address1: string;
+    address_line1: string;
 
     @ApiProperty({
         example: '101동 101호.',
@@ -69,7 +78,34 @@ export class CreateUserDto {
     })
     @IsOptional()
     @IsString()
-    address2: string;
+    address_line2: string;
+
+    @ApiProperty({
+        example: '08217',
+        description: '우편번호',
+        required: false,
+    })
+    @IsOptional()
+    @IsString()
+    postal_code: string;
+
+    @ApiProperty({
+        example: '서울시',
+        description: '시/도',
+        required: false,
+    })
+    @IsOptional()
+    @IsString()
+    city: string;
+
+    @ApiProperty({
+        example: '대한민국',
+        description: '국가',
+        required: false,
+    })
+    @IsOptional()
+    @IsString()
+    country: string;
 
     @ApiProperty({
         example: '2000-01-01',

@@ -32,6 +32,7 @@ import { getUser } from '../../decorators/getUser'
 import { User } from './entities/user.entity';
 import { BcryptPasswordHashPipe } from 'src/util/bcryptpasswordhashpipe';
 import { BcryptPasswordValidationPipe } from 'src/util/bcrypepasswordvalidationpipe';
+import { signUpTransformPipe } from './pipe/signuptransformpipe';
 
 @Controller('users')
 @ApiTags('회원 정보 관련')
@@ -49,8 +50,22 @@ export class UsersController {
 	@ApiInternalServerErrorResponse({ description: 'service unavailable(mailer)'})
 	@UsePipes(ValidationPipe)
 	@UsePipes(BcryptPasswordHashPipe)
-	async create(@Body() user: CreateUserDto) {
+	//@UsePipes(signUpTransformPipe)
+	async create(@Body(new signUpTransformPipe()) user: CreateUserDto) {
 		return this.usersService.create(user)
+	}
+
+	@Get('address')
+	@ApiOperation({
+		summary: '주소 정보',
+		description: '주소 정보를 요청합니다.',
+	})
+	@ApiOkResponse({ description: 'successful' })
+	@ApiInternalServerErrorResponse({ description: 'service unavailable'})
+	@ApiBearerAuth('accessToken')
+	@UseGuards(JwtAuthGuard)
+	getAddress(@getUser() user: User): Promise<{}> {
+		return this.usersService.getAddress(user)
 	}
 
 	@Get('isduplicate/:email')
@@ -105,7 +120,7 @@ export class UsersController {
 	})
 	@UseGuards(JwtAuthGuard)
 	@UsePipes(BcryptPasswordHashPipe)
-	update(@getUser() user: User,@Body() changes: UpdateUserDto) {
+	update(@getUser() user: User,@Body(new signUpTransformPipe()) changes: UpdateUserDto) {
 		return this.usersService.update(user, changes);
 	}
 
