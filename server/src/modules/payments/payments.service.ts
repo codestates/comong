@@ -106,7 +106,6 @@ export class PaymentsService {
 								},
 							);
 						}
-
 						//paymentTime
 						const paymentTime = new Date(validationData.paid_at);
 						validationData['paymentTime'] = paymentTime;
