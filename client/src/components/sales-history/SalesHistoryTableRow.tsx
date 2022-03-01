@@ -1,19 +1,22 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
-import ButtonSimple from '../../../components/common/button/ButtonSimple';
-import { ISalesList } from './MypageSellerDefault';
+import { ISalesList } from '../../pages/mypage/mypage_seller/MypageSellerDefault';
 import SaleHistoryDetails from './SaleHistoryDetails';
 import { cellWidth } from './SalesHistoryTableProperty';
+import SalesHistoryStatus from './SalesHistoryStatus';
+import ButtonSimple from '../common/button/ButtonSimple';
+import SalesHistoryTrackingNum from './SalesHistoryTrackingNum';
 
 const SalesHistoryListItem = styled.div`
   width: 100%;
   display: flex;
-  font-size: 14px;
+  font-size: 12.5px;
 
   > div {
     border-right: 1px solid ${(props) => props.theme.colors.darkGrey};
     border-bottom: 1px solid black;
   }
+
   > div:last-child {
     border-right: none;
   }
@@ -48,11 +51,18 @@ const Cell = styled.div`
     padding: 10px;
     gap: 10px;
   }
+
   &.order-price {
     flex-direction: column;
   }
+
   &.order-status {
-    justify-content: space-around;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+  }
+  &.order-cancel {
+    padding: 0 8px;
   }
 `;
 
@@ -78,34 +88,14 @@ const SalesItemBasicInfo = styled.div`
   }
 `;
 
-const SalesStatus = styled.div`
-  width: 40%;
-  text-align: center;
-`;
-
-const ButtonWrapper = styled.div`
-  width: 80px;
-`;
-
-export const orderStatus: {
-  [key: string]: string;
-  paid: string;
-  pending: string;
-} = {
-  paid: '결제 완료',
-  pending: '결제 대기 중',
-};
-
 interface ISalesHistoryTableRow {
   order: ISalesList;
 }
 
 function SalesHistoryTableRow({ order }: ISalesHistoryTableRow) {
   const [showDetails, setShowDetails] = useState(false);
+  const [showTrackingNumForm, setShowTrackingNumForm] = useState(false);
   const { order_detail_info: orderItemInfo, order_info: orderInfo } = order;
-  // orderItemInfo는 배열임
-  console.log(orderItemInfo);
-  console.log(orderInfo);
 
   return (
     <>
@@ -129,12 +119,21 @@ function SalesHistoryTableRow({ order }: ISalesHistoryTableRow) {
           <span>{orderInfo.total_amount}원</span>
         </Cell>
         <Cell className="order-status">
-          <SalesStatus>{orderStatus[orderInfo.status]}</SalesStatus>
-          <ButtonWrapper>
-            <ButtonSimple buttonClickHandler={() => {}}>송장입력</ButtonSimple>
-          </ButtonWrapper>
+          <SalesHistoryStatus
+            order={order}
+            showTrackingNumForm={showTrackingNumForm}
+            setShowTrackingNumForm={setShowTrackingNumForm}
+          ></SalesHistoryStatus>
+        </Cell>
+        <Cell className="order-cancel">
+          <span>{orderInfo.status === 'canceled' ? '처리완료' : '-'}</span>
         </Cell>
       </SalesHistoryListItem>
+      {showTrackingNumForm && (
+        <SalesHistoryTrackingNum
+          orderId={orderInfo.id}
+        ></SalesHistoryTrackingNum>
+      )}
       {showDetails && <SaleHistoryDetails order={order}></SaleHistoryDetails>}
     </>
   );

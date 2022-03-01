@@ -6,14 +6,27 @@ import NavSeller from './NavSeller';
 import NavUser from './NavUser';
 
 const Wrapper = styled.div`
-  height: 100vh;
+  height: auto;
   width: 200px;
   border: 1px solid ${(props) => props.theme.colors.lightGrey};
   background-color: white;
   z-index: 1;
+  position: fixed;
+  top: 60px;
+  left: 12%;
 
   @media only screen and (max-width: 1200px) {
-    position: absolute;
+    height: 100vh;
+    width: 18%;
+    top: 100px;
+    left: 0px;
+  }
+
+  @media only screen and (max-width: 768px) {
+    width: 100%;
+    overflow: scroll;
+    padding: 0 20px 100px 20px;
+    top: 60px;
   }
 `;
 

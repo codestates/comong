@@ -4,14 +4,16 @@ import { getOrdersSeller } from '../../../apis/api/order';
 import SellerOrderStateList from '../../../components/mypage/SellerOrderStateList';
 import { useAppSelector } from '../../../redux/configStore.hooks';
 import { IItem } from '../mypage_user/MypageBookmarks';
-import SalesHistoryTable from './SalesHistoryTable';
+import SalesHistoryTable from '../../../components/sales-history/SalesHistoryTable';
 
 const Wrapper = styled.div`
   padding: 60px 0;
   height: 100vh;
 `;
 
-const SliceHistoryWrapper = styled.div``;
+const SliceHistoryWrapper = styled.div`
+  margin-top: 60px;
+`;
 
 export interface IOrderDetailInfo {
   item_info: IItem;
@@ -63,6 +65,7 @@ function MypageSellerDefault() {
 
   const fetchData = async () => {
     try {
+      console.log('hi');
       const response = await getOrdersSeller({ user_id: userinfo?.id! });
       setSalesList(response!);
     } catch (error) {}
