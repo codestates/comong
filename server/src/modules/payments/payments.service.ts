@@ -95,7 +95,17 @@ export class PaymentsService {
 						const itemTitleArr = itemList.map((elem) => {
 							return elem.title;
 						});
-
+						for (let i = 0; i < order_detailList.length; i++) {
+							await models.item_inventory.decrement(
+								{
+									stock: order_detailList[i].order_amount,
+								},
+								{
+									where: { item_id: order_detailList[i].item_id },
+									transaction: t,
+								},
+							);
+						}
 						//paymentTime
 						const paymentTime = new Date(validationData.paid_at);
 						validationData['paymentTime'] = paymentTime;
