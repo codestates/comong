@@ -49,35 +49,51 @@ function SalesHistoryStatus({
     shipping_status: orderInfo.shipping_status,
   };
 
-  const showButton: { [key: string]: JSX.Element } = {
+  const buttons: { [key: string]: JSX.Element } = {
     pending: (
-      <ButtonSimple
-        buttonClickHandler={() => {
-          payload.shipping_status = 'processing';
-          patchOrdersSeller(payload);
-        }}
-      >
-        결제 승인
-      </ButtonSimple>
+      <ButtonWrapper>
+        <ButtonSimple
+          buttonClickHandler={() => {
+            payload.shipping_status = 'processing';
+            patchOrdersSeller(payload);
+          }}
+        >
+          결제 승인
+        </ButtonSimple>
+      </ButtonWrapper>
     ),
     processing: (
-      <ButtonSimple
-        buttonClickHandler={(e) => {
-          e.stopPropagation();
-          setShowTrackingNumForm(!showTrackingNumForm);
-        }}
-      >
-        송장 입력
-      </ButtonSimple>
+      <ButtonWrapper>
+        <ButtonSimple
+          buttonClickHandler={(e) => {
+            e.stopPropagation();
+            setShowTrackingNumForm(!showTrackingNumForm);
+          }}
+        >
+          송장 입력
+        </ButtonSimple>
+      </ButtonWrapper>
     ),
+  };
+
+  const showButton = (status: string, shippingStatus: string) => {
+    if (status === 'paid' && shippingStatus === 'pending') {
+      return buttons['pending'];
+    } else if (shippingStatus === 'processing') {
+      return buttons['processing'];
+    } else {
+      return;
+    }
   };
 
   return (
     <>
-      <SalesStatus>{orderStatus[orderInfo.status]}</SalesStatus>
-      {orderInfo.status !== 'pending' && (
-        <ButtonWrapper>{showButton[orderInfo.shipping_status]}</ButtonWrapper>
-      )}
+      <SalesStatus>
+        {orderInfo.shipping_status === 'pending'
+          ? orderStatus[orderInfo.status]
+          : shippingStatus[orderInfo.shipping_status]}
+      </SalesStatus>
+      {showButton(orderInfo.status, orderInfo.shipping_status)}
     </>
   );
 }

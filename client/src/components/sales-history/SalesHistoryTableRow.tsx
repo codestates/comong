@@ -130,7 +130,9 @@ function SalesHistoryTableRow({ order }: ISalesHistoryTableRow) {
         </Cell>
       </SalesHistoryListItem>
       {showTrackingNumForm && (
-        <SalesHistoryTrackingNum></SalesHistoryTrackingNum>
+        <SalesHistoryTrackingNum
+          orderId={orderInfo.id}
+        ></SalesHistoryTrackingNum>
       )}
       {showDetails && <SaleHistoryDetails order={order}></SaleHistoryDetails>}
     </>

@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { IPatchOrderParams, patchOrdersSeller } from '../../apis/api/order';
+import { useAppSelector } from '../../redux/configStore.hooks';
 import ButtonBasic from '../common/button/ButtonBasic';
 
 const Wrapper = styled.div`
@@ -29,16 +31,45 @@ const Wrapper = styled.div`
   }
 `;
 
-function SalesHistoryTrackingNum() {
+function SalesHistoryTrackingNum({ orderId }: { orderId: string }) {
+  const [payload, setPayload] = useState<IPatchOrderParams>({
+    order_id: orderId,
+    status: 'paid',
+    shipping_status: 'intransit',
+    shipping_company: '',
+    shipping_code: '',
+  });
+
   return (
     <Wrapper>
       <h3>송장 번호</h3>
-      <select name="pets" id="pet-select">
+      <select
+        onChange={(e) => {
+          setPayload({
+            ...payload,
+            shipping_company: e.currentTarget.value,
+          });
+        }}
+      >
         <option value="">--배송업체--</option>
         <option value="cj대한통운">cj대한통운</option>
       </select>
-      <input placeholder="송장번호" />
-      <ButtonBasic type="extraSmall" buttonClickHandler={() => {}}>
+      <input
+        placeholder="송장번호"
+        onChange={(e) => {
+          setPayload({
+            ...payload,
+            shipping_code: e.currentTarget.value,
+          });
+        }}
+      />
+      <ButtonBasic
+        type="extraSmall"
+        buttonClickHandler={() => {
+          console.log(payload);
+          patchOrdersSeller(payload);
+        }}
+      >
         등록
       </ButtonBasic>
     </Wrapper>

@@ -35,11 +35,15 @@ export const getOrdersSeller = async (params: IGetOrderParams) => {
 
 export interface IPatchOrderParams {
   order_id: string;
-  shipping_status: string;
+  status?: string;
+  shipping_status?: string;
+  shipping_company?: string;
+  shipping_code?: string;
 }
 
 export const patchOrdersSeller = async (payload: IPatchOrderParams) => {
   try {
+    console.log(payload);
     await apiClient.patch('/orders', payload);
     return;
   } catch (error) {
