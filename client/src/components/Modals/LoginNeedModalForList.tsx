@@ -9,7 +9,9 @@ export const ModalBackdrop = styled.div`
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.9);
+  background-color: rgba(0, 0, 0, 0.2);
+  /* background-color: red; */
+
   display: grid;
   place-items: center;
 `;
@@ -73,6 +75,7 @@ export const ModalView = styled.div.attrs((props) => ({
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  z-index: 1000;
   > div.desc {
     margin-top: 25px;
     color: ${(props) => props.theme.colors.charcol};
@@ -80,7 +83,7 @@ export const ModalView = styled.div.attrs((props) => ({
   }
 `;
 
-export const PostModal = (props: any) => {
+export const LoginNeedModalForList = (props: any) => {
   const [isOpen, setIsOpen] = useState(true);
   const navigate = useNavigate();
   const openModalHandler = () => {
@@ -96,15 +99,15 @@ export const PostModal = (props: any) => {
       <ModalContainer>
         {isOpen === true ? (
           <ModalBackdrop onClick={openModalHandler}>
-            <ModalView onClick={(e) => e.stopPropagation()}>
+            <ModalView onClick={(e) => e.preventDefault()}>
               <div className="desc">{props.children}</div>
               <BtnContainer>
                 <ModalBtn
                   onClick={() => {
-                    navigate('/cart');
+                    navigate('/login');
                   }}
                 >
-                  장바구니 가기
+                  로그인 하기
                 </ModalBtn>
                 <ModalCloseBtn onClick={openModalHandler}>닫기</ModalCloseBtn>
               </BtnContainer>
