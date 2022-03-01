@@ -27,7 +27,7 @@ export class CommentsController {
     return this.commentsService.createItemreview(data)
   }
 
-  @Get('/')
+  @Get('/user')
   @ApiHeader({
     name: 'Authorization',
     description: '사용자 인증 수단, 액세스 토큰 값',
@@ -45,10 +45,34 @@ export class CommentsController {
 		description: 'successful',
 	})
   // @UseGuards(JwtAuthGuard)
-  @ApiOperation({ summary: '구매후기 리스트', description: '구매한 상품에 대한후기 리스트 요청' })
+  @ApiOperation({ summary: '구매후기 리스트/구매자 정보창 기준', description: '구매한 상품에 대한후기 리스트 요청' })
   @ApiCreatedResponse({ description: 'successful' })
-  getItemReview(@Query('user_id') user_id: number) {
-    return this.commentsService.getItemreview(user_id)
+  getUserItemReview(@Query('user_id') user_id: number) {
+    return this.commentsService.getUserItemReview(user_id)
+  }
+
+  @Get('/itemlist')
+  @ApiHeader({
+    name: 'Authorization',
+    description: '사용자 인증 수단, 액세스 토큰 값',
+    required: true,
+    schema: {
+      example: 'bearer 23f43u9if13ekc23fm30jg549quneraf2fmsdf'
+    },
+  })
+	@ApiQuery({
+		name: 'item_id',
+		required: true,
+		description: 'item 아이디',
+	})
+	@ApiOkResponse({
+		description: 'successful',
+	})
+  // @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: '구매후기 리스트/상품 상세 화면 기준', description: '구매한 상품에 대한후기 리스트 요청' })
+  @ApiCreatedResponse({ description: 'successful' })
+  getListItemreview(@Query('item_id') item_id: number) {
+    return this.commentsService.getListItemreview(item_id)
   }
 
   @Patch('/')

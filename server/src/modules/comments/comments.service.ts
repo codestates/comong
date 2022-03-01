@@ -68,7 +68,7 @@ export class CommentsService {
 		return result;
 	}
 
-	async getItemreview(user_id: number) {
+	async getUserItemReview(user_id: number) {
 		const result = await Sequelize.transaction(async (t) => {
 			if (!user_id) {
 				throw new BadRequestException('user_id must be included');
@@ -126,6 +126,40 @@ export class CommentsService {
 					}
 				}
 				return { data: output, message: 'successful' };
+			}
+		})
+			.then((result: any) => {
+				return result;
+			})
+			.catch((err: any) => {
+				return err;
+			});
+		return result;
+	}
+
+	async getListItemreview(item_id: number) {
+		const result = await Sequelize.transaction(async (t) => {
+			if (!item_id) {
+				throw new BadRequestException(
+					'item_id must be needed for query parameter',
+				);
+			} else {
+				const orderDetailList = await models.order_detail.findAll({
+					where: {
+						item_id: item_id,
+					},
+				});
+				const orderDetailIdArr = orderDetailList.map((elem) => {
+					return elem.id;
+				});
+				const itemreviewList = await models.item_review.findAll({
+					where: {
+						order_detail_id: {
+							[Op.or]: orderDetailIdArr,
+						},
+					},
+				});
+				return { data: itemreviewList, message: 'successful' };
 			}
 		})
 			.then((result: any) => {
