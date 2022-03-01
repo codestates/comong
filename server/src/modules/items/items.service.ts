@@ -27,17 +27,41 @@ export class ItemsService {
 	private readonly logger = new Logger(ItemsService.name);
 
 	async create(newItem: CreateItemDto, user: User) {
-		console.log(newItem, user);
-		//newItem['user_id'] = user.id
-		const item = await models.item.create({ user_id: user.id, ...newItem });
-		console.log(item);
-		if (item) {
-			const mappingCategory = await models.item_has_category.create({
+		let transaction;
+
+		try {
+			transaction = await models.sequelize.transaction();
+
+			const item = await models.item.create({ user_id: user.id, ...newItem });
+
+			await models.item_has_category.create({
 				item_id: item.id,
 				category_id: newItem.category,
 			});
 
-			const mappingStock = await models.item_inventory.create({
+			await models.item_inventory.create({
+				item_id: item.id,
+				stock: newItem.stock,
+			});
+
+			await transaction.commit();
+
+			return { message: 'successful' };
+
+		} catch (err) {
+			if(transaction) await transaction.rollback();
+		}
+
+		/*
+		const item = await models.item.create({ user_id: user.id, ...newItem });
+		//console.log(item);
+		if (item) {
+			const insertCategory = await models.item_has_category.create({
+				item_id: item.id,
+				category_id: newItem.category,
+			});
+
+			const insertStock = await models.item_inventory.create({
 				item_id: item.id,
 				stock: newItem.stock,
 			});
@@ -49,6 +73,7 @@ export class ItemsService {
 		} else {
 			throw new BadRequestException('invalid value for property');
 		}
+		*/
 	}
 
 	async getItems(
