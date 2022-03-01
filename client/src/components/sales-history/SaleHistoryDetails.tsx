@@ -1,11 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
-import { IOrderDetailInfo, ISalesList } from './MypageSellerDefault';
+import {
+  IOrderDetailInfo,
+  ISalesList,
+} from '../../pages/mypage/mypage_seller/MypageSellerDefault';
 import SalesHistoryDetailsListItem from './SalesHistoryDetailsListItem';
 
 const Wrapper = styled.div`
   width: 100%;
-  padding: 2rem 5rem;
+  padding: 3rem 5rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -14,9 +17,31 @@ const Wrapper = styled.div`
   font-size: 14px;
 `;
 
+const TrackingNumWrapper = styled.div`
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+
+  h3 {
+    font-weight: 700;
+    font-size: 18px;
+  }
+
+  div.shipping {
+    background-color: ${(props) => props.theme.colors.lightGrey};
+    font-weight: 700;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    display: flex;
+    gap: 1rem;
+  }
+`;
+
 const ShippingWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  margin-bottom: 2rem;
 
   h3 {
     font-weight: 700;
@@ -54,6 +79,15 @@ function SaleHistoryDetails({ order }: ISaleHistoryDetails) {
   console.log(orderInfo);
   return (
     <Wrapper>
+      {orderInfo.shipping_code && (
+        <TrackingNumWrapper>
+          <h3>송장 정보</h3>
+          <div className="shipping">
+            <span>{orderInfo.shipping_company}</span>
+            <span>{orderInfo.shipping_code}</span>
+          </div>
+        </TrackingNumWrapper>
+      )}
       <ShippingWrapper>
         <h3>배송지 정보</h3>
         <ShippingRow>
@@ -68,8 +102,15 @@ function SaleHistoryDetails({ order }: ISaleHistoryDetails) {
           <div className="title">배송지</div>
           <div className="adress">
             <span>{orderInfo.postal_code}</span>
-            <span>{orderInfo.address_line1}</span>
-            <span>{orderInfo.address_line2}</span>
+            <span>
+              {orderInfo.address_line1} {orderInfo.address_line2}
+            </span>
+          </div>
+        </ShippingRow>
+        <ShippingRow>
+          <div className="title">배송업체</div>
+          <div className="adress">
+            <span>{orderInfo.shipping_company}</span>
           </div>
         </ShippingRow>
       </ShippingWrapper>

@@ -40,6 +40,7 @@ export interface IItem {
   title: string;
   user_id: number;
   user: { storename: string };
+  item_inventories?: { stock: number }[];
 }
 
 function MypageBookmarks() {

@@ -20,6 +20,7 @@ import UserOrderHistory from './pages/mypage/mypage_user/UserOrderHistory';
 import MypageBookmarks from './pages/mypage/mypage_user/MypageBookmarks';
 import MypageReviews from './pages/mypage/mypage_user/MypageReviews';
 import MypageSellerDefault from './pages/mypage/mypage_seller/MypageSellerDefault';
+import MypageSellerItems from './pages/mypage/mypage_seller/MypageSellerItems';
 
 function Routers() {
   const { role } = useAppSelector((state) => state.userSlice);
@@ -48,6 +49,7 @@ function Routers() {
         </Route>
         <Route path="sellerpage/*" element={<Mypage />}>
           <Route path="" element={<MypageSellerDefault />}></Route>
+          <Route path="itemlist" element={<MypageSellerItems />}></Route>
         </Route>
         <Route path="/payment" element={<Payment />}></Route>
       </Routes>

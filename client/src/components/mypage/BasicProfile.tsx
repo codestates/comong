@@ -6,6 +6,13 @@ import ButtonBasic from '../common/button/ButtonBasic';
 const Wrapper = styled.div`
   height: 250px;
   padding-top: 20px;
+
+  @media only screen and (max-width: 768px) {
+    height: 150px;
+    display: flex;
+    align-items: center;
+    padding-top: 0;
+  }
 `;
 
 const ProfilPhotoWrapper = styled.div`
@@ -14,6 +21,9 @@ const ProfilPhotoWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media only screen and (max-width: 768px) {
+  }
 `;
 
 const PhotoWrapper = styled.div`
@@ -22,6 +32,11 @@ const PhotoWrapper = styled.div`
   border-radius: 50%;
   overflow: hidden;
   position: relative;
+
+  @media only screen and (max-width: 768px) {
+    height: 100px;
+    width: 100px;
+  }
 
   img {
     width: 100%;
@@ -70,13 +85,13 @@ const ProfileInfoWrapper = styled.div`
 `;
 
 const UserName = styled.span`
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
 `;
 
 const UserType = styled.span`
   color: ${(props) => props.theme.colors.darkGrey};
-  font-size: 16px;
+  font-size: 14px;
 `;
 
 const UserEmail = styled.span`
