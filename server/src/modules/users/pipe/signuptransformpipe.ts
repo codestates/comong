@@ -9,7 +9,7 @@ export class signUpTransformPipe implements PipeTransform {
             'email',
             'password',
             'mobile',
-            'telephone',
+            'phone',
             'gender',
             //'dob', 뒤에서 검사
             'role',
@@ -21,6 +21,8 @@ export class signUpTransformPipe implements PipeTransform {
             'postal_code',
             'city',
             'country',
+            'telephone',
+            'mobile'
         ]
 
         const likesProps = [
@@ -34,6 +36,10 @@ export class signUpTransformPipe implements PipeTransform {
         Object.entries(user).forEach(elements => {
             if(elements[0] === 'dob'){
                 userArr.push(['birthday', elements[1]])
+            }
+
+            if(elements[0] === 'phone'){
+                userArr.push(['mobile', elements[1]])
             }
 
             if(userProps.includes(elements[0])){
