@@ -65,22 +65,6 @@ export class SocketGateway
 		this.server.to(message.room).emit('chatToClient', message);
 	}
 
-	@SubscribeMessage('sendNotification')
-	async handleNotification(
-		client: Socket,
-		message: {
-			nickname: string;
-			room: string;
-			text: string;
-			data: object;
-		},
-	) {
-		console.log(message);
-		this.server
-			.to(message.room)
-			.emit('notificationToClient', message.text, message.data);
-	}
-
 	handleDisconnect(client: Socket, ...args: any[]) {
 		this.logger.log(`Client disconnected: ${client.id}`);
 	}

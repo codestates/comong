@@ -3,6 +3,7 @@ import { CreateItemReviewDto } from './dto/create-comment.dto';
 import { UpdateItemReviewDto } from './dto/update-comment.dto';
 import { DeleteItemReviewDto } from './dto/delete-commnet.dto';
 import { Op } from 'sequelize';
+import { ReviewManagement } from './dto/reviewmanagement.dto';
 const models = require('../../models/index');
 const Sequelize = models.sequelize;
 
@@ -77,6 +78,7 @@ export class CommentsService {
 					where: {
 						user_id: user_id,
 					},
+					limit: 100,
 					transaction: t,
 				});
 				const orderDeatilIdArr = itemreviewList.map((elem) => {
@@ -148,6 +150,7 @@ export class CommentsService {
 					where: {
 						item_id: item_id,
 					},
+					transaction: t,
 				});
 				const orderDetailIdArr = orderDetailList.map((elem) => {
 					return elem.id;
@@ -158,6 +161,7 @@ export class CommentsService {
 							[Op.or]: orderDetailIdArr,
 						},
 					},
+					transaction: t,
 				});
 				return { data: itemreviewList, message: 'successful' };
 			}
@@ -196,5 +200,39 @@ export class CommentsService {
 				return err;
 			});
 		return result;
+	}
+
+	async reviewManagement(data: ReviewManagement) {
+		const allItemList = await models.item.findAll({});
+		const allItemIdArr = allItemList.map((elem) => {
+			return elem.id;
+		});
+		let bulkODCreateOptions = [];
+		for (let i = 0; i < allItemIdArr.length; i++) {
+			bulkODCreateOptions.push({
+				user_id: data.user_id,
+				item_id: allItemIdArr[i],
+				order_amount: 5,
+				peritem_price: 3000,
+				status: 'pending',
+			});
+		}
+		const orderDetailCreateResult = await models.order_detail.bulkCreate(
+			bulkODCreateOptions,
+		);
+		let bulkCommentCreateOptions = [];
+		for (let i = 0; i < orderDetailCreateResult.length; i++) {
+			bulkCommentCreateOptions.push({
+				contents: data.contents,
+				score: data.score,
+				order_detail_id: orderDetailCreateResult[i].id,
+				user_id: data.user_id,
+			});
+		}
+		const itemReviewCreateResult = await models.item_review.bulkCreate(
+			bulkCommentCreateOptions,
+		);
+		// console.log(itemReviewCreateResult);
+		return 'this will insert item review for development';
 	}
 }
