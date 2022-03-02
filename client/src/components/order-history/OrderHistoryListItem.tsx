@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import ButtonSimple from '../common/button/ButtonSimple';
+import { shippingStatus } from '../sales-history/SalesHistoryStatus';
 import { IOrderData } from './OrderHistory';
 
 const Wrapper = styled.div`
@@ -115,6 +116,8 @@ function OrderHistoryListItem({
   setShowEdit,
 }: IOrderHistoryListItem) {
   const { item_info: itemInfo, order_detail_info: orderInfo } = order;
+  console.log(itemInfo);
+  console.log(orderInfo);
 
   return (
     <Wrapper>
@@ -128,7 +131,7 @@ function OrderHistoryListItem({
               {orderInfo.createdAt.split('T')[0]}
             </span>
           </div>
-          <span className="item__status">주문 상태</span>
+          <span className="item__status">{shippingStatus['']}</span>
         </OrderItemInfo>
         <OrderSellerInfo>
           <span className="seller__name">{orderInfo.user.storename}</span>

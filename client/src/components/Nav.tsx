@@ -115,7 +115,7 @@ const Nav = () => {
             categoryColor={categoryColor}
             onClick={() => navigate('/search')}
           >
-            카테고리
+            검색
           </NavMenu>
           <NavMenu
             mypageColor={mypageColor}

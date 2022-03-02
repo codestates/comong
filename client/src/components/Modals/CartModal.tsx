@@ -9,7 +9,7 @@ export const ModalBackdrop = styled.div`
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.9);
+  background-color: rgba(0, 0, 0, 0.4);
   display: grid;
   place-items: center;
 `;
@@ -80,7 +80,7 @@ export const ModalView = styled.div.attrs((props) => ({
   }
 `;
 
-export const PostModal = (props: any) => {
+export const CartModal = (props: any) => {
   const [isOpen, setIsOpen] = useState(true);
   const navigate = useNavigate();
   const openModalHandler = () => {
@@ -101,10 +101,10 @@ export const PostModal = (props: any) => {
               <BtnContainer>
                 <ModalBtn
                   onClick={() => {
-                    navigate('/cart');
+                    navigate('/');
                   }}
                 >
-                  장바구니 가기
+                  상품 보러가기
                 </ModalBtn>
                 <ModalCloseBtn onClick={openModalHandler}>닫기</ModalCloseBtn>
               </BtnContainer>

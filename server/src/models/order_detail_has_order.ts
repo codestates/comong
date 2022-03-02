@@ -57,8 +57,8 @@ export class order_detail_has_order extends Model<order_detail_has_orderAttribut
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "order_detail_id" },
           { name: "order_id" },
+          { name: "order_detail_id" },
         ]
       },
       {

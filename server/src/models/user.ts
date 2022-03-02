@@ -7,6 +7,7 @@ import type { chat, chatId } from './chat';
 import type { chat_has_user, chat_has_userId } from './chat_has_user';
 import type { item, itemId } from './item';
 import type { item_review, item_reviewId } from './item_review';
+import type { keyword, keywordId } from './keyword';
 import type { notification, notificationId } from './notification';
 import type { order, orderId } from './order';
 import type { order_detail, order_detailId } from './order_detail';
@@ -133,6 +134,18 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasItem_review!: Sequelize.HasManyHasAssociationMixin<item_review, item_reviewId>;
   hasItem_reviews!: Sequelize.HasManyHasAssociationsMixin<item_review, item_reviewId>;
   countItem_reviews!: Sequelize.HasManyCountAssociationsMixin;
+  // user hasMany keyword via user_id
+  keywords!: keyword[];
+  getKeywords!: Sequelize.HasManyGetAssociationsMixin<keyword>;
+  setKeywords!: Sequelize.HasManySetAssociationsMixin<keyword, keywordId>;
+  addKeyword!: Sequelize.HasManyAddAssociationMixin<keyword, keywordId>;
+  addKeywords!: Sequelize.HasManyAddAssociationsMixin<keyword, keywordId>;
+  createKeyword!: Sequelize.HasManyCreateAssociationMixin<keyword>;
+  removeKeyword!: Sequelize.HasManyRemoveAssociationMixin<keyword, keywordId>;
+  removeKeywords!: Sequelize.HasManyRemoveAssociationsMixin<keyword, keywordId>;
+  hasKeyword!: Sequelize.HasManyHasAssociationMixin<keyword, keywordId>;
+  hasKeywords!: Sequelize.HasManyHasAssociationsMixin<keyword, keywordId>;
+  countKeywords!: Sequelize.HasManyCountAssociationsMixin;
   // user hasMany notification via user_id
   notifications!: notification[];
   getNotifications!: Sequelize.HasManyGetAssociationsMixin<notification>;

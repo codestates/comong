@@ -1,8 +1,43 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../redux/configStore.hooks';
+import { useNavigate } from 'react-router-dom';
 import { navSearchAsync } from '../redux/modules/navSearchSlice';
 import type { RootState } from '../redux/configStore';
+import { setReduxKeyword } from '../redux/modules/navSearchSlice';
+
+const NavSearch = () => {
+  const listData = useAppSelector((state: RootState) => state);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const [keyword, setKeyword] = useState('');
+
+  const handleKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setKeyword(e.target.value);
+    console.log(keyword);
+  };
+
+  const handleSearch = () => {
+    let value = keyword;
+    value = value.replace(/ /g, '');
+    value.trim();
+    console.log(value);
+    if (value !== '') {
+      dispatch(navSearchAsync(value));
+      dispatch(setReduxKeyword(value));
+      setKeyword('');
+      navigate('/search');
+    }
+  };
+
+  return (
+    <NavSearchContainer>
+      <NavSearchInput value={keyword} onChange={handleKeyword}></NavSearchInput>
+      <NavSearchIcon src="/icons/nav/search.png" onClick={handleSearch} />
+    </NavSearchContainer>
+  );
+};
 
 const NavSearchContainer = styled.div`
   display: flex;
@@ -43,27 +78,5 @@ const NavSearchIcon = styled.img`
   width: 20px;
   height: 20px;
 `;
-
-const NavSearch = () => {
-  const listData = useAppSelector((state: RootState) => state);
-  const dispatch = useAppDispatch();
-
-  const [keyword, setKeyword] = useState('');
-
-  const handleKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setKeyword(e.target.value);
-  };
-
-  const handleSearch = () => {
-    dispatch(navSearchAsync());
-  };
-
-  return (
-    <NavSearchContainer>
-      <NavSearchInput value={keyword} onChange={handleKeyword}></NavSearchInput>
-      <NavSearchIcon src="/icons/nav/search.png" onClick={handleSearch} />
-    </NavSearchContainer>
-  );
-};
 
 export default NavSearch;

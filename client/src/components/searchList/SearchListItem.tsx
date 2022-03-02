@@ -2,57 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import BookmarkButton from './BookmarkButton';
 import { useAppSelector } from '../../redux/configStore.hooks';
-import type { RootState } from '../../redux/configStore';
 import { truncate } from 'fs';
-import { useState } from 'react';
-import { LoginNeedModalForList } from '../Modals/LoginNeedModalForList';
-
-const PostListItem = ({ post }: Props) => {
-  const [isLoginModal, setIsLoginModal] = useState(false);
-
-  const img_src = post.image_src
-    ? post.image_src.split(',')[0]
-    : 'https://imagedelivery.net/BOKuAiJyROlMLXwCcBYMqQ/fe9f218d-5134-4a76-ba20-bf97e5c21900/thumbnail';
-  const seller = post.user.storename ? post.user.storename : 'hojin';
-  const title = post.title;
-  const id = post.id;
-
-  const price = post.price.toLocaleString('en');
-  const { userinfo } = useAppSelector((state) => state.userSlice);
-  const bookmarks = userinfo?.bookmarks;
-  const itemData = useAppSelector((state: RootState) => state);
-  const isLogin = itemData.userSlice.isLogin;
-  const LoginCheck = () => {
-    if (!isLogin) setIsLoginModal(!isLoginModal);
-  };
-
-  return (
-    <StLink to={`/item/${id}`}>
-      <ItemContainer>
-        <ItemImgContainer>
-          <ItemImg src={img_src} />
-        </ItemImgContainer>
-
-        <TextContainer>
-          <ItemSeller>{seller}</ItemSeller>
-          <ItemTitle>{title}</ItemTitle>
-          <PriceAndBookmarkContainer>
-            <ItemPrice>{price}원</ItemPrice>
-            <div onClick={LoginCheck}>
-              <BookmarkButton
-                itemId={id}
-                selected={bookmarks ? !!bookmarks.includes(id) : false}
-              ></BookmarkButton>
-            </div>
-          </PriceAndBookmarkContainer>
-        </TextContainer>
-      </ItemContainer>
-      {isLoginModal ? (
-        <LoginNeedModalForList>로그인이 필요합니다</LoginNeedModalForList>
-      ) : null}
-    </StLink>
-  );
-};
 
 const StLink = styled(Link)`
   all: unset;
@@ -67,10 +17,9 @@ const ItemContainer = styled.div`
   margin: auto;
   font-family: roboto;
   background-color: #fdfdfd;
-  /* background-color: red; */
-  /* &:hover {
+  &:hover {
     transform: scale(1.005);
-  } */
+  }
   overflow: hidden;
   /* box-shadow: 0px 0px 12px #eeeeee; */
   height: 320px;
@@ -116,7 +65,7 @@ const TextContainer = styled.div`
   margin-bottom: 10px;
   width: 90%;
   height: 100px;
-  /* position: relative; */
+  position: relative;
 `;
 
 const ItemSeller = styled.div`
@@ -142,11 +91,6 @@ const ItemTitle = styled.div`
   text-overflow: ellipsis;
   word-wrap: break-word;
 `;
-
-const PriceAndBookmarkContainer = styled.div`
-  display: flex;
-`;
-
 const ItemPrice = styled.div`
   width: 100%;
   margin: auto;
@@ -172,4 +116,36 @@ interface Props {
   };
 }
 
-export default PostListItem;
+const SearchListItem = ({ post }: Props) => {
+  const img_src = post.image_src
+    ? post.image_src.split(',')[0]
+    : 'https://imagedelivery.net/BOKuAiJyROlMLXwCcBYMqQ/fe9f218d-5134-4a76-ba20-bf97e5c21900/thumbnail';
+  const seller = post.user.storename ? post.user.storename : 'hojin';
+  const title = post.title;
+  const id = post.id;
+
+  const price = post.price.toLocaleString('en');
+  const { userinfo } = useAppSelector((state) => state.userSlice);
+  const bookmarks = userinfo?.bookmarks;
+
+  return (
+    <StLink to={`/item/${id}`}>
+      <ItemContainer>
+        <ItemImgContainer>
+          <ItemImg src={img_src} />
+        </ItemImgContainer>
+        <TextContainer>
+          <ItemSeller>{seller}</ItemSeller>
+          <ItemTitle>{title}</ItemTitle>
+          <ItemPrice>{price}원</ItemPrice>
+          <BookmarkButton
+            itemId={id}
+            selected={bookmarks ? !!bookmarks.includes(id) : false}
+          ></BookmarkButton>
+        </TextContainer>
+      </ItemContainer>
+    </StLink>
+  );
+};
+
+export default SearchListItem;

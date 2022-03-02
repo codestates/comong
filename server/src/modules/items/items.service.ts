@@ -104,14 +104,9 @@ export class ItemsService {
 			return result
 		}
 
-		const offset = () => {
-			const count = number || 10
-			if(startindex){
-				return startindex - count
-			}
-		}
-
 		this.items = await models.item.findAll({
+			//raw: true,
+			group: ['id'],
 			include: [
 				{
 					model: models.item_has_category,
@@ -119,10 +114,22 @@ export class ItemsService {
 					where: category ? { category_id: category } : '',
 				},
 				{ model: models.user, as: 'user', attributes: ['id', 'storename'] },
+				{model: models.order_detail, as: 'order_details', attributes: ['id'], include: [
+					{model: models.item_review, as: 'item_reviews', require: false, attributes: {include: [
+						//[sequelize.fn('COUNT', sequelize.col('score')), 'reviewer'],
+						//[sequelize.fn('AVG', sequelize.col('score')), 'avg_score']
+					]}, group: [] }
+				]},
 			],
 			limit: number || 10,
 			where: condition(),
 			order: [['createdAt', 'DESC']],
+			attributes: {
+				include: [
+					//[sequelize.fn('COUNT', sequelize.col('order_details.item_reviews.score')), 'reviewer'],
+					//[sequelize.fn('AVG', sequelize.col('item.order_detail.item_review.score')), 'avg_score1']
+				]
+			}
 			//offset: offset(),
 		});
 		console.log(this.items.length)
@@ -260,12 +267,13 @@ export class ItemsService {
 				);
 				return { messgae: 'bookmark updated successfully' };
 			}
-		}).then((result: any) => {
-			return result;
 		})
-		.catch((err: any) => {
-			return err;
-		});
+			.then((result: any) => {
+				return result;
+			})
+			.catch((err: any) => {
+				return err;
+			});
 		return result;
 	}
 
@@ -290,55 +298,107 @@ export class ItemsService {
 				return elem.ismarked === 1;
 			});
 			return output;
-		}).then((result: any) => {
-			return result;
 		})
-		.catch((err: any) => {
-			return err;
-		});
+			.then((result: any) => {
+				return result;
+			})
+			.catch((err: any) => {
+				return err;
+			});
 		return result;
 	}
 
 	async stockmanagement(data: StockManagement) {
-		console.log(data.insert_item_stock)
+		console.log(data.insert_item_stock);
 		for (let i = 1; i < 5000; i++) {
 			const isExistItem = await models.item.findOne({
 				where: {
-					id: i
-				}
+					id: i,
+				},
 			});
-			console.log(isExistItem)
+			console.log(isExistItem);
 			if (isExistItem) {
-				const [item_inventory, isCreate] = await models.item_inventory.findOrCreate(
-					{
+				const [item_inventory, isCreate] =
+					await models.item_inventory.findOrCreate({
 						where: {
-							item_id: i
+							item_id: i,
 						},
 						defaults: {
-							stock: data.insert_item_stock
-						}
-					}
-				);
+							stock: data.insert_item_stock,
+						},
+					});
 				if (isCreate) {
 					continue;
 				} else {
 					await models.item_inventory.update(
 						{
-							stock: data.insert_item_stock
+							stock: data.insert_item_stock,
 						},
 						{
 							where: {
-								item_id: i
-							}
-						}
+								item_id: i,
+							},
+						},
 					);
 				}
 			} else {
 				continue;
 			}
 		}
-		return { message: 'stocks updated successfully'};
+		return { message: 'stocks updated successfully' };
 	}
 
+	async getkeywords() {
+		const keyword = await models.keyword.findAll({
+			limit: 10,
+			order: [['score', 'DESC']],
+		});
+		return { data: keyword, message: 'successful' };
+	}
 
+	async keywordProcessor(keyword: string) {
+		const result = await Sequelize.transaction(async (t) => {
+			const keywordArr = keyword.split(' ');
+			for (let i = 0; i < keywordArr.length; i++) {
+				const existingKeyword = await models.keyword.findOne({
+					where: {
+						keyword: keywordArr[i],
+					},
+					transaction: t,
+				});
+				if (existingKeyword) {
+					await models.keyword.increment(
+						{
+							score: 1,
+						},
+						{
+							where: {
+								keyword: keywordArr[i],
+							},
+							transaction: t,
+						},
+					);
+				} else {
+					await models.keyword.create(
+						{
+							keyword: keywordArr[i],
+							score: 1,
+						},
+						{ transaction: t },
+					);
+				}
+			}
+		})
+			.then((result: any) => {
+				return result;
+			})
+			.catch((err: any) => {
+				return err;
+			});
+		return result;
+	}
+
+	getSellingItems() {
+		return models.keyword.findOne({})
+	}
 }
