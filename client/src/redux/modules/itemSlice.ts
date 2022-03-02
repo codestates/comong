@@ -16,6 +16,7 @@ export interface Item {
     category: string;
   };
   comments: [];
+  category: number;
 }
 
 const initialState: Item = {
@@ -29,16 +30,20 @@ const initialState: Item = {
     category: '기타 카테고리',
   },
   comments: [],
+  category: 0,
 };
 
 const itemSlice = createSlice({
   name: 'item',
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    setCategory(state, action) {
+      state.category = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getItemAsync.fulfilled, (state, action) => {
       let contents = action.payload;
-
       return { ...state, data: contents };
     });
     builder.addCase(getCommentAsync.fulfilled, (state, action) => {
@@ -48,7 +53,7 @@ const itemSlice = createSlice({
   },
 });
 
-export let {} = itemSlice.actions;
+export let { setCategory } = itemSlice.actions;
 
 export const getItemAsync = createAsyncThunk(
   'items/details',
@@ -59,7 +64,7 @@ export const getItemAsync = createAsyncThunk(
         data: {},
       },
     );
-    console.log(response);
+
     return response.data;
   },
 );
@@ -69,7 +74,7 @@ export const getCommentAsync = createAsyncThunk(
     const response = await apiClient.get(
       `${urlConfig.url}/comments/itemlist?item_id=${id}`,
     );
-    console.log(response);
+
     return response.data;
   },
 );

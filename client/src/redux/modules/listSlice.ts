@@ -30,6 +30,7 @@ export let {} = listSlice.actions;
 export const getListAsync = createAsyncThunk(
   'items/get',
   async (category?: number) => {
+    console.log('리스트어싱크 실행');
     const response = await apiClient.get('items', {
       params: {
         category: category || null,

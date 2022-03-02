@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../redux/configStore.hooks';
 import { getListAsync } from '../../redux/modules/listSlice';
 import type { RootState } from '../../redux/configStore';
+import { v4 as uuidv4 } from 'uuid';
 
 import { config } from '../../config/config';
 import { apiClient } from '../../apis';
@@ -51,19 +52,25 @@ const ItemContainer = styled.div`
   }
 `;
 
-function PostList() {
+type UserProps = {
+  LoginCheck(): void;
+};
+
+function PostList({ LoginCheck }: UserProps) {
   const listData = useAppSelector((state: RootState) => state);
 
   const [infoArray, setInfoArray] = React.useState<any[]>([]);
+  const [curCat, setCurCat] = useState(0);
 
   const dispatch = useAppDispatch();
 
   const observerRef = React.useRef<IntersectionObserver>();
   const boxRef = React.useRef<HTMLDivElement>(null);
+  const category = listData.itemSlice.category;
 
   useEffect(() => {
     getInfo();
-  }, []);
+  }, [category]);
 
   React.useEffect(() => {
     observerRef.current = new IntersectionObserver(intersectionObserver); // IntersectionObserver
@@ -71,20 +78,29 @@ function PostList() {
   }, [infoArray]);
 
   const getInfo = async () => {
-    // console.log('infoArray.length', infoArray.length);
-    // console.log(
-    //   'infoArray[infoArray.length].id',
-    //   infoArray[infoArray.length - 1].id,
-    // );
-
     const apiId = infoArray.length > 0 ? infoArray[infoArray.length - 1].id : 0;
+    let res: { data: [] };
 
-    const res = await apiClient.get(`items?number=20&startindex=${apiId}`, {}); // 서버에서 데이터 가져오기
+    console.log('apiId', apiId, 'curCat', curCat, 'category', category);
+    // if (category === 0) {
+    //   if (curCat !== category) setInfoArray([]);
+    //   res = await apiClient.get(`items?number=20`, {}); // 서버에서 데이터 가져오기
+    // } else {
+    if (curCat !== category) {
+      setInfoArray([]);
+      setCurCat(category);
+      res = await apiClient.get(`items?number=20&category=${category}`, {}); // 서버에서 데이터 가져오기
+    } else {
+      setCurCat(category);
+      res = await apiClient.get(
+        `items?number=20&startindex=${apiId}&category=${category}`,
+        {},
+      ); // 서버에서 데이터 가져오기
+    }
+    // }
+    console.log('res', res);
     console.log('res.data', res.data);
     setInfoArray((infoArray) => [...infoArray, ...res.data]); // state에 추가
-
-    console.log(infoArray);
-    console.log('info data add...');
   };
 
   const intersectionObserver = (
@@ -104,17 +120,25 @@ function PostList() {
   return (
     <PostListWrapper>
       {infoArray?.map((post: Post, index) => {
-        console.log('infoArray.length', infoArray.length, 'index', index);
+        // console.log('infoArray.length', infoArray.length, 'index', index);
         if (infoArray.length - 5 === index) {
           return (
-            <ItemContainer key={post.id + post.title} ref={boxRef}>
-              <PostListItem key={post.id} post={post} />
+            <ItemContainer key={uuidv4()} ref={boxRef}>
+              <PostListItem
+                key={uuidv4()}
+                post={post}
+                LoginCheck={LoginCheck}
+              />
             </ItemContainer>
           );
         } else {
           return (
-            <ItemContainer key={post.id + post.title}>
-              <PostListItem key={post.id} post={post} />
+            <ItemContainer key={uuidv4()}>
+              <PostListItem
+                key={uuidv4()}
+                post={post}
+                LoginCheck={LoginCheck}
+              />
             </ItemContainer>
           );
         }
