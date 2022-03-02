@@ -1,5 +1,6 @@
 import {
 	Controller,
+	Query,
 	Get,
 	Post,
 	Body,
@@ -17,6 +18,7 @@ import { SignInUserDto } from './dto/signin-user.dto';
 import {
 	ApiTags,
 	ApiOperation,
+	ApiQuery,
 	ApiCreatedResponse,
 	ApiOkResponse,
 	ApiBadRequestResponse,
@@ -29,7 +31,7 @@ import {
 	ApiServiceUnavailableResponse,
 } from '@nestjs/swagger';
 import JwtAuthGuard from '../../middleware/Jwtauthguard';
-import { getUser } from '../../decorators/getUser'
+import { getUser } from '../../decorators/getUser';
 import { User } from './entities/user.entity';
 import { BcryptPasswordHashPipe } from 'src/util/bcryptpasswordhashpipe';
 import { BcryptPasswordValidationPipe } from 'src/util/bcrypepasswordvalidationpipe';
@@ -46,7 +48,10 @@ export class UsersController {
 		description: '회원 가입 요청을 받습니다.',
 	})
 	@ApiCreatedResponse({ description: 'successful.' })
-	@ApiResponse({ status: 200, description: 'an confirmation letter has been sent' })
+	@ApiResponse({
+		status: 200,
+		description: 'an confirmation letter has been sent',
+	})
 	@ApiBadRequestResponse({ description: 'invalid value for property' })
 	@ApiServiceUnavailableResponse({ description: 'a network-related or database instance-specific error occurred while inserting new data' })
 	@ApiInternalServerErrorResponse({ description: 'internal server error(mailer)'})
@@ -54,7 +59,7 @@ export class UsersController {
 	@UsePipes(BcryptPasswordHashPipe)
 	//@UsePipes(signUpTransformPipe)
 	async create(@Body(new signUpTransformPipe()) user: CreateUserDto) {
-		return this.usersService.create(user)
+		return this.usersService.create(user);
 	}
 
 	@Get('address')
@@ -63,11 +68,11 @@ export class UsersController {
 		description: '주소 정보를 요청합니다.',
 	})
 	@ApiOkResponse({ description: 'successful' })
-	@ApiInternalServerErrorResponse({ description: 'service unavailable'})
+	@ApiInternalServerErrorResponse({ description: 'service unavailable' })
 	@ApiBearerAuth('accessToken')
 	@UseGuards(JwtAuthGuard)
 	getAddress(@getUser() user: User): Promise<{}> {
-		return this.usersService.getAddress(user)
+		return this.usersService.getAddress(user);
 	}
 
 	@Get('isduplicate/:email')
@@ -81,15 +86,18 @@ export class UsersController {
 		description: '중복 검사를 시행할 이메일 주소',
 	})
 	@ApiOkResponse({ description: 'available' })
-	@ApiForbiddenResponse({ description: 'This email address is already being used' })
+	@ApiForbiddenResponse({
+		description: 'This email address is already being used',
+	})
 	isDuplicate(@Param('email') email: string) {
-		return this.usersService.isDuplicate(email)
+		return this.usersService.isDuplicate(email);
 	}
 
 	@Get('verifications/:code')
 	@ApiOperation({
 		summary: '이메일 인증 확인',
-		description: '판매자 회원 이메일 인증 과정에서 이메일에 첨부되는 링크 주소로 호출 시 인증 완료로 간주합니다.',
+		description:
+			'판매자 회원 이메일 인증 과정에서 이메일에 첨부되는 링크 주소로 호출 시 인증 완료로 간주합니다.',
 	})
 	@ApiParam({
 		name: 'code',
@@ -97,9 +105,11 @@ export class UsersController {
 		description: '일회성 코드',
 	})
 	@ApiOkResponse({ description: 'available' })
-	@ApiForbiddenResponse({ description: 'This email address is already being used' })
+	@ApiForbiddenResponse({
+		description: 'This email address is already being used',
+	})
 	verification(@Param('code') code: string) {
-		return this.usersService.verification(code)
+		return this.usersService.verification(code);
 	}
 
 	@Patch()
@@ -123,7 +133,10 @@ export class UsersController {
 	@ApiServiceUnavailableResponse({ description: 'a network-related or database instance-specific error occurred while inserting new data' })
 	@UseGuards(JwtAuthGuard)
 	@UsePipes(BcryptPasswordHashPipe)
-	update(@getUser() user: User,@Body(new signUpTransformPipe()) changes: UpdateUserDto) {
+	update(
+		@getUser() user: User,
+		@Body(new signUpTransformPipe()) changes: UpdateUserDto,
+	) {
 		return this.usersService.update(user, changes);
 	}
 
@@ -178,11 +191,14 @@ export class UsersController {
 	}
 
 	@Get('/token')
-	@ApiOperation({ summary: '엑세스 토큰 재발급', description: '리프레시 토큰 인증을 통해 엑세스 토큰을 갱신합니다.' })
+	@ApiOperation({
+		summary: '엑세스 토큰 재발급',
+		description: '리프레시 토큰 인증을 통해 엑세스 토큰을 갱신합니다.',
+	})
 	@ApiOkResponse({ description: 'successful' })
 	@ApiBadRequestResponse({ description: 'refreshtoken has expired' })
-	reissueToken(){
-		return 0
+	reissueToken() {
+		return 0;
 	}
 
 	@Get('/signout')
@@ -203,7 +219,58 @@ export class UsersController {
 	@ApiBadRequestResponse({ description: 'Authorization has expired' })
 	@UseGuards(JwtAuthGuard)
 	signOut(@getUser() user: User) {
-		
 		return this.usersService.signOut(user);
+	}
+
+	@Get('/notification')
+	@ApiHeader({
+		name: 'Authorization',
+		description: '사용자 인증 수단, 액세스 토큰 값',
+		required: true,
+		schema: {
+			example: 'bearer 23f43u9if13ekc23fm30jg549quneraf2fmsdf',
+		},
+	})
+	@ApiOperation({
+		summary: '알림내역',
+		description: '알림내역을 가져오는 요청을 보냅니다 by user_id',
+	})
+	@ApiQuery({
+		name: 'user_id',
+		required: true,
+		description: '유저 아이디',
+	})
+	@ApiOkResponse({
+		description: 'successful',
+	})
+	// @UseGuards(JwtAuthGuard)
+	getNotification(@Query('user_id') user_id: number) {
+		return this.usersService.getNotification(user_id);
+	}
+
+	@Patch('/notification')
+	@ApiHeader({
+		name: 'Authorization',
+		description: '사용자 인증 수단, 액세스 토큰 값',
+		required: true,
+		schema: {
+			example: 'bearer 23f43u9if13ekc23fm30jg549quneraf2fmsdf',
+		},
+	})
+	@ApiOperation({
+		summary: '알림내역 업데이트',
+		description: '알림내역 업데이트 요청을 보냅니다',
+	})
+	@ApiQuery({
+		name: 'user_id',
+		required: true,
+		description: '유저 아이디',
+	})
+	@ApiOkResponse({
+		description: 'successful',
+	})
+	// @UseGuards(JwtAuthGuard)
+	updateNotification(@Query('user_id') user_id: number) {
+		return this.usersService.updateNotification(user_id);
 	}
 }
