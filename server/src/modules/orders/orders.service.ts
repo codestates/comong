@@ -35,27 +35,59 @@ export class OrdersService {
 					});
 				newJoindataArr.push(newJoinData.dataValues);
 			}
-			const itemInfo = await models.order_detail.findOne({
+			const orderDetailInfo = await models.order_detail.findOne({
 				include: { model: models.user, as: 'user' },
 				where: {
 					id: createOrder.order_detail_id[0],
 				},
 				transaction: t,
 			});
-			const sellerInfo = await models.item.findOne({
-				include: { model: models.user, as: 'user' },
+			const orderDetailInfoforNotice = await models.order_detail.findAll({
 				where: {
-					id: itemInfo.item_id,
+					id: {
+						[Op.or]: createOrder.order_detail_id,
+					},
 				},
 				transaction: t,
 			});
+			const itemIdArr = orderDetailInfoforNotice.map((elem) => {
+				return elem.item_id;
+			});
+			const sellerInfo = await models.item.findOne({
+				include: { model: models.user, as: 'user' },
+				where: {
+					id: orderDetailInfo.item_id,
+				},
+				transaction: t,
+			});
+			const itemInfo = await models.item.findAll({
+				where: {
+					id: {
+						[Op.or]: itemIdArr,
+					},
+				},
+				transaction: t,
+			});
+			const sellerId = sellerInfo.dataValues.user.id;
 			const emailAddress = sellerInfo.dataValues.user.email;
 			const storeName = sellerInfo.dataValues.user.storename;
-			// console.log(emailAddress)
-			// console.log(storeName)
+			const pushNotificationRoom = `${sellerId}#appNotice`;
 			if (newOrder) {
-				// const message = newOrder;
-				// this.appGateway.handleNotification(message);
+				const message = {
+					title: '구매 발생 알림',
+					data: newOrder,
+					itemInfo: itemInfo,
+				};
+				const newNotification = await models.notification.create(
+					{
+						title: '구매 발생 알림',
+						contents: JSON.stringify(message),
+						read: 0,
+						user_id: sellerId,
+					},
+					{ transaction: t },
+				);
+				this.appGateway.handleNotification(pushNotificationRoom, message);
 				return await this.mailerService.sendOrderNotice(
 					newOrder,
 					{ storename: storeName },
@@ -90,6 +122,57 @@ export class OrdersService {
 				},
 			);
 			if (isUpdate[0] === 1) {
+				const orderInfo = await models.order.findOne({
+					where: {
+						id: data.order_id,
+					},
+					transaction: t,
+				});
+				const orderDetailJoinInfo = await models.order_detail_has_order.findAll(
+					{
+						where: {
+							order_id: data.order_id,
+						},
+						transaction: t,
+					},
+				);
+				const orderDetailIdArr = orderDetailJoinInfo.map((elem) => {
+					return elem.order_detail_id;
+				});
+				const orderDetailInfo = await models.order_detail.findAll({
+					where: {
+						id: {
+							[Op.or]: orderDetailIdArr,
+						},
+					},
+				});
+				const itemIdArr = orderDetailInfo.map((elem) => {
+					return elem.item_id;
+				});
+				const itemInfo = await models.item.findAll({
+					where: {
+						id: {
+							[Op.or]: itemIdArr,
+						},
+					},
+				});
+				const message = {
+					title: '주문 업데이트 알림',
+					data: data,
+					itemInfo: itemInfo,
+				};
+				const newNotification = await models.notification.create(
+					{
+						title: '주문 업데이트 알림',
+						contents: JSON.stringify(message),
+						read: 0,
+						user_id: orderInfo.user_id,
+					},
+					{ transaction: t },
+				);
+				const sellerId = orderInfo.user_id;
+				const pushNotificationRoom = `${sellerId}#appNotice`;
+				this.appGateway.handleNotification(pushNotificationRoom, message);
 				return { message: 'update successful' };
 			} else {
 				throw new BadRequestException('invalid request or value for property');
@@ -259,8 +342,6 @@ export class OrdersService {
 						}
 					}
 				}
-				// const message = output;
-				// this.appGateway.handleNotification(message);
 				return output;
 			}
 		})
@@ -397,7 +478,7 @@ export class OrdersService {
 					}
 				}
 				const message = output;
-				this.appGateway.handleNotification(message);
+				// this.appGateway.handleNotification(message);
 				return output;
 			}
 		})
