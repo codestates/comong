@@ -27,10 +27,10 @@ export class ItemsService {
 	private readonly logger = new Logger(ItemsService.name);
 
 	async create(newItem: CreateItemDto, user: User) {
-		console.log(newItem, user);
+		// console.log(newItem, user);
 		//newItem['user_id'] = user.id
 		const item = await models.item.create({ user_id: user.id, ...newItem });
-		console.log(item);
+		// console.log(item);
 		if (item) {
 			const mappingCategory = await models.item_has_category.create({
 				item_id: item.id,
@@ -56,6 +56,7 @@ export class ItemsService {
 		number: number,
 		keyword: string,
 	): Promise<item[]> {
+		await this.keywordProcessor(keyword);
 		this.items = await models.item.findAll({
 			include: [
 				{
@@ -185,12 +186,13 @@ export class ItemsService {
 				);
 				return { messgae: 'bookmark updated successfully' };
 			}
-		}).then((result: any) => {
-			return result;
 		})
-		.catch((err: any) => {
-			return err;
-		});
+			.then((result: any) => {
+				return result;
+			})
+			.catch((err: any) => {
+				return err;
+			});
 		return result;
 	}
 
@@ -215,55 +217,103 @@ export class ItemsService {
 				return elem.ismarked === 1;
 			});
 			return output;
-		}).then((result: any) => {
-			return result;
 		})
-		.catch((err: any) => {
-			return err;
-		});
+			.then((result: any) => {
+				return result;
+			})
+			.catch((err: any) => {
+				return err;
+			});
 		return result;
 	}
 
 	async stockmanagement(data: StockManagement) {
-		console.log(data.insert_item_stock)
+		console.log(data.insert_item_stock);
 		for (let i = 1; i < 5000; i++) {
 			const isExistItem = await models.item.findOne({
 				where: {
-					id: i
-				}
+					id: i,
+				},
 			});
-			console.log(isExistItem)
+			console.log(isExistItem);
 			if (isExistItem) {
-				const [item_inventory, isCreate] = await models.item_inventory.findOrCreate(
-					{
+				const [item_inventory, isCreate] =
+					await models.item_inventory.findOrCreate({
 						where: {
-							item_id: i
+							item_id: i,
 						},
 						defaults: {
-							stock: data.insert_item_stock
-						}
-					}
-				);
+							stock: data.insert_item_stock,
+						},
+					});
 				if (isCreate) {
 					continue;
 				} else {
 					await models.item_inventory.update(
 						{
-							stock: data.insert_item_stock
+							stock: data.insert_item_stock,
 						},
 						{
 							where: {
-								item_id: i
-							}
-						}
+								item_id: i,
+							},
+						},
 					);
 				}
 			} else {
 				continue;
 			}
 		}
-		return { message: 'stocks updated successfully'};
+		return { message: 'stocks updated successfully' };
 	}
 
+	async getkeywords() {
+		const keyword = await models.keyword.findAll({
+			limit: 10,
+			order: [['score', 'DESC']],
+		});
+		return { data: keyword, message: 'successful' };
+	}
 
+	async keywordProcessor(keyword: string) {
+		const result = await Sequelize.transaction(async (t) => {
+			const keywordArr = keyword.split(' ');
+			for (let i = 0; i < keywordArr.length; i++) {
+				const existingKeyword = await models.keyword.findOne({
+					where: {
+						keyword: keywordArr[i],
+					},
+					transaction: t,
+				});
+				if (existingKeyword) {
+					await models.keyword.increment(
+						{
+							score: 1,
+						},
+						{
+							where: {
+								keyword: keywordArr[i],
+							},
+							transaction: t,
+						},
+					);
+				} else {
+					await models.keyword.create(
+						{
+							keyword: keywordArr[i],
+							score: 1,
+						},
+						{ transaction: t },
+					);
+				}
+			}
+		})
+			.then((result: any) => {
+				return result;
+			})
+			.catch((err: any) => {
+				return err;
+			});
+		return result;
+	}
 }

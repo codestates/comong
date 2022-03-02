@@ -19,6 +19,8 @@ import { item_inventory as _item_inventory } from "./item_inventory";
 import type { item_inventoryAttributes, item_inventoryCreationAttributes } from "./item_inventory";
 import { item_review as _item_review } from "./item_review";
 import type { item_reviewAttributes, item_reviewCreationAttributes } from "./item_review";
+import { keyword as _keyword } from "./keyword";
+import type { keywordAttributes, keywordCreationAttributes } from "./keyword";
 import { notification as _notification } from "./notification";
 import type { notificationAttributes, notificationCreationAttributes } from "./notification";
 import { order as _order } from "./order";
@@ -49,6 +51,7 @@ export {
   _item_has_category as item_has_category,
   _item_inventory as item_inventory,
   _item_review as item_review,
+  _keyword as keyword,
   _notification as notification,
   _order as order,
   _order_detail as order_detail,
@@ -81,6 +84,8 @@ export type {
   item_inventoryCreationAttributes,
   item_reviewAttributes,
   item_reviewCreationAttributes,
+  keywordAttributes,
+  keywordCreationAttributes,
   notificationAttributes,
   notificationCreationAttributes,
   orderAttributes,
@@ -112,6 +117,7 @@ export function initModels(sequelize: Sequelize) {
   const item_has_category = _item_has_category.initModel(sequelize);
   const item_inventory = _item_inventory.initModel(sequelize);
   const item_review = _item_review.initModel(sequelize);
+  const keyword = _keyword.initModel(sequelize);
   const notification = _notification.initModel(sequelize);
   const order = _order.initModel(sequelize);
   const order_detail = _order_detail.initModel(sequelize);
@@ -170,6 +176,8 @@ export function initModels(sequelize: Sequelize) {
   user.hasMany(item, { as: "items", foreignKey: "user_id"});
   item_review.belongsTo(user, { as: "user", foreignKey: "user_id"});
   user.hasMany(item_review, { as: "item_reviews", foreignKey: "user_id"});
+  keyword.belongsTo(user, { as: "user", foreignKey: "user_id"});
+  user.hasMany(keyword, { as: "keywords", foreignKey: "user_id"});
   notification.belongsTo(user, { as: "user", foreignKey: "user_id"});
   user.hasMany(notification, { as: "notifications", foreignKey: "user_id"});
   order.belongsTo(user, { as: "user", foreignKey: "user_id"});
@@ -196,6 +204,7 @@ export function initModels(sequelize: Sequelize) {
     item_has_category: item_has_category,
     item_inventory: item_inventory,
     item_review: item_review,
+    keyword: keyword,
     notification: notification,
     order: order,
     order_detail: order_detail,
