@@ -205,4 +205,29 @@ export class ItemsController {
     return this.itemsService.stockmanagement(data)
   }
 
+  @Get('/keyword')
+	@ApiHeader({
+		name: 'Authorization',
+		description: '사용자 인증 수단, 액세스 토큰 값',
+		required: true,
+		schema: {
+			example: 'bearer 23f43u9if13ekc23fm30jg549quneraf2fmsdf',
+		},
+	})
+	@ApiOperation({
+		summary: 'keyword 리스트',
+		description: '추천 검색어 keyword 리스트 요청',
+	})
+	@ApiQuery({
+		name: 'user_id',
+		required: true,
+		description: '유저 아이디',
+	})
+	@ApiOkResponse({
+		description: 'successful',
+	})
+	// @UseGuards(JwtAuthGuard)
+	getkeywords() {
+		return this.itemsService.getkeywords();
+	}
 }
