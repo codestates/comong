@@ -203,11 +203,6 @@ export class ItemsController {
     summary: 'keyword 리스트',
 		description: '추천 검색어 keyword 리스트 요청',
 	})
-	@ApiQuery({
-    name: 'user_id',
-		required: true,
-		description: '유저 아이디',
-	})
 	@ApiOkResponse({
     description: 'successful',
 	})
