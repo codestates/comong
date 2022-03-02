@@ -35,6 +35,7 @@ import { User } from './entities/user.entity';
 import { BcryptPasswordHashPipe } from 'src/util/bcryptpasswordhashpipe';
 import { BcryptPasswordValidationPipe } from 'src/util/bcrypepasswordvalidationpipe';
 import { signUpTransformPipe } from './pipe/signuptransformpipe';
+import { UpdateNotificationDto } from './dto/update.notification.dto';
 
 @Controller('users')
 @ApiTags('회원 정보 관련')
@@ -269,7 +270,7 @@ export class UsersController {
 		description: 'successful',
 	})
 	// @UseGuards(JwtAuthGuard)
-	updateNotification(@Query('user_id') user_id: number) {
-		return this.usersService.updateNotification(user_id);
+	updateNotification(@Body() data: UpdateNotificationDto) {
+		return this.usersService.updateNotification(data);
 	}
 }
