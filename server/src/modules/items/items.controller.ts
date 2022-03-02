@@ -60,6 +60,11 @@ export class ItemsController {
     required: false,
     description: '요청할 갯수'
   })
+  @ApiQuery({
+    name: 'startindex',
+    required: false,
+    description: '시작 인덱스 id'
+  })
   @ApiOkResponse({
     description: 'successful',
     schema: {
@@ -73,8 +78,8 @@ export class ItemsController {
         },
     },
   })
-  getItems(@Query('category') category: number, @Query('number') number: number, @Query('keyword') key: string): Promise<item[]> {
-    return this.itemsService.getItems(+category, +number, key);
+  getItems(@Query('category') category: number, @Query('number') number: number, @Query('keyword') key: string, @Query('startindex') startindex: number): Promise<item[]> {
+    return this.itemsService.getItems(+category, +number, key, +startindex);
   }
 
   @Get('/details/:id')
@@ -104,6 +109,17 @@ export class ItemsController {
   })
   getDetails(@Param('id') id: number): Promise<item[]> {
     return this.itemsService.getDetails(+id)
+  }
+
+  @Get('comments/:id')
+  @ApiOperation({ summary: '상품의 리뷰 정보', description: '특정 상품의 리뷰 정보를 요청합니다.' })
+  @ApiParam({
+    name: 'id',
+    required: true,
+    description: '상품 id'
+  })
+  getComments(@Param('id') id: number): Promise<any>{
+    return this.itemsService.getComments(+id)
   }
 
 
@@ -205,6 +221,11 @@ export class ItemsController {
   @ApiCreatedResponse({ description: 'successful' })
   stockmanagement(@Body() data: StockManagement) {
     return this.itemsService.stockmanagement(data)
+  }
+
+  @Get('/selling')
+  getSellingItems() {
+    return this.itemsService.getSellingItems()
   }
 
 }

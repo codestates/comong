@@ -77,6 +77,7 @@ export class CommentsService {
 					where: {
 						user_id: user_id,
 					},
+					limit: 10, //개발 편의를 위해 잠시 추가했습니다(test계정으로 접속 시 서버 다운됨)
 					transaction: t,
 				});
 				const orderDeatilIdArr = itemreviewList.map((elem) => {

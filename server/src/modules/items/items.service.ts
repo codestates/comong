@@ -77,10 +77,40 @@ export class ItemsService {
 	}
 
 	async getItems(
-		category: number,
-		number: number,
-		keyword: string,
+		category?: number,
+		number?: number,
+		keyword?: string,
+		startindex?: number,
 	): Promise<item[]> {
+
+		const condition = (): any => {
+			let result = {}
+			if (keyword) {
+				result = Object.assign(result, {
+					[Op.or]: {
+						title: { [Op.like]: '%' + keyword + '%' },
+						contents: { [Op.like]: '%' + keyword + '%' },
+					},
+				},)
+			}
+
+			if(startindex) {
+				result = Object.assign(result, {
+					id: {
+						[Op.lt]: startindex
+					}
+				})
+			}
+			return result
+		}
+
+		const offset = () => {
+			const count = number || 10
+			if(startindex){
+				return startindex - count
+			}
+		}
+
 		this.items = await models.item.findAll({
 			include: [
 				{
@@ -91,14 +121,11 @@ export class ItemsService {
 				{ model: models.user, as: 'user', attributes: ['id', 'storename'] },
 			],
 			limit: number || 10,
-			where: keyword && {
-				[Op.or]: {
-					title: { [Op.like]: '%' + keyword + '%' },
-					contents: { [Op.like]: '%' + keyword + '%' },
-				},
-			},
+			where: condition(),
 			order: [['createdAt', 'DESC']],
+			//offset: offset(),
 		});
+		console.log(this.items.length)
 		return this.items;
 	}
 
@@ -119,16 +146,28 @@ export class ItemsService {
 
 	async getDetails(id: number): Promise<item[]> {
 		this.items = await models.item.findOne({
-			raw: true,
+			//raw: true,
 			where: { id: id },
 			include: [
 				{
 					model: models.item_has_category,
 					as: 'item_has_categories',
 					attributes: [],
-					include: [{ model: models.category, as: 'category', attributes: [] }],
+					include: [{ model: models.category, as: 'category', attributes: ['id', 'category'] }],
+					raw: true,
 				},
-				{ model: models.user, as: 'user', attributes: [] },
+				{ model: models.user, as: 'user', attributes: [],},
+				{model: models.order_detail, as: 'order_details', attributes: ['id'], raw: true, include: [
+					{model: models.item_review, as: 'item_reviews', require: false, raw: true, attributes: [
+						'contents',
+						'image_src',
+						'score',
+						'user_id',
+					], include: [
+						{model: models.user, as: 'user', attributes: ['email'], raw: true}
+					]}
+				]},
+
 			],
 			attributes: [
 				'id',
@@ -149,6 +188,17 @@ export class ItemsService {
 		} else {
 			throw new NotFoundException('this item does not exist');
 		}
+	}
+
+	async getComments(id: number): Promise<any>{
+		const comments = await models.item_review.findAll({
+			include: [
+				{model: models.order_detail, as: 'order_detail', include: [
+					{model: models.item, as: 'item', where: {id: id}, require: true}
+				]}
+			]
+		})
+		return comments
 	}
 
 	findOne(id: number) {
