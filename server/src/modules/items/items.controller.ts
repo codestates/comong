@@ -4,7 +4,7 @@ import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
 import { category } from './entities/category.entity';
 import { item } from './entities/item.entity'
-import { ApiTags, ApiOperation, ApiCreatedResponse, ApiOkResponse, ApiHeader, ApiBearerAuth, ApiBadRequestResponse, ApiParam, ApiQuery } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiCreatedResponse, ApiOkResponse, ApiHeader, ApiBearerAuth, ApiBadRequestResponse, ApiParam, ApiQuery, ApiServiceUnavailableResponse } from '@nestjs/swagger';
 import JwtAuthGuard from '../../middleware/Jwtauthguard';
 import { getUser } from 'src/decorators/getUser';
 import { User } from '../users/entities/user.entity';
@@ -30,6 +30,7 @@ export class ItemsController {
   @ApiOperation({ summary: '새로운 상품 등록', description: '새로운 상품을 등록합니다.' })
   @ApiCreatedResponse({ description: 'successful' })
   @ApiBadRequestResponse({ description: 'invalid value for property' })
+  @ApiServiceUnavailableResponse({ description: 'a network-related or database instance-specific error occurred while inserting new data' })
   @UseGuards(JwtAuthGuard)
   create(@Body() newItem: CreateItemDto, @getUser() user: User ) {
     return this.itemsService.create(newItem, user);
@@ -59,6 +60,11 @@ export class ItemsController {
     required: false,
     description: '요청할 갯수'
   })
+  @ApiQuery({
+    name: 'startindex',
+    required: false,
+    description: '시작 인덱스 id'
+  })
   @ApiOkResponse({
     description: 'successful',
     schema: {
@@ -72,8 +78,8 @@ export class ItemsController {
         },
     },
   })
-  getItems(@Query('category') category: number, @Query('number') number: number, @Query('keyword') key: string): Promise<item[]> {
-    return this.itemsService.getItems(+category, +number, key);
+  getItems(@Query('category') category: number, @Query('number') number: number, @Query('keyword') key: string, @Query('startindex') startindex: number): Promise<item[]> {
+    return this.itemsService.getItems(+category, +number, key, +startindex);
   }
 
   @Get('/details/:id')
@@ -105,6 +111,17 @@ export class ItemsController {
     return this.itemsService.getDetails(+id)
   }
 
+  @Get('comments/:id')
+  @ApiOperation({ summary: '상품의 리뷰 정보', description: '특정 상품의 리뷰 정보를 요청합니다.' })
+  @ApiParam({
+    name: 'id',
+    required: true,
+    description: '상품 id'
+  })
+  getComments(@Param('id') id: number): Promise<any>{
+    return this.itemsService.getComments(+id)
+  }
+
 
   @Get('categorylist')
   @ApiOperation({ summary: '카테고리 목록 정보', description: 'request for item category list' })
@@ -126,6 +143,7 @@ export class ItemsController {
   @ApiOperation({ summary: '상품 정보 수정', description: '상품 정보 수정 요청을 받습니다.' })
   @ApiOkResponse({ description: 'successful'})
   @ApiBadRequestResponse({ description: 'invalid value for property' })
+  @ApiServiceUnavailableResponse({ description: 'a network-related or database instance-specific error occurred while inserting new data' })
   update(@Param('id') id: string, @Body() updateItemDto: UpdateItemDto) {
     return this.itemsService.update(+id, updateItemDto);
   }
@@ -189,6 +207,28 @@ export class ItemsController {
 		return this.itemsService.getbookmarks(user_id);
 	}
 
+  
+  @Get('/keyword')
+	@ApiHeader({
+    name: 'Authorization',
+		description: '사용자 인증 수단, 액세스 토큰 값',
+		required: true,
+		schema: {
+      example: 'bearer 23f43u9if13ekc23fm30jg549quneraf2fmsdf',
+		},
+	})
+	@ApiOperation({
+    summary: 'keyword 리스트',
+		description: '추천 검색어 keyword 리스트 요청',
+	})
+	@ApiOkResponse({
+    description: 'successful',
+	})
+	// @UseGuards(JwtAuthGuard)
+	getkeywords() {
+    return this.itemsService.getkeywords();
+	}
+  
   @Post('/stockmanagement')
   @ApiHeader({
     name: 'Authorization',
@@ -203,6 +243,11 @@ export class ItemsController {
   @ApiCreatedResponse({ description: 'successful' })
   stockmanagement(@Body() data: StockManagement) {
     return this.itemsService.stockmanagement(data)
+  }
+
+  @Get('/selling')
+  getSellingItems() {
+    return this.itemsService.getSellingItems()
   }
 
 }
