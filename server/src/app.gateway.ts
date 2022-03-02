@@ -44,11 +44,11 @@ export class AppGateway
 		client.emit('joinedRoom', room);
 	}
 
-	@SubscribeMessage('sendNotification')
-	async handleNotification(message: object) {
+	@SubscribeMessage('notificationToServer')
+	async handleNotification(room:string, message: object) {
 		// console.log(typeof message);
 		this.server
-			.to('public#appNotice')
+			.to(room)
 			.emit('notificationToClient', message);
 	}
 

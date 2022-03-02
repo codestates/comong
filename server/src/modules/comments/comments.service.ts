@@ -156,6 +156,13 @@ export class CommentsService {
 					return elem.id;
 				});
 				const itemreviewList = await models.item_review.findAll({
+					include: [
+						{
+							model: models.user,
+							as: 'user',
+							attributes: ['email'],
+						},
+					],
 					where: {
 						order_detail_id: {
 							[Op.or]: orderDetailIdArr,
