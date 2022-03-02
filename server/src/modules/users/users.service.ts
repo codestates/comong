@@ -11,6 +11,7 @@ import { SignInUserDto } from './dto/signin-user.dto';
 const models = require('../../models/index');
 import { TokenService } from 'src/util/token';
 import { v4 as uuid } from 'uuid';
+import { UpdateNotificationDto } from './dto/update.notification.dto';
 const sequelize = models.sequelize;
 
 export type User = any;
@@ -330,18 +331,28 @@ export class UsersService {
 		}
 	}
 
-	async updateNotification(user_id: number) {
-		return 'this will update notification'
-	// 	if (!user_id) {
-	// 		throw new BadRequestException('at least user_id is needed for query');
-	// 	} else {
-	// 		const notifications = await models.notification.findAll({
-	// 			where: {
-	// 				user_id: user_id,
-	// 			},
-	// 		});
-	// 		// console.log(JSON.parse(notifications[0].contents))
-	// 		return { data: notifications, message: 'successful' };
-	// 	}
+	async updateNotification(data: UpdateNotificationDto) {
+		const result = await sequelize
+			.transaction(async (t) => {
+				const isUpdated = await models.notification.update(
+					{ read: data.read },
+					{
+						where: {
+							id: data.notification_id,
+						},
+						transaction: t,
+					},
+				);
+				if (isUpdated) {
+					return { message: 'notification updated successfully' };
+				}
+			})
+			.then((result: any) => {
+				return result;
+			})
+			.catch((err: any) => {
+				return err;
+			});
+		return result;
 	}
 }

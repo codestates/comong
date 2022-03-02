@@ -15,6 +15,6 @@ export class UpdateNotificationDto {
         description: 'read',
         required: true,
     })
-    @IsString()
+    @IsNumber()
     readonly read: number;
 }
