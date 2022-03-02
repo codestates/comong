@@ -1,8 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { stat } from 'fs';
 import { apiClient } from '../../apis';
 import { ILoginForm } from '../../components/form/LoginForm';
-import { useAppSelector } from '../configStore.hooks';
 
 // !TODO 타입 다시 확인하기
 interface IUserInfo {
@@ -24,6 +22,7 @@ export interface IUser {
   accessToken?: string;
   role?: number;
   userinfo?: IUserInfo;
+  notification?: [];
 }
 
 const initialState: IUser = {
@@ -46,7 +45,8 @@ const userSlice = createSlice({
       console.log(
         '1에서 수행한게 승인되면 여기로 옴, 1에서 리턴받은 데이터가 action.payload로 들어옴',
       );
-      const { accessToken, user } = action.payload;
+      console.log(action.payload);
+      const { accessToken, user, notification } = action.payload;
       const likes = Array.isArray(user.category_has_users)
         ? user.category_has_users.map(
             (el: { category_id: number }) => el.category_id,
@@ -60,7 +60,13 @@ const userSlice = createSlice({
       apiClient.defaults.headers.common[
         'Authorization'
       ] = `bearer ${accessToken}`;
-      return { isLogin: true, accessToken, role: user.role, userinfo };
+      return {
+        isLogin: true,
+        accessToken,
+        role: user.role,
+        userinfo,
+        notification,
+      };
     });
 
     builder.addCase(postSigninAsync.rejected, (state, action) => {
@@ -83,16 +89,20 @@ const userSlice = createSlice({
 });
 
 export const postSigninAsync = createAsyncThunk(
-  'LOGIN_USER',
+  'post/login',
   async (form: ILoginForm) => {
     console.log('1번, 여기서 비동기 작업하고 data 리턴');
     const response = await apiClient.post(`/users/signin`, form);
-    return response.data;
+    const notification = await apiClient.get(
+      `/users/notification?user_id=${response.data.user.id}`,
+    );
+    const data = { ...response.data, notification: notification.data.data };
+    return data;
   },
 );
 
 export const postBookmarkAsync = createAsyncThunk(
-  'bookmark/post',
+  'post/bookmark',
   async (body: { user_id: number; item_id: number; ismarked: boolean }) => {
     const response = await apiClient.post('/items/bookmark', body);
     console.log(response);
