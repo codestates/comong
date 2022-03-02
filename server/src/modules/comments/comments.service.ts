@@ -78,6 +78,7 @@ export class CommentsService {
 					where: {
 						user_id: user_id,
 					},
+					limit: 100,
 					transaction: t,
 				});
 				const orderDeatilIdArr = itemreviewList.map((elem) => {
