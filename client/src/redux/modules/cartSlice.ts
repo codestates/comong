@@ -151,6 +151,7 @@ const cartSlice = createSlice({
       state.data[0][groupName].order_details = arr;
     },
     setTotalPrice(state, action) {
+      console.log('토탈프라이스 작동');
       let sum = 0;
       for (let x in action.payload) {
         sum += action.payload[x];

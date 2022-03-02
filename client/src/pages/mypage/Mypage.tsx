@@ -4,34 +4,38 @@ import styled from 'styled-components';
 import MypageAsideBar from '../../components/mypage/MypageAsideBar';
 
 const Wrapper = styled.div`
+  height: auto;
   margin: 0 1%;
   padding: 100px 1%;
-
   display: flex;
-  justify-content: center;
-  gap: 70px;
+  justify-content: flex-start;
 
   @media only screen and (max-width: 1200px) {
     justify-content: flex-start;
     padding-left: 20px;
     gap: 50px;
   }
+
+  div.menuIcon {
+    width: 20px;
+    height: 20px;
+    position: fixed;
+    background-color: white;
+    top: 80px;
+    left: 10px;
+    padding: 2px;
+    border-radius: 10px;
+  }
 `;
 
-const Shadow = styled.div`
-  width: 100vw;
+const NavWrapper = styled.div`
+  position: relative;
   height: 100vh;
-  position: fixed;
-  left: 0;
-  top: 60px;
-  background-color: ${(props) => props.theme.colors.darkGrey};
-  opacity: 0.3;
 `;
 
 const MenuIcon = styled.img`
-  width: 20px;
-  height: 20px;
-  position: absolute;
+  width: 100%;
+  height: 100%;
 `;
 
 // @media only screen and (max-width: 1200px) {
@@ -40,7 +44,8 @@ const MenuIcon = styled.img`
 // }
 
 const OutletWrapper = styled.div`
-  width: 50%;
+  width: 56%;
+  margin-left: 28%;
 
   &.modifyInfo {
     display: flex;
@@ -50,7 +55,8 @@ const OutletWrapper = styled.div`
 
   @media only screen and (max-width: 1200px) {
     width: 100%;
-    padding: 0 50px;
+    padding: 0 20px;
+    margin-left: 0;
   }
 `;
 
@@ -74,12 +80,15 @@ function Mypage() {
 
   return (
     <Wrapper>
-      {showMenu || width > 1200 ? (
-        <MypageAsideBar setShowMenu={setShowMenu}></MypageAsideBar>
-      ) : (
-        <MenuIcon onClick={() => setShowMenu(true)} src="./icons/menu.png" />
-      )}
-      {showMenu && width <= 1200 && <Shadow></Shadow>}
+      <NavWrapper>
+        {showMenu || width > 1200 ? (
+          <MypageAsideBar setShowMenu={setShowMenu}></MypageAsideBar>
+        ) : (
+          <div className="menuIcon">
+            <MenuIcon onClick={() => setShowMenu(true)} src="/icons/menu.png" />
+          </div>
+        )}
+      </NavWrapper>
       <OutletWrapper
         className={pathname.includes('modifyInfo') ? 'modifyInfo' : ''}
       >

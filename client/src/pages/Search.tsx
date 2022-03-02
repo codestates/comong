@@ -2,11 +2,19 @@ import styled from 'styled-components';
 import Nav from '../components/Nav';
 import MobileNav from '../components/MobileNav';
 import SearchList from '../components/searchList/SearchList';
-import { useAppDispatch, useAppSelector } from '../redux/configStore.hooks';
 import { useNavigate } from 'react-router-dom';
 import { navSearchAsync } from '../redux/modules/navSearchSlice';
 import type { RootState } from '../redux/configStore';
 import { setReduxKeyword } from '../redux/modules/navSearchSlice';
+import { useAppDispatch, useAppSelector } from '../redux/configStore.hooks';
+import { getListAsync } from '../redux/modules/listSlice';
+
+import { config } from '../config/config';
+import { apiClient } from '../apis';
+import { useEffect, useState } from 'react';
+
+const env = 'development';
+const urlConfig = config[env];
 
 const SearchContainer = styled.div`
   margin-top: 65px;
@@ -45,15 +53,16 @@ const HotContainer = styled.div`
   display: flex;
   margin: 20px;
   align-items: center;
+  justify-content: center;
   font-family: Noto Sans KR;
-  border: 1px solid grey;
+  border: 3px solid ${(props) => props.theme.colors.lightGrey};
   border-radius: 20px;
   padding: 5px 20px;
   max-width: 800px;
   overflow: hidden;
   text-overflow: ellipsis;
   word-wrap: break-word;
-
+  color: ${(props) => props.theme.colors.charcol};
   @media only screen and (max-width: 1200px) {
   }
   @media only screen and (max-width: 768px) {
@@ -73,7 +82,7 @@ const HotLine = styled.span`
 `;
 const HotTitle = styled.div`
   font-size: 18px;
-  font-weight: 500;
+  font-weight: 600;
   @media only screen and (max-width: 1200px) {
   }
   @media only screen and (max-width: 768px) {
@@ -99,8 +108,7 @@ const Hotkeywords = styled.div`
     font-size: 15px;
   }
   @media only screen and (max-width: 768px) {
-    font-size: 13px;
-    height: 13px;
+    font-size: 15px;
     margin-top: 15px;
   }
 `;
@@ -115,7 +123,25 @@ const Search = () => {
 
   console.log(searchData.navSearchSlice.data);
 
-  let arr = ['가방', '신발', '소고기', '파워레인저'];
+  const [list, setList] = useState(['가방', '신발', '소고기', '핸드폰']);
+
+  // let arr = ['가방', '신발', '소고기', '핸드폰'];
+  let arr: string[] = [];
+  useEffect(() => {
+    getHotKeywords();
+  }, []);
+
+  const getHotKeywords = async () => {
+    const res = await apiClient.get(`/items/keyword`, {}); // 서버에서 데이터 가져오기
+    console.log('res.data', res.data.data);
+    for (let x of res.data.data) {
+      console.log(x);
+      arr.push(x.keyword);
+      console.log(arr);
+    }
+    setList(arr.slice(0, 4));
+    // arr = arr.slice(0, 4);
+  };
 
   const handleSearch = (e: any) => {
     let value = e.target.innerHTML;
@@ -125,7 +151,6 @@ const Search = () => {
     if (value !== '') {
       dispatch(navSearchAsync(value));
       dispatch(setReduxKeyword(value));
-
       navigate('/search');
     }
   };
@@ -136,10 +161,10 @@ const Search = () => {
       <SearchContainer>
         <HotContainer>
           <HotTitle>
-            인기검색어<HotLine>|</HotLine>
+            인기검색어&nbsp;&nbsp;&nbsp;<HotLine></HotLine>
           </HotTitle>
           <KeyWordsContainer>
-            {arr.map((el) => {
+            {list.map((el) => {
               return <Hotkeywords onClick={handleSearch}>{el}</Hotkeywords>;
             })}
           </KeyWordsContainer>
