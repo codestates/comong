@@ -7,7 +7,7 @@ import { truncate } from 'fs';
 import { useState } from 'react';
 import { LoginNeedModalForList } from '../Modals/LoginNeedModalForList';
 
-const PostListItem = ({ post }: Props) => {
+const PostListItem = ({ post, LoginCheck }: Props) => {
   const [isLoginModal, setIsLoginModal] = useState(false);
 
   const img_src = post.image_src
@@ -22,9 +22,6 @@ const PostListItem = ({ post }: Props) => {
   const bookmarks = userinfo?.bookmarks;
   const itemData = useAppSelector((state: RootState) => state);
   const isLogin = itemData.userSlice.isLogin;
-  const LoginCheck = () => {
-    if (!isLogin) setIsLoginModal(!isLoginModal);
-  };
 
   return (
     <StLink to={`/item/${id}`}>
@@ -45,11 +42,11 @@ const PostListItem = ({ post }: Props) => {
               ></BookmarkButton>
             </div>
           </PriceAndBookmarkContainer>
+          {isLoginModal ? (
+            <LoginNeedModalForList>로그인이 필요합니다</LoginNeedModalForList>
+          ) : null}
         </TextContainer>
       </ItemContainer>
-      {isLoginModal ? (
-        <LoginNeedModalForList>로그인이 필요합니다</LoginNeedModalForList>
-      ) : null}
     </StLink>
   );
 };
@@ -170,6 +167,7 @@ interface Props {
     user: { storename: string };
     user_id: number;
   };
+  LoginCheck?: () => void;
 }
 
 export default PostListItem;

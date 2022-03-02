@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useAppDispatch } from '../../redux/configStore.hooks';
 import { getListAsync } from '../../redux/modules/listSlice';
+import { setCategory } from '../../redux/modules/itemSlice';
 
 const MainCategoriesContainer = styled.div`
   display: flex;
@@ -31,6 +32,7 @@ const MainCategory = styled.div`
   }
   @media only screen and (max-width: 1200px) {
     /* flex-grow: 1; */
+    width: 50px;
   }
   @media only screen and (max-width: 768px) {
   }
@@ -39,13 +41,14 @@ const MainCategoryIcon = styled.img`
   width: 50px;
   margin-bottom: 5px;
   @media only screen and (max-width: 1200px) {
-    width: 45px;
+    width: 100%;
   }
   @media only screen and (max-width: 768px) {
   }
 `;
 const MainCategoryName = styled.span`
-  font-size: 12.5px;
+  font-size: 13.5px;
+  font-family: 'roboto', 'Noto Sans KR';
   font-weight: bold;
   color: #444444;
   @media only screen and (max-width: 1200px) {
@@ -84,7 +87,7 @@ const TableColumn = styled.td`
 const MainCategories = () => {
   let arr = [
     {
-      id: 1,
+      id: 0,
       pid: 0,
       depth: 0,
       category: '전체',
@@ -162,8 +165,6 @@ const MainCategories = () => {
     nameList.push(arr[i].category);
   }
 
-  // console.log(nameList);
-
   const [width, setWidth] = useState(window.innerWidth);
 
   const handleResize = () => setWidth(window.innerWidth);
@@ -179,16 +180,16 @@ const MainCategories = () => {
         <TableContainer>
           <TableBody>
             <TableRow>
-              <TableColumn onClick={() => dispatch(getListAsync(0))}>
+              <TableColumn onClick={() => dispatch(setCategory(0))}>
                 {nameList[0]}
               </TableColumn>
-              <TableColumn onClick={() => dispatch(getListAsync(1))}>
+              <TableColumn onClick={() => dispatch(setCategory(1))}>
                 {nameList[1]}
               </TableColumn>
-              <TableColumn onClick={() => dispatch(getListAsync(2))}>
+              <TableColumn onClick={() => dispatch(setCategory(2))}>
                 {nameList[2]}
               </TableColumn>
-              <TableColumn onClick={() => dispatch(getListAsync(3))}>
+              <TableColumn onClick={() => dispatch(setCategory(3))}>
                 {nameList[3]}
               </TableColumn>
             </TableRow>
@@ -230,10 +231,13 @@ const MainCategories = () => {
     <MainCategoriesContainer>
       {width > 768 ? (
         nameList.map((el, i) => {
+          console.log(el, i);
           return (
             <MainCategory
               key={el + i + 100}
-              onClick={() => dispatch(getListAsync(i))}
+              onClick={() => {
+                dispatch(setCategory(i));
+              }}
             >
               <MainCategoryIcon
                 key={el + i}
