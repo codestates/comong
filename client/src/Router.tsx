@@ -21,6 +21,8 @@ import MypageBookmarks from './pages/mypage/mypage_user/MypageBookmarks';
 import MypageReviews from './pages/mypage/mypage_user/MypageReviews';
 import MypageSellerDefault from './pages/mypage/mypage_seller/MypageSellerDefault';
 import MypageSellerItems from './pages/mypage/mypage_seller/MypageSellerItems';
+import Test from './pages/Test';
+import Notifications from './pages/Notifications';
 
 function Routers() {
   const { role } = useAppSelector((state) => state.userSlice);
@@ -46,12 +48,15 @@ function Routers() {
           <Route path="reviews" element={<MypageReviews />}></Route>
           <Route path="bookmarks" element={<MypageBookmarks />}></Route>
           <Route path="modifyInfo" element={<GeneralJoin />}></Route>
+          <Route path="notifications" element={<Notifications />}></Route>
         </Route>
         <Route path="sellerpage/*" element={<Mypage />}>
           <Route path="" element={<MypageSellerDefault />}></Route>
           <Route path="itemlist" element={<MypageSellerItems />}></Route>
+          <Route path="notifications" element={<Notifications />}></Route>
         </Route>
         <Route path="/payment" element={<Payment />}></Route>
+        <Route path="/test" element={<Test />}></Route>
       </Routes>
       <MobileNav></MobileNav>
     </BrowserRouter>
