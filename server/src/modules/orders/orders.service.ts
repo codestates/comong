@@ -49,13 +49,21 @@ export class OrdersService {
 				},
 				transaction: t,
 			});
+			const sellerId = sellerInfo.dataValues.user.id;
 			const emailAddress = sellerInfo.dataValues.user.email;
 			const storeName = sellerInfo.dataValues.user.storename;
+			const pushNotificationRoom = `${sellerId}#appNotice`;
 			// console.log(emailAddress)
 			// console.log(storeName)
 			if (newOrder) {
-				// const message = newOrder;
-				// this.appGateway.handleNotification(message);
+				const message = { title: '구매 발생 알림', data: newOrder };
+				const newNotification = await models.notification.create({
+					title: '구매 발생 알림',
+					contents: JSON.stringify(newOrder),
+					read: 0,
+					user_id: sellerId,
+				});
+				this.appGateway.handleNotification(pushNotificationRoom, message);
 				return await this.mailerService.sendOrderNotice(
 					newOrder,
 					{ storename: storeName },
@@ -89,7 +97,6 @@ export class OrdersService {
 					transaction: t,
 				},
 			);
-			// console.log(isUpdate);
 			if (isUpdate[0] === 1) {
 				return { message: 'update successful' };
 			} else {
@@ -111,13 +118,11 @@ export class OrdersService {
 				...createOrderdetail,
 				transaction: t,
 			});
-			// console.log(newOrder_detail);
 			if (newOrder_detail) {
 				return { data: newOrder_detail, message: 'successful' };
 			} else {
 				throw new BadRequestException('invalid request or value for property');
 			}
-			//stock management function will be added soon..
 		})
 			.then((result: any) => {
 				return result;
@@ -400,7 +405,7 @@ export class OrdersService {
 					}
 				}
 				const message = output;
-				this.appGateway.handleNotification(message);
+				// this.appGateway.handleNotification(message);
 				return output;
 			}
 		})

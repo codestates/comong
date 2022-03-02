@@ -19,11 +19,8 @@ const Comments = ({ itemId, list }: any) => {
     apiClient
       .get(`${urlConfig.url}/comments/itemlist?item_id=${id}`)
       .then((res) => {
-        console.log('res', res);
-        console.log(res.data.data);
         if (res.status === 200)
           clist = JSON.parse(JSON.stringify(res.data.data)) || [];
-        // JSON.parse(JSON.stringify(res.data.data))
       });
   }, []);
 
@@ -41,6 +38,12 @@ const Comments = ({ itemId, list }: any) => {
     <Container>
       {clist.length > 0
         ? clist.map((el: any) => {
+            let email = el.user.email.split('@')[0];
+            let answer;
+            if (email.length === 1) email = '*';
+            else if (email.length === 2) email += email[0] + '*';
+            else if (email.length === 3) email += email[0] + '**';
+            else email = email.slice(0, 3).padEnd(email.length, '*');
             return (
               <CommentContainer>
                 <UpperContainer>
@@ -55,7 +58,7 @@ const Comments = ({ itemId, list }: any) => {
                       ></Picture>
                     </PictureContainer>
                     <NameAndDateContainer>
-                      <Name>{el.id}</Name>
+                      <Name>{email}</Name>
                       <Date>{el.createdAt.substr(0, 10)}</Date>
                     </NameAndDateContainer>
                   </Profile>

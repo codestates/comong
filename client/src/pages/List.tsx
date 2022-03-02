@@ -6,6 +6,7 @@ import { LoginNeedModalForList } from '../components/Modals/LoginNeedModalForLis
 import { useState } from 'react';
 import { useAppSelector } from '../redux/configStore.hooks';
 import type { RootState } from '../redux/configStore';
+import Item from '../components/banner/Item';
 
 const ListContainer = styled.div`
   font-family: 'roboto', 'Noto Sans KR';
@@ -25,12 +26,11 @@ const List = () => {
   };
   return (
     <ListContainer>
-      <Banner></Banner>
+      <Item></Item>
       {isLoginModal ? (
         <LoginNeedModalForList>로그인이 필요합니다</LoginNeedModalForList>
       ) : null}
       <MainCategories></MainCategories>
-
       <PostList LoginCheck={LoginCheck}></PostList>
     </ListContainer>
   );
