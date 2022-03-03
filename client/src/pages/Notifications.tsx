@@ -23,8 +23,8 @@ function Notifications() {
 
   useEffect(() => {
     console.log(socket.connected);
-    socket.on('joinedRoom', (data) => {
-      console.log('이거는 찍히는데', data);
+    socket.on('notificationToClient', (data) => {
+      console.log('이벤트 발생 시', data);
     });
   }, []);
 

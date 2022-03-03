@@ -29,10 +29,6 @@ const Cart = () => {
   const id = userInfo?.id;
   console.log(id);
 
-  useEffect(() => {
-    if (!isLogin) navigate('/login');
-  }, []);
-
   let sum = 0;
   let delivery = 0;
   for (let x in cartData.cartSlice.subTotalPrice) {
