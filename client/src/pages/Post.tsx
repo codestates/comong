@@ -23,6 +23,7 @@ import { setDelivery } from '../redux/modules/cartSlice';
 import { LoginNeedModal } from '../components/Modals/LoginNeedModal';
 import Comments from '../components/Comments/Comments';
 import { getCommentAsync } from '../redux/modules/itemSlice';
+import CartList from '../components/cart/CartList';
 
 const env = 'development';
 const urlConfig = config[env];
@@ -41,8 +42,7 @@ const Post = () => {
   const [imgIdx, setImgIdx] = useState(0);
   const [isDetail, setIsDetail] = useState();
   const isLogin = itemData.userSlice.isLogin;
-
-  let commentList: any = [];
+  const [commentNum, setCommentNum] = useState<number>(0);
 
   const user_id = itemData.userSlice.userinfo?.id as number;
 
@@ -169,7 +169,15 @@ const Post = () => {
     else setIsComments(true);
   };
 
-  console.log(commentList);
+  useEffect(() => {
+    apiClient
+      .get(`${urlConfig.url}/comments/itemlist?item_id=${id}`)
+      .then((res) => {
+        if (res.status === 200) console.log(res.data.data);
+        setCommentNum(res.data.data.length);
+      });
+  }, []);
+
   return (
     <>
       <Container>
@@ -204,13 +212,13 @@ const Post = () => {
                     contentsHandler('comments');
                   }}
                 >
-                  상품평
+                  상품평 ({commentNum})
                 </ContentsTitle>
               </ContentsTitleContainer>
               <Contentsline />
               <ContentsArea>
                 {isComments ? (
-                  <Comments itemId={id} list={commentList} />
+                  <Comments />
                 ) : (
                   <CoViewer editorState={contents} />
                 )}
@@ -292,13 +300,20 @@ const ImgContainer = styled.div`
   width: 100%;
   max-height: 450px;
   margin: 40px 0px;
+  @media only screen and (max-width: 1200px) {
+  }
+  @media only screen and (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 const MainImgContainer = styled.div`
-  width: 50%;
+  /* width: 50%; */
   height: 50%;
+  width: 500px;
 `;
 const MainImg = styled.img`
-  width: 90%;
+  /* width: 90%; */
+  width: 500px;
   max-height: 500px;
 `;
 
@@ -307,13 +322,24 @@ const ThumbnailImgContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 10%;
-  height: 25%;
+  height: 500px;
+  margin-left: 5px;
+  @media only screen and (max-width: 1200px) {
+  }
+  @media only screen and (max-width: 768px) {
+    flex-direction: row;
+    margin-left: 0px;
+  }
 `;
 const ThumbnailImg = styled.img`
-  margin: 10px;
+  margin: 3px;
   width: 100%;
-  max-height: 100px;
+  max-height: 120px;
+  @media only screen and (max-width: 1200px) {
+  }
+  @media only screen and (max-width: 768px) {
+    /* margin-left: 0px; */
+  }
 `;
 
 const BottomContainer = styled.div`
@@ -382,7 +408,7 @@ const OrderContainer = styled.div`
   @media only screen and (max-width: 1200px) {
     bottom: 0px;
     width: 100%;
-    height: 280px;
+    height: 200px;
   }
   @media only screen and (max-width: 768px) {
   }
@@ -411,6 +437,11 @@ const Title = styled.div`
   word-wrap: break-word;
   height: 30px;
   line-height: 27px;
+  @media only screen and (max-width: 1200px) {
+    display: none;
+  }
+  @media only screen and (max-width: 768px) {
+  }
 `;
 
 const Seller = styled.div`

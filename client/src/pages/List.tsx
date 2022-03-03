@@ -16,10 +16,10 @@ const ListContainer = styled.div`
 `;
 
 type UserProps = {
-  LoginCheck(): void;
+  isSearch?: number;
 };
 
-const List = () => {
+const List = ({ isSearch }: UserProps) => {
   const itemData = useAppSelector((state: RootState) => state);
   const isLogin = itemData.userSlice.isLogin;
   const [isLoginModal, setIsLoginModal] = useState(false);
@@ -28,12 +28,12 @@ const List = () => {
   };
   return (
     <ListContainer>
-      <Item></Item>
+      {isSearch ? null : <Item></Item>}
       {isLoginModal ? (
         <LoginNeedModalForList>로그인이 필요합니다</LoginNeedModalForList>
       ) : null}
-      {/* <hr /> */}
-      <MainCategories></MainCategories>
+
+      {isSearch ? null : <MainCategories></MainCategories>}
       <PostList LoginCheck={LoginCheck}></PostList>
     </ListContainer>
   );

@@ -12,9 +12,83 @@ import { getListAsync } from '../redux/modules/listSlice';
 import { config } from '../config/config';
 import { apiClient } from '../apis';
 import { useEffect, useState } from 'react';
+import List from './List';
 
 const env = 'development';
 const urlConfig = config[env];
+
+const Search = () => {
+  const navigate = useNavigate();
+  const searchData = useAppSelector((state: RootState) => state);
+  const dispatch = useAppDispatch();
+
+  const keyword = searchData.navSearchSlice.keyword;
+  const resultNum = searchData.navSearchSlice.data.length;
+  const isSearch = 1;
+
+  console.log(searchData.navSearchSlice.data);
+
+  const [list, setList] = useState(['가방', '신발', '소고기', '핸드폰']);
+
+  // let arr = ['가방', '신발', '소고기', '핸드폰'];
+  let arr: string[] = [];
+  useEffect(() => {
+    getHotKeywords();
+  }, []);
+
+  const getHotKeywords = async () => {
+    const res = await apiClient.get(`/items/keyword`, {}); // 서버에서 데이터 가져오기
+    console.log('res.data', res.data.data);
+    for (let x of res.data.data) {
+      console.log(x);
+      arr.push(x.keyword);
+      console.log(arr);
+    }
+    setList(arr.slice(0, 4));
+    // arr = arr.slice(0, 4);
+  };
+
+  const handleSearch = (e: any) => {
+    let value = e.target.innerHTML;
+    value = value.replace(/ /g, '');
+    value.trim();
+    console.log(value);
+    if (value !== '') {
+      dispatch(navSearchAsync(value));
+      dispatch(setReduxKeyword(value));
+      navigate('/search');
+    }
+  };
+
+  return (
+    <div>
+      <Nav></Nav>
+      <SearchContainer>
+        <HotContainer>
+          <HotTitle>
+            인기검색어&nbsp;&nbsp;&nbsp;<HotLine></HotLine>
+          </HotTitle>
+          <KeyWordsContainer>
+            {list.map((el) => {
+              return <Hotkeywords onClick={handleSearch}>{el}</Hotkeywords>;
+            })}
+          </KeyWordsContainer>
+        </HotContainer>
+        <SearchMention>
+          <div>
+            <span>'{keyword}'&nbsp;</span>에 대한 검색결과는
+            <span>&nbsp;{resultNum}건&nbsp;</span>
+            입니다
+          </div>
+        </SearchMention>
+        <List isSearch={isSearch}></List>
+        {/* <SearchList></SearchList> */}
+      </SearchContainer>
+
+      <MobileNav></MobileNav>
+    </div>
+  );
+};
 
 const SearchContainer = styled.div`
   margin-top: 65px;
@@ -112,76 +186,5 @@ const Hotkeywords = styled.div`
     margin-top: 15px;
   }
 `;
-
-const Search = () => {
-  const navigate = useNavigate();
-  const searchData = useAppSelector((state: RootState) => state);
-  const dispatch = useAppDispatch();
-
-  const keyword = searchData.navSearchSlice.keyword;
-  const resultNum = searchData.navSearchSlice.data.length;
-
-  console.log(searchData.navSearchSlice.data);
-
-  const [list, setList] = useState(['가방', '신발', '소고기', '핸드폰']);
-
-  // let arr = ['가방', '신발', '소고기', '핸드폰'];
-  let arr: string[] = [];
-  useEffect(() => {
-    getHotKeywords();
-  }, []);
-
-  const getHotKeywords = async () => {
-    const res = await apiClient.get(`/items/keyword`, {}); // 서버에서 데이터 가져오기
-    console.log('res.data', res.data.data);
-    for (let x of res.data.data) {
-      console.log(x);
-      arr.push(x.keyword);
-      console.log(arr);
-    }
-    setList(arr.slice(0, 4));
-    // arr = arr.slice(0, 4);
-  };
-
-  const handleSearch = (e: any) => {
-    let value = e.target.innerHTML;
-    value = value.replace(/ /g, '');
-    value.trim();
-    console.log(value);
-    if (value !== '') {
-      dispatch(navSearchAsync(value));
-      dispatch(setReduxKeyword(value));
-      navigate('/search');
-    }
-  };
-
-  return (
-    <div>
-      <Nav></Nav>
-      <SearchContainer>
-        <HotContainer>
-          <HotTitle>
-            인기검색어&nbsp;&nbsp;&nbsp;<HotLine></HotLine>
-          </HotTitle>
-          <KeyWordsContainer>
-            {list.map((el) => {
-              return <Hotkeywords onClick={handleSearch}>{el}</Hotkeywords>;
-            })}
-          </KeyWordsContainer>
-        </HotContainer>
-        <SearchMention>
-          <div>
-            <span>'{keyword}'&nbsp;</span>에 대한 검색결과는
-            <span>&nbsp;{resultNum}건&nbsp;</span>
-            입니다
-          </div>
-        </SearchMention>
-        <SearchList></SearchList>
-      </SearchContainer>
-
-      <MobileNav></MobileNav>
-    </div>
-  );
-};
 
 export default Search;

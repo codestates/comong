@@ -27,10 +27,18 @@ const Cart = () => {
   const isLogin = cartData.userSlice.isLogin;
   const userInfo = cartData.userSlice.userinfo;
   const id = userInfo?.id;
-  console.log(id);
+
+  const target = cartData.cartSlice.data;
+  const isSeller = userInfo?.role;
+  // console.log('target[0]', target[0]);
+  // console.log(
+  //   'Object.keys(target).length === 0',
+  //   Object.keys(target[0]).length === 0,
+  // );
 
   useEffect(() => {
     if (!isLogin) navigate('/login');
+    if (isSeller) navigate('/');
   }, []);
 
   let sum = 0;
@@ -119,7 +127,14 @@ const Cart = () => {
         <ContentsBackground>
           <ContentsContainer>
             <CartListContainer>
-              <CartList></CartList>
+              {Object.keys(target).length === 0 ? (
+                <CartList></CartList>
+              ) : (
+                <EmptyContainer>
+                  <EmptyImg src="/icons/cart/cart.png"></EmptyImg>
+                  <EmptyMention>장바구니에 상품이 없습니다</EmptyMention>
+                </EmptyContainer>
+              )}
             </CartListContainer>
             <OrderContainer>
               {isModal ? (
@@ -338,4 +353,23 @@ const OrderButton = styled.button`
   width: 100%;
 `;
 
+const EmptyContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+`;
+const EmptyImg = styled.img`
+  margin: auto;
+  width: 250px;
+  /* border: 4px solid gray; */
+  /* border-radius: 150px;
+  padding: 10px; */
+`;
+const EmptyMention = styled.div`
+  font-size: 25px;
+  margin: 20px;
+  color: #c3c3c3;
+`;
 export default Cart;

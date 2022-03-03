@@ -7,13 +7,12 @@ import styled from 'styled-components';
 const env = 'development';
 const urlConfig = config[env];
 
-const Comments = ({ itemId, list }: any) => {
+const Comments = () => {
   const itemData = useAppSelector((state: RootState) => state);
   const dispatch = useAppDispatch();
 
   const id = itemData.itemSlice.data.id;
   let clist = itemData.itemSlice.comments || [];
-  console.log('clist', clist);
 
   useEffect(() => {
     apiClient
@@ -23,8 +22,6 @@ const Comments = ({ itemId, list }: any) => {
         clist = JSON.parse(JSON.stringify(res.data.data)) || [];
       });
   }, []);
-
-  console.log('clist', clist);
 
   const ratingHandler = (x: number) => {
     if (x === 5) return '⭐⭐⭐⭐⭐';
