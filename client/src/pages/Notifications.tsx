@@ -8,7 +8,7 @@ import { addNotification } from '../redux/modules/userSlice';
 
 const Wrapper = styled.div``;
 const NotificationList = styled.ul`
-  background-color: ${(props) => props.theme.colors.lightGrey};
+  background-color: ${(props) => props.theme.colors.greyForMenu};
   height: 90vh;
   overflow: scroll;
   margin-top: 20px;
@@ -40,7 +40,8 @@ function Notifications() {
         } else if (shippingStatus === 'intransit') {
           console.log('알림 - 배송시작');
         }
-        setMessageList((list) => list && [data, ...list]);
+        const newData = { ...data, read: false };
+        setMessageList((list) => list && [newData, ...list]);
         dispatch(addNotification(data));
       }
     });
@@ -56,7 +57,6 @@ function Notifications() {
             return (
               <NotificationListItem
                 type={type}
-                key={`noti#${el.data.order_id}#${type}`}
                 info={el}
               ></NotificationListItem>
             );

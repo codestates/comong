@@ -22,7 +22,7 @@ interface IUserInfo {
   bookmarks: number[];
 }
 
-export interface Inotification {
+export interface INotification {
   id: number;
   updatedAt: string;
   data: {
@@ -39,7 +39,7 @@ export interface IUser {
   accessToken?: string;
   role?: number;
   userinfo?: IUserInfo;
-  notification?: Inotification[];
+  notification?: INotification[];
 }
 
 const initialState: IUser = {
@@ -125,9 +125,15 @@ export const postSigninAsync = createAsyncThunk(
     ).data;
     console.log('noti', notification);
     const newNotification = notification.data.map(
-      (obj: { id: number; read: number; contents: string }) => {
+      (obj: {
+        id: number;
+        updatedAt: string;
+        read: number;
+        contents: string;
+      }) => {
         const newContents = {
           id: obj.id,
+          updatedAt: obj.updatedAt,
           read: obj.read === 0 ? false : true,
           ...JSON.parse(obj.contents),
         };
