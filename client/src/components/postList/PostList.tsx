@@ -27,7 +27,7 @@ interface Post {
 
 const PostListWrapper = styled.div`
   width: 80%;
-  max-width: 1400px;
+  max-width: 1200px;
   padding: 10px;
   display: flex;
   margin: auto;
@@ -35,7 +35,7 @@ const PostListWrapper = styled.div`
   flex-wrap: wrap;
 
   @media only screen and (max-width: 1200px) {
-    width: 100%;
+    width: 80%;
   }
   @media only screen and (max-width: 768px) {
     width: 100%;

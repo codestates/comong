@@ -66,6 +66,7 @@ const Payment = () => {
   const [address2, setAddress2] = useState('');
 
   let orderInfo = cartData.cartSlice.orderInfo;
+  console.log('orderInfo', orderInfo);
 
   const payHandler = async (values: any) => {
     if (
@@ -317,9 +318,7 @@ const Payment = () => {
 
               <OrderInfo></OrderInfo>
             </InfoContainer>
-            {isModal ? (
-              <PaymentModal>배송정보를 모두 입력해주세요</PaymentModal>
-            ) : null}
+
             <OrderContainer>
               <OrderTitle>전체 합계</OrderTitle>
               <OrderLine />
@@ -352,6 +351,9 @@ const Payment = () => {
             </OrderContainer>
           </ContentsContainer>
         </ContentsBackground>
+        {isModal ? (
+          <PaymentModal>배송정보를 모두 입력해주세요</PaymentModal>
+        ) : null}
       </CartContainer>
       <Paymentcontainer>
         <div>this is Test-payment page</div>
