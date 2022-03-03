@@ -19,8 +19,8 @@ const Comments = ({ itemId, list }: any) => {
     apiClient
       .get(`${urlConfig.url}/comments/itemlist?item_id=${id}`)
       .then((res) => {
-        if (res.status === 200)
-          clist = JSON.parse(JSON.stringify(res.data.data)) || [];
+        if (res.status === 200) console.log(res);
+        clist = JSON.parse(JSON.stringify(res.data.data)) || [];
       });
   }, []);
 
