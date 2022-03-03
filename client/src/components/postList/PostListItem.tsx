@@ -23,6 +23,10 @@ const PostListItem = ({ post, LoginCheck }: Props) => {
   const itemData = useAppSelector((state: RootState) => state);
   const isLogin = itemData.userSlice.isLogin;
 
+  const hearts = 90;
+  const comments = 120;
+  const rating = 4.7;
+
   return (
     <StLink to={`/item/${id}`}>
       <ItemContainer>
@@ -33,14 +37,19 @@ const PostListItem = ({ post, LoginCheck }: Props) => {
         <TextContainer>
           <ItemSeller>{seller}</ItemSeller>
           <ItemTitle>{title}</ItemTitle>
+          <HeartsAndCommentsAndRatingContainer>
+            <Hearts>♥&nbsp;{hearts}</Hearts>
+            <Comments>💬&nbsp;{comments}</Comments>
+            <Rating>⭐&nbsp;{rating}</Rating>
+          </HeartsAndCommentsAndRatingContainer>
           <PriceAndBookmarkContainer>
             <ItemPrice>{price}원</ItemPrice>
-            <div onClick={LoginCheck}>
+            <BookmarkContainer onClick={LoginCheck}>
               <BookmarkButton
                 itemId={id}
                 selected={bookmarks ? !!bookmarks.includes(id) : false}
               ></BookmarkButton>
-            </div>
+            </BookmarkContainer>
           </PriceAndBookmarkContainer>
           {isLoginModal ? (
             <LoginNeedModalForList>로그인이 필요합니다</LoginNeedModalForList>
@@ -62,7 +71,7 @@ const ItemContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   margin: auto;
-  font-family: roboto;
+  font-family: 'roboto', 'Noto Sans KR';
   background-color: #fdfdfd;
   /* background-color: red; */
   /* &:hover {
@@ -70,7 +79,7 @@ const ItemContainer = styled.div`
   } */
   overflow: hidden;
   /* box-shadow: 0px 0px 12px #eeeeee; */
-  height: 320px;
+  height: 310px;
 `;
 
 const ItemImgContainer = styled.div`
@@ -87,7 +96,7 @@ const ItemImgContainer = styled.div`
 const ItemImg = styled.img`
   /* height: 100%;
   width: 100%; */
-  height: 250px;
+  height: 180px;
   width: 100%;
 
   object-fit: cover;
@@ -112,7 +121,7 @@ const TextContainer = styled.div`
   margin-top: 10px;
   margin-bottom: 10px;
   width: 90%;
-  height: 100px;
+  height: 150px;
   /* position: relative; */
 `;
 
@@ -129,12 +138,12 @@ const ItemSeller = styled.div`
 const ItemTitle = styled.div`
   width: 100%;
   margin: auto;
-  font-size: 14px;
+  font-size: 15px;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   font-weight: 300;
   line-height: 140%;
-  height: 35px;
+  height: 20px;
   overflow: hidden;
   text-overflow: ellipsis;
   word-wrap: break-word;
@@ -147,11 +156,44 @@ const PriceAndBookmarkContainer = styled.div`
 const ItemPrice = styled.div`
   width: 100%;
   margin: auto;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   margin-top: 15px;
   margin-bottom: 5px;
   color: #414141;
+`;
+
+const HeartsAndCommentsAndRatingContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  font-family: 'roboto', 'Noto Sans KR';
+  font-size: 12px;
+  color: gray;
+  font-weight: 500;
+`;
+const Hearts = styled.div`
+  font-size: 13px;
+  color: transparent; /* 기존 이모지 컬러 제거 */
+  /* text-shadow: 0 0 0 ${(props) => props.theme.colors.pink}; */
+  text-shadow: 0 0 0 ${(props) => props.theme.colors.purple};
+`;
+const Comments = styled.div`
+  margin-left: 12px;
+  font-size: 13px;
+`;
+const Rating = styled.div`
+  margin-left: 10px;
+  font-size: 13px;
+  color: transparent; /* 기존 이모지 컬러 제거 */
+  text-shadow: 0 0 0 ${(props) => props.theme.colors.accentColor}; /* 새 이모지 색상 부여 */
+`;
+
+const BookmarkContainer = styled.div`
+  /* position: absolute;
+  bottom: 10px;
+  right: 10px; */
+  position: relative;
+  bottom: 2px;
 `;
 
 interface Props {

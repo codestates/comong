@@ -47,7 +47,7 @@ export const navSearchAsync = createAsyncThunk(
   'search/post',
   async (keyword: string) => {
     const response = await axios.get(
-      `${process.env.REACT_APP_URL}/items?keyword=${keyword}`,
+      `${process.env.REACT_APP_URL}/items?keyword=${keyword}&number=205`,
     );
     console.log(response.data);
     return response.data;

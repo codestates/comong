@@ -66,6 +66,7 @@ const Payment = () => {
   const [address2, setAddress2] = useState('');
 
   let orderInfo = cartData.cartSlice.orderInfo;
+  console.log('orderInfo', orderInfo);
 
   const payHandler = async (values: any) => {
     if (

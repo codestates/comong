@@ -5,11 +5,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { useAppDispatch, useAppSelector } from '../../redux/configStore.hooks';
 import { postBookmarkAsync } from '../../redux/modules/userSlice';
-import { ReactComponent as HeartIcon } from '../../asset/heartIcon.svg';
+import { ReactComponent as HeartIcon } from '../../asset/heartIcon2.svg';
 
 const Heart = styled(HeartIcon)`
-  width: 12px;
-  height: 12px;
+  width: 23px;
+  height: 23px;
+  fill: grey;
 `;
 
 const Wrapper = styled.div`
@@ -22,10 +23,10 @@ const Wrapper = styled.div`
   border-radius: 8px;
   /* right: 100px;
   bottom: 10px; */
-  z-index: -1;
+  /* z-index: -1; */
 
   &.selected {
-    border: 1px solid #dd576f;
+    /* border: 1px solid #dd576f; */
 
     ${Heart} {
       fill: #dd576f;
@@ -33,7 +34,7 @@ const Wrapper = styled.div`
   }
 
   &:hover {
-    border: 1px solid #dd576f;
+    /* border: 1px solid #dd576f; */
     ${Heart} {
       fill: #dd576f;
     }
