@@ -128,7 +128,7 @@ const Img = styled.img`
   }
 `;
 
-const Banner1 = () => {
+const Banner2 = () => {
   return (
     <Container>
       <Contents>
@@ -150,4 +150,4 @@ const Banner1 = () => {
   );
 };
 
-export default Banner1;
+export default Banner2;
