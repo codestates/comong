@@ -1,11 +1,4 @@
-import { useRef } from 'react';
-import styled from 'styled-components';
-import imageIcon from '../asset/heartIcon.svg';
-
-const Wrapper = styled.div`
-  margin-top: 200px;
-`;
-export const useNotification = (title: string, options: {}) => {
+const useNotification = (title: string, options: {}) => {
   if (!('Notification' in window)) {
     return;
   }
@@ -31,19 +24,4 @@ export const useNotification = (title: string, options: {}) => {
   return fireNotif;
 };
 
-function Test() {
-  const triggerNotif = useNotification('코몽', {
-    body: `상품 배송이 시작되었습니다\n어쩌구저쩌구 이러쿵 저러쿵한 물건 야호야호`,
-    icon: '/img/profile.jpeg',
-    image: imageIcon,
-    timestamp: Math.floor(Date.now()),
-  });
-
-  return (
-    <Wrapper>
-      <button onClick={triggerNotif}>알람</button>
-    </Wrapper>
-  );
-}
-
-export default Test;
+export default useNotification;

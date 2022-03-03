@@ -72,9 +72,6 @@ function NotificationListItem({ info, type }: INotificationListItem) {
   const { userinfo } = useAppSelector((state) => state.userSlice);
   const dispatch = useAppDispatch();
   const [isRead, setIsRead] = useState(info.read);
-  console.log(type);
-  console.log(info);
-  console.log(info.data);
   const showNotificationByType: { [key: string]: string } = {
     paid: '[구매 알림] 배송을 준비해주세요',
     processing: '배송 준비중입니다.',
