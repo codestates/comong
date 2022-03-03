@@ -13,5 +13,7 @@ export const theme: DefaultTheme = {
     lightGrey: `#E7E7E7`,
     darkGrey: `#B8B8B8`,
     charcol: `#444444`,
+    pink: '#E065CB',
+    purple: '#BC55EF',
   },
 };

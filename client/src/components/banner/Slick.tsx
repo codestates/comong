@@ -2,8 +2,11 @@ import { useMemo } from 'react';
 import styled from 'styled-components';
 import Slider, { Settings } from 'react-slick';
 
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+// import 'slick-carousel/slick/slick.css';
+// import 'slick-carousel/slick/slick-theme.css';
+
+import './slick.css';
+import './slick-theme.css';
 
 const SlideWrapper = styled.section`
   position: relative;
@@ -32,6 +35,7 @@ function Slick({
   const settings = useMemo<Settings>(
     () => ({
       dots: true,
+      arrows: false,
       infinite: loop,
       speed: speed,
       slidesToShow: 1,

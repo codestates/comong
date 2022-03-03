@@ -21,6 +21,7 @@ import MypageBookmarks from './pages/mypage/mypage_user/MypageBookmarks';
 import MypageReviews from './pages/mypage/mypage_user/MypageReviews';
 import MypageSellerDefault from './pages/mypage/mypage_seller/MypageSellerDefault';
 import MypageSellerItems from './pages/mypage/mypage_seller/MypageSellerItems';
+import PaymentResult from './pages/PaymentResult';
 
 function Routers() {
   const { role } = useAppSelector((state) => state.userSlice);
@@ -52,6 +53,7 @@ function Routers() {
           <Route path="itemlist" element={<MypageSellerItems />}></Route>
         </Route>
         <Route path="/payment" element={<Payment />}></Route>
+        <Route path="/paymentresult" element={<PaymentResult />}></Route>
       </Routes>
       <MobileNav></MobileNav>
     </BrowserRouter>

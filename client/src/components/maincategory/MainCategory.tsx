@@ -7,7 +7,7 @@ import { setCategory } from '../../redux/modules/itemSlice';
 const MainCategoriesContainer = styled.div`
   display: flex;
   justify-content: space-around;
-  font-family: roboto;
+  font-family: 'roboto', 'Noto Sans KR';
   text-align: center;
   margin: auto;
   margin-top: 50px;
@@ -26,22 +26,23 @@ const MainCategory = styled.div`
   cursor: pointer;
   width: 56px;
   margin: 5px;
-  min-width: 52px;
+  min-width: 44px;
   &:hover {
     transform: scale(1.05);
   }
   @media only screen and (max-width: 1200px) {
     /* flex-grow: 1; */
-    width: 50px;
+    width: 40px;
   }
   @media only screen and (max-width: 768px) {
   }
 `;
 const MainCategoryIcon = styled.img`
-  width: 50px;
+  width: 55px;
   margin-bottom: 5px;
   @media only screen and (max-width: 1200px) {
-    width: 100%;
+    width: 40px;
+    /* width: 100%; */
   }
   @media only screen and (max-width: 768px) {
   }
@@ -52,19 +53,21 @@ const MainCategoryName = styled.span`
   font-weight: bold;
   color: #444444;
   @media only screen and (max-width: 1200px) {
-    font-size: 11.5px;
+    font-size: 10px;
   }
   @media only screen and (max-width: 768px) {
   }
 `;
 
 const TableContainer = styled.table`
-  border-collapse: collapse;
+  margin-top: 5px;
+  /* border-collapse: collapse; */
   width: 100%;
 `;
 const TableBody = styled.tbody``;
 const TableRow = styled.tr`
   margin-top: 5px;
+  border: 2px solid lightgrey;
 `;
 const TableColumn = styled.td`
   font-size: 12.5px;
