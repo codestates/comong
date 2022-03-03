@@ -32,14 +32,16 @@ function Notifications() {
       const payStatus = data.data.status;
       const shippingStatus = data.data.shipping_status;
       if (payStatus === 'paid') {
-        if (
-          shippingStatus === 'pending' ||
-          shippingStatus === 'processing' ||
-          shippingStatus === 'intransit'
-        ) {
-          setMessageList((list) => list && [...list, data]);
-          dispatch(addNotification(data));
+        if (!shippingStatus) {
+          console.log('알림 - 결제까지');
+          console.log(data);
+        } else if (shippingStatus === 'processing') {
+          console.log('알림 - 배송준비');
+        } else if (shippingStatus === 'intransit') {
+          console.log('알림 - 배송시작');
         }
+        setMessageList((list) => list && [data, ...list]);
+        dispatch(addNotification(data));
       }
     });
   }, []);
@@ -48,16 +50,20 @@ function Notifications() {
     <Wrapper>
       <h2>알림</h2>
       <NotificationList>
-        {messageList?.map((el) => {
-          const type = el.data.shipping_status;
-          return (
-            <NotificationListItem
-              type={type === 'pending' ? 'paid' : type}
-              key={`noti#${el.data.order_id}#${el.data.shipping_status}`}
-              info={el}
-            ></NotificationListItem>
-          );
-        })}
+        {messageList && messageList.length > 0 ? (
+          messageList?.map((el) => {
+            const type = el.data.shipping_status || 'paid';
+            return (
+              <NotificationListItem
+                type={type}
+                key={`noti#${el.data.order_id}#${type}`}
+                info={el}
+              ></NotificationListItem>
+            );
+          })
+        ) : (
+          <span>알림이 없어요!</span>
+        )}
       </NotificationList>
     </Wrapper>
   );

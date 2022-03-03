@@ -21,28 +21,36 @@ const Wrapper = styled.li`
     width: 80%;
     display: flex;
     flex-direction: column;
+    gap: 0.4rem;
+    font-size: 14px;
 
     span.noti-item {
-      color: ${(props) => props.theme.colors.darkGrey};
+      color: ${(props) => props.theme.colors.charcol};
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     span.noti-message {
       font-size: 18px;
       font-weight: 700;
     }
-    span.noti-store {
+    span.noti-date {
       text-align: end;
+      color: ${(props) => props.theme.colors.darkGrey};
+    }
     }
   }
 `;
 
 interface INotificationListItem {
+  key: string;
   info: Inotification;
   type: string;
 }
 
-function NotificationListItem({ info, type }: INotificationListItem) {
-  console.log(info);
+function NotificationListItem({ key, info, type }: INotificationListItem) {
   console.log(type);
+  console.log(info);
+  console.log(info.data.updatedAt.split('T')[0]);
   const showNotificationByType: { [key: string]: JSX.Element } = {
     paid: <span className="noti-message">[구매 알림] 배송을 준비해주세요</span>,
     processing: <span className="noti-message">배송 준비중입니다.</span>,
@@ -50,11 +58,12 @@ function NotificationListItem({ info, type }: INotificationListItem) {
   };
   return (
     <>
-      <Wrapper>
+      <Wrapper key={`${key}#li`}>
         <img src={info.itemInfo[0].image_src} />
         <div>
           <span className="noti-item">{info.itemInfo[0].title}</span>
           {showNotificationByType[type]}
+          <span className="noti-date">{info.data.updatedAt}</span>
         </div>
       </Wrapper>
     </>

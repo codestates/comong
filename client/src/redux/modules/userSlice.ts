@@ -24,7 +24,13 @@ interface IUserInfo {
 
 export interface Inotification {
   id: number;
-  data: { order_id: string; shipping_status: string; status: string };
+  updatedAt: string;
+  data: {
+    order_id: string;
+    shipping_status: string;
+    status: string;
+    updatedAt: string;
+  };
   itemInfo: IItemPartial[];
 }
 
@@ -119,12 +125,16 @@ export const postSigninAsync = createAsyncThunk(
     ).data;
     console.log('noti', notification);
     const newNotification = notification.data.map(
-      (obj: { id: number; contents: string }) => {
-        const newContents = { id: obj.id, ...JSON.parse(obj.contents) };
+      (obj: { id: number; read: number; contents: string }) => {
+        const newContents = {
+          id: obj.id,
+          read: obj.read === 0 ? false : true,
+          ...JSON.parse(obj.contents),
+        };
         return newContents;
       },
     );
-    const data = { ...response.data, notification: newNotification };
+    const data = { ...response.data, notification: newNotification.reverse() };
     return data;
   },
 );
