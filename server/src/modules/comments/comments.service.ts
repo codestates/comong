@@ -95,7 +95,6 @@ export class CommentsService {
 				const itemIdArr = orderDetailList.map((elem) => {
 					return elem.item_id;
 				});
-				// console.log(itemIdArr);
 				let setItemIdArr = new Set(itemIdArr);
 				let uniqueItemIdArr = [...setItemIdArr];
 				const itemList = await models.item.findAll({
