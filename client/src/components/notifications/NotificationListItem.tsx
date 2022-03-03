@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { INotification } from '../../redux/modules/userSlice';
+import { useAppDispatch, useAppSelector } from '../../redux/configStore.hooks';
+import {
+  INotification,
+  patchUserNotificationAsync,
+} from '../../redux/modules/userSlice';
 
 const Wrapper = styled.li`
   background-color: white;
@@ -11,6 +15,11 @@ const Wrapper = styled.li`
   display: flex;
   align-items: center;
   gap: 2rem;
+  position: relative;
+
+  &.highlight {
+    background-color: #fcf8e7;
+  }
 
   &:hover {
     background-color: ${(props) => props.theme.colors.bgColor};
@@ -24,10 +33,19 @@ const Wrapper = styled.li`
 
   > div {
     width: 80%;
+    padding: 0.4rem 0;
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
     font-size: 14px;
+
+    img.close {
+      width: 0.8rem;
+      height: 0.8rem;
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+    }
 
     span.noti-item {
       color: ${(props) => props.theme.colors.charcol};
@@ -51,6 +69,9 @@ interface INotificationListItem {
 }
 
 function NotificationListItem({ info, type }: INotificationListItem) {
+  const { userinfo } = useAppSelector((state) => state.userSlice);
+  const dispatch = useAppDispatch();
+  const [isRead, setIsRead] = useState(info.read);
   console.log(type);
   console.log(info);
   console.log(info.data);
@@ -60,9 +81,21 @@ function NotificationListItem({ info, type }: INotificationListItem) {
     intransit: '배송이 시작되었습니다.',
   };
   return (
-    <Wrapper>
+    <Wrapper
+      onClick={() => {
+        dispatch(
+          patchUserNotificationAsync({
+            userId: userinfo?.id!,
+            notiId: info.id,
+          }),
+        );
+        setIsRead(true);
+      }}
+      className={isRead ? '' : 'highlight'}
+    >
       <img src={info.itemInfo[0].image_src} />
       <div>
+        <img className="close" src="/img/close.png" />
         <span className="noti-item">{info.itemInfo[0].title}</span>
         <span className="noti-message">{showNotificationByType[type]}</span>
         <span className="noti-date">
