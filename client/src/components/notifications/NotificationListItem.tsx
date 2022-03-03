@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Inotification } from '../../redux/modules/userSlice';
 
 const Wrapper = styled.li`
   background-color: aliceblue;
@@ -34,17 +35,22 @@ const Wrapper = styled.li`
   }
 `;
 
-function NotificationListItem() {
+interface INotificationListItem {
+  info: Inotification;
+}
+
+function NotificationListItem({ info }: INotificationListItem) {
+  console.log(info);
   return (
     <>
-      <Wrapper>
+      {/* <Wrapper>
         <img src="/img/image.png" />
         <div>
           <span className="noti-item">무슨무슨 상품</span>
           <span className="noti-message">배송이 시작되었습니다</span>
           <span className="noti-store">by 무슨 상점</span>
         </div>
-      </Wrapper>
+      </Wrapper> */}
       <Wrapper>
         <img src="/img/image.png" />
         <div>

@@ -24,6 +24,7 @@ import MypageSellerItems from './pages/mypage/mypage_seller/MypageSellerItems';
 import Test from './pages/Test';
 import Notifications from './pages/Notifications';
 import PrivateRoute from './components/common/PrivateRoute';
+import PaymentResult from './pages/PaymentResult';
 
 function Routers() {
   return (
@@ -43,6 +44,7 @@ function Routers() {
         <Route path="/*" element={<PrivateRoute />}>
           <Route path="cart" element={<Cart />}></Route>
           <Route path="payment" element={<Payment />}></Route>
+          <Route path="paymentresult" element={<PaymentResult />}></Route>
         </Route>
         <Route path="mypage/*" element={<PrivateRoute />}>
           <Route path="" element={<Mypage />}>

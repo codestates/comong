@@ -17,12 +17,20 @@ interface IUserInfo {
   bookmarks: number[];
 }
 
+export interface Inotification {
+  id: number;
+  title: string;
+  read: number;
+  user_id: number;
+  createdAt: string;
+}
+
 export interface IUser {
   isLogin: boolean;
   accessToken?: string;
   role?: number;
   userinfo?: IUserInfo;
-  notification?: [];
+  notification?: Inotification[];
 }
 
 const initialState: IUser = {
@@ -38,6 +46,14 @@ const userSlice = createSlice({
       delete state.accessToken;
       delete state.role;
       delete state.userinfo;
+    },
+    addNotification: (state, action) => {
+      console.log(action.payload);
+      const prevNotification = state.notification;
+      state.notification = prevNotification && [
+        ...prevNotification,
+        action.payload,
+      ];
     },
   },
   extraReducers: (builder) => {
@@ -93,10 +109,18 @@ export const postSigninAsync = createAsyncThunk(
   async (form: ILoginForm) => {
     console.log('1번, 여기서 비동기 작업하고 data 리턴');
     const response = await apiClient.post(`/users/signin`, form);
-    const notification = await apiClient.get(
-      `/users/notification?user_id=${response.data.user.id}`,
+    const notification = (
+      await apiClient.get(
+        `/users/notification?user_id=${response.data.user.id}`,
+      )
+    ).data;
+    const newNotification = notification.data.map(
+      (obj: { contents: string }) => {
+        const newContents = JSON.parse(obj.contents);
+        return { ...obj, contents: newContents };
+      },
     );
-    const data = { ...response.data, notification: notification.data.data };
+    const data = { ...response.data, notification: newNotification };
     return data;
   },
 );
@@ -110,5 +134,5 @@ export const postBookmarkAsync = createAsyncThunk(
   },
 );
 
-export const { logout } = userSlice.actions;
+export const { logout, addNotification } = userSlice.actions;
 export default userSlice.reducer;

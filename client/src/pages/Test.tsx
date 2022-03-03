@@ -5,7 +5,7 @@ import imageIcon from '../asset/heartIcon.svg';
 const Wrapper = styled.div`
   margin-top: 200px;
 `;
-const useNotification = (title: string, options: {}) => {
+export const useNotification = (title: string, options: {}) => {
   if (!('Notification' in window)) {
     return;
   }
