@@ -32,6 +32,7 @@ const ItemContainer = styled.div`
   }
 `;
 
+export type IItemPartial = Partial<IItem>;
 export interface IItem {
   contents: string;
   id: number;

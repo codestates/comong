@@ -78,7 +78,9 @@ function NavUser() {
       <MenuWrapper>
         <h3>알림</h3>
         <ul>
-          <li>알림</li>
+          <Link to="/mypage/notifications">
+            <li className={getSelectedClass('notifications')}>알림</li>
+          </Link>
         </ul>
       </MenuWrapper>
       <MenuWrapper>
