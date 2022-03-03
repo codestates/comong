@@ -5,7 +5,7 @@ import type { order_detail, order_detailId } from './order_detail';
 
 export interface order_detail_has_orderAttributes {
   order_detail_id: number;
-  order_id: number;
+  order_id: string;
 }
 
 export type order_detail_has_orderPk = "order_detail_id" | "order_id";
@@ -14,7 +14,7 @@ export type order_detail_has_orderCreationAttributes = order_detail_has_orderAtt
 
 export class order_detail_has_order extends Model<order_detail_has_orderAttributes, order_detail_has_orderCreationAttributes> implements order_detail_has_orderAttributes {
   order_detail_id!: number;
-  order_id!: number;
+  order_id!: string;
 
   // order_detail_has_order belongsTo order via order_id
   order!: order;
@@ -39,7 +39,7 @@ export class order_detail_has_order extends Model<order_detail_has_orderAttribut
       }
     },
     order_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING(45),
       allowNull: false,
       primaryKey: true,
       references: {
@@ -57,8 +57,8 @@ export class order_detail_has_order extends Model<order_detail_has_orderAttribut
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "order_detail_id" },
           { name: "order_id" },
+          { name: "order_detail_id" },
         ]
       },
       {

@@ -39,6 +39,47 @@ export interface Cart {
     updatedAt: string;
     user_id: number;
   };
+  paymentInfo: {
+    user_id?: number;
+    order_id?: number;
+    total_amount?: number;
+    imp_uid?: string;
+    merchant_uid?: string;
+    buyer_name?: string;
+    success?: boolean;
+    status?: string;
+    error_msg?: string;
+  };
+  shipInfo: {
+    name?: string;
+    buyer_name?: string;
+    buyer_tel?: string;
+    buyer_email?: string;
+    buyer_address?: string;
+    ship_name?: string;
+    ship_tel?: string;
+    ship_address?: string;
+  };
+  addressInfo: {
+    user_id?: number;
+    email?: string;
+    address_line1?: string;
+    address_line2?: string;
+    postal_code?: number;
+    city?: string;
+    country?: string;
+    telephone?: string;
+    mobile?: string;
+  };
+  destinationInfo: {
+    name?: string;
+    tel?: string;
+    email?: string;
+    postCode?: string;
+    address1?: string;
+    address2?: string;
+  };
+  testInfo: {};
 }
 
 const initialState: Cart = {
@@ -59,12 +100,21 @@ const initialState: Cart = {
     updatedAt: '2022-02-22T08:25:19.968Z',
     user_id: 2,
   },
+  paymentInfo: {},
+  shipInfo: {},
+  addressInfo: {},
+  destinationInfo: {},
+  testInfo: {},
 };
 
 const cartSlice = createSlice({
   name: 'cart',
   initialState: initialState,
   reducers: {
+    setData(state, action) {
+      state.data = action.payload;
+    },
+
     increment(state, action) {
       let id = action.payload[0];
       let storeName = action.payload[1];
@@ -101,6 +151,7 @@ const cartSlice = createSlice({
       state.data[0][groupName].order_details = arr;
     },
     setTotalPrice(state, action) {
+      console.log('토탈프라이스 작동');
       let sum = 0;
       for (let x in action.payload) {
         sum += action.payload[x];
@@ -108,17 +159,47 @@ const cartSlice = createSlice({
 
       state.totalPrice = sum;
     },
+    setTotalPriceForOne(state, action) {
+      state.totalPrice = action.payload;
+    },
+    setDelivery(state, action) {
+      state.totalDelivery = action.payload;
+    },
     setSubTotalPrice(state, action) {
       let keyName = action.payload[0];
       let value = action.payload[1];
+      console.log('keyName', keyName);
+      if (keyName === 'deleteAll') {
+        state.subTotalPrice = {};
+      } else {
+        state.subTotalPrice[keyName] = value;
+      }
+    },
+    setSubTotalPriceForOne(state, action) {
+      let keyName = action.payload[0];
+      let value = action.payload[1];
 
-      state.subTotalPrice[keyName] = value;
+      state.subTotalPrice = { keyName: value };
+    },
+    setPaymentInfo(state, action) {
+      state.paymentInfo = action.payload;
+    },
+    setShipInfo(state, action) {
+      state.shipInfo = action.payload;
+    },
+    setDestinationInfo(state: any, action: any) {
+      console.log(action.payload);
+      state.destinationInfo = action.payload;
+    },
+    setTestInfo(state, action) {
+      state.testInfo = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(getCartAsync.pending, (state, action) => {});
     builder.addCase(getCartAsync.fulfilled, (state, action) => {
       let contents = action.payload;
+      console.log('getCartAsync-action.payload', contents);
       return { ...state, data: contents };
     });
     builder.addCase(getCartAsync.rejected, (state, action) => {});
@@ -131,15 +212,31 @@ const cartSlice = createSlice({
       state.orderInfo = action.payload.data;
     });
     builder.addCase(postOrderAsync.rejected, (state, action) => {});
+    builder.addCase(getUsersAsync.pending, (state, action) => {});
+    builder.addCase(getUsersAsync.fulfilled, (state, action) => {
+      console.log('action.payload.address', action.payload.address);
+      state.addressInfo = action.payload.address;
+    });
+    builder.addCase(getUsersAsync.rejected, (state, action) => {});
+    builder.addCase(postOrderDetailAsync.pending, (state, action) => {});
+    builder.addCase(postOrderDetailAsync.fulfilled, (state, action) => {});
+    builder.addCase(postOrderDetailAsync.rejected, (state, action) => {});
   },
 });
 
 export let {
+  setData,
   increment,
   decrement,
   setTotalPrice,
+  setTotalPriceForOne,
+  setDelivery,
   setSubTotalPrice,
+  setSubTotalPriceForOne,
   deleteItem,
+  setPaymentInfo,
+  setDestinationInfo,
+  setTestInfo,
 } = cartSlice.actions;
 
 export const getCartAsync = createAsyncThunk(
@@ -152,6 +249,19 @@ export const getCartAsync = createAsyncThunk(
       {},
     );
 
+    console.log('cartslice', response.data);
+
+    return response.data;
+  },
+);
+export const postOrderDetailAsync = createAsyncThunk(
+  'orderdetail/post',
+  async (data: {}) => {
+    const response = await apiClient.post(
+      `${urlConfig.url}/orders/orderdetail`,
+      data,
+    );
+    console.log('post-orderDetail', response.data);
     return response.data;
   },
 );
@@ -181,37 +291,22 @@ export const deleteCartAsync = createAsyncThunk(
   },
 );
 
-export const postOrderAsync = createAsyncThunk('orders/post', async () => {
-  let data = {
-    total_amount: 150000,
-    status: 'paid',
-    user_id: 2,
-    order_detail_id: [16, 14],
-    shipping_status: 'delivered',
-    shipping_company: 'cj대한통운',
-    shipping_code: '01234567890',
-  };
-  const response = await apiClient.post(`${urlConfig.url}/orders`, {
-    total_amount: 150000,
-    status: 'pending',
-    user_id: 213,
-    order_detail_id: [14, 16],
-    shipping_status: 'delivered',
-    shipping_company: 'cj대한통운',
-    shipping_code: '01234567890',
-  });
-  // const response = await apiClient.post(`${urlConfig.url}/orders`, {
-  //   data: data,
-  // });
-  // const response = await apiClient.post(`${urlConfig.url}/orders`, {
-  //   data: { data },
-  // });
-  // const response = await apiClient.post(`${urlConfig.url}/orders`, {
-  //   { data:data },
-  // });
+export const postOrderAsync = createAsyncThunk(
+  'orders/post',
+  async (data?: {}) => {
+    const response = await apiClient.post(`${urlConfig.url}/orders`, data);
+    console.log('postOrderAsync-response', response);
+    return response.data;
+  },
+);
 
-  console.log('response-order_post_data', response.data);
-  return response.data;
-});
+export const getUsersAsync = createAsyncThunk(
+  'users/address/get',
+  async (id?: number) => {
+    const response = await apiClient.get(`${urlConfig.url}/users/address`);
+    console.log(response);
+    return response.data;
+  },
+);
 
 export default cartSlice.reducer;

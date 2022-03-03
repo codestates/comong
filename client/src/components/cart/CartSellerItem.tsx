@@ -19,14 +19,17 @@ const CartListItemImageContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  /* flex-direction: column; */
   width: 70px;
+  @media only screen and (max-width: 1200px) {
+  }
+  @media only screen and (max-width: 768px) {
+    width: 50px;
+  }
 `;
 
 const CheckBoxContainer = styled.div`
   display: flex;
   flex-direction: column;
-  /* flex-direction: row; */
   justify-content: center;
 `;
 
@@ -40,20 +43,33 @@ const CartListItemImage = styled.img`
 
 const NameAndStockContainer = styled.div`
   width: 60%;
+  @media only screen and (max-width: 1200px) {
+  }
+  @media only screen and (max-width: 768px) {
+    width: 30%;
+  }
 `;
 const CartListItemName = styled.div`
   font-size: 15px;
   font-weight: 400;
+  width: 100%;
+  height: 20px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  @media only screen and (max-width: 1200px) {
+  }
+  @media only screen and (max-width: 768px) {
+    font-size: 12px;
+  }
 `;
 
 const PriceContainer = styled.div`
   display: flex;
-  /* display: flex; */
   align-items: center;
-  /* justify-content: center; */
-  /* width: 25px; */
   font-size: 10px;
-  width: 15%;
+  width: 25%;
 `;
 
 const CartListItemPrice = styled.div`
@@ -61,9 +77,13 @@ const CartListItemPrice = styled.div`
   align-items: flex-end;
   vertical-align: middle;
   text-align: right;
-  /* width: 20%; */
   font-size: 18px;
   font-weight: 600;
+  @media only screen and (max-width: 1200px) {
+  }
+  @media only screen and (max-width: 768px) {
+    font-size: 14px;
+  }
 `;
 
 const StockController = styled.div`
@@ -78,11 +98,24 @@ const StockAddButton = styled.button`
   background-color: white;
   display: flex;
   align-items: center;
+  justify-content: center;
   width: 25px;
   height: 25px;
+  @media only screen and (max-width: 1200px) {
+  }
+  @media only screen and (max-width: 768px) {
+    width: 20px;
+    height: 20px;
+  }
 `;
 const StockAddIcon = styled.img`
   width: 10px;
+  @media only screen and (max-width: 1200px) {
+  }
+  @media only screen and (max-width: 768px) {
+    width: 8px;
+    height: 8px;
+  }
 `;
 const StockDisplay = styled.div`
   width: 30px;
@@ -92,6 +125,11 @@ const StockDisplay = styled.div`
   margin: auto;
   margin-left: 3px;
   margin-right: 3px;
+  @media only screen and (max-width: 1200px) {
+  }
+  @media only screen and (max-width: 768px) {
+    font-size: 14px;
+  }
 `;
 const StockMinusButton = styled.button`
   border: 2px solid grey;
@@ -101,15 +139,27 @@ const StockMinusButton = styled.button`
   align-items: center;
   width: 25px;
   height: 25px;
+  @media only screen and (max-width: 1200px) {
+  }
+  @media only screen and (max-width: 768px) {
+    width: 20px;
+    height: 20px;
+  }
 `;
 const StockMinusIcon = styled.img`
   width: 10px;
+  @media only screen and (max-width: 1200px) {
+  }
+  @media only screen and (max-width: 768px) {
+    width: 8px;
+    height: 8px;
+  }
 `;
 
 const DeleteBtn = styled.div`
   display: flex;
   align-items: center;
-  width: 25px;
+  width: 21px;
 `;
 
 const DeleteBtnImg = styled.img`
@@ -123,7 +173,9 @@ const CartSellerItem = ({ data, storeName, groupName }: any) => {
 
   let id = data.id;
   let name = data.item.title;
-  let img_src = data.item.image_src;
+  let img_src = data.item.image_src
+    ? data.item.image_src.split(',')[0]
+    : 'https://imagedelivery.net/BOKuAiJyROlMLXwCcBYMqQ/fe9f218d-5134-4a76-ba20-bf97e5c21900/thumbnail';
   let stock = data.order_amount;
   let price = data.peritem_price;
 
@@ -137,8 +189,7 @@ const CartSellerItem = ({ data, storeName, groupName }: any) => {
   };
 
   const deleteHandler = () => {
-    // console.log(cartData.cartSlice.data);
-    console.log(cartData.cartSlice.data[0]);
+    console.log('id/groupName', id, groupName);
     dispatch(deleteItem([id, groupName]));
     dispatch(deleteCartAsync(id));
   };
@@ -146,9 +197,6 @@ const CartSellerItem = ({ data, storeName, groupName }: any) => {
   return (
     <Container>
       <CartListItemImageContainer>
-        {/* <CheckBoxContainer>
-          <CheckBox type="checkbox"></CheckBox>
-        </CheckBoxContainer> */}
         <CartListItemImage src={img_src} />
       </CartListItemImageContainer>
       <NameAndStockContainer>

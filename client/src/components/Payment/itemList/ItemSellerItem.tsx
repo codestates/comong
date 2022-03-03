@@ -17,6 +17,11 @@ const CartListItemImageContainer = styled.div`
   flex-direction: row;
   justify-content: center;
   width: 70px;
+  @media only screen and (max-width: 1200px) {
+  }
+  @media only screen and (max-width: 768px) {
+    width: 50px;
+  }
 `;
 
 const CartListItemImage = styled.img`
@@ -24,20 +29,34 @@ const CartListItemImage = styled.img`
 `;
 
 const NameAndStockContainer = styled.div`
-  display: flex;
-  align-items: center;
   width: 60%;
+  @media only screen and (max-width: 1200px) {
+  }
+  @media only screen and (max-width: 768px) {
+    width: 30%;
+  }
 `;
 const CartListItemName = styled.div`
   font-size: 15px;
   font-weight: 400;
+  width: 100%;
+  height: 20px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  @media only screen and (max-width: 1200px) {
+  }
+  @media only screen and (max-width: 768px) {
+    font-size: 12px;
+  }
 `;
 
 const PriceContainer = styled.div`
   display: flex;
   align-items: center;
   font-size: 10px;
-  width: 15%;
+  width: 25%;
 `;
 
 const CartListItemPrice = styled.div`
@@ -47,13 +66,31 @@ const CartListItemPrice = styled.div`
   text-align: right;
   font-size: 18px;
   font-weight: 600;
+  @media only screen and (max-width: 1200px) {
+  }
+  @media only screen and (max-width: 768px) {
+    font-size: 14px;
+  }
 `;
 
 const ItemSellerItem = ({ data, storeName, groupName }: any) => {
   const cartData = useAppSelector((state: RootState) => state);
+
+  console.log(data);
+
+  console.log(data.item.image_src);
+  console.log(
+    'data.item.image_src',
+    JSON.parse(JSON.stringify(data.item.image_src.split(',')[0])),
+  );
+
   const dispatch = useAppDispatch();
   const name = data.item.title;
-  const img_src = data.item.image_src;
+  // const img_src =
+  //   'https://imagedelivery.net/BOKuAiJyROlMLXwCcBYMqQ/fe9f218d-5134-4a76-ba20-bf97e5c21900/thumbnail';
+  const img_src = data.item.image_src
+    ? data.item.image_src.split(',')[0]
+    : 'https://imagedelivery.net/BOKuAiJyROlMLXwCcBYMqQ/fe9f218d-5134-4a76-ba20-bf97e5c21900/thumbnail';
   const stock = data.order_amount;
   const price = data.peritem_price;
 

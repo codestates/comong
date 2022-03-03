@@ -83,7 +83,7 @@ const NavNotification = styled.img`
 
 const Nav = () => {
   const navigate = useNavigate();
-  const { isLogin } = useAppSelector((state) => state.userSlice);
+  const { isLogin, role } = useAppSelector((state) => state.userSlice);
 
   const [categoryColor, setCategoryColor] = useState(false);
   const [mypageColor, setMypageColor] = useState(false);
@@ -115,11 +115,17 @@ const Nav = () => {
             categoryColor={categoryColor}
             onClick={() => navigate('/search')}
           >
-            카테고리
+            검색
           </NavMenu>
           <NavMenu
             mypageColor={mypageColor}
-            onClick={() => (isLogin ? navigate('/mypage') : navigate('/login'))}
+            onClick={() =>
+              isLogin
+                ? role === 0
+                  ? navigate('/mypage')
+                  : navigate('/sellerpage')
+                : navigate('/login')
+            }
           >
             마이페이지{' '}
           </NavMenu>

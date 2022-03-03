@@ -19,7 +19,7 @@ const corsOptions = {
 @WebSocketGateway({
 	namespace: '/app',
 	cors: corsOptions,
-	transports: ['websocket'],
+	transports: ['websocket', 'polling'],
 })
 export class AppGateway
 	implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
@@ -36,11 +36,19 @@ export class AppGateway
 		this.logger.log(`Client connected: ${client.id}`);
 	}
 
-	@SubscribeMessage('sendNotification')
-	async handleNotification(message: object) {
-		console.log(message);
+	@SubscribeMessage('join_room')
+	handleJoinRoom(client: Socket, room: string) {
+		const message = `${client.id} has joined the chat room: ${room}`;
+		this.logger.log(message);
+		client.join(room);
+		client.emit('joinedRoom', room);
+	}
+
+	@SubscribeMessage('notificationToServer')
+	async handleNotification(room:string, message: object) {
+		// console.log(typeof message);
 		this.server
-			.to('testroomname01')
+			.to(room)
 			.emit('notificationToClient', message);
 	}
 

@@ -9,6 +9,7 @@ import { AppGateway } from 'src/app.gateway';
 import { CommentsModule } from '../comments/comments.module';
 const { Op } = require('sequelize');
 const models = require('../../models/index');
+const Sequelize = models.sequelize;
 
 @Injectable()
 export class OrdersService {
@@ -18,118 +19,242 @@ export class OrdersService {
 	) {}
 
 	async create(createOrder: CreateOrderDto) {
-		const newOrder = await models.order.create({
-			id: String(createOrder.user_id) + '#' + String(new Date().getTime()),
-			...createOrder,
-		});
-		const newJoindataArr: object[] = [];
-		for (let elem of createOrder.order_detail_id) {
-			let newJoinData: { dataValues: object } =
-				await models.order_detail_has_order.create({
-					order_detail_id: elem,
-					order_id: newOrder.dataValues.id,
-				});
-			newJoindataArr.push(newJoinData.dataValues);
-		}
-		const itemInfo = await models.order_detail.findOne({
-			include: { model: models.user, as: 'user' },
-			where: {
-				id: createOrder.order_detail_id[0],
-			},
-		});
-		const sellerInfo = await models.item.findOne({
-			include: { model: models.user, as: 'user' },
-			where: {
-				id: itemInfo.item_id,
-			},
-		});
-		const emailAddress = sellerInfo.dataValues.user.email;
-		const storeName = sellerInfo.dataValues.user.storename;
-		// console.log(emailAddress)
-		// console.log(storeName)
-		if (newOrder) {
-			// const message = newOrder;
-			// this.appGateway.handleNotification(message);
-			return await this.mailerService.sendOrderNotice(
-				newOrder,
-				{ storename: storeName },
-				emailAddress,
-				'COMONG 구매 발생 알림 메일',
-				'order_notice',
-			);
-		} else {
-			throw new BadRequestException('invalid request or value for property');
-		}
+		const result = await Sequelize.transaction(async (t) => {
+			const newOrder = await models.order.create({
+				id: String(createOrder.user_id) + '#' + String(new Date().getTime()),
+				...createOrder,
+				transaction: t,
+			});
+			const newJoindataArr: object[] = [];
+			for (let elem of createOrder.order_detail_id) {
+				let newJoinData: { dataValues: object } =
+					await models.order_detail_has_order.create({
+						order_detail_id: elem,
+						order_id: newOrder.dataValues.id,
+						transaction: t,
+					});
+				newJoindataArr.push(newJoinData.dataValues);
+			}
+			const orderDetailInfo = await models.order_detail.findOne({
+				include: { model: models.user, as: 'user' },
+				where: {
+					id: createOrder.order_detail_id[0],
+				},
+				transaction: t,
+			});
+			const orderDetailInfoforNotice = await models.order_detail.findAll({
+				where: {
+					id: {
+						[Op.or]: createOrder.order_detail_id,
+					},
+				},
+				transaction: t,
+			});
+			const itemIdArr = orderDetailInfoforNotice.map((elem) => {
+				return elem.item_id;
+			});
+			const sellerInfo = await models.item.findOne({
+				include: { model: models.user, as: 'user' },
+				where: {
+					id: orderDetailInfo.item_id,
+				},
+				transaction: t,
+			});
+			const itemInfo = await models.item.findAll({
+				where: {
+					id: {
+						[Op.or]: itemIdArr,
+					},
+				},
+				transaction: t,
+			});
+			const sellerId = sellerInfo.dataValues.user.id;
+			const emailAddress = sellerInfo.dataValues.user.email;
+			const storeName = sellerInfo.dataValues.user.storename;
+			const pushNotificationRoom = `${sellerId}#appNotice`;
+			if (newOrder) {
+				const message = {
+					title: '구매 발생 알림',
+					data: newOrder,
+					itemInfo: itemInfo,
+				};
+				const newNotification = await models.notification.create(
+					{
+						title: '구매 발생 알림',
+						contents: JSON.stringify(message),
+						read: 0,
+						user_id: sellerId,
+					},
+					{ transaction: t },
+				);
+				this.appGateway.handleNotification(pushNotificationRoom, message);
+				return await this.mailerService.sendOrderNotice(
+					newOrder,
+					{ storename: storeName },
+					emailAddress,
+					'COMONG 구매 발생 알림 메일',
+					'order_notice',
+				);
+			} else {
+				throw new BadRequestException('invalid request or value for property');
+			}
+		})
+			.then((result: any) => {
+				return result;
+			})
+			.catch((err: any) => {
+				return err;
+			});
+		return result;
 	}
 
 	async updateOrder(data: UpdateOrderDto) {
-		const isUpdate = await models.order.update(
-			{
-				...data
-			},
-			{
-				where: {
-					id: data.order_id,
+		const result = await Sequelize.transaction(async (t) => {
+			const isUpdate = await models.order.update(
+				{
+					...data,
 				},
-			},
-		);
-		console.log(isUpdate)
-		if (isUpdate[0] === 1) {
-			return { message: 'update successful' };
-		} else {
-			throw new BadRequestException('invalid request or value for property');
-		}
+				{
+					where: {
+						id: data.order_id,
+					},
+					transaction: t,
+				},
+			);
+			if (isUpdate[0] === 1) {
+				const orderInfo = await models.order.findOne({
+					where: {
+						id: data.order_id,
+					},
+					transaction: t,
+				});
+				const orderDetailJoinInfo = await models.order_detail_has_order.findAll(
+					{
+						where: {
+							order_id: data.order_id,
+						},
+						transaction: t,
+					},
+				);
+				const orderDetailIdArr = orderDetailJoinInfo.map((elem) => {
+					return elem.order_detail_id;
+				});
+				const orderDetailInfo = await models.order_detail.findAll({
+					where: {
+						id: {
+							[Op.or]: orderDetailIdArr,
+						},
+					},
+				});
+				const itemIdArr = orderDetailInfo.map((elem) => {
+					return elem.item_id;
+				});
+				const itemInfo = await models.item.findAll({
+					where: {
+						id: {
+							[Op.or]: itemIdArr,
+						},
+					},
+				});
+				const message = {
+					title: '주문 업데이트 알림',
+					data: data,
+					itemInfo: itemInfo,
+				};
+				const newNotification = await models.notification.create(
+					{
+						title: '주문 업데이트 알림',
+						contents: JSON.stringify(message),
+						read: 0,
+						user_id: orderInfo.user_id,
+					},
+					{ transaction: t },
+				);
+				const sellerId = orderInfo.user_id;
+				const pushNotificationRoom = `${sellerId}#appNotice`;
+				this.appGateway.handleNotification(pushNotificationRoom, message);
+				return { message: 'update successful' };
+			} else {
+				throw new BadRequestException('invalid request or value for property');
+			}
+		})
+			.then((result: any) => {
+				return result;
+			})
+			.catch((err: any) => {
+				return err;
+			});
+		return result;
 	}
 
 	async createOrderdetailandCart(createOrderdetail: CreateOrderDetailDto) {
-		const newOrder_detail = await models.order_detail.create({
-			...createOrderdetail,
-		});
-		// console.log(newOrder_detail);
-		if (newOrder_detail) {
-			return { data: newOrder_detail, message: 'successful' };
-		} else {
-			throw new BadRequestException('invalid request or value for property');
-		}
-		//stock management function will be added soon..
+		const result = await Sequelize.transaction(async (t) => {
+			const newOrder_detail = await models.order_detail.create({
+				...createOrderdetail,
+				transaction: t,
+			});
+			if (newOrder_detail) {
+				return { data: newOrder_detail, message: 'successful' };
+			} else {
+				throw new BadRequestException('invalid request or value for property');
+			}
+		})
+			.then((result: any) => {
+				return result;
+			})
+			.catch((err: any) => {
+				return err;
+			});
+		return result;
 	}
 
 	async getorderDetails(user_id: number) {
-		const cartData = await models.order_detail.findAll({
-			include: [{ model: models.item, as: 'item' }],
-			where: {
-				user_id: user_id,
-				status: 'pending',
-			},
-		});
-		let storeuserIdArr: number[] = cartData.map((elem) => {
-			return elem.dataValues.item.user_id;
-		});
-		let setStoreUserIdArr = new Set(storeuserIdArr);
-		let uniqueStoreUserIdArr = [...setStoreUserIdArr];
-
-		const storeList = await models.user.findAll({
-			where: {
-				id: {
-					[Op.or]: [uniqueStoreUserIdArr],
+		const result = await Sequelize.transaction(async (t) => {
+			const cartData = await models.order_detail.findAll({
+				include: [{ model: models.item, as: 'item' }],
+				where: {
+					user_id: user_id,
+					status: 'pending',
 				},
-			},
-		});
-		let output: object = {};
-		for (let i = 0; i < uniqueStoreUserIdArr.length; i++) {
-			output[`group_${uniqueStoreUserIdArr[i]}`] = {
-				storeInfo: storeList[i],
-				order_details: [],
-			};
-			for (let j = 0; j < cartData.length; j++) {
-				if (cartData[j].dataValues.item.user_id === uniqueStoreUserIdArr[i]) {
-					output[`group_${uniqueStoreUserIdArr[i]}`]['order_details'].push(
-						cartData[j],
-					);
+				transaction: t,
+			});
+			let storeuserIdArr: number[] = cartData.map((elem) => {
+				return elem.dataValues.item.user_id;
+			});
+			let setStoreUserIdArr = new Set(storeuserIdArr);
+			let uniqueStoreUserIdArr = [...setStoreUserIdArr];
+
+			const storeList = await models.user.findAll({
+				where: {
+					id: {
+						[Op.or]: [uniqueStoreUserIdArr],
+					},
+				},
+				transaction: t,
+			});
+			let output: object = {};
+			for (let i = 0; i < uniqueStoreUserIdArr.length; i++) {
+				output[`group_${uniqueStoreUserIdArr[i]}`] = {
+					storeInfo: storeList[i],
+					order_details: [],
+				};
+				for (let j = 0; j < cartData.length; j++) {
+					if (cartData[j].dataValues.item.user_id === uniqueStoreUserIdArr[i]) {
+						output[`group_${uniqueStoreUserIdArr[i]}`]['order_details'].push(
+							cartData[j],
+						);
+					}
 				}
 			}
-		}
-		return [output];
+			return [output];
+		})
+			.then((result: any) => {
+				return result;
+			})
+			.catch((err: any) => {
+				return err;
+			});
+		return result;
 	}
 
 	async getOrders(
@@ -138,82 +263,95 @@ export class OrdersService {
 		start: string,
 		end: string,
 	) {
-		if (!user_id) {
-			throw new BadRequestException('at least user_id is needed for query');
-		} else {
-			const orderList = await models.order.findAll({
-				where: {
-					user_id: user_id,
-					shipping_status: shipping_status
-						? shipping_status
-						: {
-								[Op.or]: [
-									'pending',
-									'delivered',
-									'processing',
-									'paymentdue',
-									'canceled',
-									'returned',
-									'pick-up available',
-									'intransit',
-								],
-						  },
-					createdAt: {
-						[Op.gte]: start ? new Date(start) : new Date('1022-01-01'),
-						[Op.lte]: end ? new Date(end) : new Date('3022-01-01'),
+		const result = await Sequelize.transaction(async (t) => {
+			if (!user_id) {
+				throw new BadRequestException('at least user_id is needed for query');
+			} else {
+				const orderList = await models.order.findAll({
+					where: {
+						user_id: user_id,
+						shipping_status: shipping_status
+							? shipping_status
+							: {
+									[Op.or]: [
+										'pending',
+										'delivered',
+										'processing',
+										'paymentdue',
+										'canceled',
+										'returned',
+										'pick-up available',
+										'intransit',
+									],
+							  },
+						createdAt: {
+							[Op.gte]: start ? new Date(start) : new Date('1022-01-01'),
+							[Op.lte]: end ? new Date(end) : new Date('3022-01-01'),
+						},
 					},
-				},
-			});
-			const paidOrderList = orderList.filter((elem) => {
-				return elem.status === 'paid';
-			});
-			const orderIdArr = paidOrderList.map((elem) => {
-				return elem.dataValues.id;
-			});
+					transaction: t,
+				});
+				const paidOrderList = orderList.filter((elem) => {
+					return elem.status === 'paid';
+				});
+				const orderIdArr = paidOrderList.map((elem) => {
+					return elem.dataValues.id;
+				});
 
-			const orderJointableList = await models.order_detail_has_order.findAll({
-				where: {
-					order_id: {
-						[Op.or]: [orderIdArr],
+				const orderJointableList = await models.order_detail_has_order.findAll({
+					where: {
+						order_id: {
+							[Op.or]: [orderIdArr],
+						},
 					},
-				},
-			});
-			let output = {};
-			for (let i = 0; i < paidOrderList.length; i++) {
-				output[`order_id: ${paidOrderList[i].id}`] = {
-					order_info: paidOrderList[i],
-					order_detail_info: [],
-				};
-				for (let j = 0; j < orderJointableList.length; j++) {
-					if (paidOrderList[i].id === orderJointableList[j].order_id) {
-						const order_detail_info = await models.order_detail.findOne({
-							include: [
-								{
-									model: models.user,
-									as: 'user',
-									attributes: ['id', 'storename', 'mobile'],
+					transaction: t,
+				});
+				let output = {};
+				for (let i = 0; i < paidOrderList.length; i++) {
+					output[`order_id: ${paidOrderList[i].id}`] = {
+						order_info: paidOrderList[i],
+						order_detail_info: [],
+					};
+					for (let j = 0; j < orderJointableList.length; j++) {
+						if (paidOrderList[i].id === orderJointableList[j].order_id) {
+							const order_detail_info = await models.order_detail.findOne({
+								include: [
+									{
+										model: models.user,
+										as: 'user',
+										attributes: ['id', 'storename', 'mobile'],
+									},
+								],
+								where: {
+									id: orderJointableList[j].order_detail_id,
 								},
-							],
-							where: {
-								id: orderJointableList[j].order_detail_id,
-							},
-						});
-						const item_info = await models.item.findOne({
-							where: {
-								id: order_detail_info.dataValues.item_id,
-							},
-						});
-						output[`order_id: ${paidOrderList[i].id}`][
-							'order_detail_info'
-						].push({
-							order_detail_info,
-							item_info,
-						});
+								transaction: t,
+							});
+							const item_info = await models.item.findOne({
+								where: {
+									id: order_detail_info.dataValues.item_id,
+								},
+								transaction: t,
+							});
+							output[`order_id: ${paidOrderList[i].id}`][
+								'order_detail_info'
+							].push({
+								order_detail_info,
+								item_info,
+							});
+						}
 					}
 				}
+				return output;
 			}
-			return output;
-		}
+		})
+			.then((result: any) => {
+				return result;
+			})
+			.catch((err: any) => {
+				return err;
+			});
+		return result;
 	}
 
 	async getSellorOrders(
@@ -222,110 +360,135 @@ export class OrdersService {
 		start: string,
 		end: string,
 	) {
-		if (!user_id) {
-			throw new BadRequestException('at least user_id is needed for query');
-		} else {
-			const selleritemlist = await models.item.findAll({
-				where: {
-					user_id: user_id,
-				},
-			});
-			const selleritemIdArr = selleritemlist.map((elem) => {
-				return elem.id;
-			});
-			const sellerOrderDetailList = await models.order_detail.findAll({
-				where: {
-					item_id: {
-						[Op.or]: [selleritemIdArr],
+		const result = await Sequelize.transaction(async (t) => {
+			if (!user_id) {
+				throw new BadRequestException('at least user_id is needed for query');
+			} else {
+				const selleritemlist = await models.item.findAll({
+					where: {
+						user_id: user_id,
 					},
-				},
-			});
-			const sellerOrderDetailArr = sellerOrderDetailList.map((elem) => {
-				return elem.id;
-			});
-			const orderJoinList = await models.order_detail_has_order.findAll({
-				where: {
-					order_detail_id: {
-						[Op.or]: [sellerOrderDetailArr],
+					transaction: t,
+				});
+				const selleritemIdArr = selleritemlist.map((elem) => {
+					return elem.id;
+				});
+				const sellerOrderDetailList = await models.order_detail.findAll({
+					where: {
+						item_id: {
+							[Op.or]: [selleritemIdArr],
+						},
 					},
-				},
-			});
-			const sellerOrderIdArr = orderJoinList.map((elem) => {
-				return elem.order_id;
-			});
-			let setSellerOrderIdArr = new Set(sellerOrderIdArr);
-			let uniqueSellerOrderIdArr = [...setSellerOrderIdArr];
+					transaction: t,
+				});
+				const sellerOrderDetailArr = sellerOrderDetailList.map((elem) => {
+					return elem.id;
+				});
+				const orderJoinList = await models.order_detail_has_order.findAll({
+					where: {
+						order_detail_id: {
+							[Op.or]: [sellerOrderDetailArr],
+						},
+					},
+					transaction: t,
+				});
+				const sellerOrderIdArr = orderJoinList.map((elem) => {
+					return elem.order_id;
+				});
+				let setSellerOrderIdArr = new Set(sellerOrderIdArr);
+				let uniqueSellerOrderIdArr = [...setSellerOrderIdArr];
 
-			const orderList = await models.order.findAll({
-				where: {
-					id: {
-						[Op.or]: [uniqueSellerOrderIdArr],
+				const orderList = await models.order.findAll({
+					where: {
+						id: {
+							[Op.or]: [uniqueSellerOrderIdArr],
+						},
+						shipping_status: shipping_status
+							? shipping_status
+							: {
+									[Op.or]: [
+										'pending',
+										'delivered',
+										'processing',
+										'paymentdue',
+										'canceled',
+										'returned',
+										'pick-up available',
+										'intransit',
+									],
+							  },
+						createdAt: {
+							[Op.gte]: start ? new Date(start) : new Date('1022-01-01'),
+							[Op.lte]: end ? new Date(end) : new Date('3022-01-01'),
+						},
 					},
-					shipping_status: shipping_status
-						? shipping_status
-						: {
-								[Op.or]: [
-									'pending',
-									'delivered',
-									'processing',
-									'paymentdue',
-									'canceled',
-									'returned',
-									'pick-up available',
-									'intransit',
+					transaction: t,
+				});
+				const orderIdArr = orderList.map((elem) => {
+					return elem.dataValues.id;
+				});
+				// console.log(orderList)
+				const orderJointableList = await models.order_detail_has_order.findAll({
+					where: {
+						order_id: {
+							[Op.or]: [orderIdArr],
+						},
+					},
+					transaction: t,
+				});
+				let output = {};
+				for (let i = 0; i < orderList.length; i++) {
+					output[`order_id: ${orderList[i].id}`] = {
+						order_info: orderList[i],
+						order_detail_info: [],
+					};
+					for (let j = 0; j < orderJointableList.length; j++) {
+						if (orderList[i].id === orderJointableList[j].order_id) {
+							const order_detail_info = await models.order_detail.findOne({
+								include: [
+									{
+										model: models.user,
+										as: 'user',
+										attributes: ['id', 'storename', 'mobile'],
+									},
 								],
-						  },
-					createdAt: {
-						[Op.gte]: start ? new Date(start) : new Date('1022-01-01'),
-						[Op.lte]: end ? new Date(end) : new Date('3022-01-01'),
-					},
-				},
-			});
-			const orderIdArr = orderList.map((elem) => {
-				return elem.dataValues.id;
-			});
-			// console.log(orderList)
-			const orderJointableList = await models.order_detail_has_order.findAll({
-				where: {
-					order_id: {
-						[Op.or]: [orderIdArr],
-					},
-				},
-			});
-			let output = {};
-			for (let i = 0; i < orderList.length; i++) {
-				output[`order_id: ${orderList[i].id}`] = {
-					order_info: orderList[i],
-					order_detail_info: [],
-				};
-				for (let j = 0; j < orderJointableList.length; j++) {
-					if (orderList[i].id === orderJointableList[j].order_id) {
-						const order_detail_info = await models.order_detail.findOne({
-							include: [
-								{
-									model: models.user,
-									as: 'user',
-									attributes: ['id', 'storename', 'mobile'],
+								where: {
+									id: orderJointableList[j].order_detail_id,
 								},
-							],
-							where: {
-								id: orderJointableList[j].order_detail_id,
-							},
-						});
-						const item_info = await models.item.findOne({
-							where: {
-								id: order_detail_info.dataValues.item_id,
-							},
-						});
-						output[`order_id: ${orderList[i].id}`]['order_detail_info'].push({
-							order_detail_info,
-							item_info,
-						});
+								transaction: t,
+							});
+							const item_info = await models.item.findOne({
+								include: [
+									{
+										model: models.item_inventory,
+										as: 'item_inventories',
+										attributes: ['stock'],
+									},
+								],
+								where: {
+									id: order_detail_info.dataValues.item_id,
+								},
+								transaction: t,
+							});
+							output[`order_id: ${orderList[i].id}`]['order_detail_info'].push({
+								order_detail_info,
+								item_info,
+							});
+						}
 					}
 				}
+				const message = output;
+				// this.appGateway.handleNotification(message);
+				return output;
 			}
-			return output;
-		}
+		})
+			.then((result: any) => {
+				return result;
+			})
+			.catch((err: any) => {
+				return err;
+			});
+		return result;
 	}
 
 	findOne(id: number) {
@@ -333,49 +496,70 @@ export class OrdersService {
 	}
 
 	async updateOrderdetail(updateOrderdetail: UpdateOrderDetailDto) {
-		for (let i = 0; i < updateOrderdetail.data.length; i++) {
-			const order_detail = await models.order_detail.findOne({
-				where: {
-					id: updateOrderdetail.data[i].id,
-				},
-			});
-			if (
-				updateOrderdetail.data[i].item_id === order_detail.item_id &&
-				updateOrderdetail.data[i].peritem_price === order_detail.peritem_price
-			) {
-				await models.order_detail.update(
-					{
-						order_amount: updateOrderdetail.data[i].order_amount,
+		const result = await Sequelize.transaction(async (t) => {
+			for (let i = 0; i < updateOrderdetail.data.length; i++) {
+				const order_detail = await models.order_detail.findOne({
+					where: {
+						id: updateOrderdetail.data[i].id,
 					},
-					{
-						where: {
-							id: updateOrderdetail.data[i].id,
+					transaction: t,
+				});
+				if (
+					updateOrderdetail.data[i].item_id === order_detail.item_id &&
+					updateOrderdetail.data[i].peritem_price === order_detail.peritem_price
+				) {
+					await models.order_detail.update(
+						{
+							order_amount: updateOrderdetail.data[i].order_amount,
 						},
-					},
-				);
-			} else {
-				throw new BadRequestException(
-					`order_detail_id: ${updateOrderdetail.data[i].id} has Data Disaccord`,
-				);
+						{
+							where: {
+								id: updateOrderdetail.data[i].id,
+							},
+							transaction: t,
+						},
+					);
+				} else {
+					throw new BadRequestException(
+						`order_detail_id: ${updateOrderdetail.data[i].id} has Data Disaccord`,
+					);
+				}
 			}
-		}
-		return { message: 'updates implemented successfully' };
+			return { message: 'updates implemented successfully' };
+		})
+			.then((result: any) => {
+				return result;
+			})
+			.catch((err: any) => {
+				return err;
+			});
+		return result;
 	}
 
 	async removeCart(order_detail_id: DeleteOrderdetailDto) {
-		const isDestroyed = await models.order_detail.destroy({
-			where: {
-				id: order_detail_id.order_detail_id,
-			},
-		});
-		if (isDestroyed === 1) {
-			return {
-				message: `order_detail_id:${order_detail_id.order_detail_id} destroyed`,
-			};
-		} else {
-			throw new BadRequestException(
-				`order_detail_id: ${order_detail_id.order_detail_id} has no Data or Data Disaccord`,
-			);
-		}
+		const result = await Sequelize.transaction(async (t) => {
+			const isDestroyed = await models.order_detail.destroy({
+				where: {
+					id: order_detail_id.order_detail_id,
+				},
+				transaction: t,
+			});
+			if (isDestroyed === 1) {
+				return {
+					message: `order_detail_id:${order_detail_id.order_detail_id} destroyed`,
+				};
+			} else {
+				throw new BadRequestException(
+					`order_detail_id: ${order_detail_id.order_detail_id} has no Data or Data Disaccord`,
+				);
+			}
+		})
+			.then((result: any) => {
+				return result;
+			})
+			.catch((err: any) => {
+				return err;
+			});
+		return result;
 	}
 }

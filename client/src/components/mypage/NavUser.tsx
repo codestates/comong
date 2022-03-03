@@ -90,7 +90,7 @@ function NavUser() {
           <li
             onClick={() => {
               dispatch(logout());
-              navigate('/');
+              navigate('/login');
             }}
           >
             로그아웃

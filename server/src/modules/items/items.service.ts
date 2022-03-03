@@ -16,7 +16,9 @@ import { Op } from 'sequelize';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import * as sequelize from 'sequelize';
 import { CreateBookmarkDto } from './dto/create-bookmark.dto';
+import { StockManagement } from './dto/stockmanagement.dto';
 const models = require('../../models/index');
+const Sequelize = models.sequelize;
 
 @Injectable()
 export class ItemsService {
@@ -25,17 +27,41 @@ export class ItemsService {
 	private readonly logger = new Logger(ItemsService.name);
 
 	async create(newItem: CreateItemDto, user: User) {
-		console.log(newItem, user);
-		//newItem['user_id'] = user.id
-		const item = await models.item.create({ user_id: user.id, ...newItem });
-		console.log(item);
-		if (item) {
-			const mappingCategory = await models.item_has_category.create({
+		let transaction;
+
+		try {
+			transaction = await models.sequelize.transaction();
+
+			const item = await models.item.create({ user_id: user.id, ...newItem });
+
+			await models.item_has_category.create({
 				item_id: item.id,
 				category_id: newItem.category,
 			});
 
-			const mappingStock = await models.item_inventory.create({
+			await models.item_inventory.create({
+				item_id: item.id,
+				stock: newItem.stock,
+			});
+
+			await transaction.commit();
+
+			return { message: 'successful' };
+
+		} catch (err) {
+			if(transaction) await transaction.rollback();
+		}
+
+		/*
+		const item = await models.item.create({ user_id: user.id, ...newItem });
+		//console.log(item);
+		if (item) {
+			const insertCategory = await models.item_has_category.create({
+				item_id: item.id,
+				category_id: newItem.category,
+			});
+
+			const insertStock = await models.item_inventory.create({
 				item_id: item.id,
 				stock: newItem.stock,
 			});
@@ -47,14 +73,40 @@ export class ItemsService {
 		} else {
 			throw new BadRequestException('invalid value for property');
 		}
+		*/
 	}
 
 	async getItems(
-		category: number,
-		number: number,
-		keyword: string,
+		category?: number,
+		number?: number,
+		keyword?: string,
+		startindex?: number,
 	): Promise<item[]> {
+
+		const condition = (): any => {
+			let result = {}
+			if (keyword) {
+				result = Object.assign(result, {
+					[Op.or]: {
+						title: { [Op.like]: '%' + keyword + '%' },
+						contents: { [Op.like]: '%' + keyword + '%' },
+					},
+				},)
+			}
+
+			if(startindex) {
+				result = Object.assign(result, {
+					id: {
+						[Op.lt]: startindex
+					}
+				})
+			}
+			return result
+		}
+
 		this.items = await models.item.findAll({
+			//raw: true,
+			group: ['id'],
 			include: [
 				{
 					model: models.item_has_category,
@@ -62,16 +114,25 @@ export class ItemsService {
 					where: category ? { category_id: category } : '',
 				},
 				{ model: models.user, as: 'user', attributes: ['id', 'storename'] },
+				{model: models.order_detail, as: 'order_details', attributes: ['id'], include: [
+					{model: models.item_review, as: 'item_reviews', require: false, attributes: {include: [
+						//[sequelize.fn('COUNT', sequelize.col('score')), 'reviewer'],
+						//[sequelize.fn('AVG', sequelize.col('score')), 'avg_score']
+					]}, group: [] }
+				]},
 			],
 			limit: number || 10,
-			where: keyword && {
-				[Op.or]: {
-					title: { [Op.like]: '%' + keyword + '%' },
-					contents: { [Op.like]: '%' + keyword + '%' },
-				},
-			},
+			where: condition(),
 			order: [['createdAt', 'DESC']],
+			attributes: {
+				include: [
+					//[sequelize.fn('COUNT', sequelize.col('order_details.item_reviews.score')), 'reviewer'],
+					//[sequelize.fn('AVG', sequelize.col('item.order_detail.item_review.score')), 'avg_score1']
+				]
+			}
+			//offset: offset(),
 		});
+		console.log(this.items.length)
 		return this.items;
 	}
 
@@ -92,16 +153,28 @@ export class ItemsService {
 
 	async getDetails(id: number): Promise<item[]> {
 		this.items = await models.item.findOne({
-			raw: true,
+			//raw: true,
 			where: { id: id },
 			include: [
 				{
 					model: models.item_has_category,
 					as: 'item_has_categories',
 					attributes: [],
-					include: [{ model: models.category, as: 'category', attributes: [] }],
+					include: [{ model: models.category, as: 'category', attributes: ['id', 'category'] }],
+					raw: true,
 				},
-				{ model: models.user, as: 'user', attributes: [] },
+				{ model: models.user, as: 'user', attributes: [],},
+				{model: models.order_detail, as: 'order_details', attributes: ['id'], raw: true, include: [
+					{model: models.item_review, as: 'item_reviews', require: false, raw: true, attributes: [
+						'contents',
+						'image_src',
+						'score',
+						'user_id',
+					], include: [
+						{model: models.user, as: 'user', attributes: ['email'], raw: true}
+					]}
+				]},
+
 			],
 			attributes: [
 				'id',
@@ -122,6 +195,17 @@ export class ItemsService {
 		} else {
 			throw new NotFoundException('this item does not exist');
 		}
+	}
+
+	async getComments(id: number): Promise<any>{
+		const comments = await models.item_review.findAll({
+			include: [
+				{model: models.order_detail, as: 'order_detail', include: [
+					{model: models.item, as: 'item', where: {id: id}, require: true}
+				]}
+			]
+		})
+		return comments
 	}
 
 	findOne(id: number) {
@@ -148,57 +232,173 @@ export class ItemsService {
 	}
 
 	async createBookmark(data: CreateBookmarkDto) {
-		const [bookmark, created] = await models.bookmark.findOrCreate({
-			where: {
-				item_id: data.item_id,
-				user_id: data.user_id,
-			},
-			defaults: data,
-		});
-		if (created) {
-			return {
-				data: bookmark,
-				message: `item_id: ${data.item_id} bookmark created`,
-			};
-		} else {
-			const bookmark = await models.bookmark.findOne({
+		const result = await Sequelize.transaction(async (t) => {
+			const [bookmark, created] = await models.bookmark.findOrCreate({
 				where: {
 					item_id: data.item_id,
 					user_id: data.user_id,
 				},
+				defaults: data,
+				transaction: t,
 			});
-			await models.bookmark.update(
-				{
-					ismarked: data.ismarked ? 1 : 0,
-				},
-				{
+			if (created) {
+				return {
+					data: bookmark,
+					message: `item_id: ${data.item_id} bookmark created`,
+				};
+			} else {
+				const bookmark = await models.bookmark.findOne({
 					where: {
-						id: bookmark.id,
+						item_id: data.item_id,
+						user_id: data.user_id,
 					},
-				},
-			);
-			return { messgae: 'bookmark updated successfully' };
-		}
+					transaction: t,
+				});
+				await models.bookmark.update(
+					{
+						ismarked: data.ismarked ? 1 : 0,
+					},
+					{
+						where: {
+							id: bookmark.id,
+						},
+						transaction: t,
+					},
+				);
+				return { messgae: 'bookmark updated successfully' };
+			}
+		})
+			.then((result: any) => {
+				return result;
+			})
+			.catch((err: any) => {
+				return err;
+			});
+		return result;
 	}
 
 	async getbookmarks(user_id: number) {
-		const bookmarkList = await models.bookmark.findAll({
-			include: [
-				{
-					model: models.item,
-					as: 'item',
-					include: [
-						{ model: models.user, as: 'user', attributes: ['storename'] },
-					],
+		const result = await Sequelize.transaction(async (t) => {
+			const bookmarkList = await models.bookmark.findAll({
+				include: [
+					{
+						model: models.item,
+						as: 'item',
+						include: [
+							{ model: models.user, as: 'user', attributes: ['storename'] },
+						],
+					},
+				],
+				where: {
+					user_id: user_id,
 				},
-			],
-			where: {
-				user_id: user_id,
-			},
+				transaction: t,
+			});
+			let output = bookmarkList.filter((elem) => {
+				return elem.ismarked === 1;
+			});
+			return output;
+		})
+			.then((result: any) => {
+				return result;
+			})
+			.catch((err: any) => {
+				return err;
+			});
+		return result;
+	}
+
+	async stockmanagement(data: StockManagement) {
+		console.log(data.insert_item_stock);
+		for (let i = 1; i < 5000; i++) {
+			const isExistItem = await models.item.findOne({
+				where: {
+					id: i,
+				},
+			});
+			console.log(isExistItem);
+			if (isExistItem) {
+				const [item_inventory, isCreate] =
+					await models.item_inventory.findOrCreate({
+						where: {
+							item_id: i,
+						},
+						defaults: {
+							stock: data.insert_item_stock,
+						},
+					});
+				if (isCreate) {
+					continue;
+				} else {
+					await models.item_inventory.update(
+						{
+							stock: data.insert_item_stock,
+						},
+						{
+							where: {
+								item_id: i,
+							},
+						},
+					);
+				}
+			} else {
+				continue;
+			}
+		}
+		return { message: 'stocks updated successfully' };
+	}
+
+	async getkeywords() {
+		const keyword = await models.keyword.findAll({
+			limit: 10,
+			order: [['score', 'DESC']],
 		});
-		let output = bookmarkList.filter((elem) => {
-			return elem.ismarked === 1;
-		});
-		return output;
+		return { data: keyword, message: 'successful' };
+	}
+
+	async keywordProcessor(keyword: string) {
+		const result = await Sequelize.transaction(async (t) => {
+			const keywordArr = keyword.split(' ');
+			for (let i = 0; i < keywordArr.length; i++) {
+				const existingKeyword = await models.keyword.findOne({
+					where: {
+						keyword: keywordArr[i],
+					},
+					transaction: t,
+				});
+				if (existingKeyword) {
+					await models.keyword.increment(
+						{
+							score: 1,
+						},
+						{
+							where: {
+								keyword: keywordArr[i],
+							},
+							transaction: t,
+						},
+					);
+				} else {
+					await models.keyword.create(
+						{
+							keyword: keywordArr[i],
+							score: 1,
+						},
+						{ transaction: t },
+					);
+				}
+			}
+		})
+			.then((result: any) => {
+				return result;
+			})
+			.catch((err: any) => {
+				return err;
+			});
+		return result;
+	}
+
+	getSellingItems() {
+		return models.keyword.findOne({})
 	}
 }

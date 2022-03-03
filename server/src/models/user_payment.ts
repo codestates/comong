@@ -6,9 +6,8 @@ import type { user, userId } from './user';
 export interface user_paymentAttributes {
   id: number;
   user_id: number;
-  order_id: number;
+  order_id: string;
   payment_method?: string;
-  payment_status?: string;
   detail?: string;
   total_amount?: string;
   imp_uid?: string;
@@ -17,19 +16,23 @@ export interface user_paymentAttributes {
   status?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  address_line1?: string;
+  address_line2?: string;
+  postal_code?: string;
+  email?: string;
+  contact?: string;
 }
 
 export type user_paymentPk = "id";
 export type user_paymentId = user_payment[user_paymentPk];
-export type user_paymentOptionalAttributes = "id" | "payment_method" | "payment_status" | "detail" | "total_amount" | "imp_uid" | "merchant_uid" | "buyer_name" | "status" | "createdAt" | "updatedAt";
+export type user_paymentOptionalAttributes = "id" | "payment_method" | "detail" | "total_amount" | "imp_uid" | "merchant_uid" | "buyer_name" | "status" | "createdAt" | "updatedAt" | "address_line1" | "address_line2" | "postal_code" | "email" | "contact";
 export type user_paymentCreationAttributes = Optional<user_paymentAttributes, user_paymentOptionalAttributes>;
 
 export class user_payment extends Model<user_paymentAttributes, user_paymentCreationAttributes> implements user_paymentAttributes {
   id!: number;
   user_id!: number;
-  order_id!: number;
+  order_id!: string;
   payment_method?: string;
-  payment_status?: string;
   detail?: string;
   total_amount?: string;
   imp_uid?: string;
@@ -38,6 +41,11 @@ export class user_payment extends Model<user_paymentAttributes, user_paymentCrea
   status?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  address_line1?: string;
+  address_line2?: string;
+  postal_code?: string;
+  email?: string;
+  contact?: string;
 
   // user_payment belongsTo order via order_id
   order!: order;
@@ -67,7 +75,7 @@ export class user_payment extends Model<user_paymentAttributes, user_paymentCrea
       }
     },
     order_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING(45),
       allowNull: false,
       references: {
         model: 'order',
@@ -75,10 +83,6 @@ export class user_payment extends Model<user_paymentAttributes, user_paymentCrea
       }
     },
     payment_method: {
-      type: DataTypes.STRING(45),
-      allowNull: true
-    },
-    payment_status: {
       type: DataTypes.STRING(45),
       allowNull: true
     },
@@ -103,6 +107,26 @@ export class user_payment extends Model<user_paymentAttributes, user_paymentCrea
       allowNull: true
     },
     status: {
+      type: DataTypes.STRING(45),
+      allowNull: true
+    },
+    address_line1: {
+      type: DataTypes.STRING(45),
+      allowNull: true
+    },
+    address_line2: {
+      type: DataTypes.STRING(45),
+      allowNull: true
+    },
+    postal_code: {
+      type: DataTypes.STRING(45),
+      allowNull: true
+    },
+    email: {
+      type: DataTypes.STRING(45),
+      allowNull: true
+    },
+    contact: {
       type: DataTypes.STRING(45),
       allowNull: true
     }

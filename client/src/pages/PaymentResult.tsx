@@ -8,24 +8,41 @@ import {
 } from '@ant-design/icons';
 import queryString from 'query-string';
 import axios, { AxiosRequestConfig } from 'axios';
+import { useAppDispatch, useAppSelector } from '../redux/configStore.hooks';
+import type { RootState } from '../redux/configStore';
+import { config } from '../config/config';
+import { apiClient } from '../apis';
+
+const env = 'development';
+const urlConfig = config[env];
 
 function PaymentResult() {
+  const payData = useAppSelector((state: RootState) => state);
+  let data = payData.cartSlice.paymentInfo;
+
+  const dispatch = useAppDispatch();
   let navigate = useNavigate();
 
   const search = window.location.search;
   const query = queryString.parse(search);
 
-  console.log(query);
-  const { merchant_uid, error_msg, imp_uid, paid_amount, status } = query;
-  const isSucceeded = getIsSuccessed();
+  // const { merchant_uid, error_msg, imp_uid, paid_amount, status } = query;
+  const merchant_uid = data.merchant_uid;
+  const error_msg = data.error_msg;
+  const imp_uid = data.imp_uid;
+  let isSucceeded = payData.cartSlice.paymentInfo.success;
 
-  function getIsSuccessed() {
-    const { success, imp_success } = query;
-    if (typeof imp_success === 'string') return imp_success === 'true';
-    if (typeof imp_success === 'boolean') return imp_success === true;
-    if (typeof success === 'string') return success === 'true';
-    if (typeof success === 'boolean') return success === true;
-  }
+  // 추후 다른 결제수단이 추가 될 경우 대비한 코드
+  // function getIsSuccessed() {
+  //   const { success, imp_success } = query;
+  //   const success = data.status;
+  //   const imp_success = data.status;
+  //   if (typeof imp_success === 'string') return imp_success === 'true';
+  //   if (typeof imp_success === 'boolean') return imp_success === true;
+  //   if (typeof success === 'string') return success === 'true';
+  //   if (typeof success === 'boolean') return success === true;
+  // }
+  // const isSucceeded = getIsSuccessed();
 
   const iconType = isSucceeded ? (
     <CheckOutlined />
@@ -36,24 +53,69 @@ function PaymentResult() {
   const colorType = isSucceeded ? '#52c41a' : '#f5222d';
 
   const paymentValidation = async function () {
+    let data = payData.cartSlice.paymentInfo;
+    console.log(data);
+
+    let tmp = {
+      user_id: data.user_id,
+      order_id: data.order_id,
+      payment_method: 'card',
+      total_amount: data.total_amount, //sum of total item price + shipping charge
+      imp_uid: data.imp_uid,
+      merchant_uid: data.merchant_uid,
+      buyer_name: data.buyer_name,
+      status: data.status,
+    };
+
+    console.log(tmp);
+    const destination = payData.cartSlice.destinationInfo;
+    console.log('data.total_amount', data.total_amount);
+
+    console.log({
+      data: {
+        user_id: data.user_id,
+        order_id: data.order_id,
+        payment_method: 'card',
+        total_amount: data.total_amount, //sum of total item price + shipping charge
+        imp_uid: data.imp_uid,
+        merchant_uid: data.merchant_uid,
+        buyer_name: data.buyer_name,
+        status: data.status,
+        address_line1: destination.address1,
+        address_line2: destination.address2,
+        postal_code: destination.postCode,
+        email: destination.email,
+        contact: destination.tel,
+      },
+    });
+
     const paymentValidationOptions: AxiosRequestConfig = {
       method: 'POST',
-      url: 'https://localhost:443/payments',
+      url: `${urlConfig.url}/payments`,
       headers: { 'Content-Type': 'application/json' },
       data: {
-        user_id: 2, //temporary user_id for testing
-        order_id: 7, //temporary order_id for testing
+        user_id: data.user_id,
+        order_id: data.order_id,
         payment_method: 'card',
-        payment_status: 'paid',
-        total_amount: Number(paid_amount), //sum of total item price + shipping charge
-        imp_uid: imp_uid,
-        merchant_uid: merchant_uid,
-        buyer_name: '홍길동',
-        status: status,
+        total_amount: data.total_amount, //sum of total item price + shipping charge
+        imp_uid: data.imp_uid,
+        merchant_uid: data.merchant_uid,
+        buyer_name: data.buyer_name,
+        status: data.status,
+        address_line1: destination.address1,
+        address_line2: destination.address2,
+        postal_code: destination.postCode,
+        email: destination.email,
+        contact: destination.tel,
       },
     };
+
+    // const response = await apiClient.patch(`${urlConfig.url}/payments`, {
+    //   data: data,
+    // });
+
     await axios(paymentValidationOptions)
-      .then((responese) => console.log(responese))
+      .then((responese) => console.log('POST요청보냄', responese))
       .catch((err) => console.log(err));
   };
 

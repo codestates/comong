@@ -5,8 +5,7 @@ import styled from 'styled-components';
 import { IPostCommentFormPartial } from '../../apis/api/comment';
 
 const Wrapper = styled.div`
-  width: 200px;
-  height: 30px;
+  width: 100%;
   display: flex;
   justify-content: center;
 `;
@@ -17,11 +16,12 @@ const Stars = styled.div`
 `;
 
 interface IStarRatings {
-  fillPostForm: (data: IPostCommentFormPartial) => void;
+  fillPostForm?: (data: IPostCommentFormPartial) => void;
+  score?: number;
 }
 
-function StarRatings({ fillPostForm }: IStarRatings) {
-  const [rate, setRate] = useState(0);
+function StarRatings({ fillPostForm, score = 0 }: IStarRatings) {
+  const [rate, setRate] = useState(score);
 
   const makeStars = (num: number) => {
     let stars = [];
@@ -30,11 +30,11 @@ function StarRatings({ fillPostForm }: IStarRatings) {
         <FontAwesomeIcon
           key={i}
           icon={faStar}
-          size="2x"
+          size={score ? '1x' : '2x'}
           color={rate >= i ? 'red' : '#B8B8B8'}
           onClick={() => {
-            setRate(i);
-            fillPostForm({ score: i });
+            fillPostForm && setRate(i);
+            fillPostForm && fillPostForm({ score: i });
           }}
         />,
       );

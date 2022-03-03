@@ -2,7 +2,54 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import BookmarkButton from './BookmarkButton';
 import { useAppSelector } from '../../redux/configStore.hooks';
+import type { RootState } from '../../redux/configStore';
 import { truncate } from 'fs';
+import { useState } from 'react';
+import { LoginNeedModalForList } from '../Modals/LoginNeedModalForList';
+
+const PostListItem = ({ post, LoginCheck }: Props) => {
+  const [isLoginModal, setIsLoginModal] = useState(false);
+
+  const img_src = post.image_src
+    ? post.image_src.split(',')[0]
+    : 'https://imagedelivery.net/BOKuAiJyROlMLXwCcBYMqQ/fe9f218d-5134-4a76-ba20-bf97e5c21900/thumbnail';
+  const seller = post.user.storename ? post.user.storename : 'hojin';
+  const title = post.title;
+  const id = post.id;
+
+  const price = post.price.toLocaleString('en');
+  const { userinfo } = useAppSelector((state) => state.userSlice);
+  const bookmarks = userinfo?.bookmarks;
+  const itemData = useAppSelector((state: RootState) => state);
+  const isLogin = itemData.userSlice.isLogin;
+
+  return (
+    <StLink to={`/item/${id}`}>
+      <ItemContainer>
+        <ItemImgContainer>
+          <ItemImg src={img_src} />
+        </ItemImgContainer>
+
+        <TextContainer>
+          <ItemSeller>{seller}</ItemSeller>
+          <ItemTitle>{title}</ItemTitle>
+          <PriceAndBookmarkContainer>
+            <ItemPrice>{price}원</ItemPrice>
+            <div onClick={LoginCheck}>
+              <BookmarkButton
+                itemId={id}
+                selected={bookmarks ? !!bookmarks.includes(id) : false}
+              ></BookmarkButton>
+            </div>
+          </PriceAndBookmarkContainer>
+          {isLoginModal ? (
+            <LoginNeedModalForList>로그인이 필요합니다</LoginNeedModalForList>
+          ) : null}
+        </TextContainer>
+      </ItemContainer>
+    </StLink>
+  );
+};
 
 const StLink = styled(Link)`
   all: unset;
@@ -17,9 +64,10 @@ const ItemContainer = styled.div`
   margin: auto;
   font-family: roboto;
   background-color: #fdfdfd;
-  &:hover {
+  /* background-color: red; */
+  /* &:hover {
     transform: scale(1.005);
-  }
+  } */
   overflow: hidden;
   /* box-shadow: 0px 0px 12px #eeeeee; */
   height: 320px;
@@ -33,7 +81,7 @@ const ItemImgContainer = styled.div`
 
   width: 90%;
   margin: auto;
-  border-radius: 20px;
+  border-radius: 8px;
 `;
 
 const ItemImg = styled.img`
@@ -65,7 +113,7 @@ const TextContainer = styled.div`
   margin-bottom: 10px;
   width: 90%;
   height: 100px;
-  position: relative;
+  /* position: relative; */
 `;
 
 const ItemSeller = styled.div`
@@ -87,7 +135,15 @@ const ItemTitle = styled.div`
   font-weight: 300;
   line-height: 140%;
   height: 35px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
 `;
+
+const PriceAndBookmarkContainer = styled.div`
+  display: flex;
+`;
+
 const ItemPrice = styled.div`
   width: 100%;
   margin: auto;
@@ -101,48 +157,17 @@ const ItemPrice = styled.div`
 interface Props {
   post: {
     contents: string;
-    createdAt: string;
+    createdAt?: string;
     id: number;
     image_src: string;
-    item_has_categories: [];
+    item_has_categories?: [];
     price: number;
     title: string;
-    updatedAT: string;
+    updatedAT?: string;
     user: { storename: string };
     user_id: number;
   };
+  LoginCheck?: () => void;
 }
-
-const PostListItem = ({ post }: Props) => {
-  const img_src = post.image_src
-    ? post.image_src.split(',')[0]
-    : 'https://imagedelivery.net/BOKuAiJyROlMLXwCcBYMqQ/fe9f218d-5134-4a76-ba20-bf97e5c21900/thumbnail';
-  const seller = post.user.storename ? post.user.storename : 'hojin';
-  const title = post.title;
-  const id = post.id;
-
-  const price = post.price.toLocaleString('en');
-  const { userinfo } = useAppSelector((state) => state.userSlice);
-  const bookmarks = userinfo?.bookmarks;
-
-  return (
-    <StLink to={`/item/${id}`}>
-      <ItemContainer>
-        <ItemImgContainer>
-          <ItemImg src={img_src} />
-        </ItemImgContainer>
-        <TextContainer>
-          <ItemSeller>{seller}</ItemSeller>
-          <ItemTitle>{title}</ItemTitle>
-          <ItemPrice>{price}원</ItemPrice>
-          <BookmarkButton
-            itemId={id}
-            selected={bookmarks ? !!bookmarks.includes(id) : false}
-          ></BookmarkButton>
-        </TextContainer>
-      </ItemContainer>
-    </StLink>
-  );
-};
 
 export default PostListItem;

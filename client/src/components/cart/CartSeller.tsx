@@ -19,6 +19,11 @@ const CartListItemContents = styled.div`
   align-items: space-between;
   width: 90%;
   margin-top: 20px;
+  @media only screen and (max-width: 1200px) {
+  }
+  @media only screen and (max-width: 768px) {
+    width: 95%;
+  }
 `;
 
 const CartSumContainer = styled.div`
@@ -32,21 +37,41 @@ const CartSumContainer = styled.div`
   padding: 10px 40px;
   align-items: center;
   justify-content: space-between;
+  @media only screen and (max-width: 1200px) {
+  }
+  @media only screen and (max-width: 768px) {
+    padding: 10px 15px;
+  }
 `;
 
 const CartSumPrice = styled.div``;
 const CartSumIcon = styled.img`
   width: 28px;
+  @media only screen and (max-width: 1200px) {
+  }
+  @media only screen and (max-width: 768px) {
+    width: 14px;
+  }
 `;
 const CartSumPriceTitle = styled.div`
   color: gray;
   font-weight: 400;
   margin-bottom: 8px;
   font-size: 14px;
+  @media only screen and (max-width: 1200px) {
+  }
+  @media only screen and (max-width: 768px) {
+    font-size: 12px;
+  }
 `;
 const CartSumPriceContents = styled.div`
   font-size: 18px;
   color: ${(props) => props.theme.colors.charcol};
+  @media only screen and (max-width: 1200px) {
+  }
+  @media only screen and (max-width: 768px) {
+    font-size: 14px;
+  }
 `;
 
 const CartSeller = ({ data, storeName, groupName }: any) => {
@@ -60,15 +85,17 @@ const CartSeller = ({ data, storeName, groupName }: any) => {
   }
 
   useEffect(() => {
-    dispatch(setSubTotalPrice([groupName, sellerTotal]));
-    dispatch(setTotalPrice(Cartdata.cartSlice.subTotalPrice));
+    if (groupName !== 'item') {
+      dispatch(setSubTotalPrice([groupName, sellerTotal]));
+      dispatch(setTotalPrice(Cartdata.cartSlice.subTotalPrice));
+    }
   }, [sellerTotal]);
 
   let subTotalPrice: number | string = Number(
     Cartdata.cartSlice.subTotalPrice[groupName],
   );
 
-  let deliveryFee: number | string = 3000;
+  let deliveryFee: number | string = subTotalPrice ? 3000 : 0;
   let total: number | string = Number(subTotalPrice) + deliveryFee;
 
   return (

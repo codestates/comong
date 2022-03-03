@@ -8,117 +8,153 @@ import { MailerService } from '../mailer/mailer.service';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 const { Op } = require('sequelize');
 const models = require('../../models/index');
+const Sequelize = models.sequelize;
 
 @Injectable()
 export class PaymentsService {
 	constructor(private readonly mailerService: MailerService) {}
 	async create(createPaymentDto: CreatePaymentDto) {
-		if (createPaymentDto.status === 'paid') {
-			const validationData = await this.paymentValidator(
-				createPaymentDto.imp_uid,
-			);
-			console.log(validationData);
-			const { amount, status } = validationData;
-			if (
-				amount === createPaymentDto.total_amount
-			) {
-				const [user_payment, isCreated] =
-					await models.user_payment.findOrCreate({
-						where: { order_id: createPaymentDto.order_id },
-						defaults: createPaymentDto,
-					});
-				if (isCreated) {
-					const orderUpdate = await models.order.update(
-						{
-							status: 'paid',
-						},
-						{
-							where: {
-								id: createPaymentDto.order_id,
+		const result = await Sequelize.transaction(async (t) => {
+			// console.log(createPaymentDto);
+			if (createPaymentDto.status === 'paid') {
+				const validationData = await this.paymentValidator(
+					createPaymentDto.imp_uid,
+				);
+				// console.log(validationData);
+				const { amount } = validationData;
+				if (amount === createPaymentDto.total_amount) {
+					const [user_payment, isCreated] =
+						await models.user_payment.findOrCreate({
+							where: { order_id: createPaymentDto.order_id },
+							defaults: createPaymentDto,
+							transaction: t,
+						});
+					if (isCreated) {
+						const orderUpdate = await models.order.update(
+							{
+								status: 'paid',
+								address_line1: createPaymentDto.address_line1,
+								address_line2: createPaymentDto.address_line2,
+								postal_code: createPaymentDto.postal_code,
+								email: createPaymentDto.email,
+								contact: createPaymentDto.contact,
+								buyer_name: createPaymentDto.buyer_name,
 							},
-						},
-					);
-					const listforUpdate = await models.order_detail_has_order.findAll({
-						where: { order_id: createPaymentDto.order_id },
-					});
-					let updateList: number[] = listforUpdate.map((elem) => {
-						return elem.dataValues.order_detail_id;
-					});
-					const orderDetailUpdate = await models.order_detail.update(
-						{
-							status: 'paid',
-						},
-						{
+							{
+								where: {
+									id: createPaymentDto.order_id,
+								},
+								transaction: t,
+							},
+						);
+						const listforUpdate = await models.order_detail_has_order.findAll({
+							where: { order_id: createPaymentDto.order_id },
+							transaction: t,
+						});
+						let updateList: number[] = listforUpdate.map((elem) => {
+							return elem.dataValues.order_detail_id;
+						});
+						const orderDetailUpdate = await models.order_detail.update(
+							{
+								status: 'paid',
+							},
+							{
+								where: {
+									id: {
+										[Op.or]: [updateList],
+									},
+								},
+								transaction: t,
+							},
+						);
+						const user = await models.user.findOne({
+							where: {
+								id: createPaymentDto.user_id,
+							},
+							transaction: t,
+						});
+						const order_detailList = await models.order_detail.findAll({
 							where: {
 								id: {
 									[Op.or]: [updateList],
 								},
 							},
-						},
-					);
-					const user = await models.user.findOne({
-						where: {
-							id: createPaymentDto.user_id,
-						},
-					});
-					const order_detailList = await models.order_detail.findAll({
-						where: {
-							id: {
-								[Op.or]: [updateList],
+							transaction: t,
+						});
+						const itemIdArr = order_detailList.map((elem) => {
+							return elem.item_id;
+						});
+						const itemList = await models.item.findAll({
+							where: {
+								id: {
+									[Op.or]: [itemIdArr],
+								},
 							},
-						},
-					});
-					const itemIdArr = order_detailList.map((elem) => {
-						return elem.item_id;
-					});
-					const itemList = await models.item.findAll({
-						where: {
-							id: {
-								[Op.or]: [itemIdArr],
-							},
-						},
-					});
-					const itemTitleArr = itemList.map((elem) => {
-						return elem.title;
-					});
+							transaction: t,
+						});
+						const itemTitleArr = itemList.map((elem) => {
+							return elem.title;
+						});
+						for (let i = 0; i < order_detailList.length; i++) {
+							await models.item_inventory.decrement(
+								{
+									stock: order_detailList[i].order_amount,
+								},
+								{
+									where: { item_id: order_detailList[i].item_id },
+									transaction: t,
+								},
+							);
+						}
+						//paymentTime
+						const paymentTime = new Date(validationData.paid_at);
+						validationData['paymentTime'] = paymentTime;
+						//itemTitle
+						if (itemTitleArr.length === 1) {
+							const itemTitle = itemTitleArr[0];
+							validationData['itemTitle'] = itemTitle;
+						} else {
+							const itemTitle = `${itemTitleArr[0]} 외 ${
+								itemTitleArr.length - 1
+							}건`;
+							validationData['itemTitle'] = itemTitle;
+						}
+						//card_quota
+						if (validationData.card_quota === 0) {
+							validationData['card_quota'] = '일시불';
+						} else {
+							validationData[
+								'card_quota'
+							] = `${validationData.card_quota} 개월`;
+						}
 
-					//paymentTime
-					const paymentTime = new Date(validationData.paid_at);
-					validationData['paymentTime'] = paymentTime;
-					//itemTitle
-					if (itemTitleArr.length === 1) {
-						const itemTitle = itemTitleArr[0];
-						validationData['itemTitle'] = itemTitle;
+						const emailAddress = user.email;
+						return await this.mailerService.sendPaymentNotice(
+							user_payment,
+							validationData,
+							emailAddress,
+							'COMONG 결제 알림 메일',
+							'payment_notice',
+						);
 					} else {
-						const itemTitle = `${itemTitleArr[0]} 외 ${itemTitleArr.length - 1}건`;
-						validationData['itemTitle'] = itemTitle;
+						return {
+							message: `payment data of 'order_id: ${createPaymentDto.order_id}' exist`,
+						};
 					}
-					//card_quota
-					if (validationData.card_quota === 0) {
-						validationData['card_quota'] = '일시불';
-					} else {
-						validationData['card_quota'] = `${validationData.card_quota} 개월`;
-					}
-
-					const emailAddress = user.email;
-					return await this.mailerService.sendPaymentNotice(
-						user_payment,
-						validationData,
-						emailAddress,
-						'COMONG 결제 알림 메일',
-						'payment_notice',
-					);
 				} else {
-					return {
-						message: `payment data of 'order_id: ${createPaymentDto.order_id}' exist`,
-					};
+					return { status: 'forgery', message: 'FORGERY WARNING' };
 				}
 			} else {
-				return { status: 'forgery', message: 'FORGERY WARNING' };
+				return { message: 'the payment is under PENDING STATUS' };
 			}
-		} else {
-			return { message: 'the payment is under PENDING STATUS' };
-		}
+		})
+			.then((result: any) => {
+				return result;
+			})
+			.catch((err: any) => {
+				return err;
+			});
+		return result;
 	}
 
 	findAll() {
