@@ -242,7 +242,6 @@ export class CommentsService {
 		const itemReviewCreateResult = await models.item_review.bulkCreate(
 			bulkCommentCreateOptions,
 		);
-		// console.log(itemReviewCreateResult);
 		return 'this will insert item review for development';
 	}
 }
