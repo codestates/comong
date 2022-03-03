@@ -129,12 +129,20 @@ const Nav = () => {
                 : navigate('/login')
             }
           >
-            마이페이지{' '}
+            {isLogin ? '마이페이지' : '로그인'}
           </NavMenu>
           <NavMenu cartColor={cartColor} onClick={() => navigate('/cart')}>
             장바구니{' '}
           </NavMenu>
-          <NavMenu>
+          <NavMenu
+            onClick={() =>
+              isLogin
+                ? role === 0
+                  ? navigate('/mypage/notifications')
+                  : navigate('/sellerpage/notifications')
+                : navigate('/login')
+            }
+          >
             <NavNotification src="/icons/nav/bell.png" />
             {isLogin && <NotificationNum></NotificationNum>}
           </NavMenu>
