@@ -6,17 +6,18 @@ import NotificationListItem from '../components/notifications/NotificationListIt
 import { useAppSelector } from '../redux/configStore.hooks';
 import { addNotification } from '../redux/modules/userSlice';
 
-const Wrapper = styled.div`
-  background-color: pink;
-`;
+const Wrapper = styled.div``;
 const NotificationList = styled.ul`
-  background-color: orange;
+  background-color: ${(props) => props.theme.colors.lightGrey};
+  height: 90vh;
+  overflow: scroll;
   margin-top: 20px;
-  padding: 0 10%;
+  padding: 4% 10%;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
+  gap: 1rem;
 `;
 
 function Notifications() {
@@ -28,26 +29,31 @@ function Notifications() {
     console.log(socket.connected);
     socket.on('notificationToClient', (data) => {
       console.log(data);
-      // 구매 했을 때 - 구매 알림
-      if (data.status === 'paid' && data.shipping_status === 'pending') {
-        setMessageList((list) => list && [...list, data]);
-        dispatch(addNotification(data));
+      const payStatus = data.data.status;
+      const shippingStatus = data.data.shipping_status;
+      if (payStatus === 'paid') {
+        if (
+          shippingStatus === 'pending' ||
+          shippingStatus === 'processing' ||
+          shippingStatus === 'intransit'
+        ) {
+          setMessageList((list) => list && [...list, data]);
+          dispatch(addNotification(data));
+        }
       }
-      // 구매 승인 눌렀을 때 - 배송 준비 알림
-      // 송장 입력 했을 때 - 배송 시작 알림
     });
   }, []);
-
-  console.log(messageList);
 
   return (
     <Wrapper>
       <h2>알림</h2>
       <NotificationList>
         {messageList?.map((el) => {
+          const type = el.data.shipping_status;
           return (
             <NotificationListItem
-              key={`noti#${el.user_id}#${el.id}`}
+              type={type === 'pending' ? 'paid' : type}
+              key={`noti#${el.data.order_id}#${el.data.shipping_status}`}
               info={el}
             ></NotificationListItem>
           );

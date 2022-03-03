@@ -37,25 +37,24 @@ const Wrapper = styled.li`
 
 interface INotificationListItem {
   info: Inotification;
+  type: string;
 }
 
-function NotificationListItem({ info }: INotificationListItem) {
+function NotificationListItem({ info, type }: INotificationListItem) {
   console.log(info);
+  console.log(type);
+  const showNotificationByType: { [key: string]: JSX.Element } = {
+    paid: <span className="noti-message">[구매 알림] 배송을 준비해주세요</span>,
+    processing: <span className="noti-message">배송 준비중입니다.</span>,
+    intransit: <span className="noti-message">배송이 시작되었습니다.</span>,
+  };
   return (
     <>
-      {/* <Wrapper>
-        <img src="/img/image.png" />
-        <div>
-          <span className="noti-item">무슨무슨 상품</span>
-          <span className="noti-message">배송이 시작되었습니다</span>
-          <span className="noti-store">by 무슨 상점</span>
-        </div>
-      </Wrapper> */}
       <Wrapper>
-        <img src="/img/image.png" />
+        <img src={info.itemInfo[0].image_src} />
         <div>
-          <span className="noti-item">무슨무슨 상품</span>
-          <span className="noti-message">[구매 알림] 배송을 준비해주세요</span>
+          <span className="noti-item">{info.itemInfo[0].title}</span>
+          {showNotificationByType[type]}
         </div>
       </Wrapper>
     </>

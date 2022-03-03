@@ -1,6 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { idText } from 'typescript';
 import { apiClient } from '../../apis';
 import { ILoginForm } from '../../components/form/LoginForm';
+import {
+  IItem,
+  IItemPartial,
+} from '../../pages/mypage/mypage_user/MypageBookmarks';
 
 // !TODO 타입 다시 확인하기
 interface IUserInfo {
@@ -19,10 +24,8 @@ interface IUserInfo {
 
 export interface Inotification {
   id: number;
-  title: string;
-  read: number;
-  user_id: number;
-  createdAt: string;
+  data: { order_id: string; shipping_status: string; status: string };
+  itemInfo: IItemPartial[];
 }
 
 export interface IUser {
@@ -114,10 +117,11 @@ export const postSigninAsync = createAsyncThunk(
         `/users/notification?user_id=${response.data.user.id}`,
       )
     ).data;
+    console.log('noti', notification);
     const newNotification = notification.data.map(
-      (obj: { contents: string }) => {
-        const newContents = JSON.parse(obj.contents);
-        return { ...obj, contents: newContents };
+      (obj: { id: number; contents: string }) => {
+        const newContents = { id: obj.id, ...JSON.parse(obj.contents) };
+        return newContents;
       },
     );
     const data = { ...response.data, notification: newNotification };
