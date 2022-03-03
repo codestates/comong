@@ -53,7 +53,7 @@ const Post = () => {
   let title = data.title;
   let contents = data.contents;
   let price = data.price;
-  let img_src = data.image_src.split(',').slice(0, 4);
+  let img_src = data.image_src.split(',').slice(0, 5);
 
   useEffect(() => {
     dispatch(getItemAsync(postId));
@@ -297,24 +297,35 @@ const ImgContainer = styled.div`
   justify-content: center;
   align-items: center;
 
-  width: 100%;
-  max-height: 450px;
-  margin: 40px 0px;
+  width: 700px;
+  height: 500px;
   @media only screen and (max-width: 1200px) {
   }
   @media only screen and (max-width: 768px) {
     flex-direction: column;
+    height: 400px;
+    width: 100%;
   }
 `;
 const MainImgContainer = styled.div`
-  /* width: 50%; */
-  height: 50%;
   width: 500px;
+  height: 500px;
+  @media only screen and (max-width: 1200px) {
+  }
+  @media only screen and (max-width: 768px) {
+    height: 330px;
+    width: 100%;
+  }
 `;
 const MainImg = styled.img`
-  /* width: 90%; */
   width: 500px;
-  max-height: 500px;
+  height: 500px;
+  @media only screen and (max-width: 1200px) {
+  }
+  @media only screen and (max-width: 768px) {
+    height: 330px;
+    width: 100%;
+  }
 `;
 
 const ThumbnailImgContainer = styled.div`
@@ -322,23 +333,29 @@ const ThumbnailImgContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 500px;
-  margin-left: 5px;
+  width: 100px;
+
   @media only screen and (max-width: 1200px) {
   }
   @media only screen and (max-width: 768px) {
     flex-direction: row;
     margin-left: 0px;
+    width: 100%;
   }
 `;
 const ThumbnailImg = styled.img`
-  margin: 3px;
-  width: 100%;
-  max-height: 120px;
+  width: 95px;
+  height: 95px;
+  margin-top: 4.5px;
+  margin-left: 4.5px;
   @media only screen and (max-width: 1200px) {
   }
   @media only screen and (max-width: 768px) {
-    /* margin-left: 0px; */
+    margin-top: 4.5px;
+    margin-left: 0px;
+    margin-right: 4px;
+    width: 20%;
+    height: 70px;
   }
 `;
 
