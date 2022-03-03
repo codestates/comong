@@ -208,7 +208,7 @@ const cartSlice = createSlice({
     builder.addCase(getCartPatchAsync.rejected, (state, action) => {});
     builder.addCase(postOrderAsync.pending, (state, action) => {});
     builder.addCase(postOrderAsync.fulfilled, (state, action) => {
-      console.log('action.payload', action.payload);
+      console.log('action.payload-orderInfo', action.payload);
       state.orderInfo = action.payload.data;
     });
     builder.addCase(postOrderAsync.rejected, (state, action) => {});

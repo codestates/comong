@@ -7,11 +7,13 @@ export interface keywordAttributes {
   keyword?: string;
   score?: number;
   user_id?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export type keywordPk = "id";
 export type keywordId = keyword[keywordPk];
-export type keywordOptionalAttributes = "id" | "keyword" | "score" | "user_id";
+export type keywordOptionalAttributes = "id" | "keyword" | "score" | "user_id" | "createdAt" | "updatedAt";
 export type keywordCreationAttributes = Optional<keywordAttributes, keywordOptionalAttributes>;
 
 export class keyword extends Model<keywordAttributes, keywordCreationAttributes> implements keywordAttributes {
@@ -19,6 +21,8 @@ export class keyword extends Model<keywordAttributes, keywordCreationAttributes>
   keyword?: string;
   score?: number;
   user_id?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 
   // keyword belongsTo user via user_id
   user!: user;
@@ -53,7 +57,7 @@ export class keyword extends Model<keywordAttributes, keywordCreationAttributes>
   }, {
     sequelize,
     tableName: 'keyword',
-    timestamps: false,
+    timestamps: true,
     indexes: [
       {
         name: "PRIMARY",

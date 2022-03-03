@@ -1,11 +1,13 @@
 import PostList from '../components/postList/PostList';
 import styled from 'styled-components';
-import Banner from '../components/Banner';
+
 import MainCategories from '../components/maincategory/MainCategory';
 import { LoginNeedModalForList } from '../components/Modals/LoginNeedModalForList';
 import { useState } from 'react';
 import { useAppSelector } from '../redux/configStore.hooks';
 import type { RootState } from '../redux/configStore';
+import CarouselBanner from '../components/CarouselBanner';
+import Slick from '../components/banner/Slick';
 import Item from '../components/banner/Item';
 
 const ListContainer = styled.div`
@@ -30,6 +32,7 @@ const List = () => {
       {isLoginModal ? (
         <LoginNeedModalForList>로그인이 필요합니다</LoginNeedModalForList>
       ) : null}
+      {/* <hr /> */}
       <MainCategories></MainCategories>
       <PostList LoginCheck={LoginCheck}></PostList>
     </ListContainer>

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const Container = styled.div`
-  background-color: #f86d56;
+  background-color: #ff7836;
   height: 100%;
   display: flex;
   flex-direction: row;
@@ -35,7 +35,7 @@ const BadgeContainer = styled.div`
   flex-direction: row;
 `;
 const Badge1 = styled.div`
-  background-color: #34345a;
+  background-color: #007bf7;
   border-radius: 5px;
   text-align: center;
   color: white;
@@ -51,7 +51,7 @@ const Badge1 = styled.div`
 `;
 const Badge2 = styled.div`
   margin-left: 10px;
-  background-color: #34345a;
+  background-color: #007bf7;
   border-radius: 5px;
   text-align: center;
   color: white;
@@ -119,35 +119,35 @@ const ImgContainer = styled.div`
   }
 `;
 const Img = styled.img`
-  width: 400px;
+  width: 600px;
   @media only screen and (max-width: 1200px) {
-    width: 300px;
+    width: 400px;
   }
   @media only screen and (max-width: 768px) {
     width: 200px;
   }
 `;
 
-const Banner1 = () => {
+const Banner2 = () => {
   return (
     <Container>
       <Contents>
         <MentionContainer>
           <BadgeContainer>
-            <Badge1>대박찬스</Badge1>
-            <Badge2>개학시즌</Badge2>
+            <Badge1>신상입고</Badge1>
+            <Badge2>코몽</Badge2>
           </BadgeContainer>
-          <Mention1>3월 신학기!</Mention1>
-          <Mention2>중요한 거 아시죠?</Mention2>
-          <Mention3>노트, 필기류</Mention3>
-          <Mention4>Comong에서 준비하세요</Mention4>
+          <Mention1>나만 몰랐었던</Mention1>
+          <Mention2>따끈따끈한 신상템</Mention2>
+          <Mention3>지금바로 Comong에서</Mention3>
+          <Mention4>만나보세요</Mention4>
         </MentionContainer>
         <ImgContainer>
-          <Img src="/img/banner/banner1.png"></Img>
+          <Img src="/img/banner/banner2.gif"></Img>
         </ImgContainer>
       </Contents>
     </Container>
   );
 };
 
-export default Banner1;
+export default Banner2;
