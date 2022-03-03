@@ -5,6 +5,7 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import { UpdatePaymentDto } from './dto/update-payment.dto';
 import { MailerService } from '../mailer/mailer.service';
+import { AppGateway } from 'src/app.gateway';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 const { Op } = require('sequelize');
 const models = require('../../models/index');
@@ -12,7 +13,10 @@ const Sequelize = models.sequelize;
 
 @Injectable()
 export class PaymentsService {
-	constructor(private readonly mailerService: MailerService) {}
+	constructor(
+		private readonly mailerService: MailerService,
+		private readonly appGateway: AppGateway,
+	) {}
 	async create(createPaymentDto: CreatePaymentDto) {
 		const result = await Sequelize.transaction(async (t) => {
 			// console.log(createPaymentDto);
@@ -92,6 +96,23 @@ export class PaymentsService {
 							},
 							transaction: t,
 						});
+						const message = {
+							title: '결재 발생 알림',
+							data: user_payment,
+							itemInfo: itemList,
+						};
+						const sellerId = itemList[0].user_id;
+						const pushNotificationRoom = `${sellerId}#appNotice`;
+						const newNotification = await models.notification.create(
+							{
+								title: '결재 발생 알림',
+								contents: JSON.stringify(message),
+								read: 0,
+								user_id: sellerId,
+							},
+							{ transaction: t },
+						);
+						this.appGateway.handleNotification(pushNotificationRoom, message);
 						const itemTitleArr = itemList.map((elem) => {
 							return elem.title;
 						});
