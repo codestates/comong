@@ -20,9 +20,10 @@ const Wrapper = styled.div`
 
 function NotificationNum() {
   const { notification } = useAppSelector((state) => state.userSlice);
-  const newNotiNum = notification?.filter((noti) => noti.read === false).length;
+  const newNotiNum =
+    notification?.filter((noti) => noti.read === false).length || 0;
 
-  return <Wrapper>{newNotiNum}</Wrapper>;
+  return <Wrapper>{newNotiNum < 10 ? newNotiNum : '9+'}</Wrapper>;
 }
 
 export default NotificationNum;

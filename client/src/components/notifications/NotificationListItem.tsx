@@ -96,7 +96,9 @@ function NotificationListItem({ info, type }: INotificationListItem) {
         <span className="noti-item">{info.itemInfo[0].title}</span>
         <span className="noti-message">{showNotificationByType[type]}</span>
         <span className="noti-date">
-          {info.updatedAt ? info.updatedAt : info.data.updatedAt}
+          {info.updatedAt
+            ? info.updatedAt.split('T')[0]
+            : info.data.updatedAt.split('T')[0]}
         </span>
       </div>
     </Wrapper>

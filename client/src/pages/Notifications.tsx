@@ -58,7 +58,16 @@ function Notifications() {
             body: `배송이 시작되었습니다\n${data.itemInfo[0].title}`,
           });
         }
-        const newData = { ...data, read: false };
+        const today = new Date();
+        const month =
+          today.getMonth() < 10 ? `0${today.getMonth()}` : today.getMonth();
+        const date =
+          today.getDate() < 10 ? `0${today.getDate()}` : today.getDate();
+        const newData = {
+          ...data,
+          read: false,
+          updatedAt: `${today.getFullYear()}-${month}-${date}T`,
+        };
         setMessageList((list) => list && [newData, ...list]);
         dispatch(addNotification(data));
       }
