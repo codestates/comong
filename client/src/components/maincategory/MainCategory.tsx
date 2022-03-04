@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useAppDispatch } from '../../redux/configStore.hooks';
-import { getListAsync } from '../../redux/modules/listSlice';
+
 import { setCategory } from '../../redux/modules/itemSlice';
 
 const MainCategoriesContainer = styled.div`
@@ -197,30 +197,30 @@ const MainCategories = () => {
               </TableColumn>
             </TableRow>
             <TableRow>
-              <TableColumn onClick={() => dispatch(getListAsync(4))}>
+              <TableColumn onClick={() => dispatch(setCategory(4))}>
                 {nameList[4]}
               </TableColumn>
-              <TableColumn onClick={() => dispatch(getListAsync(5))}>
+              <TableColumn onClick={() => dispatch(setCategory(5))}>
                 {nameList[5]}
               </TableColumn>
-              <TableColumn onClick={() => dispatch(getListAsync(6))}>
+              <TableColumn onClick={() => dispatch(setCategory(6))}>
                 {nameList[6]}
               </TableColumn>
-              <TableColumn onClick={() => dispatch(getListAsync(7))}>
+              <TableColumn onClick={() => dispatch(setCategory(7))}>
                 {nameList[7]}
               </TableColumn>
             </TableRow>
             <TableRow>
-              <TableColumn onClick={() => dispatch(getListAsync(8))}>
+              <TableColumn onClick={() => dispatch(setCategory(8))}>
                 {nameList[8]}
               </TableColumn>
-              <TableColumn onClick={() => dispatch(getListAsync(9))}>
+              <TableColumn onClick={() => dispatch(setCategory(9))}>
                 {nameList[9]}
               </TableColumn>
-              <TableColumn onClick={() => dispatch(getListAsync(10))}>
+              <TableColumn onClick={() => dispatch(setCategory(10))}>
                 {nameList[10]}
               </TableColumn>
-              <TableColumn onClick={() => dispatch(getListAsync(11))}>
+              <TableColumn onClick={() => dispatch(setCategory(11))}>
                 {nameList[11]}
               </TableColumn>
             </TableRow>
@@ -234,7 +234,6 @@ const MainCategories = () => {
     <MainCategoriesContainer>
       {width > 768 ? (
         nameList.map((el, i) => {
-          console.log(el, i);
           return (
             <MainCategory
               key={el + i + 100}

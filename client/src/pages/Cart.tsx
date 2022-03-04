@@ -28,13 +28,19 @@ const Cart = () => {
   const userInfo = cartData.userSlice.userinfo;
   const id = userInfo?.id;
 
-  const target = cartData.cartSlice.data;
+  const isEmpty = () => {
+    if (cartData.cartSlice.data.length === 0) return true;
+    const target = cartData.cartSlice.data[0];
+    if (Object.keys(target).length === -0) return true;
+    else return false;
+  };
+
   const isSeller = userInfo?.role;
-  // console.log('target[0]', target[0]);
-  // console.log(
-  //   'Object.keys(target).length === 0',
-  //   Object.keys(target[0]).length === 0,
-  // );
+
+  console.log('cartData.cartSlice.data', cartData.cartSlice.data);
+
+  // console.log('target', target);
+  // console.log('Object.keys(target).length', Object.keys(target).length);
 
   useEffect(() => {
     if (!isLogin) navigate('/login');
@@ -44,7 +50,6 @@ const Cart = () => {
   let sum = 0;
   let delivery = 0;
   for (let x in cartData.cartSlice.subTotalPrice) {
-    console.log(cartData.cartSlice.subTotalPrice);
     sum += Number(cartData.cartSlice.subTotalPrice[x]);
     if (Number(cartData.cartSlice.subTotalPrice[x]) > 0) delivery += 3000;
   }
@@ -127,13 +132,13 @@ const Cart = () => {
         <ContentsBackground>
           <ContentsContainer>
             <CartListContainer>
-              {Object.keys(target).length === 0 ? (
-                <CartList></CartList>
-              ) : (
+              {isEmpty() ? (
                 <EmptyContainer>
                   <EmptyImg src="/icons/cart/cart.png"></EmptyImg>
                   <EmptyMention>장바구니에 상품이 없습니다</EmptyMention>
                 </EmptyContainer>
+              ) : (
+                <CartList></CartList>
               )}
             </CartListContainer>
             <OrderContainer>

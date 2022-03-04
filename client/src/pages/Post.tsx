@@ -178,6 +178,10 @@ const Post = () => {
       });
   }, []);
 
+  const hearts = 90;
+  const commentsNum = 120;
+  const rating = 4.7;
+
   return (
     <>
       <Container>
@@ -227,6 +231,11 @@ const Post = () => {
             <OrderContainer>
               <Category>{category}</Category>
               <Title>{title}</Title>
+              <HeartsAndCommentsAndRatingContainer>
+                <Hearts>♥&nbsp;{hearts}</Hearts>
+                <CommentsNum>💬&nbsp;{commentsNum}</CommentsNum>
+                <Rating>⭐&nbsp;{rating}</Rating>
+              </HeartsAndCommentsAndRatingContainer>
               <Seller>{seller}</Seller>
               <Price>{(price * stock).toLocaleString('en')}원</Price>
               <StockController>
@@ -413,14 +422,14 @@ const OrderContainer = styled.div`
   font-weight: 700;
   width: 30%;
   position: sticky;
-  height: 450px;
+  height: 500px;
   top: 64px;
   background-color: white;
   display: flex;
   flex-direction: column;
   padding: 20px;
   justify-content: center;
-  box-shadow: 0px 0px 12px ${(props) => props.theme.colors.whiteForShadow};
+  box-shadow: 0px 0px 9px #eeeeee;
   border-radius: 5px;
   @media only screen and (max-width: 1200px) {
     bottom: 0px;
@@ -452,13 +461,44 @@ const Title = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   word-wrap: break-word;
-  height: 30px;
+  height: 52px;
   line-height: 27px;
   @media only screen and (max-width: 1200px) {
     display: none;
   }
   @media only screen and (max-width: 768px) {
   }
+`;
+
+const HeartsAndCommentsAndRatingContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  font-family: 'roboto', 'Noto Sans KR';
+  font-size: 12px;
+  color: gray;
+  font-weight: 500;
+  margin-bottom: 10px;
+  @media only screen and (max-width: 1200px) {
+    display: none;
+  }
+  @media only screen and (max-width: 768px) {
+  }
+`;
+const Hearts = styled.div`
+  font-size: 15px;
+  color: transparent; /* 기존 이모지 컬러 제거 */
+  /* text-shadow: 0 0 0 ${(props) => props.theme.colors.pink}; */
+  text-shadow: 0 0 0 ${(props) => props.theme.colors.purple};
+`;
+const CommentsNum = styled.div`
+  margin-left: 12px;
+  font-size: 15px;
+`;
+const Rating = styled.div`
+  margin-left: 10px;
+  font-size: 15px;
+  color: transparent; /* 기존 이모지 컬러 제거 */
+  text-shadow: 0 0 0 ${(props) => props.theme.colors.accentColor}; /* 새 이모지 색상 부여 */
 `;
 
 const Seller = styled.div`

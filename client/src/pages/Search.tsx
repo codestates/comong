@@ -48,6 +48,8 @@ const Search = () => {
     // arr = arr.slice(0, 4);
   };
 
+  const makeEmpty = () => {};
+
   const handleSearch = (e: any) => {
     let value = e.target.innerHTML;
     value = value.replace(/ /g, '');
@@ -82,7 +84,7 @@ const Search = () => {
           </div>
         </SearchMention>
         <List isSearch={isSearch}></List>
-        {/* <SearchList></SearchList> */}
+        <SearchList></SearchList>
       </SearchContainer>
 
       <MobileNav></MobileNav>

@@ -158,7 +158,7 @@ const MobileNav = () => {
               categoryColor ? 'category-hover.png' : 'category.png'
             } `}
           />
-          <NavMenuTitle>카테고리</NavMenuTitle>
+          <NavMenuTitle>상품검색</NavMenuTitle>
         </NavMenu>
         <NavMenu
           onMouseOver={() => handleHover('mypage')}
