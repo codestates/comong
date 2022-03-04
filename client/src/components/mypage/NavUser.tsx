@@ -2,6 +2,7 @@ import { RecordWithTtl } from 'dns';
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { deleteClientHeadersToken } from '../../apis';
 import { useAppDispatch } from '../../redux/configStore.hooks';
 import { logout } from '../../redux/modules/userSlice';
 import DeleteUserModalContent from '../common/modal/DeleteUserModalContent';
@@ -58,6 +59,12 @@ function NavUser() {
     return '';
   };
 
+  const logoutHandler = () => {
+    dispatch(logout());
+    deleteClientHeadersToken();
+    navigate('/login');
+  };
+
   return (
     <Wrapper>
       <MyMenu>MY MENU</MyMenu>
@@ -89,14 +96,7 @@ function NavUser() {
           <Link to="/mypage/modifyInfo">
             <li className={getSelectedClass('modifyInfo')}>회원 정보 수정</li>
           </Link>
-          <li
-            onClick={() => {
-              dispatch(logout());
-              navigate('/login');
-            }}
-          >
-            로그아웃
-          </li>
+          <li onClick={logoutHandler}>로그아웃</li>
           <li
             onClick={() => {
               setShowModal(true);

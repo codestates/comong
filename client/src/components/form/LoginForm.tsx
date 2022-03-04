@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { setClientHeadersToken } from '../../apis';
 import { socket } from '../../App';
 import { useAppDispatch, useAppSelector } from '../../redux/configStore.hooks';
 import { postSigninAsync } from '../../redux/modules/userSlice';
@@ -58,6 +59,7 @@ function LoginForm() {
       const response = await dispatch(postSigninAsync(form)).unwrap();
       const room = `${response.user.id}#appNotice`;
       joinRoom(room!);
+      setClientHeadersToken(response.accessToken);
       navigate('/');
     } catch (error) {
       setMessage('아이디 혹은 비밀번호를 확인해 주세요');
