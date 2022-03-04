@@ -239,80 +239,80 @@ const Payment = () => {
                 <Title>보내는 사람</Title>
                 <TitleLine></TitleLine>
                 <Contents>
-                  <InputContainerShort>
+                  <InputContainer>
                     <InputTitle>이름</InputTitle>
-
                     <UserContents>{defaultData.name}</UserContents>
-                  </InputContainerShort>
-                  <InputContainerShort>
+                  </InputContainer>
+                  <InputContainer>
                     <InputTitle>연락처</InputTitle>
                     <UserContents>{defaultData.tel}</UserContents>
-                  </InputContainerShort>
-                  <InputContainerLong>
+                  </InputContainer>
+                  <InputContainer>
                     <InputTitle>이메일</InputTitle>
                     <UserContents>{defaultData.email}</UserContents>
-                  </InputContainerLong>
-                  <InputContainerLong>
+                  </InputContainer>
+                  <InputContainer>
                     <InputTitle>주소</InputTitle>
                     <AddressContainer>
-                      <PostCodeContainer>
-                        <UserContents>{defaultData.postCode}</UserContents>
-                        <ButtonPostCode>주소찾기</ButtonPostCode>
-                      </PostCodeContainer>
-                      <UserContents>{defaultData.address1}</UserContents>
-                      <UserContents>{defaultData.address2}</UserContents>
+                      <AddressContents>{defaultData.postCode}</AddressContents>
+                      <AddressContents>{defaultData.address1}</AddressContents>
+                      <AddressContents>{defaultData.address2}</AddressContents>
                     </AddressContainer>
-                  </InputContainerLong>
+                  </InputContainer>
                 </Contents>
               </DestinationContainer>
               <DestinationContainer>
-                <Title>보내는 사람</Title>
+                <Title>배송지 정보</Title>
                 <TitleLine></TitleLine>
                 <Contents>
-                  <label>
+                  <ButtonLabel>
                     <AutoInfoButton
                       type="radio"
                       id="radio"
                       checked={autoInfo}
                       onClick={handleAutoInfo}
                     />
-                    보내는사람과 동일
-                  </label>
-                  <InputContainerShort>
+                    &nbsp;&nbsp;보내는사람과 동일
+                  </ButtonLabel>
+                  <InputContainer>
                     <InputTitle>이름</InputTitle>
-                    <IntputContents value={name} onChange={changeShipName} />
-                  </InputContainerShort>
-                  <InputContainerShort>
+                    <IntputContentsName
+                      value={name}
+                      onChange={changeShipName}
+                    />
+                  </InputContainer>
+                  <InputContainer>
                     <InputTitle>연락처</InputTitle>
-                    <IntputContents
+                    <IntputContentsName
+                      type="text"
                       value={tel}
                       onChange={changeShipTel}
-                    ></IntputContents>
-                  </InputContainerShort>
-                  <InputContainerShort>
+                    />
+                  </InputContainer>
+                  <InputContainer>
                     <InputTitle>이메일</InputTitle>
                     <IntputContents
                       value={email}
                       onChange={changeShipEmail}
                     ></IntputContents>
-                  </InputContainerShort>
-                  <InputContainerLong>
+                  </InputContainer>
+                  <InputContainer>
                     <InputTitle>주소</InputTitle>
                     <AddressContainer>
-                      <IntputContentsLong
+                      <AddressContents2postal
                         value={postCode}
                         onChange={changeShipPostCode}
-                      ></IntputContentsLong>
-                      <IntputContentsLong
+                      ></AddressContents2postal>
+                      <AddressContents2
                         value={address1}
                         onChange={changeShipAddress1}
-                      ></IntputContentsLong>
-                      <IntputContentsLong
+                      ></AddressContents2>
+                      <AddressContents2
                         value={address2}
                         onChange={changeShipAddress2}
-                      ></IntputContentsLong>
+                      ></AddressContents2>
                     </AddressContainer>
-                  </InputContainerLong>
+                  </InputContainer>
                 </Contents>
               </DestinationContainer>
 
@@ -543,7 +543,9 @@ const DestinationContainer = styled.div`
   }
 `;
 
-const Title = styled.div``;
+const Title = styled.div`
+  font-size: 17px;
+`;
 
 const TitleLine = styled.hr`
   margin: 15px 0px;
@@ -556,37 +558,91 @@ const Contents = styled.div`
 
 const AutoInfoButton = styled.input``;
 
-const InputContainerShort = styled.div`
+const InputContainer = styled.div`
   display: flex;
-  margin: 20px 10px;
-  width: 300px;
-  justify-content: space-between;
+  align-items: center;
+  margin: 10px 10px;
+  width: 500px;
+  /* justify-content: space-between; */
 `;
-
-const UserContents = styled.div``;
-
-const InputContainerLong = styled.div`
-  display: flex;
-  margin: 20px 10px;
-  width: 300px;
-  justify-content: space-between;
-`;
-
 const InputTitle = styled.div`
   margin: 5px 10px;
-  font-size: 20px;
+  font-size: 15px;
+  color: ${(props) => props.theme.colors.charcol};
+  width: 70px;
+`;
+
+const UserContents = styled.div`
+  margin: 5px 5px;
+  font-size: 15px;
+  color: ${(props) => props.theme.colors.charcol};
+  width: 400px;
+`;
+
+const IntputContents = styled.input`
+  font-family: Noto Sans KR;
+  font-size: 15px;
+  vertical-align: middle;
+  height: 30px;
+  line-height: 30px;
+  color: ${(props) => props.theme.colors.charcol};
+  width: 250px;
+  border: 2px solid ${(props) => props.theme.colors.darkGrey};
+  border-radius: 5px;
+`;
+const IntputContentsName = styled.input`
+  font-family: Noto Sans KR;
+  font-size: 15px;
+  vertical-align: middle;
+  height: 30px;
+  line-height: 30px;
+  color: ${(props) => props.theme.colors.charcol};
+  width: 150px;
+  border: 2px solid ${(props) => props.theme.colors.darkGrey};
+  border-radius: 5px;
 `;
 
 const AddressContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+  margin: 5px 0px;
+  font-size: 15px;
+  color: ${(props) => props.theme.colors.charcol};
+  width: 350px;
 `;
-const IntputContents = styled.input``;
 
-const PostCodeContainer = styled.div``;
-const InputPostCode = styled.input``;
-const ButtonPostCode = styled.button`
-  /* width: 20px; */
+const AddressContents = styled.div`
+  width: 100%;
+  margin-left: 5px;
+  margin-bottom: 7px;
+`;
+const AddressContents2 = styled.input`
+  font-family: Noto Sans KR;
+  font-size: 15px;
+  vertical-align: middle;
+  height: 30px;
+  line-height: 30px;
+  color: ${(props) => props.theme.colors.charcol};
+  width: 300px;
+  border: 2px solid ${(props) => props.theme.colors.darkGrey};
+  border-radius: 5px;
+  margin-bottom: 3px;
+`;
+const AddressContents2postal = styled.input`
+  font-family: Noto Sans KR;
+  font-size: 15px;
+  vertical-align: middle;
+  height: 30px;
+  line-height: 30px;
+  color: ${(props) => props.theme.colors.charcol};
+  width: 80px;
+  border: 2px solid ${(props) => props.theme.colors.darkGrey};
+  border-radius: 5px;
+  margin-bottom: 3px;
+`;
+
+const ButtonLabel = styled.label`
+  font-size: 14px;
+  color: ${(props) => props.theme.colors.charcol};
+  margin-bottom: 10px;
 `;
 const IntputContentsLong = styled.input``;
 
@@ -677,7 +733,7 @@ const OrderButton = styled.button`
 `;
 
 const Paymentcontainer = styled.div`
-  max-width: 1280px;
+  max-width: 1200px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;

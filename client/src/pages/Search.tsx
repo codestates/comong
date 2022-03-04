@@ -27,7 +27,6 @@ const Search = () => {
   const isSearch = 1;
   const isLogin = searchData.userSlice.isLogin;
   const [isLoginModal, setIsLoginModal] = useState(false);
-  console.log('searchData.navSearchSlice.data', searchData.navSearchSlice.data);
   const searchResult = searchData.navSearchSlice.data;
   const [list, setList] = useState(['가방', '신발', '소고기', '핸드폰']);
 
@@ -39,23 +38,16 @@ const Search = () => {
 
   const getHotKeywords = async () => {
     const res = await apiClient.get(`/items/keyword`, {}); // 서버에서 데이터 가져오기
-    console.log('res.data', res.data.data);
     for (let x of res.data.data) {
-      console.log(x);
       arr.push(x.keyword);
-      console.log(arr);
     }
     setList(arr.slice(0, 4));
-    // arr = arr.slice(0, 4);
   };
-
-  const makeEmpty = () => {};
 
   const handleSearch = (e: any) => {
     let value = e.target.innerHTML;
     value = value.replace(/ /g, '');
     value.trim();
-    console.log(value);
     if (value !== '') {
       dispatch(navSearchAsync(value));
       dispatch(setReduxKeyword(value));

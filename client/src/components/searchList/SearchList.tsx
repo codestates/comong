@@ -82,11 +82,6 @@ function SearchList({ LoginCheck, searchResult }: UserProps) {
     const apiId = infoArray.length > 0 ? infoArray[infoArray.length - 1].id : 0;
     let res: { data: [] };
 
-    console.log('apiId', apiId, 'curCat', curCat, 'category', category);
-    // if (category === 0) {
-    //   if (curCat !== category) setInfoArray([]);
-    //   res = await apiClient.get(`items?number=20`, {}); // 서버에서 데이터 가져오기
-    // } else {
     if (curCat !== category) {
       setInfoArray([]);
       setCurCat(category);
@@ -96,12 +91,10 @@ function SearchList({ LoginCheck, searchResult }: UserProps) {
       res = await apiClient.get(
         `items?number=20&startindex=${apiId}&category=${category}`,
         {},
-      ); // 서버에서 데이터 가져오기
+      );
     }
-    // }
-    console.log('res', res);
-    console.log('res.data', res.data);
-    setInfoArray((infoArray) => [...infoArray, ...res.data]); // state에 추가
+
+    setInfoArray((infoArray) => [...infoArray, ...res.data]);
   };
 
   const intersectionObserver = (
@@ -112,28 +105,13 @@ function SearchList({ LoginCheck, searchResult }: UserProps) {
       if (entry.isIntersecting) {
         io.unobserve(entry.target);
         getInfo();
-        // dispatch(getListAsync());
       }
     });
   };
 
-  console.log('infoArray', infoArray);
-  console.log('searchResult', searchResult);
   return (
     <PostListWrapper>
       {searchResult?.map((post: Post, index) => {
-        // console.log('infoArray.length', infoArray.length, 'index', index);
-        // if (searchResult.length - 5 === index) {
-        //   return (
-        //     <ItemContainer key={uuidv4()} ref={boxRef}>
-        //       <SearchListItem
-        //         key={uuidv4()}
-        //         post={post}
-        //         LoginCheck={LoginCheck}
-        //       />
-        //     </ItemContainer>
-        //   );
-        // } else {
         return (
           <ItemContainer key={uuidv4()}>
             <SearchListItem
@@ -143,7 +121,6 @@ function SearchList({ LoginCheck, searchResult }: UserProps) {
             />
           </ItemContainer>
         );
-        // }
       })}
     </PostListWrapper>
   );

@@ -44,9 +44,24 @@ const Post = () => {
   const isLogin = itemData.userSlice.isLogin;
   const [commentNum, setCommentNum] = useState<number>(0);
 
+  useEffect(() => {
+    let id = itemData.itemSlice.data.id;
+    apiClient
+      .get(`${urlConfig.url}/comments/itemlist?item_id=${postId}`)
+      .then((res) => {
+        if (res.status === 200) {
+          console.log('res.data.data-Post', res.data.data, 'postId', postId);
+          setCommentNum(
+            (JSON.parse(JSON.stringify(res.data.data)) || []).length,
+          );
+        }
+      });
+  }, []);
+
   const user_id = itemData.userSlice.userinfo?.id as number;
 
   let data = itemData.itemSlice.data;
+  console.log('data', data);
   let id = data.id;
   let category = data.category;
   let seller = data.user_storename;
@@ -86,10 +101,7 @@ const Post = () => {
       peritem_price: price,
     };
 
-    let response = apiClient.post(
-      `${urlConfig.url}/orders/orderdetail`,
-      tmpObj,
-    );
+    apiClient.post(`${urlConfig.url}/orders/orderdetail`, tmpObj);
   };
 
   const payHandler = async () => {
@@ -112,8 +124,8 @@ const Post = () => {
       data,
     );
 
-    console.log('response', response);
-    console.log('response.data.data.id', response.data.data.id);
+    // console.log('response', response);
+    // console.log('response.data.data.id', response.data.data.id);
 
     const order_id = response.data.data.id;
 
@@ -169,18 +181,10 @@ const Post = () => {
     else setIsComments(true);
   };
 
-  useEffect(() => {
-    apiClient
-      .get(`${urlConfig.url}/comments/itemlist?item_id=${id}`)
-      .then((res) => {
-        if (res.status === 200) console.log(res.data.data);
-        setCommentNum(res.data.data.length);
-      });
-  }, []);
-
   const hearts = 90;
   const commentsNum = 120;
   const rating = 4.7;
+  const realStock = 100;
 
   return (
     <>
@@ -238,6 +242,7 @@ const Post = () => {
               </HeartsAndCommentsAndRatingContainer>
               <Seller>{seller}</Seller>
               <Price>{(price * stock).toLocaleString('en')}원</Price>
+              <RealStock>잔여재고: {realStock}개</RealStock>
               <StockController>
                 <StockMinusButton
                   onClick={() => {
@@ -413,7 +418,7 @@ const ContentsTitle = styled.span`
 `;
 const ContentsArea = styled.div`
   background-color: white;
-  height: 2000px;
+  height: 1000px;
   margin: 20px 30px;
 `;
 
@@ -422,7 +427,7 @@ const OrderContainer = styled.div`
   font-weight: 700;
   width: 30%;
   position: sticky;
-  height: 500px;
+  height: 520px;
   top: 64px;
   background-color: white;
   display: flex;
@@ -512,6 +517,19 @@ const Seller = styled.div`
   @media only screen and (max-width: 768px) {
   }
 `;
+
+const RealStock = styled.div`
+  color: ${(props) => props.theme.colors.accentColor};
+  font-weight: 300;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  @media only screen and (max-width: 1200px) {
+    display: none;
+  }
+  @media only screen and (max-width: 768px) {
+  }
+`;
+
 const Price = styled.div`
   margin-top: 20px;
   margin-bottom: 5px;
@@ -519,6 +537,7 @@ const Price = styled.div`
   font-weight: 700;
   font-size: 27px;
 `;
+
 const StockController = styled.div`
   display: flex;
   align-items: center;

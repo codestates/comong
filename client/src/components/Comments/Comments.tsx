@@ -18,8 +18,10 @@ const Comments = () => {
     apiClient
       .get(`${urlConfig.url}/comments/itemlist?item_id=${id}`)
       .then((res) => {
-        if (res.status === 200) console.log(res);
-        clist = JSON.parse(JSON.stringify(res.data.data)) || [];
+        if (res.status === 200) {
+          console.log('res.data.data-Commment', res.data.data, 'id', id);
+          clist = JSON.parse(JSON.stringify(res.data.data)) || [];
+        }
       });
   }, []);
 
@@ -33,43 +35,49 @@ const Comments = () => {
 
   return (
     <Container>
-      {clist.length > 0
-        ? clist.map((el: any) => {
-            let email = el.user.email.split('@')[0];
-            let answer;
-            if (email.length === 1) email = '*';
-            else if (email.length === 2) email += email[0] + '*';
-            else if (email.length === 3) email += email[0] + '**';
-            else email = email.slice(0, 3).padEnd(email.length, '*');
-            return (
-              <CommentContainer>
-                <UpperContainer>
-                  <Profile>
-                    <PictureContainer>
-                      <Picture
-                        src={
-                          el.image_src
-                            ? el.image_src
-                            : '/icons/post/emptyPerson.png'
-                        }
-                      ></Picture>
-                    </PictureContainer>
-                    <NameAndDateContainer>
-                      <Name>{email}</Name>
-                      <Date>{el.createdAt.substr(0, 10)}</Date>
-                    </NameAndDateContainer>
-                  </Profile>
-                  <Rating>
-                    {ratingHandler(el.score)}
-                    <RatingNum>{el.score}</RatingNum>
-                  </Rating>
-                </UpperContainer>
-                <Contents>{el.contents}</Contents>
-                <Line></Line>
-              </CommentContainer>
-            );
-          })
-        : null}
+      {clist.length > 0 ? (
+        clist.map((el: any) => {
+          let email = el.user.email.split('@')[0];
+          let answer;
+          if (email.length === 1) email = '*';
+          else if (email.length === 2) email += email[0] + '*';
+          else if (email.length === 3) email += email[0] + '**';
+          else email = email.slice(0, 3).padEnd(email.length, '*');
+          return (
+            <CommentContainer>
+              <UpperContainer>
+                <Profile>
+                  <PictureContainer>
+                    <Picture
+                      src={
+                        el.image_src
+                          ? el.image_src
+                          : '/icons/post/emptyPerson.png'
+                      }
+                    ></Picture>
+                  </PictureContainer>
+                  <NameAndDateContainer>
+                    <Name>{email}</Name>
+                    <Date>{el.createdAt.substr(0, 10)}</Date>
+                  </NameAndDateContainer>
+                </Profile>
+                <Rating>
+                  {ratingHandler(el.score)}
+                  <RatingNum>{el.score}</RatingNum>
+                </Rating>
+              </UpperContainer>
+              <Contents>{el.contents}</Contents>
+              <Line></Line>
+            </CommentContainer>
+          );
+        })
+      ) : (
+        <EmptyContainer>
+          <EmptyImg src="/icons/post/comment.png"></EmptyImg>
+          {/* <EmptyImg src="/icons/post/comment2.png"></EmptyImg> */}
+          <EmptyMention>상품평이 없습니다</EmptyMention>
+        </EmptyContainer>
+      )}
     </Container>
   );
 };
@@ -140,4 +148,26 @@ const Contents = styled.div`
   color: ${(props) => props.theme.colors.charcol};
 `;
 const Line = styled.hr``;
+
+const EmptyContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  margin-top: 50px;
+`;
+const EmptyImg = styled.img`
+  margin: auto;
+  width: 250px;
+  /* border: 4px solid gray; */
+  /* border-radius: 150px;
+  padding: 10px; */
+`;
+const EmptyMention = styled.div`
+  font-size: 25px;
+  margin: 20px;
+  color: #c3c3c3;
+`;
+
 export default Comments;

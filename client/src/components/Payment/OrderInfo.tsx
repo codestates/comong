@@ -22,7 +22,9 @@ const DestinationContainer = styled.div`
   }
 `;
 
-const Title = styled.div``;
+const Title = styled.div`
+  font-size: 17px;
+`;
 
 const TitleLine = styled.hr`
   margin: 15px 0px;
@@ -33,39 +35,6 @@ const Contents = styled.div`
   flex-direction: column;
   justify-content: flex-end;
   width: 95%;
-`;
-
-const InputContainerShort = styled.div`
-  display: flex;
-  margin: 20px 10px;
-  width: 300px;
-  justify-content: space-between;
-`;
-const InputContainerLong = styled.div`
-  display: flex;
-  margin: 20px 10px;
-  width: 300px;
-  justify-content: space-between;
-  @media only screen and (max-width: 1200px) {
-  }
-  @media only screen and (max-width: 768px) {
-  }
-`;
-const InputTitle = styled.div`
-  margin: 5px 10px;
-  font-size: 20px;
-  @media only screen and (max-width: 1200px) {
-    font-size: 15px;
-  }
-  @media only screen and (max-width: 768px) {
-  }
-`;
-const IntputContents = styled.input`
-  /* margin: 5px 10px;/ */
-`;
-const IntputContentsLong = styled.input`
-  /* margin: 5px 10px;/ */
-  /* width: 170px; */
 `;
 
 const Destination = () => {

@@ -151,11 +151,12 @@ const cartSlice = createSlice({
       state.data[0][groupName].order_details = arr;
     },
     setTotalPrice(state, action) {
-      console.log('토탈프라이스 작동');
+      // console.log('토탈프라이스 작동');
       let sum = 0;
       for (let x in action.payload) {
         sum += action.payload[x];
       }
+      console.log('sum in setTotalPrice', sum);
 
       state.totalPrice = sum;
     },
@@ -242,16 +243,19 @@ export let {
 export const getCartAsync = createAsyncThunk(
   'orders/get',
   async (id?: number) => {
-    console.log(id);
+    console.log('cartAsync 실행');
+    console.log('id', id);
+    console.log('type of', typeof id);
+    if (typeof id === 'number') {
+      const response = await apiClient.get(
+        `${urlConfig.url}/orders/cart?user_id=${id}`,
+        {},
+      );
 
-    const response = await apiClient.get(
-      `${urlConfig.url}/orders/cart?user_id=${id}`,
-      {},
-    );
+      console.log('cartslice', response.data);
 
-    console.log('cartslice', response.data);
-
-    return response.data;
+      return response.data;
+    }
   },
 );
 export const postOrderDetailAsync = createAsyncThunk(

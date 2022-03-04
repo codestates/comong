@@ -27,29 +27,12 @@ const Cart = () => {
   const isLogin = cartData.userSlice.isLogin;
   const userInfo = cartData.userSlice.userinfo;
   const id = userInfo?.id;
-
-  const isEmpty = () => {
-    if (cartData.cartSlice.data.length === 0) return true;
-    const target = cartData.cartSlice.data[0];
-    if (Object.keys(target).length === -0) return true;
-    else return false;
-  };
-
-  const isSeller = userInfo?.role;
-
-  console.log('cartData.cartSlice.data', cartData.cartSlice.data);
-
-  // console.log('target', target);
-  // console.log('Object.keys(target).length', Object.keys(target).length);
-
-  useEffect(() => {
-    if (!isLogin) navigate('/login');
-    if (isSeller) navigate('/');
-  }, []);
+  console.log(id);
 
   let sum = 0;
   let delivery = 0;
   for (let x in cartData.cartSlice.subTotalPrice) {
+    console.log(cartData.cartSlice.subTotalPrice);
     sum += Number(cartData.cartSlice.subTotalPrice[x]);
     if (Number(cartData.cartSlice.subTotalPrice[x]) > 0) delivery += 3000;
   }
@@ -132,14 +115,7 @@ const Cart = () => {
         <ContentsBackground>
           <ContentsContainer>
             <CartListContainer>
-              {isEmpty() ? (
-                <EmptyContainer>
-                  <EmptyImg src="/icons/cart/cart.png"></EmptyImg>
-                  <EmptyMention>장바구니에 상품이 없습니다</EmptyMention>
-                </EmptyContainer>
-              ) : (
-                <CartList></CartList>
-              )}
+              <CartList></CartList>
             </CartListContainer>
             <OrderContainer>
               {isModal ? (
@@ -243,7 +219,6 @@ const CartListContainer = styled.div`
   font-family: Noto Sans KR;
   font-weight: 700;
   min-height: 600px;
-
   width: 65%;
   position: sticky;
   margin-right: 20px;
@@ -358,23 +333,4 @@ const OrderButton = styled.button`
   width: 100%;
 `;
 
-const EmptyContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: auto;
-`;
-const EmptyImg = styled.img`
-  margin: auto;
-  width: 250px;
-  /* border: 4px solid gray; */
-  /* border-radius: 150px;
-  padding: 10px; */
-`;
-const EmptyMention = styled.div`
-  font-size: 25px;
-  margin: 20px;
-  color: #c3c3c3;
-`;
 export default Cart;

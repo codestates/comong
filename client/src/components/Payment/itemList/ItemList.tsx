@@ -45,7 +45,7 @@ const ItemList = () => {
     group.unshift(x);
   }
 
-  console.log('list', list);
+  // console.log('list', list);
   // let sub_price = 0;
   // let arr: any = [];
 
@@ -55,7 +55,7 @@ const ItemList = () => {
   // }
   // console.log('arr', arr);
   let arr = list.map((el, i) => {
-    console.log(el.order_details);
+    // console.log(el.order_details);
     let sum = 0;
     for (let x of el.order_details) {
       sum += x.peritem_price * x.order_amount;
