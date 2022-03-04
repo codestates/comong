@@ -2,11 +2,21 @@ import React from 'react';
 import styled from 'styled-components';
 import { config } from '../config/config';
 
-const OauthImg = styled.img`
-  width: 65px;
-  height: 65px;
+const Wrapper = styled.div`
+  width: 5rem;
+  height: 5rem;
   border-radius: 50%;
+  background-color: pink;
+  @media only screen and (max-width: 768px) {
+    width: 4rem;
+    height: 4rem;
+  }
+`;
 
+const OauthImg = styled.img`
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
   &:hover {
     cursor: pointer;
   }
@@ -63,10 +73,12 @@ function OauthButton({ type }: IOauthButton) {
   };
 
   return (
-    <OauthImg
-      src={oauhthImgList[type]}
-      onClick={() => getAuthorizationCode(type)}
-    />
+    <Wrapper>
+      <OauthImg
+        src={oauhthImgList[type]}
+        onClick={() => getAuthorizationCode(type)}
+      />
+    </Wrapper>
   );
 }
 

@@ -1,13 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Button = styled.button<{ lightStyle: boolean }>`
+const Button = styled.button<{ lightStyle: boolean; backColor: string }>`
   width: 100%;
   height: 55px;
   background-color: ${(props) =>
-    props.lightStyle
-      ? props.theme.colors.accentColorLight
-      : props.theme.colors.accentColor};
+    props.backColor ? props.backColor : props.theme.colors.accentColor};
   font-size: ${(props) => (props.lightStyle ? '18px' : '20px')};
   font-weight: ${(props) => (props.lightStyle ? 400 : 600)};
   color: ${(props) =>
@@ -49,6 +47,7 @@ interface ButtonBasicProps {
   buttonClickHandler: React.MouseEventHandler;
   children: string;
   lightStyle?: boolean;
+  backColor?: string;
 }
 
 function ButtonBasic({
@@ -56,12 +55,14 @@ function ButtonBasic({
   buttonClickHandler,
   children,
   lightStyle,
+  backColor,
 }: ButtonBasicProps) {
   return (
     <Button
       className={type}
       onClick={buttonClickHandler}
       lightStyle={lightStyle || false}
+      backColor={backColor!}
     >
       {children}
     </Button>

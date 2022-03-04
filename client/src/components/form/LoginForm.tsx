@@ -10,14 +10,15 @@ import ErrorMessage from '../Input/ErrorMessage';
 import { Input } from '../Input/InputBasic';
 
 const FormWrapper = styled.form`
-  margin: 10px 0 30px 0;
-  height: 200px;
+  padding: 2rem 0;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  gap: 0.5rem;
 
-  @media only screen and (max-width: 768px) {
-    margin-bottom: 10px;
+  div.wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
   }
 `;
 
@@ -69,13 +70,19 @@ function LoginForm() {
 
   return (
     <FormWrapper>
-      <Input name="email" placeholder="이메일" onChange={fillLoginForm}></Input>
-      <Input
-        name="password"
-        placeholder="비밀번호"
-        onChange={fillLoginForm}
-      ></Input>
-      <ErrorMessage>{message}</ErrorMessage>
+      <div className="wrapper">
+        <Input
+          name="email"
+          placeholder="이메일"
+          onChange={fillLoginForm}
+        ></Input>
+        <Input
+          name="password"
+          placeholder="비밀번호"
+          onChange={fillLoginForm}
+        ></Input>
+        <ErrorMessage>{message}</ErrorMessage>
+      </div>
       <ButtonBasic
         buttonClickHandler={(e) => {
           e.preventDefault();
