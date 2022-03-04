@@ -21,7 +21,6 @@ import MypageBookmarks from './pages/mypage/mypage_user/MypageBookmarks';
 import MypageReviews from './pages/mypage/mypage_user/MypageReviews';
 import MypageSellerDefault from './pages/mypage/mypage_seller/MypageSellerDefault';
 import MypageSellerItems from './pages/mypage/mypage_seller/MypageSellerItems';
-import Test from './pages/Test';
 import Notifications from './pages/Notifications';
 import PrivateRoute from './components/common/PrivateRoute';
 import PaymentResult from './pages/PaymentResult';
@@ -66,7 +65,6 @@ function Routers() {
             <Route path="notifications" element={<Notifications />}></Route>
           </Route>
         </Route>
-        <Route path="/test" element={<Test />}></Route>
       </Routes>
       <MobileNav></MobileNav>
     </BrowserRouter>

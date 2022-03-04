@@ -22,9 +22,16 @@ interface IUserInfo {
   bookmarks: number[];
 }
 
-export interface Inotification {
+export interface INotification {
   id: number;
-  data: { order_id: string; shipping_status: string; status: string };
+  updatedAt: string;
+  read: boolean;
+  data: {
+    order_id: string;
+    shipping_status: string;
+    status: string;
+    updatedAt: string;
+  };
   itemInfo: IItemPartial[];
 }
 
@@ -33,7 +40,7 @@ export interface IUser {
   accessToken?: string;
   role?: number;
   userinfo?: IUserInfo;
-  notification?: Inotification[];
+  notification?: INotification[];
 }
 
 const initialState: IUser = {
@@ -104,6 +111,21 @@ const userSlice = createSlice({
             : [...bookmarks.slice(0, marked), ...bookmarks.slice(marked + 1)];
       }
     });
+
+    builder.addCase(patchUserNotificationAsync.fulfilled, (state, action) => {
+      console.log(state.notification);
+      console.log('notiId', action.payload);
+      if (!!state.notification) {
+        console.log('hi');
+        const notis = state.notification;
+        const notiIdx = notis.findIndex((noti) => noti.id === action.payload);
+        state.notification = [
+          ...notis.slice(0, notiIdx),
+          { ...notis[notiIdx], read: true },
+          ...notis.slice(notiIdx + 1),
+        ];
+      }
+    });
   },
 });
 
@@ -119,12 +141,22 @@ export const postSigninAsync = createAsyncThunk(
     ).data;
     console.log('noti', notification);
     const newNotification = notification.data.map(
-      (obj: { id: number; contents: string }) => {
-        const newContents = { id: obj.id, ...JSON.parse(obj.contents) };
+      (obj: {
+        id: number;
+        updatedAt: string;
+        read: number;
+        contents: string;
+      }) => {
+        const newContents = {
+          id: obj.id,
+          updatedAt: obj.updatedAt,
+          read: obj.read === 0 ? false : true,
+          ...JSON.parse(obj.contents),
+        };
         return newContents;
       },
     );
-    const data = { ...response.data, notification: newNotification };
+    const data = { ...response.data, notification: newNotification.reverse() };
     return data;
   },
 );
@@ -135,6 +167,18 @@ export const postBookmarkAsync = createAsyncThunk(
     const response = await apiClient.post('/items/bookmark', body);
     console.log(response);
     return body.item_id;
+  },
+);
+
+export const patchUserNotificationAsync = createAsyncThunk(
+  'patch/notification',
+  async ({ userId, notiId }: { userId: number; notiId: number }) => {
+    const response = await apiClient.patch(
+      `/users/notification?user_id=${userId}`,
+      { notification_id: notiId, read: 1 },
+    );
+    console.log(response.data);
+    return notiId;
   },
 );
 
