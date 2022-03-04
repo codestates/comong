@@ -116,12 +116,10 @@ function OrderHistoryListItem({
   setShowEdit,
 }: IOrderHistoryListItem) {
   const { item_info: itemInfo, order_detail_info: orderInfo } = order;
-  console.log(itemInfo);
-  console.log(orderInfo);
 
   return (
     <Wrapper>
-      <OrderImg src={itemInfo.image_src} />
+      <OrderImg src={itemInfo.image_src.split(',')[0]} />
       <OrderInfo>
         <OrderItemInfo>
           <span className="item__title">{itemInfo.contents}</span>
