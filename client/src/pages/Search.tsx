@@ -8,7 +8,7 @@ import type { RootState } from '../redux/configStore';
 import { setReduxKeyword } from '../redux/modules/navSearchSlice';
 import { useAppDispatch, useAppSelector } from '../redux/configStore.hooks';
 import { getListAsync } from '../redux/modules/listSlice';
-
+import { LoginNeedModalForList } from '../components/Modals/LoginNeedModalForList';
 import { config } from '../config/config';
 import { apiClient } from '../apis';
 import { useEffect, useState } from 'react';
@@ -25,9 +25,10 @@ const Search = () => {
   const keyword = searchData.navSearchSlice.keyword;
   const resultNum = searchData.navSearchSlice.data.length;
   const isSearch = 1;
-
-  console.log(searchData.navSearchSlice.data);
-
+  const isLogin = searchData.userSlice.isLogin;
+  const [isLoginModal, setIsLoginModal] = useState(false);
+  console.log('searchData.navSearchSlice.data', searchData.navSearchSlice.data);
+  const searchResult = searchData.navSearchSlice.data;
   const [list, setList] = useState(['가방', '신발', '소고기', '핸드폰']);
 
   // let arr = ['가방', '신발', '소고기', '핸드폰'];
@@ -62,10 +63,17 @@ const Search = () => {
     }
   };
 
+  const LoginCheck = () => {
+    if (!isLogin) setIsLoginModal(!isLoginModal);
+  };
+
   return (
     <div>
       <Nav></Nav>
       <SearchContainer>
+        {isLoginModal ? (
+          <LoginNeedModalForList>로그인이 필요합니다</LoginNeedModalForList>
+        ) : null}
         <HotContainer>
           <HotTitle>
             인기검색어&nbsp;&nbsp;&nbsp;<HotLine></HotLine>
@@ -83,8 +91,11 @@ const Search = () => {
             입니다
           </div>
         </SearchMention>
-        <List isSearch={isSearch}></List>
-        <SearchList></SearchList>
+        {/* <List isSearch={isSearch}></List> */}
+        <SearchList
+          LoginCheck={LoginCheck}
+          searchResult={searchResult}
+        ></SearchList>
       </SearchContainer>
 
       <MobileNav></MobileNav>

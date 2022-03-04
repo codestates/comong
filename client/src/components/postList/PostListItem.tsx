@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import BookmarkButton from './BookmarkButton';
+import BookmarkButton from '../searchList/BookmarkButton';
 import { useAppSelector } from '../../redux/configStore.hooks';
 import type { RootState } from '../../redux/configStore';
 import { truncate } from 'fs';
