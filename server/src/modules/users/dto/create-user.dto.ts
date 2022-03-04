@@ -69,7 +69,7 @@ export class CreateUserDto {
     })
     @IsOptional()
     @IsString()
-    address_line1: string;
+    address1: string;
 
     @ApiProperty({
         example: '101동 101호.',
@@ -78,7 +78,7 @@ export class CreateUserDto {
     })
     @IsOptional()
     @IsString()
-    address_line2: string;
+    address2: string;
 
     @ApiProperty({
         example: '08217',

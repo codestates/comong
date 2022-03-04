@@ -16,8 +16,8 @@ export class signUpTransformPipe implements PipeTransform {
         ]
 
         const addressProps = [
-            'address_line1',
-            'address_line2',
+            //'address_line1',
+            //'address_line2',
             'postal_code',
             'city',
             'country',
@@ -48,6 +48,15 @@ export class signUpTransformPipe implements PipeTransform {
         })
 
         Object.entries(user).forEach(elements => {
+
+            if(elements[0] === 'address1'){
+                addressArr.push(['address_line1', elements[1]])
+            }
+
+            if(elements[0] === 'address2'){
+                addressArr.push(['address_line2', elements[1]])
+            }
+
             if(addressProps.includes(elements[0])){
                 addressArr.push(elements)
             }

@@ -213,7 +213,7 @@ export class UsersService {
 					return models.user.update({
 						...user
 					}, {
-						where: { id: userInfoFromToken }
+						where: { id: userInfoFromToken.id }
 					}, {
 						transaction: transaction
 					}).then(updatedUser => {

@@ -164,6 +164,7 @@ export class ItemsService {
 					raw: true,
 				},
 				{ model: models.user, as: 'user', attributes: [],},
+				{ model: models.item_inventory, as: 'item_inventories', attributes: [] },
 				{model: models.order_detail, as: 'order_details', attributes: ['id'], raw: true, include: [
 					{model: models.item_review, as: 'item_reviews', require: false, raw: true, attributes: [
 						'contents',
@@ -185,6 +186,7 @@ export class ItemsService {
 				'user_id',
 				'createdAt',
 				'updatedAt',
+				[sequelize.col('item_inventories.stock'), 'stock'],
 				[sequelize.col('user.storename'), 'user_storename'],
 				[sequelize.col('item_has_categories.category.id'), 'category_id'],
 				[sequelize.col('item_has_categories.category.category'), 'category'],
