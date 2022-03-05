@@ -13,9 +13,10 @@ export const getOrders = async (params: IGetOrderParams) => {
     const response = await apiClient.get('/orders', { params });
     let data: IOrderData[] = [];
     for (let key in response.data) {
-      data.push(...response.data[key].order_detail_info);
+      const [temp] = response.data[key].order_detail_info;
+      const shipping_status = response.data[key].order_info.shipping_status;
+      data.push({ ...temp, shipping_status });
     }
-    console.log(data);
     return data;
   } catch (error) {}
 };

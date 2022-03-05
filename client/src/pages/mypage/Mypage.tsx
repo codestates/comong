@@ -62,6 +62,11 @@ const OutletWrapper = styled.div`
     margin-left: 0;
   }
 
+  @media only screen and (max-width: 1200px) {
+    width: 100%;
+    padding: 0 1rem;
+  }
+
   &.modifyInfo {
     display: flex;
     justify-content: center;

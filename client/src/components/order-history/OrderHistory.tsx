@@ -52,6 +52,7 @@ export interface IOrderData {
     updatedAt: string;
     user_id: number;
   };
+  shipping_status: string;
 }
 
 interface IOrderHistory {

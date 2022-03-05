@@ -64,19 +64,19 @@ function MypageUserDefault() {
     <Wrapper>
       <UserOrderStateWrapper>
         <UserOrderState>
-          <span className="userOrder-title">적립금</span>
-          <span className="userOrder-content">0P</span>
-        </UserOrderState>
-        <UserOrderState>
-          <span className="userOrder-title">할인 쿠폰</span>
+          <span className="userOrder-title">결제확인중</span>
           <span className="userOrder-content">0</span>
         </UserOrderState>
         <UserOrderState>
-          <span className="userOrder-title">발송 완료</span>
+          <span className="userOrder-title">배송준비중</span>
           <span className="userOrder-content">0</span>
         </UserOrderState>
         <UserOrderState>
-          <span className="userOrder-title">취소 완료</span>
+          <span className="userOrder-title">배송중</span>
+          <span className="userOrder-content">0</span>
+        </UserOrderState>
+        <UserOrderState>
+          <span className="userOrder-title">배송완료</span>
           <span className="userOrder-content">0</span>
         </UserOrderState>
       </UserOrderStateWrapper>

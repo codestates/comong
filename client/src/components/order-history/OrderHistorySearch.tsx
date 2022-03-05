@@ -41,12 +41,10 @@ function OrderHistorySearch({ setOrderData }: IOrderHistorySearch) {
     <Wrapper>
       <select name="shipping_status" onChange={fillSearchForm}>
         <option value="">전체</option>
-        <option value="pick-up available">픽업 가능</option>
+        <option value="processing">결제 확인 중</option>
         <option value="processing">배송 대기 중</option>
         <option value="intransit">배송 중</option>
         <option value="delivered">배송 완료</option>
-        <option value="canceled">취소</option>
-        <option value="returned">환불</option>
       </select>
       <input name="start" type="date" onChange={fillSearchForm} />
       <span>~</span>

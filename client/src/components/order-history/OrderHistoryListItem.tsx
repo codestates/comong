@@ -141,8 +141,17 @@ function OrderHistoryListItem({
   showEdit,
   setShowEdit,
 }: IOrderHistoryListItem) {
-  const { item_info: itemInfo, order_detail_info: orderInfo } = order;
+  const {
+    item_info: itemInfo,
+    order_detail_info: orderInfo,
+    shipping_status: shippingInfo,
+  } = order;
 
+  const shippingType: { [key: string]: string } = {
+    pending: '결제확인중',
+    processing: '배송준비중',
+    intransit: '배송중',
+  };
   return (
     <Wrapper>
       <OrderImg src={itemInfo.image_src.split(',')[0]} />
@@ -155,7 +164,7 @@ function OrderHistoryListItem({
               {orderInfo.createdAt.split('T')[0]}
             </span>
           </div>
-          <span className="item__status">{shippingStatus[''] + ''}</span>
+          <span className="item__status">{shippingType[shippingInfo]}</span>
         </OrderItemInfo>
         <OrderSellerInfo>
           <span className="seller__name">{orderInfo.user.storename}</span>
