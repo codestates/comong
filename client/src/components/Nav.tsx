@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import NavSearch from './NavSearch';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -23,8 +23,24 @@ const NavLinks = styled.div`
   margin: 0 auto;
   max-width: 1600px;
 `;
+const logoAnimation = keyframes`
+  25%{
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+  50%{
+    transform: translateX(50px);
+    opacity: 0;
+  }
+`;
+const spanAnimation = keyframes`
+  100%{
+    opacity: 1;
+    letter-spacing: 0.4rem;
+    padding-left: 0.4rem;
+  }
+`;
 const Logo = styled.div`
-  cursor: pointer;
   display: flex;
   margin: 1 auto;
   align-items: center;
@@ -39,8 +55,28 @@ const Logo = styled.div`
   @media only screen and (max-width: 768px) {
     font-size: 25px;
   }
-  &:hover {
-    transform: scale(1.05);
+`;
+const LogoWrapper = styled.div`
+  position: relative;
+  cursor: pointer;
+  span {
+    font-size: 0.8rem;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    opacity: 0;
+    letter-spacing: 0.1rem;
+  }
+  &:hover ${Logo} {
+    animation: ${logoAnimation} 1s ease-in-out;
+    animation-fill-mode: forwards;
+  }
+  &:hover span {
+    animation: ${spanAnimation} 1s ease-in-out;
+    animation-fill-mode: forwards;
+    @media only screen and (max-width: 1200px) {
+      animation: none;
+    }
   }
 `;
 const NavMenuContainer = styled.div`
@@ -110,7 +146,10 @@ const Nav = () => {
   return (
     <NavContainer>
       <NavLinks>
-        <Logo onClick={() => navigate('/')}>COMONG</Logo>
+        <LogoWrapper>
+          <Logo onClick={() => navigate('/')}>COMONG</Logo>
+          <span>당신의오픈마켓</span>
+        </LogoWrapper>
         <NavSearch />
         <NavMenuContainer>
           <NavMenu
