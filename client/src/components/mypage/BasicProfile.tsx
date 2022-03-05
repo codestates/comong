@@ -9,6 +9,10 @@ const Wrapper = styled.div`
   padding-top: 20px;
   margin-bottom: 10px;
 
+  @media only screen and (max-width: 1200px) {
+    margin-bottom: 1rem;
+  }
+
   @media only screen and (max-width: 768px) {
     height: 150px;
     display: flex;
@@ -93,6 +97,10 @@ const ProfileInfoWrapper = styled.div`
   flex-direction: column;
   gap: 4px;
   padding: 0 4px;
+  @media only screen and (max-width: 1200px) {
+    padding: 0 1rem;
+    gap: 0.5rem;
+  }
   @media only screen and (max-width: 768px) {
     padding: 0 1rem;
     gap: 0.5rem;

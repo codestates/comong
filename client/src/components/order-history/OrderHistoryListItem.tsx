@@ -11,6 +11,9 @@ const Wrapper = styled.div`
   align-items: center;
   border-bottom: 1px solid ${(props) => props.theme.colors.lightGrey};
   background-color: white;
+  @media only screen and (max-width: 1200px) {
+    padding: 1.2rem 0.2rem;
+  }
   @media only screen and (max-width: 768px) {
     padding: 0.8rem 0.2rem;
   }
