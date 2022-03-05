@@ -6,6 +6,7 @@ const GlobalStyles = createGlobalStyle`
   
   * {
     box-sizing: border-box;
+    color:${(props) => props.theme.colors.charcol}
   }
 
   main {

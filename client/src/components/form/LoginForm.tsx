@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { setClientHeadersToken } from '../../apis';
 import { socket } from '../../App';
-import { useAppDispatch, useAppSelector } from '../../redux/configStore.hooks';
+import { useAppDispatch } from '../../redux/configStore.hooks';
 import { postSigninAsync } from '../../redux/modules/userSlice';
 import ButtonBasic from '../common/button/ButtonBasic';
 import ErrorMessage from '../Input/ErrorMessage';
 import { Input } from '../Input/InputBasic';
 
 const FormWrapper = styled.form`
-  padding: 2rem 0;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -35,7 +36,6 @@ function LoginForm() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [message, setMessage] = useState('');
-  const { userinfo } = useAppSelector((state) => state.userSlice);
 
   const fillLoginForm = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
@@ -43,11 +43,7 @@ function LoginForm() {
   };
 
   const joinRoom = async (room: string) => {
-    console.log('hi');
     socket.emit('join_room', room);
-    socket.on('joinedRoom', (data) => {
-      console.log('방에 들어간거 확인', data);
-    });
     socket.on('notificationToClient', (data) => {
       console.log('이벤트 발생 시', data);
     });
@@ -79,6 +75,7 @@ function LoginForm() {
         <Input
           name="password"
           placeholder="비밀번호"
+          type="password"
           onChange={fillLoginForm}
         ></Input>
         <ErrorMessage>{message}</ErrorMessage>

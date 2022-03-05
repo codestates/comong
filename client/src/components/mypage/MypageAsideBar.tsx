@@ -7,13 +7,10 @@ import NavUser from './NavUser';
 
 const Wrapper = styled.div`
   height: auto;
-  width: 200px;
-  border: 1px solid ${(props) => props.theme.colors.lightGrey};
   background-color: white;
   z-index: 1;
   position: fixed;
-  top: 60px;
-  left: 12%;
+  top: 70px;
 
   @media only screen and (max-width: 1200px) {
     height: 100vh;

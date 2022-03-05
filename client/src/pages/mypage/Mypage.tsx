@@ -5,22 +5,22 @@ import MypageAsideBar from '../../components/mypage/MypageAsideBar';
 
 const Wrapper = styled.div`
   height: auto;
-  margin: 0 1%;
-  padding: 100px 1%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 100px 0;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-around;
 
   @media only screen and (max-width: 1200px) {
-    justify-content: flex-start;
-    padding-left: 20px;
-    gap: 50px;
+    padding: 100px 1%;
   }
+  // @media only screen and (max-width: 768px) {
+  // }
 
   div.menuIcon {
     width: 20px;
     height: 20px;
     position: fixed;
-    background-color: white;
     top: 80px;
     left: 10px;
     padding: 2px;
@@ -30,7 +30,10 @@ const Wrapper = styled.div`
 
 const NavWrapper = styled.div`
   position: relative;
+  width: 20%;
   height: 100vh;
+  display: flex;
+  justify-content: center;
 `;
 
 const MenuIcon = styled.img`
@@ -44,19 +47,23 @@ const MenuIcon = styled.img`
 // }
 
 const OutletWrapper = styled.div`
-  width: 56%;
-  margin-left: 28%;
+  width: 80%;
+  padding: 0 2%;
 
-  &.modifyInfo {
-    display: flex;
-    justify-content: center;
-    padding: 60px 0;
+  @media only screen and (max-width: 1500px) {
+    padding: 0 4%;
   }
 
   @media only screen and (max-width: 1200px) {
     width: 100%;
     padding: 0 20px;
     margin-left: 0;
+  }
+
+  &.modifyInfo {
+    display: flex;
+    justify-content: center;
+    padding: 60px 0;
   }
 `;
 
