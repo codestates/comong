@@ -7,6 +7,7 @@ const ModalContainer = styled.div`
   height: 15rem;
   text-align: center;
   margin: 120px auto;
+  font-family: 'roboto', 'Noto Sans KR';
 `;
 
 const ModalBackdrop = styled.div`

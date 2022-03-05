@@ -6,13 +6,14 @@ const Button = styled.button<{ lightStyle: boolean; backColor: string }>`
   height: 55px;
   background-color: ${(props) =>
     props.backColor ? props.backColor : props.theme.colors.accentColor};
-  font-size: ${(props) => (props.lightStyle ? '18px' : '20px')};
-  font-weight: ${(props) => (props.lightStyle ? 400 : 600)};
+  font-size: ${(props) => (props.lightStyle ? '16px' : '18px')};
+  font-weight: 400;
   color: ${(props) =>
     props.lightStyle
       ? props.theme.colors.textColor
       : props.theme.colors.bgColor};
   border-radius: 4px;
+  font-family: 'roboto', 'Noto Sans KR';
 
   @media only screen and (max-width: 768px) {
     height: 50px;

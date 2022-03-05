@@ -11,7 +11,6 @@ import OrderHistorySearch from './OrderHistorySearch';
 const OrderHistoryList = styled.ul`
   display: flex;
   flex-direction: column;
-  gap: 20px;
 `;
 
 const NoData = styled.div`

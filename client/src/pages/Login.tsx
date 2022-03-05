@@ -12,6 +12,8 @@ const Main = styled.main`
   margin: 0 auto;
   display: flex;
   flex-direction: column;
+  font-family: 'roboto', 'Noto Sans KR';
+
   @media only screen and (max-width: 768px) {
     width: 300px;
   }
@@ -31,7 +33,7 @@ const LogoWrapper = styled.div`
   justify-content: center;
   align-items: center;
   gap: 0.4rem;
-  color: ${(props) => props.theme.colors.charcol};
+  color: black;
   animation: ${logoAnimation} 1.8s linear;
   animation-fill-mode: forwards;
   @media only screen and (max-width: 768px) {

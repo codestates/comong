@@ -10,6 +10,7 @@ const Wrapper = styled.div`
   padding: 100px 0;
   display: flex;
   justify-content: space-around;
+  font-family: 'roboto', 'Noto Sans KR';
 
   @media only screen and (max-width: 1200px) {
     padding: 100px 1%;
