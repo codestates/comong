@@ -312,33 +312,26 @@ export class UsersService {
 		};
 
 		return new Promise((resolve, reject) => {
-			//실실적인 create 메서드의 리턴문
-			console.log(workArr[0]);
 			return models.sequelize.transaction().then(async (transaction) => {
-				//트랜잭션 생성 후 넘겨줌
 				if (likes && Object.keys(likes).length > 0) {
 					await deleteLikes(transaction);
 				}
-
 				return Promise.all(
 					workArr.map((insertFunc) => {
-						return insertFunc(transaction); // 이 시점에서 프로미스가 pending이 되나요?? 저도잘모르겠습니다
+						return insertFunc(transaction);
 					}),
-				)
-					.then((values) => {
-						console.log(values, 'resolve');
-						transaction.commit(); // 성공했을 경우 지금 transaction은 unmanaged transaction 이라 수동으로 commit을 해주어야 함
+				).then((values) => {
+						transaction.commit();
 						resolve({ message: 'successful' });
-					})
-					.catch((error) => {
-						console.log(error, '에러');
-						transaction.rollback(); // 에러 발생 시에도 똑같이 수동으로 rollback 해주어야 함
+				}).catch((error) => {
+						transaction.rollback();
 						reject(
-							new ServiceUnavailableException(
-								'a network-related or database instance-specific error occurred while inserting new data',
-							),
-						); //에러 발생시 응답
-					});
+							new ServiceUnavailableException({
+								message: 'a network-related or database instance-specific error occurred while inserting new data',
+								error: error,
+							}),
+						);
+				});
 			});
 		});
 	}
