@@ -105,7 +105,7 @@ function EditReview({ setShowEdit, order }: IEditReview) {
     try {
       await postComments(postForm);
       console.log('완료');
-      navigate('/mypage/');
+      setShowEdit(false);
     } catch (error) {
       console.log(error);
     }

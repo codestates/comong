@@ -4,7 +4,12 @@ import { getComments } from '../../../apis/api/comment';
 import UserReviewListItem from '../../../components/order-review/UserReviewListItem';
 import { useAppSelector } from '../../../redux/configStore.hooks';
 
-const Wrapper = styled.ul``;
+const Wrapper = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+`;
 
 export interface IReviewList {
   itemInfo: {
@@ -43,8 +48,6 @@ function MypageReviews() {
       setReviewList(response);
     } catch (error) {}
   };
-
-  const showReviewList = () => {};
 
   return (
     <div>

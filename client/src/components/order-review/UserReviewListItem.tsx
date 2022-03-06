@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { deleteComments } from '../../apis/api/comment';
 import { IReviewList } from '../../pages/mypage/mypage_user/MypageReviews';
 import ButtonSimple from '../common/button/ButtonSimple';
 import StarRatings from './StarRatings';
@@ -7,8 +8,9 @@ import StarRatings from './StarRatings';
 const Wrapper = styled.div`
   width: 100%;
   padding: 1rem 2rem;
-  margin-bottom: 1.2rem;
-  border: 1px solid black;
+  border: 1px solid ${(props) => props.theme.colors.lightGrey};
+  border-radius: 1rem;
+  box-shadow: 1px 2px 4px ${(props) => props.theme.colors.bgColor};
 `;
 
 const ItemWrapper = styled.div`
@@ -18,8 +20,8 @@ const ItemWrapper = styled.div`
   gap: 2rem;
 
   img {
-    width: 100px;
-    height: 100px;
+    width: 4rem;
+    height: 4rem;
   }
 
   div {
@@ -32,12 +34,13 @@ const ItemWrapper = styled.div`
 
 const ReviewWrapper = styled.div`
   height: 50%;
-  padding: 1rem 0 1.5rem 0.2rem;
-  border-top: 1px solid black;
+  padding: 1rem 0 1rem 0.2rem;
+  border-top: 1px solid ${(props) => props.theme.colors.lightGrey};
   display: flex;
   justify-content: space-between;
 
   div.review {
+    width: 50%;
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -56,6 +59,19 @@ const ReviewWrapper = styled.div`
   }
 `;
 
+const PhotoWrapper = styled.div`
+  width: 30%;
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+`;
+
+const ReviewPhoto = styled.img`
+  width: 4rem;
+  height: 4rem;
+  padding: 1px;
+`;
+
 const ButtonWrapper = styled.div`
   width: 5rem;
   display: flex;
@@ -69,12 +85,20 @@ interface IUserReviewListItem {
 
 function UserReviewListItem({ info }: IUserReviewListItem) {
   const { item_reviewInfo: reviewInfo, itemInfo } = info;
-  console.log(reviewInfo);
+  const showPhotos = () => {
+    const imgData = reviewInfo.image_src;
+    if (!imgData) return;
+    const imgList = imgData.slice(1, imgData.length - 1).split(',');
+    return imgList.map((src) => {
+      if (src === '') return;
+      else return <ReviewPhoto src={src.slice(1, src.length - 1)} />;
+    });
+  };
 
   return (
     <Wrapper>
       <ItemWrapper className="area-item">
-        <img src={itemInfo.image_src} />
+        <img src={itemInfo.image_src.split(',')[0]} />
         <div>
           <span>{itemInfo.title}</span>
           <span>판매자</span>
@@ -83,14 +107,18 @@ function UserReviewListItem({ info }: IUserReviewListItem) {
       <ReviewWrapper className="area-review">
         <div className="review">
           <div className="ratings">
-            <StarRatings score={reviewInfo.score}></StarRatings>
+            <StarRatings score={reviewInfo.score} size="1rem"></StarRatings>
             <span>{reviewInfo.score}</span>
           </div>
           <span>{reviewInfo.contents}</span>
         </div>
+        <PhotoWrapper>{showPhotos()}</PhotoWrapper>
         <ButtonWrapper>
-          <ButtonSimple buttonClickHandler={() => {}}>수정하기</ButtonSimple>
-          <ButtonSimple buttonClickHandler={() => {}}>삭제하기</ButtonSimple>
+          <ButtonSimple
+            buttonClickHandler={() => deleteComments(reviewInfo.id)}
+          >
+            삭제하기
+          </ButtonSimple>
         </ButtonWrapper>
       </ReviewWrapper>
     </Wrapper>

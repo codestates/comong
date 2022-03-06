@@ -31,3 +31,14 @@ export const getComments = async (userid: number) => {
     return result;
   } catch (error) {}
 };
+
+export const deleteComments = async (reviewId: number) => {
+  try {
+    const json = {
+      item_review_id: reviewId,
+    };
+    const response = await apiClient.delete('/comments', { data: json });
+    console.log(response.data);
+    return;
+  } catch (error) {}
+};

@@ -79,7 +79,6 @@ function ReviewPhoto({ fillPostForm }: IReviewPhoto) {
   };
 
   const previewHandler = () => {
-    console.log('length', preview.length);
     return preview.length > 0 ? (
       preview.map((el, idx) => {
         if (idx === preview.length - 1) {
