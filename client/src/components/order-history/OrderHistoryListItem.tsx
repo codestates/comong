@@ -146,6 +146,7 @@ function OrderHistoryListItem({
     order_detail_info: orderInfo,
     shipping_status: shippingInfo,
   } = order;
+  console.log('this', order);
 
   const shippingType: { [key: string]: string } = {
     pending: '결제확인중',
@@ -154,7 +155,7 @@ function OrderHistoryListItem({
   };
   return (
     <Wrapper>
-      <OrderImg src={itemInfo.image_src.split(',')[0]} />
+      <OrderImg src={itemInfo.image_src?.split(',')[0]} />
       <OrderInfo>
         <OrderItemInfo>
           <span className="item__title">{itemInfo.contents}</span>
