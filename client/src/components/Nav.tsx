@@ -3,6 +3,7 @@ import NavSearch from './NavSearch';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useAppSelector } from '../redux/configStore.hooks';
+import NotificationNum from './notifications/NotificationNum';
 
 const NavContainer = styled.div`
   width: 100%;
@@ -52,6 +53,7 @@ const NavMenu = styled.div<{
   mypageColor?: boolean;
   cartColor?: boolean;
 }>`
+  position: relative;
   cursor: pointer;
   margin: 0.5rem;
   font-size: 14px;
@@ -127,12 +129,23 @@ const Nav = () => {
                 : navigate('/login')
             }
           >
-            마이페이지{' '}
+            {isLogin ? '마이페이지' : '로그인'}
           </NavMenu>
           <NavMenu cartColor={cartColor} onClick={() => navigate('/cart')}>
             장바구니{' '}
           </NavMenu>
-          <NavNotification src="/icons/nav/bell.png" />
+          <NavMenu
+            onClick={() =>
+              isLogin
+                ? role === 0
+                  ? navigate('/mypage/notifications')
+                  : navigate('/sellerpage/notifications')
+                : navigate('/login')
+            }
+          >
+            <NavNotification src="/icons/nav/bell.png" />
+            {isLogin && <NotificationNum></NotificationNum>}
+          </NavMenu>
         </NavMenuContainer>
       </NavLinks>
     </NavContainer>

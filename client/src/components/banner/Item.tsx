@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import Banner1 from './bannersrc/Banner1';
 import Banner2 from './bannersrc/Banner2';
-import Banner3 from './bannersrc/Banner3';
 import Slick from './Slick';
 
 interface itemsProps {
