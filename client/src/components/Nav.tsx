@@ -92,6 +92,8 @@ const NavMenu = styled.div<{
   cartColor?: boolean;
 }>`
   cursor: pointer;
+  position: relative;
+
   margin: 0.5rem;
   font-size: 14px;
   font-weight: bold;
@@ -149,7 +151,7 @@ const Nav = () => {
       <NavLinks>
         <LogoWrapper>
           <Logo onClick={() => navigate('/')}>COMONG</Logo>
-          <span>당신의오픈마켓</span>
+          {/* <span>당신의오픈마켓</span> */}
         </LogoWrapper>
         <NavSearch />
         <NavMenuContainer>
@@ -171,7 +173,12 @@ const Nav = () => {
           >
             {isLogin ? '마이페이지' : '로그인'}
           </NavMenu>
-          <NavMenu cartColor={cartColor} onClick={() => navigate('/cart')}>
+          <NavMenu
+            cartColor={cartColor}
+            onClick={() => {
+              if (role !== 1) navigate('/cart');
+            }}
+          >
             장바구니{' '}
           </NavMenu>
           <NavMenu
