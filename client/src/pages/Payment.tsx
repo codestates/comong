@@ -1,34 +1,29 @@
 import styled from 'styled-components';
 import React, { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../redux/configStore.hooks';
-import { getCartAsync, getUsersAsync } from '../redux/modules/cartSlice';
 import type { RootState } from '../redux/configStore';
-import { setTotalPrice } from '../redux/modules/cartSlice';
 import { useNavigate } from 'react-router-dom';
 import { getCartPatchAsync } from '../redux/modules/cartSlice';
-import Destination from '../components/Payment/Destination';
-import OrderCustomer from '../components/Payment/OrderCustomer';
 import OrderInfo from '../components/Payment/OrderInfo';
 import { Form, Input, Button } from 'antd';
 import queryString from 'query-string';
 import { setPaymentInfo } from '../redux/modules/cartSlice';
-import Modal from './Modal';
-import { getEnvironmentData } from 'worker_threads';
 import { setDestinationInfo } from '../redux/modules/cartSlice';
 import { setSubTotalPrice } from '../redux/modules/cartSlice';
 import { PaymentModal } from '../components/Modals/PaymentModal';
+
+import { setLoading } from '../redux/modules/loadingSlice';
 
 const Payment = () => {
   const cartData = useAppSelector((state: RootState) => state);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
   const [isModal, setIsModal] = useState(false);
-
   const isLogin = cartData.userSlice.isLogin;
 
   useEffect(() => {
     dispatch(setSubTotalPrice(['deleteAll']));
+    dispatch(setLoading(false));
     if (!isLogin) navigate('/');
   }, []);
 
@@ -69,6 +64,8 @@ const Payment = () => {
   console.log('orderInfo', orderInfo);
 
   const payHandler = async (values: any) => {
+    console.log('페이핸들러-끝');
+    console.log('페이핸들러-시작');
     if (
       name === '' ||
       tel === '' ||

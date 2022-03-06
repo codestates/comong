@@ -24,6 +24,7 @@ import { LoginNeedModal } from '../components/Modals/LoginNeedModal';
 import Comments from '../components/Comments/Comments';
 import { getCommentAsync } from '../redux/modules/itemSlice';
 import CartList from '../components/cart/CartList';
+import { setLoading } from '../redux/modules/loadingSlice';
 
 const env = 'development';
 const urlConfig = config[env];
@@ -100,11 +101,12 @@ const Post = () => {
       status: 'pending',
       peritem_price: price,
     };
-
     apiClient.post(`${urlConfig.url}/orders/orderdetail`, tmpObj);
   };
 
   const payHandler = async () => {
+    dispatch(setLoading(true));
+
     if (!isLogin) {
       setIsLoginModal(!isLoginModal);
       return;
@@ -117,15 +119,10 @@ const Post = () => {
       status: 'pending',
     };
 
-    console.log(data);
-
     const response = await apiClient.post(
       `${urlConfig.url}/orders/orderdetail`,
       data,
     );
-
-    // console.log('response', response);
-    // console.log('response.data.data.id', response.data.data.id);
 
     const order_id = response.data.data.id;
 
@@ -185,6 +182,12 @@ const Post = () => {
   const commentsNum = 120;
   const rating = 4.7;
   const realStock = 100;
+
+  const modalHandler = () => {
+    setIsModal(!isModal);
+  };
+
+  console.log('isModal', isModal);
 
   return (
     <>
@@ -261,10 +264,18 @@ const Post = () => {
                 </StockAddButton>
               </StockController>
               {isModal ? (
-                <PostModal>장바구니에 상품이 담겼습니다</PostModal>
+                <PostModal
+                  modalHandler={modalHandler}
+                  isModal={isModal}
+                ></PostModal>
               ) : null}
               {isLoginModal ? (
-                <LoginNeedModal>로그인이 필요합니다</LoginNeedModal>
+                <LoginNeedModal
+                  setIsLoginModal={setIsLoginModal}
+                  isLoginModal={isLoginModal}
+                >
+                  로그인이 필요합니다
+                </LoginNeedModal>
               ) : null}
               <ButtonContainer>
                 <CartButton
@@ -319,6 +330,7 @@ const ImgContainer = styled.div`
     flex-direction: column;
     height: 400px;
     width: 100%;
+    max-width: 400px;
   }
 `;
 const MainImgContainer = styled.div`

@@ -4,11 +4,12 @@ import styled from 'styled-components';
 import MainCategories from '../components/maincategory/MainCategory';
 import { LoginNeedModalForList } from '../components/Modals/LoginNeedModalForList';
 import { useState } from 'react';
-import { useAppSelector } from '../redux/configStore.hooks';
+import { useAppDispatch, useAppSelector } from '../redux/configStore.hooks';
 import type { RootState } from '../redux/configStore';
 import CarouselBanner from '../components/CarouselBanner';
 import Slick from '../components/banner/Slick';
 import Item from '../components/banner/Item';
+import { setLoading } from '../redux/modules/loadingSlice';
 
 const ListContainer = styled.div`
   font-family: 'roboto', 'Noto Sans KR';
@@ -20,19 +21,30 @@ type UserProps = {
 };
 
 const List = ({ isSearch }: UserProps) => {
+  const [isModal, setIsModal] = useState(false);
+
+  const dispatch = useAppDispatch();
+  dispatch(setLoading(false));
   const itemData = useAppSelector((state: RootState) => state);
   const isLogin = itemData.userSlice.isLogin;
-  const [isLoginModal, setIsLoginModal] = useState(false);
   const LoginCheck = () => {
-    if (!isLogin) setIsLoginModal(!isLoginModal);
+    if (!isLogin) setIsModal(!isModal);
   };
+
+  const modalHandler = () => {
+    setIsModal(!isModal);
+  };
+  console.log('isModal', isModal);
+
   return (
     <ListContainer>
       {isSearch ? null : <Item></Item>}
-      {isLoginModal ? (
-        <LoginNeedModalForList>로그인이 필요합니다</LoginNeedModalForList>
+      {isModal ? (
+        <LoginNeedModalForList
+          modalHandler={modalHandler}
+          isModal={isModal}
+        ></LoginNeedModalForList>
       ) : null}
-
       {isSearch ? null : <MainCategories></MainCategories>}
       <PostList LoginCheck={LoginCheck}></PostList>
     </ListContainer>

@@ -3,7 +3,9 @@ import NavSearch from './NavSearch';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../redux/configStore.hooks';
+import { NavCartModal } from './Modals/NavCartModal';
 import type { RootState } from '../redux/configStore';
+
 const Nav = () => {
   const navigate = useNavigate();
   const { isLogin, role } = useAppSelector((state) => state.userSlice);
@@ -11,6 +13,7 @@ const Nav = () => {
   const [categoryColor, setCategoryColor] = useState(false);
   const [mypageColor, setMypageColor] = useState(false);
   const [cartColor, setCartColor] = useState(false);
+  const [isModal, setIsModal] = useState(false);
 
   let current = window.location.href.split('/')[3];
 
@@ -31,8 +34,18 @@ const Nav = () => {
     if (current === 'cart') setCartColor(true);
   };
 
+  const modalHandler = () => {
+    setIsModal(!isModal);
+  };
+
   return (
     <NavContainer>
+      {isModal ? (
+        <NavCartModal
+          modalHandler={modalHandler}
+          isModal={isModal}
+        ></NavCartModal>
+      ) : null}
       <NavLinks>
         <Logo onClick={() => navigate('/')}>COMONG</Logo>
         <NavSearch />
@@ -57,7 +70,9 @@ const Nav = () => {
           </NavMenu>
           <NavMenu
             cartColor={cartColor}
-            onClick={() => (isSeller ? navigate('/') : navigate('/cart'))}
+            onClick={() => {
+              isSeller ? setIsModal(!isModal) : navigate('/cart');
+            }}
           >
             장바구니{' '}
           </NavMenu>

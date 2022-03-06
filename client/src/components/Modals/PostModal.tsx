@@ -35,7 +35,6 @@ export const ModalBtn = styled.button`
   text-decoration: none;
   margin: 10px 10px;
   border: none;
-  /* padding: 20px; */
   font-size: 15px;
 
   color: white;
@@ -51,8 +50,6 @@ export const ModalCloseBtn = styled.button`
   text-decoration: none;
   margin: 10px 10px;
   border: none;
-  /* padding: 20px; */
-
   color: white;
   border-radius: 10px;
   width: 40%;
@@ -80,16 +77,13 @@ export const ModalView = styled.div.attrs((props) => ({
   }
 `;
 
-export const PostModal = (props: any) => {
+export const PostModal = ({ isModal, modalHandler }: any) => {
   const [isOpen, setIsOpen] = useState(true);
   const navigate = useNavigate();
   const openModalHandler = () => {
     setIsOpen(!isOpen);
-    props.modalHandler(!isOpen);
-    if (isOpen === false) props.setModalMsg('');
+    modalHandler(!isModal);
   };
-
-  console.log(props.children[0]);
 
   return (
     <>
@@ -97,7 +91,7 @@ export const PostModal = (props: any) => {
         {isOpen === true ? (
           <ModalBackdrop onClick={openModalHandler}>
             <ModalView onClick={(e) => e.stopPropagation()}>
-              <div className="desc">{props.children}</div>
+              <div className="desc">장바구니에 상품이 담겼습니다</div>
               <BtnContainer>
                 <ModalBtn
                   onClick={() => {

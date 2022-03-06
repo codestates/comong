@@ -24,7 +24,11 @@ const CartList = () => {
 
   const dispatch = useAppDispatch();
 
-  let data = cartData.cartSlice.data[0];
+  console.log();
+
+  let data: any[any] = cartData.cartSlice.data
+    ? cartData.cartSlice.data[0]
+    : [];
 
   let list = [];
   let group: string[] = [];

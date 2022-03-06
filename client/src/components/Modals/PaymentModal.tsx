@@ -86,10 +86,7 @@ export const PaymentModal = (props: any) => {
   const openModalHandler = () => {
     setIsOpen(!isOpen);
     props.modalHandler(!isOpen);
-    if (isOpen === false) props.setModalMsg('');
   };
-
-  console.log(props.children[0]);
 
   return (
     <>
