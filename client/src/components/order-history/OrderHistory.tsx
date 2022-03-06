@@ -11,7 +11,6 @@ import OrderHistorySearch from './OrderHistorySearch';
 const OrderHistoryList = styled.ul`
   display: flex;
   flex-direction: column;
-  gap: 20px;
 `;
 
 const NoData = styled.div`
@@ -53,6 +52,7 @@ export interface IOrderData {
     updatedAt: string;
     user_id: number;
   };
+  shipping_status: string;
 }
 
 interface IOrderHistory {

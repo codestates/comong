@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { deleteClientHeadersToken } from '../../apis';
 import { useAppDispatch } from '../../redux/configStore.hooks';
 import { logout } from '../../redux/modules/userSlice';
 import { MenuWrapper, MyMenu } from './NavUser';
@@ -15,6 +16,12 @@ function NavSeller() {
   const getSelectedClass = (path: string) => {
     if (pathname.includes(path)) return 'selected';
     return '';
+  };
+
+  const logoutHandler = () => {
+    dispatch(logout());
+    deleteClientHeadersToken();
+    navigate('/login');
   };
 
   return (
@@ -48,14 +55,7 @@ function NavSeller() {
         <h3>내 정보</h3>
         <ul>
           <li>회원 정보 수정</li>
-          <li
-            onClick={() => {
-              dispatch(logout());
-              navigate('/login');
-            }}
-          >
-            로그아웃
-          </li>
+          <li onClick={logoutHandler}>로그아웃</li>
         </ul>
       </MenuWrapper>
     </Wrapper>

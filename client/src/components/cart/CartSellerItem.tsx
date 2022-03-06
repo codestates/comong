@@ -27,22 +27,13 @@ const CartListItemImageContainer = styled.div`
   }
 `;
 
-const CheckBoxContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`;
-
-const CheckBox = styled.input`
-  width: 20px;
-`;
-
 const CartListItemImage = styled.img`
-  width: 60px;
+  width: 72px;
+  border-radius: 36px;
 `;
 
 const NameAndStockContainer = styled.div`
-  width: 60%;
+  width: 50%;
   @media only screen and (max-width: 1200px) {
   }
   @media only screen and (max-width: 768px) {

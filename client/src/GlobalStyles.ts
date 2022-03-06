@@ -6,6 +6,7 @@ const GlobalStyles = createGlobalStyle`
   
   * {
     box-sizing: border-box;
+    color:${(props) => props.theme.colors.charcol};
   }
 
   main {
@@ -27,7 +28,7 @@ const GlobalStyles = createGlobalStyle`
     font-weight: 600;
 
     @media only screen and (max-width: 768px) {
-      font-size: 24px;
+      font-size: 1.4rem;
     }
   }
 

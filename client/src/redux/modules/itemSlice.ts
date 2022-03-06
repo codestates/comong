@@ -64,7 +64,6 @@ export const getItemAsync = createAsyncThunk(
         data: {},
       },
     );
-
     return response.data;
   },
 );

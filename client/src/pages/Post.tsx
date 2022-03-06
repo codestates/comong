@@ -23,6 +23,8 @@ import { setDelivery } from '../redux/modules/cartSlice';
 import { LoginNeedModal } from '../components/Modals/LoginNeedModal';
 import Comments from '../components/Comments/Comments';
 import { getCommentAsync } from '../redux/modules/itemSlice';
+import CartList from '../components/cart/CartList';
+import { setLoading } from '../redux/modules/loadingSlice';
 
 const env = 'development';
 const urlConfig = config[env];
@@ -41,19 +43,33 @@ const Post = () => {
   const [imgIdx, setImgIdx] = useState(0);
   const [isDetail, setIsDetail] = useState();
   const isLogin = itemData.userSlice.isLogin;
+  const [commentNum, setCommentNum] = useState<number>(0);
 
-  let commentList: any = [];
+  useEffect(() => {
+    let id = itemData.itemSlice.data.id;
+    apiClient
+      .get(`${urlConfig.url}/comments/itemlist?item_id=${postId}`)
+      .then((res) => {
+        if (res.status === 200) {
+          console.log('res.data.data-Post', res.data.data, 'postId', postId);
+          setCommentNum(
+            (JSON.parse(JSON.stringify(res.data.data)) || []).length,
+          );
+        }
+      });
+  }, []);
 
   const user_id = itemData.userSlice.userinfo?.id as number;
 
   let data = itemData.itemSlice.data;
+  console.log('data', data);
   let id = data.id;
   let category = data.category;
   let seller = data.user_storename;
   let title = data.title;
   let contents = data.contents;
   let price = data.price;
-  let img_src = data.image_src.split(',').slice(0, 4);
+  let img_src = data.image_src.split(',').slice(0, 5);
 
   useEffect(() => {
     dispatch(getItemAsync(postId));
@@ -85,14 +101,12 @@ const Post = () => {
       status: 'pending',
       peritem_price: price,
     };
-
-    let response = apiClient.post(
-      `${urlConfig.url}/orders/orderdetail`,
-      tmpObj,
-    );
+    apiClient.post(`${urlConfig.url}/orders/orderdetail`, tmpObj);
   };
 
   const payHandler = async () => {
+    dispatch(setLoading(true));
+
     if (!isLogin) {
       setIsLoginModal(!isLoginModal);
       return;
@@ -105,15 +119,10 @@ const Post = () => {
       status: 'pending',
     };
 
-    console.log(data);
-
     const response = await apiClient.post(
       `${urlConfig.url}/orders/orderdetail`,
       data,
     );
-
-    console.log('response', response);
-    console.log('response.data.data.id', response.data.data.id);
 
     const order_id = response.data.data.id;
 
@@ -169,7 +178,17 @@ const Post = () => {
     else setIsComments(true);
   };
 
-  console.log(commentList);
+  const hearts = 90;
+  const commentsNum = 120;
+  const rating = 4.7;
+  const realStock = 100;
+
+  const modalHandler = () => {
+    setIsModal(!isModal);
+  };
+
+  console.log('isModal', isModal);
+
   return (
     <>
       <Container>
@@ -204,13 +223,13 @@ const Post = () => {
                     contentsHandler('comments');
                   }}
                 >
-                  상품평
+                  상품평 ({commentNum})
                 </ContentsTitle>
               </ContentsTitleContainer>
               <Contentsline />
               <ContentsArea>
                 {isComments ? (
-                  <Comments itemId={id} list={commentList} />
+                  <Comments />
                 ) : (
                   <CoViewer editorState={contents} />
                 )}
@@ -219,8 +238,14 @@ const Post = () => {
             <OrderContainer>
               <Category>{category}</Category>
               <Title>{title}</Title>
+              <HeartsAndCommentsAndRatingContainer>
+                <Hearts>♥&nbsp;{hearts}</Hearts>
+                <CommentsNum>💬&nbsp;{commentsNum}</CommentsNum>
+                <Rating>⭐&nbsp;{rating}</Rating>
+              </HeartsAndCommentsAndRatingContainer>
               <Seller>{seller}</Seller>
               <Price>{(price * stock).toLocaleString('en')}원</Price>
+              <RealStock>잔여재고: {realStock}개</RealStock>
               <StockController>
                 <StockMinusButton
                   onClick={() => {
@@ -239,10 +264,18 @@ const Post = () => {
                 </StockAddButton>
               </StockController>
               {isModal ? (
-                <PostModal>장바구니에 상품이 담겼습니다</PostModal>
+                <PostModal
+                  modalHandler={modalHandler}
+                  isModal={isModal}
+                ></PostModal>
               ) : null}
               {isLoginModal ? (
-                <LoginNeedModal>로그인이 필요합니다</LoginNeedModal>
+                <LoginNeedModal
+                  setIsLoginModal={setIsLoginModal}
+                  isLoginModal={isLoginModal}
+                >
+                  로그인이 필요합니다
+                </LoginNeedModal>
               ) : null}
               <ButtonContainer>
                 <CartButton
@@ -289,17 +322,36 @@ const ImgContainer = styled.div`
   justify-content: center;
   align-items: center;
 
-  width: 100%;
-  max-height: 450px;
-  margin: 40px 0px;
+  width: 700px;
+  height: 500px;
+  @media only screen and (max-width: 1200px) {
+  }
+  @media only screen and (max-width: 768px) {
+    flex-direction: column;
+    height: 400px;
+    width: 100%;
+    max-width: 400px;
+  }
 `;
 const MainImgContainer = styled.div`
-  width: 50%;
-  height: 50%;
+  width: 500px;
+  height: 500px;
+  @media only screen and (max-width: 1200px) {
+  }
+  @media only screen and (max-width: 768px) {
+    height: 330px;
+    width: 100%;
+  }
 `;
 const MainImg = styled.img`
-  width: 90%;
-  max-height: 500px;
+  width: 500px;
+  height: 500px;
+  @media only screen and (max-width: 1200px) {
+  }
+  @media only screen and (max-width: 768px) {
+    height: 330px;
+    width: 100%;
+  }
 `;
 
 const ThumbnailImgContainer = styled.div`
@@ -307,13 +359,30 @@ const ThumbnailImgContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 10%;
-  height: 25%;
+  width: 100px;
+
+  @media only screen and (max-width: 1200px) {
+  }
+  @media only screen and (max-width: 768px) {
+    flex-direction: row;
+    margin-left: 0px;
+    width: 100%;
+  }
 `;
 const ThumbnailImg = styled.img`
-  margin: 10px;
-  width: 100%;
-  max-height: 100px;
+  width: 95px;
+  height: 95px;
+  margin-top: 4.5px;
+  margin-left: 4.5px;
+  @media only screen and (max-width: 1200px) {
+  }
+  @media only screen and (max-width: 768px) {
+    margin-top: 4.5px;
+    margin-left: 0px;
+    margin-right: 4px;
+    width: 20%;
+    height: 70px;
+  }
 `;
 
 const BottomContainer = styled.div`
@@ -361,7 +430,7 @@ const ContentsTitle = styled.span`
 `;
 const ContentsArea = styled.div`
   background-color: white;
-  height: 2000px;
+  height: 1000px;
   margin: 20px 30px;
 `;
 
@@ -370,19 +439,19 @@ const OrderContainer = styled.div`
   font-weight: 700;
   width: 30%;
   position: sticky;
-  height: 450px;
+  height: 520px;
   top: 64px;
   background-color: white;
   display: flex;
   flex-direction: column;
   padding: 20px;
   justify-content: center;
-  box-shadow: 0px 0px 12px ${(props) => props.theme.colors.whiteForShadow};
+  box-shadow: 0px 0px 9px #eeeeee;
   border-radius: 5px;
   @media only screen and (max-width: 1200px) {
     bottom: 0px;
     width: 100%;
-    height: 280px;
+    height: 200px;
   }
   @media only screen and (max-width: 768px) {
   }
@@ -409,8 +478,44 @@ const Title = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   word-wrap: break-word;
-  height: 30px;
+  height: 52px;
   line-height: 27px;
+  @media only screen and (max-width: 1200px) {
+    display: none;
+  }
+  @media only screen and (max-width: 768px) {
+  }
+`;
+
+const HeartsAndCommentsAndRatingContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  font-family: 'roboto', 'Noto Sans KR';
+  font-size: 12px;
+  color: gray;
+  font-weight: 500;
+  margin-bottom: 10px;
+  @media only screen and (max-width: 1200px) {
+    display: none;
+  }
+  @media only screen and (max-width: 768px) {
+  }
+`;
+const Hearts = styled.div`
+  font-size: 15px;
+  color: transparent; /* 기존 이모지 컬러 제거 */
+  /* text-shadow: 0 0 0 ${(props) => props.theme.colors.pink}; */
+  text-shadow: 0 0 0 ${(props) => props.theme.colors.purple};
+`;
+const CommentsNum = styled.div`
+  margin-left: 12px;
+  font-size: 15px;
+`;
+const Rating = styled.div`
+  margin-left: 10px;
+  font-size: 15px;
+  color: transparent; /* 기존 이모지 컬러 제거 */
+  text-shadow: 0 0 0 ${(props) => props.theme.colors.accentColor}; /* 새 이모지 색상 부여 */
 `;
 
 const Seller = styled.div`
@@ -424,6 +529,19 @@ const Seller = styled.div`
   @media only screen and (max-width: 768px) {
   }
 `;
+
+const RealStock = styled.div`
+  color: ${(props) => props.theme.colors.accentColor};
+  font-weight: 300;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  @media only screen and (max-width: 1200px) {
+    display: none;
+  }
+  @media only screen and (max-width: 768px) {
+  }
+`;
+
 const Price = styled.div`
   margin-top: 20px;
   margin-bottom: 5px;
@@ -431,6 +549,7 @@ const Price = styled.div`
   font-weight: 700;
   font-size: 27px;
 `;
+
 const StockController = styled.div`
   display: flex;
   align-items: center;

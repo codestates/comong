@@ -160,16 +160,15 @@ export const ModalView = styled.div.attrs((props) => ({
 //   }
 // `;
 
-export const LoginNeedModalForList = (props: any) => {
+export const LoginNeedModalForList = ({ isModal, modalHandler }: any) => {
   const [isOpen, setIsOpen] = useState(true);
   const navigate = useNavigate();
   const openModalHandler = () => {
     setIsOpen(!isOpen);
+    modalHandler(!isModal);
     // props.modalHandler(!isOpen);
     // if (isOpen === false) props.setModalMsg('');
   };
-
-  console.log(props.children[0]);
 
   return (
     <>
@@ -182,7 +181,7 @@ export const LoginNeedModalForList = (props: any) => {
                 e.preventDefault();
               }}
             >
-              <div className="desc">{props.children}</div>
+              <div className="desc">로그인이 필요합니다</div>
               <BtnContainer>
                 <ModalBtn
                   onClick={() => {

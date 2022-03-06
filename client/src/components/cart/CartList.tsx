@@ -24,15 +24,11 @@ const CartList = () => {
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    getData();
-  }, []);
+  console.log();
 
-  const getData = () => {
-    dispatch(getCartAsync());
-  };
-
-  let data = cartData.cartSlice.data[0];
+  let data: any[any] = cartData.cartSlice.data
+    ? cartData.cartSlice.data[0]
+    : [];
 
   let list = [];
   let group: string[] = [];

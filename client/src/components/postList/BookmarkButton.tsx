@@ -23,7 +23,7 @@ const Wrapper = styled.div`
   border-radius: 8px;
   /* right: 100px;
   bottom: 10px; */
-  /* z-index: -1; */
+  z-index: 0;
 
   &.selected {
     /* border: 1px solid #dd576f; */

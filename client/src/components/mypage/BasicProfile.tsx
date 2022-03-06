@@ -1,11 +1,17 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
+import { getCloudUrl } from '../../apis/api/items';
 import { useAppSelector } from '../../redux/configStore.hooks';
 import ButtonBasic from '../common/button/ButtonBasic';
 
 const Wrapper = styled.div`
   height: 250px;
   padding-top: 20px;
+  margin-bottom: 10px;
+
+  @media only screen and (max-width: 1200px) {
+    margin-bottom: 1rem;
+  }
 
   @media only screen and (max-width: 768px) {
     height: 150px;
@@ -32,6 +38,10 @@ const PhotoWrapper = styled.div`
   border-radius: 50%;
   overflow: hidden;
   position: relative;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
 
   @media only screen and (max-width: 768px) {
     height: 100px;
@@ -39,16 +49,20 @@ const PhotoWrapper = styled.div`
   }
 
   img {
-    width: 100%;
+    width: 150%;
     height: 100%;
+  }
+  & > input {
+    display: none;
   }
 `;
 
 const EditBtn = styled.div`
   width: 100%;
-  height: 22%;
+  height: 24%;
   padding-top: 6px;
-  background-color: ${(props) => props.theme.colors.accentColor};
+  background-color: ${(props) => props.theme.colors.charcol};
+  opacity: 0.7;
   display: flex;
   justify-content: center;
   position: absolute;
@@ -56,16 +70,24 @@ const EditBtn = styled.div`
   color: white;
   font-weight: 400;
   transform: translateY(30px);
+  transition: all 0.5s;
+
+  img {
+    width: 1rem;
+    height: 1rem;
+  }
 
   ${PhotoWrapper}:hover & {
     cursor: pointer;
     transform: translateY(0px);
-    transition: transform 0.5s;
+  }
+  &:hover {
+    opacity: 1;
   }
 `;
 
 const EditConfirmBtn = styled(EditBtn)`
-  background-color: red;
+  background-color: ${(props) => props.theme.colors.accentColorLight};
   transform: translateY(0px);
 `;
 
@@ -73,14 +95,15 @@ const ProfileInfoWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  padding: 0 25px;
-
-  div.userinfo {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
+  gap: 4px;
+  padding: 0 4px;
+  @media only screen and (max-width: 1200px) {
+    padding: 0 1rem;
+    gap: 0.5rem;
+  }
+  @media only screen and (max-width: 768px) {
+    padding: 0 1rem;
+    gap: 0.5rem;
   }
 `;
 
@@ -111,23 +134,35 @@ function BasicProfile() {
 
   const editProfile = (e: React.MouseEvent) => {
     console.log(fileRef);
-    setIsEdtiting(true);
     fileRef.current?.click();
   };
 
-  const previewUploader = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.dir(e.target);
-    //    const uploadFile = e.target.files[0];
-    //  console.log(uploadFile);
-    //getCloudUrl(uploadFile);
-    //setIsImgLoading(true);
+  const previewUploader = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      const uploadFile = e.currentTarget.files?.[0];
+      const data = uploadFile && (await getCloudUrl(uploadFile));
+
+      // await getCloudUrl(async (prevTask, currTask) => {
+      //   await prevTask;
+      //   return handleTask(currTask)
+      // }, Promise.resolve());
+
+      //setIsImgLoading(true);
+      setPreview(data[0]);
+      setIsEdtiting(true); //업로드 완료 되고 나서로 위치 이동
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <Wrapper>
       <ProfilPhotoWrapper>
         <PhotoWrapper>
-          <img src="./img/profile.jpeg" onClick={editProfile} />
+          <img
+            src={preview || 'icons/post/emptyPerson.png'}
+            onClick={editProfile}
+          />
           {isEditing ? (
             <EditConfirmBtn
               onClick={(e) => {
@@ -135,11 +170,11 @@ function BasicProfile() {
                 setIsEdtiting(false);
               }}
             >
-              등록
+              <img src="img/checked.png" />
             </EditConfirmBtn>
           ) : (
             <EditBtn onClick={editProfile} className={isEditing ? 'edit' : ''}>
-              편집하기
+              {/* 이미지 넣을 자리 */}
             </EditBtn>
           )}
           <input
@@ -151,10 +186,8 @@ function BasicProfile() {
         </PhotoWrapper>
       </ProfilPhotoWrapper>
       <ProfileInfoWrapper>
-        <div className="userinfo">
-          <UserName>{userinfo?.name}</UserName>
-          <UserType>{role === 0 ? '일반회원' : '판매회원'}</UserType>
-        </div>
+        <UserName>{userinfo?.name}</UserName>
+        <UserType>{role === 0 ? '일반회원' : '판매회원'}</UserType>
         <UserEmail>{userinfo?.email}</UserEmail>
       </ProfileInfoWrapper>
     </Wrapper>

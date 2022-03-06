@@ -9,10 +9,26 @@ const Wrapper = styled.div`
   height: 60px;
   margin: 40px 0;
   background-color: ${(props) => props.theme.colors.lightGrey};
+  border-radius: 0.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 30px;
+
+  @media only screen and (max-width: 768px) {
+    height: 60px;
+    margin: 1rem 0;
+    gap: 1rem;
+    select {
+      width: 15%;
+    }
+  }
+`;
+
+const PeriodWrapper = styled.div`
+  width: 50%;
+  display: flex;
+  gap: 0.5rem;
 `;
 
 interface IOrderHistorySearch {
@@ -41,16 +57,16 @@ function OrderHistorySearch({ setOrderData }: IOrderHistorySearch) {
     <Wrapper>
       <select name="shipping_status" onChange={fillSearchForm}>
         <option value="">전체</option>
-        <option value="pick-up available">픽업 가능</option>
-        <option value="processing">배송 대기 중</option>
+        <option value="pending">결제 확인 중</option>
+        <option value="processing">배송 준비 중</option>
         <option value="intransit">배송 중</option>
         <option value="delivered">배송 완료</option>
-        <option value="canceled">취소</option>
-        <option value="returned">환불</option>
       </select>
-      <input name="start" type="date" onChange={fillSearchForm} />
-      <span>~</span>
-      <input name="end" type="date" onChange={fillSearchForm} />
+      <PeriodWrapper>
+        <input name="start" type="date" onChange={fillSearchForm} />
+        <span>~</span>
+        <input name="end" type="date" onChange={fillSearchForm} />
+      </PeriodWrapper>
       <ButtonBasic
         type="extraSmall"
         buttonClickHandler={searchOrderHistoryList}

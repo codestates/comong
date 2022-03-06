@@ -1,3 +1,4 @@
+import { SizeProp } from '@fortawesome/fontawesome-svg-core';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
@@ -18,9 +19,10 @@ const Stars = styled.div`
 interface IStarRatings {
   fillPostForm?: (data: IPostCommentFormPartial) => void;
   score?: number;
+  size?: SizeProp;
 }
 
-function StarRatings({ fillPostForm, score = 0 }: IStarRatings) {
+function StarRatings({ fillPostForm, score = 0, size }: IStarRatings) {
   const [rate, setRate] = useState(score);
 
   const makeStars = (num: number) => {
@@ -30,7 +32,7 @@ function StarRatings({ fillPostForm, score = 0 }: IStarRatings) {
         <FontAwesomeIcon
           key={i}
           icon={faStar}
-          size={score ? '1x' : '2x'}
+          size={size ? size : '1x'}
           color={rate >= i ? 'red' : '#B8B8B8'}
           onClick={() => {
             fillPostForm && setRate(i);
