@@ -1,6 +1,3 @@
-Welcome to the comong wiki!
-
-
 # 프로젝트 소개
 
 ## LOGO
