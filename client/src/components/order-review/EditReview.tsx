@@ -110,7 +110,7 @@ function EditReview({ setShowEdit, order }: IEditReview) {
     <Wrapper>
       <RatingsWrapper>
         <span>상품은 만족하셨나요?</span>
-        <StarRatings fillPostForm={fillPostForm} size="lg"></StarRatings>
+        <StarRatings fillPostForm={fillPostForm} size="2rem"></StarRatings>
       </RatingsWrapper>
       <TextWrapper>
         <span>어떤 점이 좋았나요?</span>
@@ -126,7 +126,8 @@ function EditReview({ setShowEdit, order }: IEditReview) {
         </ButtonBasic>
         <ButtonBasic
           type="extraSmall"
-          lightStyle={true}
+          backColor="white"
+          textColor="black"
           buttonClickHandler={() => setShowEdit(false)}
         >
           취소

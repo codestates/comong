@@ -1,17 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Button = styled.button<{ lightStyle: boolean; backColor: string }>`
+const Button = styled.button<{
+  backColor: string;
+  textColor: string;
+}>`
   width: 100%;
   height: 55px;
   background-color: ${(props) =>
     props.backColor ? props.backColor : props.theme.colors.accentColor};
-  font-size: ${(props) => (props.lightStyle ? '16px' : '18px')};
   font-weight: 400;
   color: ${(props) =>
-    props.lightStyle
-      ? props.theme.colors.textColor
-      : props.theme.colors.bgColor};
+    props.textColor ? props.textColor : props.theme.colors.bgColor};
+  border: 1px solid ${(props) => props.theme.colors.accentColor};
   border-radius: 4px;
   font-family: 'roboto', 'Noto Sans KR';
 
@@ -50,21 +51,22 @@ interface ButtonBasicProps {
   children: string;
   lightStyle?: boolean;
   backColor?: string;
+  textColor?: string;
 }
 
 function ButtonBasic({
   type,
   buttonClickHandler,
   children,
-  lightStyle,
   backColor,
+  textColor,
 }: ButtonBasicProps) {
   return (
     <Button
       className={type}
       onClick={buttonClickHandler}
-      lightStyle={lightStyle || false}
       backColor={backColor!}
+      textColor={textColor!}
     >
       {children}
     </Button>
