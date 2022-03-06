@@ -4,6 +4,7 @@ import userSlice from './modules/userSlice';
 import itemSlice from './modules/itemSlice';
 import cartSlice from './modules/cartSlice';
 import editorSlice from './modules/editorSlice';
+import loadingSlice from './modules/loadingSlice';
 import { configureStore } from '@reduxjs/toolkit';
 
 const store = configureStore({
@@ -14,6 +15,7 @@ const store = configureStore({
     itemSlice,
     cartSlice,
     editorSlice,
+    loadingSlice,
   },
 });
 

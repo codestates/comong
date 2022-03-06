@@ -80,16 +80,13 @@ export const ModalView = styled.div.attrs((props) => ({
   }
 `;
 
-export const CartModal = (props: any) => {
+export const CartModal = ({ isModal, modalHandler }: any) => {
   const [isOpen, setIsOpen] = useState(true);
   const navigate = useNavigate();
   const openModalHandler = () => {
     setIsOpen(!isOpen);
-    props.modalHandler(!isOpen);
-    if (isOpen === false) props.setModalMsg('');
+    modalHandler(!isModal);
   };
-
-  console.log(props.children[0]);
 
   return (
     <>
@@ -97,7 +94,7 @@ export const CartModal = (props: any) => {
         {isOpen === true ? (
           <ModalBackdrop onClick={openModalHandler}>
             <ModalView onClick={(e) => e.stopPropagation()}>
-              <div className="desc">{props.children}</div>
+              <div className="desc">장바구니에 상품이 없습니다</div>
               <BtnContainer>
                 <ModalBtn
                   onClick={() => {

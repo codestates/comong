@@ -5,18 +5,10 @@ import { Provider } from 'react-redux';
 import store from './redux/configStore';
 import { ThemeProvider } from 'styled-components';
 import { theme } from './theme';
-import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 
-export function ScrollToTop() {
-  const { pathname } = useLocation();
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
-
-  return null;
-}
+import { LoadingIndicator } from './constants';
+import { useAppDispatch, useAppSelector } from './redux/configStore.hooks';
+import type { RootState } from './redux/configStore';
 
 ReactDOM.render(
   <React.StrictMode>

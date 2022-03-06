@@ -13,7 +13,7 @@ import Nav from './components/Nav';
 import MobileNav from './components/MobileNav';
 import Post from './pages/Post';
 import Payment from './pages/Payment';
-import { useAppSelector } from './redux/configStore.hooks';
+
 import Mypage from './pages/mypage/Mypage';
 import MypageUserDefault from './pages/mypage/mypage_user/MypageUserDefault';
 import UserOrderHistory from './pages/mypage/mypage_user/UserOrderHistory';
@@ -24,11 +24,37 @@ import MypageSellerItems from './pages/mypage/mypage_seller/MypageSellerItems';
 import Notifications from './pages/Notifications';
 import PrivateRoute from './components/common/PrivateRoute';
 import PaymentResult from './pages/PaymentResult';
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import { LoadingIndicator } from './constants';
+import { useAppDispatch, useAppSelector } from './redux/configStore.hooks';
+import type { RootState } from './redux/configStore';
+
+export function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
 
 function Routers() {
+
+  const { role } = useAppSelector((state) => state.userSlice);
+
+  const data = useAppSelector((state: RootState) => state);
+  const dispatch = useAppDispatch();
+  const isLoading = data.loadingSlice.isLoading;
+
+  console.log('isLoading', isLoading);
+
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Nav></Nav>
+      {isLoading ? <LoadingIndicator /> : null}
       <Routes>
         <Route path="/" element={<List />}></Route>
         <Route path="/item/:id" element={<Post />}></Route>

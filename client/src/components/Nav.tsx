@@ -2,7 +2,9 @@ import styled, { keyframes } from 'styled-components';
 import NavSearch from './NavSearch';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { useAppSelector } from '../redux/configStore.hooks';
+import { useAppDispatch, useAppSelector } from '../redux/configStore.hooks';
+import { NavCartModal } from './Modals/NavCartModal';
+import type { RootState } from '../redux/configStore';
 import NotificationNum from './notifications/NotificationNum';
 
 const NavContainer = styled.div`
@@ -89,7 +91,6 @@ const NavMenu = styled.div<{
   mypageColor?: boolean;
   cartColor?: boolean;
 }>`
-  position: relative;
   cursor: pointer;
   margin: 0.5rem;
   font-size: 14px;
