@@ -15,11 +15,16 @@ const Title = styled.span`
 `;
 
 export const Input = styled.input`
-  height: 45px;
+  height: 50px;
   padding: 1rem;
   margin-bottom: 8px;
   border-radius: 5px;
-  border: 1px solid ${(props) => props.theme.colors.textColor};
+  border: 2px solid ${(props) => props.theme.colors.lightGrey};
+  font-size: 0.9rem;
+
+  &::placeholder {
+    color: ${(props) => props.theme.colors.darkGrey};
+  }
 
   @media only screen and (max-width: 768px) {
     height: 40px;

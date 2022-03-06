@@ -1,22 +1,25 @@
 import React, { useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { setClientHeadersToken } from '../../apis';
 import { socket } from '../../App';
-import { useAppDispatch, useAppSelector } from '../../redux/configStore.hooks';
+import { useAppDispatch } from '../../redux/configStore.hooks';
 import { postSigninAsync } from '../../redux/modules/userSlice';
 import ButtonBasic from '../common/button/ButtonBasic';
 import ErrorMessage from '../Input/ErrorMessage';
 import { Input } from '../Input/InputBasic';
 
 const FormWrapper = styled.form`
-  margin: 10px 0 30px 0;
-  height: 200px;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  gap: 0.5rem;
 
-  @media only screen and (max-width: 768px) {
-    margin-bottom: 10px;
+  div.wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
   }
 `;
 
@@ -33,7 +36,6 @@ function LoginForm() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [message, setMessage] = useState('');
-  const { userinfo } = useAppSelector((state) => state.userSlice);
 
   const fillLoginForm = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
@@ -41,11 +43,7 @@ function LoginForm() {
   };
 
   const joinRoom = async (room: string) => {
-    console.log('hi');
     socket.emit('join_room', room);
-    socket.on('joinedRoom', (data) => {
-      console.log('방에 들어간거 확인', data);
-    });
     socket.on('notificationToClient', (data) => {
       console.log('이벤트 발생 시', data);
     });
@@ -58,6 +56,7 @@ function LoginForm() {
       const response = await dispatch(postSigninAsync(form)).unwrap();
       const room = `${response.user.id}#appNotice`;
       joinRoom(room!);
+      setClientHeadersToken(response.accessToken);
       navigate('/');
     } catch (error) {
       setMessage('아이디 혹은 비밀번호를 확인해 주세요');
@@ -67,13 +66,20 @@ function LoginForm() {
 
   return (
     <FormWrapper>
-      <Input name="email" placeholder="이메일" onChange={fillLoginForm}></Input>
-      <Input
-        name="password"
-        placeholder="비밀번호"
-        onChange={fillLoginForm}
-      ></Input>
-      <ErrorMessage>{message}</ErrorMessage>
+      <div className="wrapper">
+        <Input
+          name="email"
+          placeholder="이메일"
+          onChange={fillLoginForm}
+        ></Input>
+        <Input
+          name="password"
+          placeholder="비밀번호"
+          type="password"
+          onChange={fillLoginForm}
+        ></Input>
+        <ErrorMessage>{message}</ErrorMessage>
+      </div>
       <ButtonBasic
         buttonClickHandler={(e) => {
           e.preventDefault();

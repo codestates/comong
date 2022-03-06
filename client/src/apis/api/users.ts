@@ -32,6 +32,7 @@ export const patchUsers = async (form: IJoinPartial) => {
     const reqForm = { ...form, likes: JSON.stringify(form.likes) };
     console.log(reqForm);
     const data = await apiClient.patch('/users', reqForm);
+    console.log(data);
     return { statusCode: data.status, ...data };
   } catch (error) {
     const err = error as AxiosError;

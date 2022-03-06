@@ -28,6 +28,10 @@ const PhotoInput = styled.div`
   span {
     margin-left: 8px;
   }
+  @media only screen and (max-width: 768px) {
+    height: 2.5rem;
+    font-size: 1rem;
+  }
 `;
 
 const Input = styled.input`

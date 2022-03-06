@@ -16,6 +16,9 @@ const Wrapper = styled.li`
   align-items: center;
   gap: 2rem;
   position: relative;
+  @media only screen and (max-width: 768px) {
+    padding: 1rem;
+  }
 
   &.highlight {
     background-color: #fcf8e7;
@@ -77,6 +80,7 @@ function NotificationListItem({ info, type }: INotificationListItem) {
     processing: '배송 준비중입니다.',
     intransit: '배송이 시작되었습니다.',
   };
+
   return (
     <Wrapper
       onClick={() => {
@@ -90,13 +94,15 @@ function NotificationListItem({ info, type }: INotificationListItem) {
       }}
       className={isRead ? '' : 'highlight'}
     >
-      <img src={info.itemInfo[0].image_src} />
+      <img src={info.itemInfo[0].image_src?.split(',')[0]} />
       <div>
         <img className="close" src="/img/close.png" />
         <span className="noti-item">{info.itemInfo[0].title}</span>
         <span className="noti-message">{showNotificationByType[type]}</span>
         <span className="noti-date">
-          {info.updatedAt ? info.updatedAt : info.data.updatedAt}
+          {info.updatedAt
+            ? info.updatedAt.split('T')[0]
+            : info.data.updatedAt.split('T')[0]}
         </span>
       </div>
     </Wrapper>

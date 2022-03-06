@@ -2,6 +2,7 @@ import { RecordWithTtl } from 'dns';
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { deleteClientHeadersToken } from '../../apis';
 import { useAppDispatch } from '../../redux/configStore.hooks';
 import { logout } from '../../redux/modules/userSlice';
 import DeleteUserModalContent from '../common/modal/DeleteUserModalContent';
@@ -26,6 +27,9 @@ export const MenuWrapper = styled.div`
   h3 {
     font-size: 20px;
     font-weight: 700;
+    @media only screen and (max-width: 1200px) {
+      font-size: 1.1rem;
+    }
   }
 
   ul {
@@ -35,6 +39,9 @@ export const MenuWrapper = styled.div`
   li {
     font-size: 16px;
     margin-bottom: 15px;
+    @media only screen and (max-width: 1200px) {
+      font-size: 0.9rem;
+    }
 
     &:hover {
       color: ${(props) => props.theme.colors.accentColor};
@@ -56,6 +63,12 @@ function NavUser() {
   const getSelectedClass = (path: string) => {
     if (pathname.includes(path)) return 'selected';
     return '';
+  };
+
+  const logoutHandler = () => {
+    dispatch(logout());
+    deleteClientHeadersToken();
+    navigate('/login');
   };
 
   return (
@@ -89,14 +102,7 @@ function NavUser() {
           <Link to="/mypage/modifyInfo">
             <li className={getSelectedClass('modifyInfo')}>회원 정보 수정</li>
           </Link>
-          <li
-            onClick={() => {
-              dispatch(logout());
-              navigate('/login');
-            }}
-          >
-            로그아웃
-          </li>
+          <li onClick={logoutHandler}>로그아웃</li>
           <li
             onClick={() => {
               setShowModal(true);

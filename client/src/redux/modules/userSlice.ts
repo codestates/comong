@@ -1,6 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { idText } from 'typescript';
-import { apiClient } from '../../apis';
+import {
+  apiClient,
+  deleteClientHeadersToken,
+  setClientHeadersToken,
+} from '../../apis';
 import { ILoginForm } from '../../components/form/LoginForm';
 import {
   IItem,
@@ -83,9 +87,6 @@ const userSlice = createSlice({
       );
       delete user.category_has_users;
       const userinfo = { ...user, likes, bookmarks };
-      apiClient.defaults.headers.common[
-        'Authorization'
-      ] = `bearer ${accessToken}`;
       return {
         isLogin: true,
         accessToken,
@@ -140,6 +141,7 @@ export const postSigninAsync = createAsyncThunk(
       )
     ).data;
     console.log('noti', notification);
+    console.log(response.data);
     const newNotification = notification.data.map(
       (obj: {
         id: number;
