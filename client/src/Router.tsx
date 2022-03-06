@@ -21,6 +21,8 @@ import MypageBookmarks from './pages/mypage/mypage_user/MypageBookmarks';
 import MypageReviews from './pages/mypage/mypage_user/MypageReviews';
 import MypageSellerDefault from './pages/mypage/mypage_seller/MypageSellerDefault';
 import MypageSellerItems from './pages/mypage/mypage_seller/MypageSellerItems';
+import Notifications from './pages/Notifications';
+import PrivateRoute from './components/common/PrivateRoute';
 import PaymentResult from './pages/PaymentResult';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -39,6 +41,7 @@ export function ScrollToTop() {
 }
 
 function Routers() {
+
   const { role } = useAppSelector((state) => state.userSlice);
 
   const data = useAppSelector((state: RootState) => state);
@@ -56,7 +59,6 @@ function Routers() {
         <Route path="/" element={<List />}></Route>
         <Route path="/item/:id" element={<Post />}></Route>
         <Route path="/search" element={<Search />}></Route>
-        <Route path="/cart" element={<Cart />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/join/*" element={<Join />}>
           <Route path="" element={<GeneralJoin />}></Route>
@@ -64,19 +66,31 @@ function Routers() {
           <Route path="oauth" element={<OauthGeneralJoin />}></Route>
           <Route path="oauth/seller" element={<OauthSellerJoin />}></Route>
         </Route>
-        <Route path="mypage/*" element={<Mypage />}>
-          <Route path="" element={<MypageUserDefault />}></Route>
-          <Route path="userOrderHistory" element={<UserOrderHistory />}></Route>
-          <Route path="reviews" element={<MypageReviews />}></Route>
-          <Route path="bookmarks" element={<MypageBookmarks />}></Route>
-          <Route path="modifyInfo" element={<GeneralJoin />}></Route>
+        <Route path="/*" element={<PrivateRoute />}>
+          <Route path="cart" element={<Cart />}></Route>
+          <Route path="payment" element={<Payment />}></Route>
+          <Route path="paymentresult" element={<PaymentResult />}></Route>
         </Route>
-        <Route path="sellerpage/*" element={<Mypage />}>
-          <Route path="" element={<MypageSellerDefault />}></Route>
-          <Route path="itemlist" element={<MypageSellerItems />}></Route>
+        <Route path="mypage/*" element={<PrivateRoute />}>
+          <Route path="" element={<Mypage />}>
+            <Route path="" element={<MypageUserDefault />}></Route>
+            <Route
+              path="userOrderHistory"
+              element={<UserOrderHistory />}
+            ></Route>
+            <Route path="reviews" element={<MypageReviews />}></Route>
+            <Route path="bookmarks" element={<MypageBookmarks />}></Route>
+            <Route path="modifyInfo" element={<GeneralJoin />}></Route>
+            <Route path="notifications" element={<Notifications />}></Route>
+          </Route>
         </Route>
-        <Route path="/payment" element={<Payment />}></Route>
-        <Route path="/paymentresult" element={<PaymentResult />}></Route>
+        <Route path="sellerpage/*" element={<PrivateRoute />}>
+          <Route path="" element={<Mypage />}>
+            <Route path="" element={<MypageSellerDefault />}></Route>
+            <Route path="itemlist" element={<MypageSellerItems />}></Route>
+            <Route path="notifications" element={<Notifications />}></Route>
+          </Route>
+        </Route>
       </Routes>
       <MobileNav></MobileNav>
     </BrowserRouter>

@@ -1,8 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { stat } from 'fs';
+import { idText } from 'typescript';
 import { apiClient } from '../../apis';
 import { ILoginForm } from '../../components/form/LoginForm';
-import { useAppSelector } from '../configStore.hooks';
+import {
+  IItem,
+  IItemPartial,
+} from '../../pages/mypage/mypage_user/MypageBookmarks';
 
 // !TODO 타입 다시 확인하기
 interface IUserInfo {
@@ -19,11 +22,25 @@ interface IUserInfo {
   bookmarks: number[];
 }
 
+export interface INotification {
+  id: number;
+  updatedAt: string;
+  read: boolean;
+  data: {
+    order_id: string;
+    shipping_status: string;
+    status: string;
+    updatedAt: string;
+  };
+  itemInfo: IItemPartial[];
+}
+
 export interface IUser {
   isLogin: boolean;
   accessToken?: string;
   role?: number;
   userinfo?: IUserInfo;
+  notification?: INotification[];
 }
 
 const initialState: IUser = {
@@ -40,13 +57,22 @@ const userSlice = createSlice({
       delete state.role;
       delete state.userinfo;
     },
+    addNotification: (state, action) => {
+      console.log(action.payload);
+      const prevNotification = state.notification;
+      state.notification = prevNotification && [
+        ...prevNotification,
+        action.payload,
+      ];
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(postSigninAsync.fulfilled, (state, action) => {
       console.log(
         '1에서 수행한게 승인되면 여기로 옴, 1에서 리턴받은 데이터가 action.payload로 들어옴',
       );
-      const { accessToken, user } = action.payload;
+      console.log(action.payload);
+      const { accessToken, user, notification } = action.payload;
       const likes = Array.isArray(user.category_has_users)
         ? user.category_has_users.map(
             (el: { category_id: number }) => el.category_id,
@@ -60,7 +86,13 @@ const userSlice = createSlice({
       apiClient.defaults.headers.common[
         'Authorization'
       ] = `bearer ${accessToken}`;
-      return { isLogin: true, accessToken, role: user.role, userinfo };
+      return {
+        isLogin: true,
+        accessToken,
+        role: user.role,
+        userinfo,
+        notification,
+      };
     });
 
     builder.addCase(postSigninAsync.rejected, (state, action) => {
@@ -79,20 +111,58 @@ const userSlice = createSlice({
             : [...bookmarks.slice(0, marked), ...bookmarks.slice(marked + 1)];
       }
     });
+
+    builder.addCase(patchUserNotificationAsync.fulfilled, (state, action) => {
+      console.log(state.notification);
+      console.log('notiId', action.payload);
+      if (!!state.notification) {
+        console.log('hi');
+        const notis = state.notification;
+        const notiIdx = notis.findIndex((noti) => noti.id === action.payload);
+        state.notification = [
+          ...notis.slice(0, notiIdx),
+          { ...notis[notiIdx], read: true },
+          ...notis.slice(notiIdx + 1),
+        ];
+      }
+    });
   },
 });
 
 export const postSigninAsync = createAsyncThunk(
-  'LOGIN_USER',
+  'post/login',
   async (form: ILoginForm) => {
     console.log('1번, 여기서 비동기 작업하고 data 리턴');
     const response = await apiClient.post(`/users/signin`, form);
-    return response.data;
+    const notification = (
+      await apiClient.get(
+        `/users/notification?user_id=${response.data.user.id}`,
+      )
+    ).data;
+    console.log('noti', notification);
+    const newNotification = notification.data.map(
+      (obj: {
+        id: number;
+        updatedAt: string;
+        read: number;
+        contents: string;
+      }) => {
+        const newContents = {
+          id: obj.id,
+          updatedAt: obj.updatedAt,
+          read: obj.read === 0 ? false : true,
+          ...JSON.parse(obj.contents),
+        };
+        return newContents;
+      },
+    );
+    const data = { ...response.data, notification: newNotification.reverse() };
+    return data;
   },
 );
 
 export const postBookmarkAsync = createAsyncThunk(
-  'bookmark/post',
+  'post/bookmark',
   async (body: { user_id: number; item_id: number; ismarked: boolean }) => {
     const response = await apiClient.post('/items/bookmark', body);
     console.log(response);
@@ -100,5 +170,17 @@ export const postBookmarkAsync = createAsyncThunk(
   },
 );
 
-export const { logout } = userSlice.actions;
+export const patchUserNotificationAsync = createAsyncThunk(
+  'patch/notification',
+  async ({ userId, notiId }: { userId: number; notiId: number }) => {
+    const response = await apiClient.patch(
+      `/users/notification?user_id=${userId}`,
+      { notification_id: notiId, read: 1 },
+    );
+    console.log(response.data);
+    return notiId;
+  },
+);
+
+export const { logout, addNotification } = userSlice.actions;
 export default userSlice.reducer;

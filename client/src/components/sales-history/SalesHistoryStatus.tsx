@@ -46,6 +46,7 @@ function SalesHistoryStatus({
 
   const payload: IPatchOrderParams = {
     order_id: orderInfo.id,
+    status: 'paid',
     shipping_status: orderInfo.shipping_status,
   };
 
