@@ -1,7 +1,10 @@
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import ButtonBasic from '../components/common/button/ButtonBasic';
+import Modal from '../components/common/modal/Modal';
+import TestLoginModalContainer from '../components/common/modal/TestLoginModalContainer';
 import LoginForm from '../components/form/LoginForm';
 import OauthButton from '../components/OauthButton';
 import { useAppSelector } from '../redux/configStore.hooks';
@@ -79,6 +82,7 @@ function Login() {
   const dispatch = useDispatch();
   const { isLogin } = useAppSelector((state) => state.userSlice);
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
 
   return isLogin ? (
     <Main>
@@ -95,7 +99,12 @@ function Login() {
       </LogoWrapper>
       <LoginForm></LoginForm>
       <ButtonWrapper>
-        <ButtonBasic backColor="#fc6621" buttonClickHandler={() => {}}>
+        <ButtonBasic
+          backColor="#fc6621"
+          buttonClickHandler={() => {
+            setShowModal(true);
+          }}
+        >
           테스트 계정으로 시작하기
         </ButtonBasic>
         <ButtonBasic
@@ -112,6 +121,13 @@ function Login() {
         <OauthButton type="kakao"></OauthButton>
         <OauthButton type="google"></OauthButton>
       </OauthLoginWrapper>
+      {showModal && (
+        <Modal setShowModal={setShowModal}>
+          <TestLoginModalContainer
+            setShowModal={setShowModal}
+          ></TestLoginModalContainer>
+        </Modal>
+      )}
     </Main>
   );
 }
