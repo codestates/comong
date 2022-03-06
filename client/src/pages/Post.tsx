@@ -60,6 +60,7 @@ const Post = () => {
   }, []);
 
   const user_id = itemData.userSlice.userinfo?.id as number;
+  const role = itemData.userSlice.role;
 
   let data = itemData.itemSlice.data;
   console.log('data', data);
@@ -87,7 +88,7 @@ const Post = () => {
       return;
     }
     setIsModal(!isModal);
-
+    if (role) return;
     let tmpObj: {
       user_id: number;
       item_id: number;
