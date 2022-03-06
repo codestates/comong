@@ -4,6 +4,13 @@ import React, { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../redux/configStore.hooks';
 import { getListAsync } from '../../redux/modules/listSlice';
 import type { RootState } from '../../redux/configStore';
+import { v4 as uuidv4 } from 'uuid';
+
+import { config } from '../../config/config';
+import { apiClient } from '../../apis';
+
+const env = 'development';
+const urlConfig = config[env];
 
 interface Post {
   contents: string;
@@ -20,7 +27,7 @@ interface Post {
 
 const PostListWrapper = styled.div`
   width: 80%;
-  max-width: 1400px;
+  max-width: 1200px;
   padding: 10px;
   display: flex;
   margin: auto;
@@ -28,7 +35,7 @@ const PostListWrapper = styled.div`
   flex-wrap: wrap;
 
   @media only screen and (max-width: 1200px) {
-    width: 100%;
+    width: 80%;
   }
   @media only screen and (max-width: 768px) {
     width: 100%;
@@ -45,21 +52,73 @@ const ItemContainer = styled.div`
   }
 `;
 
-function SearchList() {
+type UserProps = {
+  LoginCheck(): void;
+  searchResult?: any[];
+};
+
+function SearchList({ LoginCheck, searchResult }: UserProps) {
   const listData = useAppSelector((state: RootState) => state);
+
+  const [infoArray, setInfoArray] = React.useState<any[]>([]);
+  const [curCat, setCurCat] = useState(0);
 
   const dispatch = useAppDispatch();
 
+  const observerRef = React.useRef<IntersectionObserver>();
+  const boxRef = React.useRef<HTMLDivElement>(null);
+  const category = listData.itemSlice.category;
+
   useEffect(() => {
-    dispatch(getListAsync());
-  }, []);
+    getInfo();
+  }, [category]);
+
+  React.useEffect(() => {
+    observerRef.current = new IntersectionObserver(intersectionObserver); // IntersectionObserver
+    boxRef.current && observerRef.current.observe(boxRef.current);
+  }, [infoArray]);
+
+  const getInfo = async () => {
+    const apiId = infoArray.length > 0 ? infoArray[infoArray.length - 1].id : 0;
+    let res: { data: [] };
+
+    if (curCat !== category) {
+      setInfoArray([]);
+      setCurCat(category);
+      res = await apiClient.get(`items?number=20&category=${category}`, {}); // 서버에서 데이터 가져오기
+    } else {
+      setCurCat(category);
+      res = await apiClient.get(
+        `items?number=20&startindex=${apiId}&category=${category}`,
+        {},
+      );
+    }
+
+    setInfoArray((infoArray) => [...infoArray, ...res.data]);
+  };
+
+  const intersectionObserver = (
+    entries: IntersectionObserverEntry[],
+    io: IntersectionObserver,
+  ) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        io.unobserve(entry.target);
+        getInfo();
+      }
+    });
+  };
 
   return (
     <PostListWrapper>
-      {listData.navSearchSlice.data?.map((post: any) => {
+      {searchResult?.map((post: Post, index) => {
         return (
-          <ItemContainer key={post.id + post.title}>
-            <SearchListItem key={post.id} post={post} />
+          <ItemContainer key={uuidv4()}>
+            <SearchListItem
+              key={uuidv4()}
+              post={post}
+              LoginCheck={LoginCheck}
+            />
           </ItemContainer>
         );
       })}

@@ -95,7 +95,6 @@ export class CommentsService {
 				const itemIdArr = orderDetailList.map((elem) => {
 					return elem.item_id;
 				});
-				// console.log(itemIdArr);
 				let setItemIdArr = new Set(itemIdArr);
 				let uniqueItemIdArr = [...setItemIdArr];
 				const itemList = await models.item.findAll({
@@ -155,22 +154,26 @@ export class CommentsService {
 				const orderDetailIdArr = orderDetailList.map((elem) => {
 					return elem.id;
 				});
-				const itemreviewList = await models.item_review.findAll({
-					include: [
-						{
-							model: models.user,
-							as: 'user',
-							attributes: ['email'],
+				if (orderDetailIdArr.length === 0) {
+					return { data: [], message: 'no item_review exist' };
+				} else {
+					const itemreviewList = await models.item_review.findAll({
+						include: [
+							{
+								model: models.user,
+								as: 'user',
+								attributes: ['email'],
+							},
+						],
+						where: {
+							order_detail_id: {
+								[Op.or]: orderDetailIdArr,
+							},
 						},
-					],
-					where: {
-						order_detail_id: {
-							[Op.or]: orderDetailIdArr,
-						},
-					},
-					transaction: t,
-				});
-				return { data: itemreviewList, message: 'successful' };
+						transaction: t,
+					});
+					return { data: itemreviewList, message: 'successful' };
+				}
 			}
 		})
 			.then((result: any) => {
@@ -239,7 +242,6 @@ export class CommentsService {
 		const itemReviewCreateResult = await models.item_review.bulkCreate(
 			bulkCommentCreateOptions,
 		);
-		// console.log(itemReviewCreateResult);
 		return 'this will insert item review for development';
 	}
 }
