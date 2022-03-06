@@ -16,6 +16,9 @@ const Wrapper = styled.li`
   align-items: center;
   gap: 2rem;
   position: relative;
+  @media only screen and (max-width: 768px) {
+    padding: 1rem;
+  }
 
   &.highlight {
     background-color: #fcf8e7;

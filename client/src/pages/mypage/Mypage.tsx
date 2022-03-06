@@ -36,6 +36,9 @@ const NavWrapper = styled.div`
   height: 100vh;
   display: flex;
   justify-content: center;
+  @media only screen and (max-width: 768px) {
+    width: 0;
+  }
 `;
 
 const MenuIcon = styled.img`
@@ -62,15 +65,20 @@ const OutletWrapper = styled.div`
     margin-left: 0;
   }
 
-  @media only screen and (max-width: 1200px) {
+  @media only screen and (max-width: 768px) {
     width: 100%;
-    padding: 0 1rem;
+    padding: 0 0.5rem;
+    padding-top: 2rem;
   }
 
   &.modifyInfo {
     display: flex;
     justify-content: center;
     padding: 60px 0;
+    @media only screen and (max-width: 768px) {
+      margin-top: 2rem;
+      padding: 0 1rem;
+    }
   }
 `;
 
@@ -104,7 +112,7 @@ function Mypage() {
               setShowMenu={setShowMenu}
               showMenu={showMenu}
             ></MypageAsideBar>
-            {width < 768 && (
+            {width <= 768 && (
               <div className={'menuIcon'}>
                 <MenuIcon onClick={slideRight} src="/icons/menu.png" />
               </div>

@@ -19,6 +19,9 @@ const NotificationList = styled.ul`
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  @media only screen and (max-width: 768px) {
+    padding: 2rem 1rem;
+  }
 `;
 
 function Notifications() {

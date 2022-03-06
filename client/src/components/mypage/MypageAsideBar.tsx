@@ -85,15 +85,15 @@ function MypageAsideBar({ setShowMenu, showMenu }: IMypageAsideBar) {
   const [isClicked, setIsClicked] = useState(false);
   const handleResize = () => setWidth(window.innerWidth);
 
-  const slideLeft = () => {
-    setShowMenu(false);
-    !isClicked && setIsClicked(true);
-  };
-
   useEffect(() => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  const slideLeft = () => {
+    setShowMenu(false);
+    !isClicked && setIsClicked(true);
+  };
 
   const Desktop = () => {
     return (
