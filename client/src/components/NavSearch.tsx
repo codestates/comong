@@ -15,14 +15,16 @@ const NavSearch = () => {
 
   const handleKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
-    console.log(keyword);
+  };
+
+  const detectEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') handleSearch();
   };
 
   const handleSearch = () => {
     let value = keyword;
     value = value.replace(/ /g, '');
     value.trim();
-    console.log(value);
     if (value !== '') {
       dispatch(navSearchAsync(value));
       dispatch(setReduxKeyword(value));
@@ -33,7 +35,11 @@ const NavSearch = () => {
 
   return (
     <NavSearchContainer>
-      <NavSearchInput value={keyword} onChange={handleKeyword}></NavSearchInput>
+      <NavSearchInput
+        value={keyword}
+        onChange={handleKeyword}
+        onKeyUp={detectEnter}
+      ></NavSearchInput>
       <NavSearchIcon src="/icons/nav/search.png" onClick={handleSearch} />
     </NavSearchContainer>
   );

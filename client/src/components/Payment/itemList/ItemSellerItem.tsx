@@ -26,6 +26,8 @@ const CartListItemImageContainer = styled.div`
 
 const CartListItemImage = styled.img`
   width: 60px;
+  border-radius: 30px;
+  margin-right: 30px;
 `;
 
 const NameAndStockContainer = styled.div`

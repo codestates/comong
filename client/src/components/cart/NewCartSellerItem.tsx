@@ -7,6 +7,113 @@ import { increment, decrement } from '../../redux/modules/cartSlice';
 import { setTotalPrice } from '../../redux/modules/cartSlice';
 import { deleteItem } from '../../redux/modules/cartSlice';
 import { deleteCartAsync } from '../../redux/modules/cartSlice';
+import { config } from '../../config/config';
+import { apiClient } from '../../apis';
+
+const env = 'development';
+const urlConfig = config[env];
+
+const NewCartSellerItem = ({ data, storeName, groupName }: any) => {
+  const cartData = useAppSelector((state: RootState) => state);
+
+  const dispatch = useAppDispatch();
+
+  let userId = cartData.userSlice.userinfo?.id;
+  let id = data.id;
+  let name = data.item.title;
+  let img_src = data.item.image_src
+    ? data.item.image_src.split(',')[0]
+    : 'https://imagedelivery.net/BOKuAiJyROlMLXwCcBYMqQ/fe9f218d-5134-4a76-ba20-bf97e5c21900/thumbnail';
+  let stock = data.order_amount;
+  let price = data.peritem_price;
+
+  const stockHandler = (el: string) => {
+    if (el === 'minus') {
+      dispatch(decrement([id, storeName, groupName]));
+    } else if (el === 'plus') {
+      dispatch(increment([id, storeName, groupName]));
+    }
+    console.log('stock', stock);
+
+    // let tmpObj: {
+    //   user_id?: number;
+    //   item_id: number;
+    //   order_amount: number;
+    //   status: string;
+    //   peritem_price: number;
+    // } = {
+    //   user_id: userId,
+    //   item_id: id,
+    //   order_amount: stock,
+    //   status: 'pending',
+    //   peritem_price: price,
+    // };
+
+    console.log('userId', userId, 'id', id, 'stock', stock, 'price', price);
+    let tmpObj: {
+      user_id?: number;
+      item_id: number;
+      order_amount: number;
+      status: string;
+      peritem_price: number;
+    } = {
+      user_id: 213,
+      item_id: 3436,
+      order_amount: 7,
+      peritem_price: 3900,
+      status: 'pending',
+    };
+    let response = apiClient
+      .post(`${urlConfig.url}/orders/orderdetail`, tmpObj)
+      .then((res) => {
+        console.log('res.data', res.data);
+      });
+    // console.log('response in New', response.data);
+    dispatch(setTotalPrice(cartData.cartSlice.subTotalPrice));
+  };
+
+  const deleteHandler = async () => {
+    await dispatch(deleteItem([id, groupName]));
+    await dispatch(deleteCartAsync(id));
+    await dispatch(getCartAsync(userId));
+  };
+
+  return (
+    <Container>
+      <CartListItemImageContainer>
+        <CartListItemImage src={img_src} />
+      </CartListItemImageContainer>
+      <NameAndStockContainer>
+        <CartListItemName>{name}</CartListItemName>
+        <StockController>
+          <StockMinusButton
+            onClick={() => {
+              stockHandler('minus');
+            }}
+          >
+            <StockMinusIcon src="/icons/post/minus.png" />
+          </StockMinusButton>
+          <StockDisplay>{stock}</StockDisplay>
+          <StockAddButton
+            onClick={() => {
+              stockHandler('plus');
+            }}
+          >
+            <StockAddIcon src="/icons/post/plus.png" />
+          </StockAddButton>
+        </StockController>
+      </NameAndStockContainer>
+      <PriceContainer>
+        <CartListItemPrice>
+          {(price * stock).toLocaleString('en')}원
+        </CartListItemPrice>
+      </PriceContainer>
+      <DeleteBtn onClick={deleteHandler}>
+        <DeleteBtnImg src="/icons/cart/delete.png"></DeleteBtnImg>
+      </DeleteBtn>
+    </Container>
+  );
+};
 
 const Container = styled.div`
   display: flex;
@@ -27,13 +134,22 @@ const CartListItemImageContainer = styled.div`
   }
 `;
 
+const CheckBoxContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
+
+const CheckBox = styled.input`
+  width: 20px;
+`;
+
 const CartListItemImage = styled.img`
-  width: 72px;
-  border-radius: 36px;
+  width: 60px;
 `;
 
 const NameAndStockContainer = styled.div`
-  width: 50%;
+  width: 60%;
   @media only screen and (max-width: 1200px) {
   }
   @media only screen and (max-width: 768px) {
@@ -157,69 +273,4 @@ const DeleteBtnImg = styled.img`
   width: 100%;
 `;
 
-const CartSellerItem = ({ data, storeName, groupName }: any) => {
-  const cartData = useAppSelector((state: RootState) => state);
-
-  const dispatch = useAppDispatch();
-
-  let id = data.id;
-  let name = data.item.title;
-  let img_src = data.item.image_src
-    ? data.item.image_src.split(',')[0]
-    : 'https://imagedelivery.net/BOKuAiJyROlMLXwCcBYMqQ/fe9f218d-5134-4a76-ba20-bf97e5c21900/thumbnail';
-  let stock = data.order_amount;
-  let price = data.peritem_price;
-
-  const stockHandler = (el: string) => {
-    if (el === 'minus') {
-      dispatch(decrement([id, storeName, groupName]));
-    } else if (el === 'plus') {
-      dispatch(increment([id, storeName, groupName]));
-    }
-    dispatch(setTotalPrice(cartData.cartSlice.subTotalPrice));
-  };
-
-  const deleteHandler = () => {
-    console.log('id/groupName', id, groupName);
-    dispatch(deleteItem([id, groupName]));
-    dispatch(deleteCartAsync(id));
-  };
-
-  return (
-    <Container>
-      <CartListItemImageContainer>
-        <CartListItemImage src={img_src} />
-      </CartListItemImageContainer>
-      <NameAndStockContainer>
-        <CartListItemName>{name}</CartListItemName>
-        <StockController>
-          <StockMinusButton
-            onClick={() => {
-              stockHandler('minus');
-            }}
-          >
-            <StockMinusIcon src="/icons/post/minus.png" />
-          </StockMinusButton>
-          <StockDisplay>{stock}</StockDisplay>
-          <StockAddButton
-            onClick={() => {
-              stockHandler('plus');
-            }}
-          >
-            <StockAddIcon src="/icons/post/plus.png" />
-          </StockAddButton>
-        </StockController>
-      </NameAndStockContainer>
-      <PriceContainer>
-        <CartListItemPrice>
-          {(price * stock).toLocaleString('en')}원
-        </CartListItemPrice>
-      </PriceContainer>
-      <DeleteBtn onClick={deleteHandler}>
-        <DeleteBtnImg src="/icons/cart/delete.png"></DeleteBtnImg>
-      </DeleteBtn>
-    </Container>
-  );
-};
-
-export default CartSellerItem;
+export default NewCartSellerItem;

@@ -12,6 +12,7 @@ const models = require('../../models/index');
 import { TokenService } from 'src/util/token';
 import { v4 as uuid } from 'uuid';
 import { UpdateNotificationDto } from './dto/update.notification.dto';
+import { DeleteNotificationDto } from './dto/delete-notification.dto';
 const sequelize = models.sequelize;
 
 export type User = any;
@@ -203,108 +204,144 @@ export class UsersService {
 	}
 
 	async update(userInfoFromToken: User, info: any) {
-		const {user, likes, address} = info
+		const { user, likes, address } = info;
 		//console.log(info)
 
-		const workArr = []
-		if(user && Object.keys(user).length>0) {
+		const workArr = [];
+		if (user && Object.keys(user).length > 0) {
 			const updateUser = (transaction) => {
 				return new Promise((resolve, reject) => {
-					return models.user.update({
-						...user
-					}, {
-						where: { id: userInfoFromToken }
-					}, {
-						transaction: transaction
-					}).then(updatedUser => {
-						resolve(updatedUser)
-					}).catch(error => {
-						reject(error)
-					})
-				})
-			}
-			workArr.push(updateUser)
+					return models.user
+						.update(
+							{
+								...user,
+							},
+							{
+								where: { id: userInfoFromToken },
+							},
+							{
+								transaction: transaction,
+							},
+						)
+						.then((updatedUser) => {
+							resolve(updatedUser);
+						})
+						.catch((error) => {
+							reject(error);
+						});
+				});
+			};
+			workArr.push(updateUser);
 		}
 
-		if(likes && Object.keys(likes).length>0) {
-
-				const likesArr = likes.replace(/\[|\]/g, '').split(',') // like의 형태는 ['1', '2']와 같은 배열 형태의 문자열임
-				likesArr.forEach((elements) => {
-					if(elements !== ''){ //빈 문자열 제외(빈 배열일경우 빈문자열로 받아지는 경우라 제외)
-						const insertLikes = (transaction) => { // 프로미스의 형태로 새 transaction을 생성할 것이므로 transaction을 매개변수로 받는 함수 형태로 만듦
-							return new Promise((resolve, reject) => { //일반적인 프로미스 생성 형태
-								return models.category_has_user.create({ // 중간중간 정확하게 리턴해주는것이 중요
-									category_id: elements,
-									user_id: userInfoFromToken.id,
-								}, {transaction: transaction}).then(insertedLikes => { //sequelize 모델의 함수 사용시 transaction 설정해야함, 여기서는 매개변수로 받는 transaction임
-									resolve(insertedLikes) //성공했을때 넘어가는 값은 방금 호출로 생성된 관심카테고리
-								}).catch(error => {
-									reject(error) //밑에서 다시 serviceunavilable exception 생성할 것이므로 그냥 error 만 넘겨줌
+		if (likes && Object.keys(likes).length > 0) {
+			const likesArr = likes.replace(/\[|\]/g, '').split(','); // like의 형태는 ['1', '2']와 같은 배열 형태의 문자열임
+			likesArr.forEach((elements) => {
+				if (elements !== '') {
+					//빈 문자열 제외(빈 배열일경우 빈문자열로 받아지는 경우라 제외)
+					const insertLikes = (transaction) => {
+						// 프로미스의 형태로 새 transaction을 생성할 것이므로 transaction을 매개변수로 받는 함수 형태로 만듦
+						return new Promise((resolve, reject) => {
+							//일반적인 프로미스 생성 형태
+							return models.category_has_user
+								.create(
+									{
+										// 중간중간 정확하게 리턴해주는것이 중요
+										category_id: elements,
+										user_id: userInfoFromToken.id,
+									},
+									{ transaction: transaction },
+								)
+								.then((insertedLikes) => {
+									//sequelize 모델의 함수 사용시 transaction 설정해야함, 여기서는 매개변수로 받는 transaction임
+									resolve(insertedLikes); //성공했을때 넘어가는 값은 방금 호출로 생성된 관심카테고리
 								})
-							})
-						}
-						workArr.push(insertLikes)  //promise.all이 iterable 요소를 받으므로 배열안에 차곡차곡 함수를 쌓아줌
-					}
-				})
+								.catch((error) => {
+									reject(error); //밑에서 다시 serviceunavilable exception 생성할 것이므로 그냥 error 만 넘겨줌
+								});
+						});
+					};
+					workArr.push(insertLikes); //promise.all이 iterable 요소를 받으므로 배열안에 차곡차곡 함수를 쌓아줌
+				}
+			});
 		}
 
-		if(address && Object.keys(address).length>0) {
+		if (address && Object.keys(address).length > 0) {
 			const insertAddress = (transaction) => {
 				return new Promise((resolve, reject) => {
-					return models.user_address.update({
-						...address,
-					}, {
-						where:{
-							user_id: userInfoFromToken
-						}
-					}, {transaction: transaction}).then(insertedAddress => {
-						resolve(insertedAddress)
-					}).catch(error => {
-						reject(error)
-					})
-				})
-			}
-			workArr.push(insertAddress)
+					return models.user_address
+						.update(
+							{
+								...address,
+							},
+							{
+								where: {
+									user_id: userInfoFromToken,
+								},
+							},
+							{ transaction: transaction },
+						)
+						.then((insertedAddress) => {
+							resolve(insertedAddress);
+						})
+						.catch((error) => {
+							reject(error);
+						});
+				});
+			};
+			workArr.push(insertAddress);
 		}
 		//console.log(infoArr)
 		const deleteLikes = (transaction) => {
 			return new Promise((resolve, reject) => {
-				return models.category_has_user.destroy({
-					where: { user_id: userInfoFromToken.id }
-				}, {transaction: transaction}).then(deletedLikes => {
-					resolve(deletedLikes)
-				}).catch(error => {
-					transaction.rollback() //여기서도 롤백
-					reject(error)
-				})
-			})
-		}
-
-		return new Promise((resolve, reject) => {  //실실적인 create 메서드의 리턴문
-			console.log(workArr[0]) 
-			return models.sequelize.transaction().then(async (transaction) => { //트랜잭션 생성 후 넘겨줌
-				if(likes && Object.keys(likes).length>0){
-					await deleteLikes(transaction)
-				}
-				
-				return Promise.all(
-					workArr.map(insertFunc => { 
-						return insertFunc(transaction) // 이 시점에서 프로미스가 pending이 되나요?? 저도잘모르겠습니다
+				return models.category_has_user
+					.destroy(
+						{
+							where: { user_id: userInfoFromToken.id },
+						},
+						{ transaction: transaction },
+					)
+					.then((deletedLikes) => {
+						resolve(deletedLikes);
 					})
-				).then(values => {
-					console.log(values, 'resolve')
-					transaction.commit() // 성공했을 경우 지금 transaction은 unmanaged transaction 이라 수동으로 commit을 해주어야 함
-					resolve({message: 'successful'})
-				}).catch(error => {
-					console.log(error, '에러')
-					transaction.rollback() // 에러 발생 시에도 똑같이 수동으로 rollback 해주어야 함
-					reject(new ServiceUnavailableException('a network-related or database instance-specific error occurred while inserting new data')) //에러 발생시 응답
-				})
-			})
-		})
+					.catch((error) => {
+						transaction.rollback(); //여기서도 롤백
+						reject(error);
+					});
+			});
+		};
+
+		return new Promise((resolve, reject) => {
+			//실실적인 create 메서드의 리턴문
+			console.log(workArr[0]);
+			return models.sequelize.transaction().then(async (transaction) => {
+				//트랜잭션 생성 후 넘겨줌
+				if (likes && Object.keys(likes).length > 0) {
+					await deleteLikes(transaction);
+				}
+
+				return Promise.all(
+					workArr.map((insertFunc) => {
+						return insertFunc(transaction); // 이 시점에서 프로미스가 pending이 되나요?? 저도잘모르겠습니다
+					}),
+				)
+					.then((values) => {
+						console.log(values, 'resolve');
+						transaction.commit(); // 성공했을 경우 지금 transaction은 unmanaged transaction 이라 수동으로 commit을 해주어야 함
+						resolve({ message: 'successful' });
+					})
+					.catch((error) => {
+						console.log(error, '에러');
+						transaction.rollback(); // 에러 발생 시에도 똑같이 수동으로 rollback 해주어야 함
+						reject(
+							new ServiceUnavailableException(
+								'a network-related or database instance-specific error occurred while inserting new data',
+							),
+						); //에러 발생시 응답
+					});
+			});
+		});
 	}
-
-
 
 	async remove(user) {
 		const deletedUser = await models.user.destroy({
@@ -354,5 +391,16 @@ export class UsersService {
 				return err;
 			});
 		return result;
+	}
+
+	async removeNotification(data: DeleteNotificationDto) {
+		const deletedNotification = await models.notification.destroy({
+			where: { id: data.notification_id },
+		});
+		if (deletedNotification) {
+			return { message: 'successful' };
+		} else {
+			throw new BadRequestException('invalid value for property');
+		}
 	}
 }

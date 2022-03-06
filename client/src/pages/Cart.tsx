@@ -13,6 +13,7 @@ import { config } from '../config/config';
 import { apiClient } from '../apis';
 import { getUsersAsync } from '../redux/modules/cartSlice';
 import { CartModal } from '../components/Modals/CartModal';
+import { setLoading } from '../redux/modules/loadingSlice';
 
 const env = 'development';
 const urlConfig = config[env];
@@ -38,6 +39,8 @@ const Cart = () => {
   }
 
   useEffect(() => {
+    if (!isLogin) navigate('/login');
+    dispatch(setLoading(false));
     updateCartData();
   }, [delivery]);
 
@@ -50,11 +53,12 @@ const Cart = () => {
   const payHandler = async () => {
     if (!isLogin) navigate('/login');
     let obj = cartData.cartSlice.data[0];
-    console.log('pay-handler-obj', obj);
+
     if (JSON.stringify(obj) === '{}') {
       setIsModal(!isModal);
       return;
     }
+    dispatch(setLoading(true));
     let tmp: [{ user_id: number; id?: number }] = [{ user_id: 1 }];
     for (let el in obj) {
       for (let x of obj[el].order_details) {
@@ -97,13 +101,17 @@ const Cart = () => {
       shipping_company: 'cj대한통운',
       shipping_code: '01234567890',
     };
-    console.log('obj2', obj2);
+
     await dispatch(getCartPatchAsync(tmp));
     await dispatch(postOrderAsync(obj2));
     await dispatch(getUsersAsync(cartData.userSlice.userinfo?.id));
     navigate('/payment');
 
     return;
+  };
+
+  const modalHandler = () => {
+    setIsModal(!isModal);
   };
 
   return (
@@ -119,7 +127,10 @@ const Cart = () => {
             </CartListContainer>
             <OrderContainer>
               {isModal ? (
-                <CartModal>장바구니에 상품이 없습니다</CartModal>
+                <CartModal
+                  modalHandler={modalHandler}
+                  isModal={isModal}
+                ></CartModal>
               ) : null}
               <OrderTitle>전체 합계</OrderTitle>
               <OrderLine />
@@ -219,7 +230,6 @@ const CartListContainer = styled.div`
   font-family: Noto Sans KR;
   font-weight: 700;
   min-height: 600px;
-
   width: 65%;
   position: sticky;
   margin-right: 20px;

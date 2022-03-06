@@ -2,8 +2,86 @@ import styled, { keyframes } from 'styled-components';
 import NavSearch from './NavSearch';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { useAppSelector } from '../redux/configStore.hooks';
-import NotificationNum from './notifications/NotificationNum';
+import { useAppDispatch, useAppSelector } from '../redux/configStore.hooks';
+import { NavCartModal } from './Modals/NavCartModal';
+import type { RootState } from '../redux/configStore';
+
+const Nav = () => {
+  const navigate = useNavigate();
+  const { isLogin, role } = useAppSelector((state) => state.userSlice);
+
+  const [categoryColor, setCategoryColor] = useState(false);
+  const [mypageColor, setMypageColor] = useState(false);
+  const [cartColor, setCartColor] = useState(false);
+  const [isModal, setIsModal] = useState(false);
+
+  let current = window.location.href.split('/')[3];
+
+  const navData = useAppSelector((state: RootState) => state);
+  const isSeller = navData.userSlice.role;
+
+  useEffect(() => {
+    handleCurrentPageIconColor();
+  }, [current]);
+
+  const handleCurrentPageIconColor = () => {
+    setCartColor(false);
+    setMypageColor(false);
+    setCategoryColor(false);
+
+    if (current === 'search') setCategoryColor(true);
+    if (current === 'login') setMypageColor(true);
+    if (current === 'cart') setCartColor(true);
+  };
+
+  const modalHandler = () => {
+    setIsModal(!isModal);
+  };
+
+  return (
+    <NavContainer>
+      {isModal ? (
+        <NavCartModal
+          modalHandler={modalHandler}
+          isModal={isModal}
+        ></NavCartModal>
+      ) : null}
+      <NavLinks>
+        <Logo onClick={() => navigate('/')}>COMONG</Logo>
+        <NavSearch />
+        <NavMenuContainer>
+          <NavMenu
+            categoryColor={categoryColor}
+            onClick={() => navigate('/search')}
+          >
+            검색
+          </NavMenu>
+          <NavMenu
+            mypageColor={mypageColor}
+            onClick={() =>
+              isLogin
+                ? role === 0
+                  ? navigate('/mypage')
+                  : navigate('/sellerpage')
+                : navigate('/login')
+            }
+          >
+            마이페이지{' '}
+          </NavMenu>
+          <NavMenu
+            cartColor={cartColor}
+            onClick={() => {
+              isSeller ? setIsModal(!isModal) : navigate('/cart');
+            }}
+          >
+            장바구니{' '}
+          </NavMenu>
+          <NavNotification src="/icons/nav/bell.png" />
+        </NavMenuContainer>
+      </NavLinks>
+    </NavContainer>
+  );
+};
 
 const NavContainer = styled.div`
   width: 100%;
@@ -89,7 +167,6 @@ const NavMenu = styled.div<{
   mypageColor?: boolean;
   cartColor?: boolean;
 }>`
-  position: relative;
   cursor: pointer;
   margin: 0.5rem;
   font-size: 14px;

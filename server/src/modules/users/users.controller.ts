@@ -37,6 +37,7 @@ import { BcryptPasswordHashPipe } from 'src/util/bcryptpasswordhashpipe';
 import { BcryptPasswordValidationPipe } from 'src/util/bcrypepasswordvalidationpipe';
 import { signUpTransformPipe } from './pipe/signuptransformpipe';
 import { UpdateNotificationDto } from './dto/update.notification.dto';
+import { DeleteNotificationDto } from './dto/delete-notification.dto';
 
 @Controller('users')
 @ApiTags('회원 정보 관련')
@@ -273,5 +274,25 @@ export class UsersController {
 	// @UseGuards(JwtAuthGuard)
 	updateNotification(@Body() data: UpdateNotificationDto) {
 		return this.usersService.updateNotification(data);
+	}
+
+	@Delete('/notification')
+	@ApiHeader({
+		name: 'Authorization',
+		description: '사용자 인증 수단, 액세스 토큰 값',
+		required: true,
+		schema: {
+			example: 'bearer 23f43u9if13ekc23fm30jg549quneraf2fmsdf',
+		},
+	})
+	@ApiBearerAuth('accessToken')
+	@ApiOperation({
+		summary: '알림 삭제',
+		description: '알림 삭제를 요청합니다.',
+	})
+	@ApiOkResponse({ description: 'successful' })
+	// @UseGuards(JwtAuthGuard)
+	removeNotification(@Body() data: DeleteNotificationDto) {
+		return this.usersService.removeNotification(data);
 	}
 }

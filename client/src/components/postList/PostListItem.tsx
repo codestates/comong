@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import BookmarkButton from './BookmarkButton';
+import BookmarkButton from '../searchList/BookmarkButton';
 import { useAppSelector } from '../../redux/configStore.hooks';
 import type { RootState } from '../../redux/configStore';
 import { truncate } from 'fs';
@@ -51,11 +51,11 @@ const PostListItem = ({ post, LoginCheck }: Props) => {
               ></BookmarkButton>
             </BookmarkContainer>
           </PriceAndBookmarkContainer>
-          {isLoginModal ? (
-            <LoginNeedModalForList>로그인이 필요합니다</LoginNeedModalForList>
-          ) : null}
         </TextContainer>
       </ItemContainer>
+      {isLoginModal ? (
+        <LoginNeedModalForList>로그인이 필요합니다</LoginNeedModalForList>
+      ) : null}
     </StLink>
   );
 };
@@ -87,7 +87,6 @@ const ItemImgContainer = styled.div`
   overflow: hidden;
   display: flex;
   justify-content: center;
-
   width: 90%;
   margin: auto;
   border-radius: 8px;
@@ -98,7 +97,6 @@ const ItemImg = styled.img`
   width: 100%; */
   height: 180px;
   width: 100%;
-
   object-fit: cover;
   &:hover {
     /* object-fit: contain; */
@@ -111,6 +109,7 @@ const ItemImg = styled.img`
   @media only screen and (max-width: 768px) {
     height: 170px;
     width: 100%;
+    /* max-width: 120px; */
   }
 `;
 
@@ -192,8 +191,9 @@ const BookmarkContainer = styled.div`
   /* position: absolute;
   bottom: 10px;
   right: 10px; */
-  position: relative;
-  bottom: 2px;
+  /* position: relative; */
+  /* bottom: 2px; */
+  /* z-index: 0; */
 `;
 
 interface Props {

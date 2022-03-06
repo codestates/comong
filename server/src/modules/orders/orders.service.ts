@@ -73,21 +73,6 @@ export class OrdersService {
 			const storeName = sellerInfo.dataValues.user.storename;
 			const pushNotificationRoom = `${sellerId}#appNotice`;
 			if (newOrder) {
-				const message = {
-					title: '구매 발생 알림',
-					data: newOrder,
-					itemInfo: itemInfo,
-				};
-				const newNotification = await models.notification.create(
-					{
-						title: '구매 발생 알림',
-						contents: JSON.stringify(message),
-						read: 0,
-						user_id: sellerId,
-					},
-					{ transaction: t },
-				);
-				this.appGateway.handleNotification(pushNotificationRoom, message);
 				return await this.mailerService.sendOrderNotice(
 					newOrder,
 					{ storename: storeName },
