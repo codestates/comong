@@ -9,12 +9,14 @@ const Button = styled.button<{
   height: 55px;
   background-color: ${(props) =>
     props.backColor ? props.backColor : props.theme.colors.accentColor};
-  font-weight: 400;
   color: ${(props) =>
     props.textColor ? props.textColor : props.theme.colors.bgColor};
-  border: 1px solid ${(props) => props.theme.colors.accentColor};
+  border: ${(props) =>
+    props.backColor === 'white' && `1px solid ${props.theme.colors.darkGrey}`};
   border-radius: 4px;
   font-family: 'roboto', 'Noto Sans KR';
+  font-size: 1.2rem;
+  font-weight: 400;
 
   @media only screen and (max-width: 768px) {
     height: 3rem;

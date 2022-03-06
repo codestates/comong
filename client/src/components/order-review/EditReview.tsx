@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import {
   IPostCommentForm,
@@ -83,6 +84,7 @@ interface IEditReview {
 
 function EditReview({ setShowEdit, order }: IEditReview) {
   const { userinfo } = useAppSelector((state) => state.userSlice);
+  const navigate = useNavigate();
   const [postForm, setPostForm] = useState<IPostCommentForm>({
     contents: '',
     image_src: [],
@@ -102,8 +104,11 @@ function EditReview({ setShowEdit, order }: IEditReview) {
     }
     try {
       await postComments(postForm);
-      console.log('등록되었습니다');
-    } catch (error) {}
+      console.log('완료');
+      navigate('/mypage/');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
