@@ -11,6 +11,15 @@ const Wrapper = styled.ul`
   margin-top: 1rem;
 `;
 
+const NoData = styled.div`
+  height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid ${(props) => props.theme.colors.greyForMenu};
+  border-radius: 1rem;
+`;
+
 export interface IReviewList {
   itemInfo: {
     contents: string;
@@ -53,9 +62,20 @@ function MypageReviews() {
     <div>
       <h2>내가 쓴 후기</h2>
       <Wrapper>
-        {reviewList?.map((obj) => {
-          return <UserReviewListItem info={obj}></UserReviewListItem>;
-        })}
+        {reviewList && reviewList.length > 0 ? (
+          reviewList?.map((obj, idx) => {
+            return (
+              <UserReviewListItem
+                info={obj}
+                reviewList={reviewList}
+                setReviewList={setReviewList}
+                idx={idx}
+              ></UserReviewListItem>
+            );
+          })
+        ) : (
+          <NoData>후기를 작성해보세요</NoData>
+        )}
       </Wrapper>
     </div>
   );

@@ -81,9 +81,19 @@ const ButtonWrapper = styled.div`
 
 interface IUserReviewListItem {
   info: IReviewList;
+  reviewList: IReviewList[] | undefined;
+  setReviewList: React.Dispatch<
+    React.SetStateAction<IReviewList[] | undefined>
+  >;
+  idx: number;
 }
 
-function UserReviewListItem({ info }: IUserReviewListItem) {
+function UserReviewListItem({
+  info,
+  reviewList,
+  setReviewList,
+  idx,
+}: IUserReviewListItem) {
   const { item_reviewInfo: reviewInfo, itemInfo } = info;
   const showPhotos = () => {
     const imgData = reviewInfo.image_src;
@@ -93,6 +103,15 @@ function UserReviewListItem({ info }: IUserReviewListItem) {
       if (src === '') return;
       else return <ReviewPhoto src={src.slice(1, src.length - 1)} />;
     });
+  };
+
+  const deleteHandler = () => {
+    deleteComments(reviewInfo.id);
+    reviewList &&
+      setReviewList([
+        ...reviewList.slice(0, idx),
+        ...reviewList.slice(idx + 1),
+      ]);
   };
 
   return (
@@ -114,9 +133,7 @@ function UserReviewListItem({ info }: IUserReviewListItem) {
         </div>
         <PhotoWrapper>{showPhotos()}</PhotoWrapper>
         <ButtonWrapper>
-          <ButtonSimple
-            buttonClickHandler={() => deleteComments(reviewInfo.id)}
-          >
+          <ButtonSimple buttonClickHandler={deleteHandler}>
             삭제하기
           </ButtonSimple>
         </ButtonWrapper>
