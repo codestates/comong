@@ -10,8 +10,6 @@ export const ModalBackdrop = styled.div`
   bottom: 0;
   right: 0;
   background-color: rgba(0, 0, 0, 0.4);
-  /* background-color: red; */
-
   display: grid;
   place-items: center;
 `;
@@ -75,7 +73,6 @@ export const ModalView = styled.div.attrs((props) => ({
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
   > div.desc {
     margin-top: 25px;
     color: ${(props) => props.theme.colors.charcol};
@@ -83,12 +80,12 @@ export const ModalView = styled.div.attrs((props) => ({
   }
 `;
 
-export const LoginNeedModal = ({ setIsLoginModal, isLoginModal }: any) => {
+export const NavCartModal = ({ isModal, modalHandler }: any) => {
   const [isOpen, setIsOpen] = useState(true);
   const navigate = useNavigate();
   const openModalHandler = () => {
     setIsOpen(!isOpen);
-    setIsLoginModal(!isLoginModal);
+    modalHandler(!isModal);
     // if (isOpen === false) props.setModalMsg('');
   };
 
@@ -98,15 +95,8 @@ export const LoginNeedModal = ({ setIsLoginModal, isLoginModal }: any) => {
         {isOpen === true ? (
           <ModalBackdrop onClick={openModalHandler}>
             <ModalView onClick={(e) => e.stopPropagation()}>
-              <div className="desc">로그인이 필요합니다</div>
+              <div className="desc">판매회원은 이용이 불가합니다</div>
               <BtnContainer>
-                <ModalBtn
-                  onClick={() => {
-                    navigate('/login');
-                  }}
-                >
-                  로그인 하기
-                </ModalBtn>
                 <ModalCloseBtn onClick={openModalHandler}>닫기</ModalCloseBtn>
               </BtnContainer>
             </ModalView>

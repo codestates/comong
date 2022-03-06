@@ -4,31 +4,25 @@ import CartSeller from './CartSeller';
 import { useAppDispatch, useAppSelector } from '../../redux/configStore.hooks';
 import { getCartAsync } from '../../redux/modules/cartSlice';
 import type { RootState } from '../../redux/configStore';
-import { setTotalPrice } from '../../redux/modules/cartSlice';
 import { v4 as uuidv4 } from 'uuid';
 
-const SellerContainer = styled.div`
-  background-color: white;
-  margin: 20px 0px;
-`;
-
-const SellerName = styled.div`
-  font-weight: 600;
-`;
-const SellerLine = styled.hr`
-  margin: 10px 0px;
-`;
-
-const CartList = () => {
+const NewCartList = () => {
   const cartData = useAppSelector((state: RootState) => state);
 
   const dispatch = useAppDispatch();
 
-  console.log();
+  const userInfo = cartData.userSlice.userinfo;
+  const id = userInfo?.id;
 
-  let data: any[any] = cartData.cartSlice.data
-    ? cartData.cartSlice.data[0]
-    : [];
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = () => {
+    dispatch(getCartAsync(id));
+  };
+
+  let data = cartData.cartSlice.data[0];
 
   let list = [];
   let group: string[] = [];
@@ -59,4 +53,16 @@ const CartList = () => {
   );
 };
 
-export default CartList;
+const SellerContainer = styled.div`
+  background-color: white;
+  margin: 20px 0px;
+`;
+
+const SellerName = styled.div`
+  font-weight: 600;
+`;
+const SellerLine = styled.hr`
+  margin: 10px 0px;
+`;
+
+export default NewCartList;
