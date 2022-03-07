@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import OrderHistory from '../../../components/order-history/OrderHistory';
+import { getOrders } from '../../../apis/api/order';
+import OrderHistory, {
+  IOrderData,
+} from '../../../components/order-history/OrderHistory';
+import { useAppSelector } from '../../../redux/configStore.hooks';
 
 const Wrapper = styled.div`
   padding: 2rem 0;
@@ -60,29 +64,44 @@ const UserOrderHistoryWrapper = styled.div`
 `;
 
 function MypageUserDefault() {
+  const orderType: { [key: string]: string } = {
+    pending: '결제확인중',
+    processing: '배송준비중',
+    intransit: '배송중',
+    delivered: '배송완료',
+  };
+
+  const [orderStatusNum, setOrderStatusNum] = useState<{
+    [key: string]: number;
+  }>({
+    pending: 0,
+    processing: 0,
+    intransit: 0,
+    delivered: 0,
+  });
+
+  const showStatus = () => {
+    let result = [];
+    for (let key in orderType) {
+      result.push(
+        <UserOrderState>
+          <span className="userOrder-title">{orderType[key]}</span>
+          <span className="userOrder-content">{orderStatusNum[key]}</span>
+        </UserOrderState>,
+      );
+    }
+    return result;
+  };
+
   return (
     <Wrapper>
-      <UserOrderStateWrapper>
-        <UserOrderState>
-          <span className="userOrder-title">결제확인중</span>
-          <span className="userOrder-content">0</span>
-        </UserOrderState>
-        <UserOrderState>
-          <span className="userOrder-title">배송준비중</span>
-          <span className="userOrder-content">0</span>
-        </UserOrderState>
-        <UserOrderState>
-          <span className="userOrder-title">배송중</span>
-          <span className="userOrder-content">0</span>
-        </UserOrderState>
-        <UserOrderState>
-          <span className="userOrder-title">배송완료</span>
-          <span className="userOrder-content">0</span>
-        </UserOrderState>
-      </UserOrderStateWrapper>
+      <UserOrderStateWrapper>{showStatus()}</UserOrderStateWrapper>
       <UserOrderHistoryWrapper>
         <h2>최근 주문 내역</h2>
-        <OrderHistory></OrderHistory>
+        <OrderHistory
+          orderStatusNum={orderStatusNum}
+          setOrderStatusNum={setOrderStatusNum}
+        ></OrderHistory>
       </UserOrderHistoryWrapper>
     </Wrapper>
   );
