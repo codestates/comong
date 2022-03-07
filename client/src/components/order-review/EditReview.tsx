@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import {
   IPostCommentForm,
@@ -12,15 +13,15 @@ import ReviewPhoto from './ReviewPhoto';
 import StarRatings from './StarRatings';
 
 const Wrapper = styled.div`
-  width: 100%;
-  padding: 10px 40px;
-  border: 1px solid ${(props) => props.theme.colors.darkGrey};
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
+  margin: 0 auto;
+  padding: 1rem 2rem 2rem 2rem;
+  border-bottom: 1px solid ${(props) => props.theme.colors.lightGrey};
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  @media only screen and (max-width: 768px) {
+  }
 `;
 
 const RatingsWrapper = styled.div`
@@ -31,15 +32,30 @@ const RatingsWrapper = styled.div`
   margin: 1rem 0;
   padding-bottom: 2rem;
   border-bottom: 1px solid ${(props) => props.theme.colors.lightGrey};
+  @media only screen and (max-width: 768px) {
+    padding: 1rem 0;
+    padding-top: 0;
+    padding-bottom: 1rem;
+    margin: 0;
+  }
 
   > span {
     font-size: 20px;
     font-weight: 700;
     margin-bottom: 0.8rem;
+    @media only screen and (max-width: 768px) {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
   }
 `;
 
-const TextWrapper = styled(RatingsWrapper)``;
+const TextWrapper = styled(RatingsWrapper)`
+  @media only screen and (max-width: 768px) {
+    padding-top: 1rem;
+  }
+`;
 
 const ReviewText = styled.textarea`
   width: 100%;
@@ -49,6 +65,11 @@ const ReviewText = styled.textarea`
   border: 1px solid ${(props) => props.theme.colors.darkGrey};
   background-color: ${(props) => props.theme.colors.lightGrey};
   opacity: 0.7;
+  @media only screen and (max-width: 768px) {
+    width: 100%;
+    height: 8rem;
+    padding: 1rem;
+  }
 `;
 
 const ButtonWrapper = styled.div`
@@ -63,6 +84,7 @@ interface IEditReview {
 
 function EditReview({ setShowEdit, order }: IEditReview) {
   const { userinfo } = useAppSelector((state) => state.userSlice);
+  const navigate = useNavigate();
   const [postForm, setPostForm] = useState<IPostCommentForm>({
     contents: '',
     image_src: [],
@@ -82,15 +104,18 @@ function EditReview({ setShowEdit, order }: IEditReview) {
     }
     try {
       await postComments(postForm);
-      console.log('등록되었습니다');
-    } catch (error) {}
+      console.log('완료');
+      setShowEdit(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <Wrapper>
       <RatingsWrapper>
         <span>상품은 만족하셨나요?</span>
-        <StarRatings fillPostForm={fillPostForm}></StarRatings>
+        <StarRatings fillPostForm={fillPostForm} size="2rem"></StarRatings>
       </RatingsWrapper>
       <TextWrapper>
         <span>어떤 점이 좋았나요?</span>
@@ -106,7 +131,8 @@ function EditReview({ setShowEdit, order }: IEditReview) {
         </ButtonBasic>
         <ButtonBasic
           type="extraSmall"
-          lightStyle={true}
+          backColor="white"
+          textColor="black"
           buttonClickHandler={() => setShowEdit(false)}
         >
           취소

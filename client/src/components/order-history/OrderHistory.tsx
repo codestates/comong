@@ -11,7 +11,6 @@ import OrderHistorySearch from './OrderHistorySearch';
 const OrderHistoryList = styled.ul`
   display: flex;
   flex-direction: column;
-  gap: 20px;
 `;
 
 const NoData = styled.div`
@@ -53,13 +52,26 @@ export interface IOrderData {
     updatedAt: string;
     user_id: number;
   };
+  shipping_status: string;
 }
 
 interface IOrderHistory {
   search?: boolean;
+  orderStatusNum?: {
+    [key: string]: number;
+  };
+  setOrderStatusNum?: React.Dispatch<
+    React.SetStateAction<{
+      [key: string]: number;
+    }>
+  >;
 }
 
-function OrderHistory({ search }: IOrderHistory) {
+function OrderHistory({
+  search,
+  orderStatusNum,
+  setOrderStatusNum,
+}: IOrderHistory) {
   const { userinfo } = useAppSelector((state) => state.userSlice);
   const [orderData, setOrderData] = useState<IOrderData[] | []>([]);
 
@@ -71,7 +83,15 @@ function OrderHistory({ search }: IOrderHistory) {
     try {
       const data = await getOrders({ user_id: userinfo?.id! });
       setOrderData(data!);
+      setOrderStatusNum && countShippingStatus(data!);
     } catch (error) {}
+  };
+
+  const countShippingStatus = (data: IOrderData[]) => {
+    if (!(orderStatusNum && setOrderStatusNum)) return;
+    const orderStatus = { ...orderStatusNum };
+    data.forEach((obj: IOrderData) => orderStatus[obj.shipping_status]++);
+    setOrderStatusNum({ ...orderStatus });
   };
 
   const makeOrderHistoryListItem = () => {

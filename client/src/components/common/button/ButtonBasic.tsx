@@ -1,23 +1,26 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Button = styled.button<{ lightStyle: boolean }>`
+const Button = styled.button<{
+  backColor: string;
+  textColor: string;
+}>`
   width: 100%;
   height: 55px;
   background-color: ${(props) =>
-    props.lightStyle
-      ? props.theme.colors.accentColorLight
-      : props.theme.colors.accentColor};
-  font-size: ${(props) => (props.lightStyle ? '18px' : '20px')};
-  font-weight: ${(props) => (props.lightStyle ? 400 : 600)};
+    props.backColor ? props.backColor : props.theme.colors.accentColor};
   color: ${(props) =>
-    props.lightStyle
-      ? props.theme.colors.textColor
-      : props.theme.colors.bgColor};
+    props.textColor ? props.textColor : props.theme.colors.bgColor};
+  border: ${(props) =>
+    props.backColor === 'white' && `1px solid ${props.theme.colors.darkGrey}`};
   border-radius: 4px;
+  font-family: 'roboto', 'Noto Sans KR';
+  font-size: 1.2rem;
+  font-weight: 400;
 
   @media only screen and (max-width: 768px) {
-    height: 50px;
+    height: 3rem;
+    font-size: 1rem;
   }
 
   &.small {
@@ -49,19 +52,23 @@ interface ButtonBasicProps {
   buttonClickHandler: React.MouseEventHandler;
   children: string;
   lightStyle?: boolean;
+  backColor?: string;
+  textColor?: string;
 }
 
 function ButtonBasic({
   type,
   buttonClickHandler,
   children,
-  lightStyle,
+  backColor,
+  textColor,
 }: ButtonBasicProps) {
   return (
     <Button
       className={type}
       onClick={buttonClickHandler}
-      lightStyle={lightStyle || false}
+      backColor={backColor!}
+      textColor={textColor!}
     >
       {children}
     </Button>

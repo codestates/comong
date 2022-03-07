@@ -1,6 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { idText } from 'typescript';
-import { apiClient } from '../../apis';
+import {
+  apiClient,
+  deleteClientHeadersToken,
+  setClientHeadersToken,
+} from '../../apis';
 import { ILoginForm } from '../../components/form/LoginForm';
 import {
   IItem,
@@ -41,10 +45,12 @@ export interface IUser {
   role?: number;
   userinfo?: IUserInfo;
   notification?: INotification[];
+  isLoading?: boolean;
 }
 
 const initialState: IUser = {
   isLogin: false,
+  isLoading: false,
 };
 
 const userSlice = createSlice({
@@ -83,9 +89,7 @@ const userSlice = createSlice({
       );
       delete user.category_has_users;
       const userinfo = { ...user, likes, bookmarks };
-      apiClient.defaults.headers.common[
-        'Authorization'
-      ] = `bearer ${accessToken}`;
+
       return {
         isLogin: true,
         accessToken,
@@ -93,6 +97,10 @@ const userSlice = createSlice({
         userinfo,
         notification,
       };
+    });
+
+    builder.addCase(postSigninAsync.pending, (state, action) => {
+      state.isLoading = true;
     });
 
     builder.addCase(postSigninAsync.rejected, (state, action) => {
@@ -140,6 +148,7 @@ export const postSigninAsync = createAsyncThunk(
       )
     ).data;
     console.log('noti', notification);
+    console.log(response.data);
     const newNotification = notification.data.map(
       (obj: {
         id: number;

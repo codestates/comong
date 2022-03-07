@@ -1,23 +1,44 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { useAppSelector } from '../../redux/configStore.hooks';
 import BasicProfile from './BasicProfile';
 import NavSeller from './NavSeller';
 import NavUser from './NavUser';
 
+const slideToLeftAni = keyframes`
+  100%{
+    transform: translateX(-100vw);
+  }
+`;
+
+const slideToRightAni = keyframes`
+  0%{
+    transform: translateX(-100vw);
+  }
+`;
+
 const Wrapper = styled.div`
   height: auto;
-  width: 200px;
-  border: 1px solid ${(props) => props.theme.colors.lightGrey};
   background-color: white;
   z-index: 1;
   position: fixed;
-  top: 60px;
-  left: 12%;
+  top: 70px;
+
+  &.slideToLeft {
+    animation: ${slideToLeftAni} 0.5s ease-in-out;
+    animation-fill-mode: forwards;
+  }
+  &.slideToRight {
+    animation: ${slideToRightAni} 0.5s ease-in-out;
+    animation-fill-mode: forwards;
+  }
+  &.default {
+    animation: none;
+  }
 
   @media only screen and (max-width: 1200px) {
     height: 100vh;
-    width: 18%;
+    width: 22%;
     top: 100px;
     left: 0px;
   }
@@ -35,7 +56,20 @@ const ButtonWrapper = styled.div`
   text-align: end;
 `;
 
-const CloseBtn = styled.div``;
+const CloseBtn = styled.div`
+  width: 1.5rem;
+  height: 1.5rem;
+  position: absolute;
+  top: 1.2rem;
+  right: 1rem;
+  padding: 4px;
+  border-radius: 10px;
+  background-color: #ffffff7d;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+`;
 
 // @media only screen and (max-width: 1200px) {
 // }
@@ -43,16 +77,23 @@ const CloseBtn = styled.div``;
 // }
 
 interface IMypageAsideBar {
-  setShowMenu?: (value: boolean) => void;
+  setShowMenu: (value: boolean) => void;
+  showMenu: boolean;
 }
-function MypageAsideBar({ setShowMenu }: IMypageAsideBar) {
+function MypageAsideBar({ setShowMenu, showMenu }: IMypageAsideBar) {
   const [width, setWidth] = useState(window.innerWidth);
+  const [isClicked, setIsClicked] = useState(false);
   const handleResize = () => setWidth(window.innerWidth);
 
   useEffect(() => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  const slideLeft = () => {
+    setShowMenu(false);
+    !isClicked && setIsClicked(true);
+  };
 
   const Desktop = () => {
     return (
@@ -63,11 +104,18 @@ function MypageAsideBar({ setShowMenu }: IMypageAsideBar) {
     );
   };
 
-  const Tablet = () => {
+  const Mobile = () => {
     return (
-      <Wrapper>
+      <Wrapper
+        className={
+          (isClicked ? '' : 'default') +
+          (showMenu ? 'slideToRight' : 'slideToLeft')
+        }
+      >
         <ButtonWrapper>
-          <CloseBtn onClick={() => setShowMenu!(false)}>X</CloseBtn>
+          <CloseBtn onClick={slideLeft}>
+            <img src="/img/left-arrow-bold.png" />
+          </CloseBtn>
         </ButtonWrapper>
         <BasicProfile></BasicProfile>
         {role === 0 ? <NavUser></NavUser> : <NavSeller></NavSeller>}
@@ -76,7 +124,7 @@ function MypageAsideBar({ setShowMenu }: IMypageAsideBar) {
   };
 
   const { role } = useAppSelector((state) => state.userSlice);
-  return <>{width > 1200 ? Desktop() : Tablet()}</>;
+  return <>{width > 768 ? Desktop() : Mobile()}</>;
 }
 
 export default MypageAsideBar;

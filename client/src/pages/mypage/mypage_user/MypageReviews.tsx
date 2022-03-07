@@ -4,7 +4,21 @@ import { getComments } from '../../../apis/api/comment';
 import UserReviewListItem from '../../../components/order-review/UserReviewListItem';
 import { useAppSelector } from '../../../redux/configStore.hooks';
 
-const Wrapper = styled.ul``;
+const Wrapper = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+`;
+
+const NoData = styled.div`
+  height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid ${(props) => props.theme.colors.greyForMenu};
+  border-radius: 1rem;
+`;
 
 export interface IReviewList {
   itemInfo: {
@@ -44,15 +58,24 @@ function MypageReviews() {
     } catch (error) {}
   };
 
-  const showReviewList = () => {};
-
   return (
     <div>
       <h2>내가 쓴 후기</h2>
       <Wrapper>
-        {reviewList?.map((obj) => {
-          return <UserReviewListItem info={obj}></UserReviewListItem>;
-        })}
+        {reviewList && reviewList.length > 0 ? (
+          reviewList?.map((obj, idx) => {
+            return (
+              <UserReviewListItem
+                info={obj}
+                reviewList={reviewList}
+                setReviewList={setReviewList}
+                idx={idx}
+              ></UserReviewListItem>
+            );
+          })
+        ) : (
+          <NoData>후기를 작성해보세요</NoData>
+        )}
       </Wrapper>
     </div>
   );

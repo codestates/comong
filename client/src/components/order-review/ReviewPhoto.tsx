@@ -28,6 +28,10 @@ const PhotoInput = styled.div`
   span {
     margin-left: 8px;
   }
+  @media only screen and (max-width: 768px) {
+    height: 2.5rem;
+    font-size: 1rem;
+  }
 `;
 
 const Input = styled.input`
@@ -40,7 +44,15 @@ const PreviewList = styled.ul`
   margin-bottom: 1rem;
   background-color: white;
   display: flex;
-  gap: 10px;
+  gap: 1rem;
+  overflow-x: auto;
+`;
+
+const EmptyPreview = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 interface IReviewPhoto {
@@ -49,13 +61,17 @@ interface IReviewPhoto {
 
 function ReviewPhoto({ fillPostForm }: IReviewPhoto) {
   const [preview, setPreview] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
   const previewUploader = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPreview([...preview, '']);
+    setIsLoading(true);
     const uploadFile = e.currentTarget.files?.[0];
     const data = uploadFile && (await getCloudUrl(uploadFile));
-    setPreview([...preview, data[0]]);
+    setPreview([...preview.slice(0, preview.length), data[0]]);
     fillPostForm({ image_src: [...preview, data[0]] });
+    setIsLoading(false);
   };
 
   const deletePreview = (idx: number) => {
@@ -63,11 +79,30 @@ function ReviewPhoto({ fillPostForm }: IReviewPhoto) {
   };
 
   const previewHandler = () => {
-    return preview.map((el, idx) => {
-      return (
-        <Preview src={el} idx={idx} deletePreview={deletePreview}></Preview>
-      );
-    });
+    return preview.length > 0 ? (
+      preview.map((el, idx) => {
+        if (idx === preview.length - 1) {
+          return (
+            <Preview
+              src={el}
+              idx={idx}
+              deletePreview={deletePreview}
+              isLoading={isLoading}
+            ></Preview>
+          );
+        }
+        return (
+          <Preview
+            src={el}
+            idx={idx}
+            deletePreview={deletePreview}
+            isLoading={false}
+          ></Preview>
+        );
+      })
+    ) : (
+      <EmptyPreview>사진이 없습니다</EmptyPreview>
+    );
   };
 
   return (

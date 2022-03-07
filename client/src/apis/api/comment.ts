@@ -22,12 +22,25 @@ export const postComments = async (form: IPostCommentForm) => {
 export const getComments = async (userid: number) => {
   try {
     const response = await apiClient.get(`/comments/user?user_id=${userid}`);
+    console.log(response.data);
     const data = response.data.data;
+    console.log(data);
     let result = [];
     for (let key in data) {
       delete data[key].orderDeailInfo;
       result.push(data[key]);
     }
     return result;
+  } catch (error) {}
+};
+
+export const deleteComments = async (reviewId: number) => {
+  try {
+    const json = {
+      item_review_id: reviewId,
+    };
+    const response = await apiClient.delete('/comments', { data: json });
+    console.log(response.data);
+    return;
   } catch (error) {}
 };

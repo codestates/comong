@@ -1,7 +1,15 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { navSearchAsync } from '../../../redux/modules/navSearchSlice';
+import type { RootState } from '../../../redux/configStore';
+import { setReduxKeyword } from '../../../redux/modules/navSearchSlice';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '../../../redux/configStore.hooks';
+
 const Container = styled.div`
-  background-color: #dff0ab;
+  background-color: #f86d56;
   height: 100%;
   display: flex;
   flex-direction: row;
@@ -35,7 +43,7 @@ const BadgeContainer = styled.div`
   flex-direction: row;
 `;
 const Badge1 = styled.div`
-  background-color: #ef678d;
+  background-color: #34345a;
   border-radius: 5px;
   text-align: center;
   color: white;
@@ -51,7 +59,7 @@ const Badge1 = styled.div`
 `;
 const Badge2 = styled.div`
   margin-left: 10px;
-  background-color: #ef678d;
+  background-color: #34345a;
   border-radius: 5px;
   text-align: center;
   color: white;
@@ -67,7 +75,7 @@ const Badge2 = styled.div`
 
 const Mention1 = styled.div`
   font-size: 30px;
-  color: #465045;
+  color: white;
   font-weight: 500;
   margin-top: 20px;
 
@@ -77,7 +85,7 @@ const Mention1 = styled.div`
 `;
 const Mention2 = styled.div`
   font-size: 30px;
-  color: #465045;
+  color: white;
   font-weight: 600;
   margin-top: 10px;
   @media only screen and (max-width: 768px) {
@@ -86,7 +94,7 @@ const Mention2 = styled.div`
 `;
 const Mention3 = styled.div`
   font-size: 15px;
-  color: #465045;
+  color: white;
   font-weight: 300;
   margin-top: 20px;
   @media only screen and (max-width: 768px) {
@@ -95,7 +103,7 @@ const Mention3 = styled.div`
 `;
 const Mention4 = styled.div`
   font-size: 15px;
-  color: #465045;
+  color: white;
   font-weight: 300;
   margin-top: 10px;
   @media only screen and (max-width: 768px) {
@@ -119,7 +127,7 @@ const ImgContainer = styled.div`
   }
 `;
 const Img = styled.img`
-  width: 420px;
+  width: 400px;
   @media only screen and (max-width: 1200px) {
     width: 300px;
   }
@@ -128,30 +136,33 @@ const Img = styled.img`
   }
 `;
 
-const Banner3 = () => {
+const Banner1 = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const handleLink = () => {
-    navigate('/item/3394');
+    dispatch(navSearchAsync('문구'));
+    dispatch(setReduxKeyword('문구'));
+    navigate('/search');
   };
   return (
     <Container onClick={handleLink}>
       <Contents>
         <MentionContainer>
           <BadgeContainer>
-            <Badge1>봄봄봄</Badge1>
-            <Badge2>특별한 선물</Badge2>
+            <Badge1>대박찬스</Badge1>
+            <Badge2>개학시즌</Badge2>
           </BadgeContainer>
-          <Mention1>너무너무 귀여운</Mention1>
-          <Mention2>스티커 모음전</Mention2>
-          <Mention3>남녀노소 좋아하는</Mention3>
-          <Mention4>귀여운 스티커 데려가세요</Mention4>
+          <Mention1>3월 신학기!</Mention1>
+          <Mention2>중요한 거 아시죠?</Mention2>
+          <Mention3>노트, 필기류</Mention3>
+          <Mention4>Comong에서 준비하세요</Mention4>
         </MentionContainer>
         <ImgContainer>
-          <Img src="/img/banner/banner3.gif"></Img>
+          <Img src="/img/banner/banner1.png"></Img>
         </ImgContainer>
       </Contents>
     </Container>
   );
 };
 
-export default Banner3;
+export default Banner1;

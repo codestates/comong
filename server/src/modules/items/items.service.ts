@@ -104,9 +104,9 @@ export class ItemsService {
 			return result
 		}
 
-		this.items = await models.item.findAll({
+		const items = await models.item.findAll({
 			//raw: true,
-			group: ['id'],
+			//group: ['item.contents'],
 			include: [
 				{
 					model: models.item_has_category,
@@ -114,26 +114,59 @@ export class ItemsService {
 					where: category ? { category_id: category } : '',
 				},
 				{ model: models.user, as: 'user', attributes: ['id', 'storename'] },
-				{model: models.order_detail, as: 'order_details', attributes: ['id'], include: [
-					{model: models.item_review, as: 'item_reviews', require: false, attributes: {include: [
-						//[sequelize.fn('COUNT', sequelize.col('score')), 'reviewer'],
-						//[sequelize.fn('AVG', sequelize.col('score')), 'avg_score']
-					]}, group: [] }
+				{model: models.order_detail, as: 'order_details', attributes: ['id'], duplicating: true, raw: true, include: [
+					{model: models.item_review, as: 'item_reviews', require: false, attributes: {
+						include: [
+							//[sequelize.fn('COUNT', sequelize.col('order_details.item_reviews.score')), 'number_of_reviewer'],
+							//[sequelize.literal(`(SELECT COUNT(score) AS nor FROM item_review)`), 'nor']
+						]
+					}
+					}
 				]},
+				{model: models.bookmark, as: 'bookmarks', require: false,},
 			],
 			limit: number || 10,
 			where: condition(),
 			order: [['createdAt', 'DESC']],
-			attributes: {
-				include: [
-					//[sequelize.fn('COUNT', sequelize.col('order_details.item_reviews.score')), 'reviewer'],
-					//[sequelize.fn('AVG', sequelize.col('item.order_detail.item_review.score')), 'avg_score1']
-				]
-			}
+	
 			//offset: offset(),
 		});
-		console.log(this.items.length)
-		return this.items;
+		//console.log(this.items.length)
+		items.forEach(elements => {
+			if(elements.order_details){
+				const number_of_reviewers = elements.order_details.length
+				const sum_of_scores = elements.order_details.map(elements => {
+					if(elements.length > 0){
+						return elements.score
+					} else {
+						return 2.5
+					}
+				})
+				.reduce((prevVal, currentVal) => {
+					return prevVal + currentVal
+				}, 0)
+				//console.log('평균은', sum_of_score/number_of_reviewer)
+				//console.log('개수는', number_of_reviewer)
+				Object.assign(elements.dataValues, {number_of_reviewers: number_of_reviewers})
+				Object.assign(elements.dataValues, {average_of_scores: sum_of_scores/number_of_reviewers})
+				
+				delete elements.dataValues.order_details
+			}
+
+			if(elements.bookmarks){
+				let number_of_bookmarks = 0
+				elements.bookmarks.forEach(elements => {
+					if(elements.ismarked === 1){
+						number_of_bookmarks++
+					}
+				})
+				Object.assign(elements.dataValues, {number_of_bookmarks: number_of_bookmarks})
+
+				delete elements.dataValues.bookmarks
+			}
+		})
+
+		return items;
 	}
 
 	async getimageuploadurl() {
@@ -164,14 +197,17 @@ export class ItemsService {
 					raw: true,
 				},
 				{ model: models.user, as: 'user', attributes: [],},
+				{ model: models.item_inventory, as: 'item_inventories', attributes: [] },
 				{model: models.order_detail, as: 'order_details', attributes: ['id'], raw: true, include: [
-					{model: models.item_review, as: 'item_reviews', require: false, raw: true, attributes: [
-						'contents',
-						'image_src',
-						'score',
-						'user_id',
+					{model: models.item_review, as: 'item_reviews', require: false, attributes: [
+						//'contents',
+						//'image_src',
+						//'score',
+						//kk'user_id',
+						[sequelize.fn('COUNT', sequelize.col('score')), 'number_of_reviewer'],
+						[sequelize.fn('AVG', sequelize.col('score')), 'avg_score']
 					], include: [
-						{model: models.user, as: 'user', attributes: ['email'], raw: true}
+						//{model: models.user, as: 'user', attributes: ['email'],}
 					]}
 				]},
 
@@ -185,6 +221,7 @@ export class ItemsService {
 				'user_id',
 				'createdAt',
 				'updatedAt',
+				[sequelize.col('item_inventories.stock'), 'stock'],
 				[sequelize.col('user.storename'), 'user_storename'],
 				[sequelize.col('item_has_categories.category.id'), 'category_id'],
 				[sequelize.col('item_has_categories.category.category'), 'category'],
@@ -206,19 +243,6 @@ export class ItemsService {
 			]
 		})
 		return comments
-	}
-
-	findOne(id: number) {
-		this.logger.error('1234');
-		return `This action returns a #${id} item`;
-	}
-
-	update(id: number, updateItemDto: UpdateItemDto) {
-		return `This action updates a #${id} item`;
-	}
-
-	remove(id: number) {
-		return `This action removes a #${id} item`;
 	}
 
 	async getCategoryList(): Promise<category[]> {
@@ -400,5 +424,13 @@ export class ItemsService {
 
 	getSellingItems() {
 		return models.keyword.findOne({})
+	}
+
+	update(id: number, updateItemDto: UpdateItemDto) {
+		return `This action updates a #${id} item`;
+	}
+
+	remove(id: number) {
+		return `This action removes a #${id} item`;
 	}
 }
