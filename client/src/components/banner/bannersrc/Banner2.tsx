@@ -1,4 +1,12 @@
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import { navSearchAsync } from '../../../redux/modules/navSearchSlice';
+import type { RootState } from '../../../redux/configStore';
+import { setReduxKeyword } from '../../../redux/modules/navSearchSlice';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '../../../redux/configStore.hooks';
 
 const Container = styled.div`
   background-color: #ff7836;
@@ -129,8 +137,16 @@ const Img = styled.img`
 `;
 
 const Banner2 = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const handleLink = () => {
+    dispatch(navSearchAsync('신상'));
+    dispatch(setReduxKeyword('신상'));
+    navigate('/search');
+  };
+
   return (
-    <Container>
+    <Container onClick={handleLink}>
       <Contents>
         <MentionContainer>
           <BadgeContainer>

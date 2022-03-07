@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Banner1 from './bannersrc/Banner1';
 import Banner2 from './bannersrc/Banner2';
+import Banner3 from './bannersrc/Banner3';
 import Slick from './Slick';
 
 interface itemsProps {
@@ -34,11 +35,11 @@ const items: itemsProps[] = [
     name: '이미지02',
     el: <Banner1 />,
   },
-  // {
-  //   item: 'http://placehold.it/1200x400/00ffff',
-  //   name: '이미지03',
-  //   el: <Banner3 />,
-  // },
+  {
+    item: 'http://placehold.it/1200x400/00ffff',
+    name: '이미지03',
+    el: <Banner3 />,
+  },
 ];
 const Container = styled.div`
   margin-bottom: 20px;
