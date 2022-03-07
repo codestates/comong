@@ -96,6 +96,10 @@ export function setupSwagger(app: INestApplication): void {
     .swagger-ui .info { margin: 50px 0 0 0 }
     .swagger-ui textarea  { font-family: 'Roboto Mono', 'NanumSquareRound', 'sans-serif '; font-size: 14px; font-weight: 400}
     .swagger-ui .opblock-body pre.microlight { font-family: 'Roboto Mono', 'NanumSquareRound', 'sans-serif '; font-size: 14px; font-weight: 400}
+    .swagger-ui table.model tr.description td:first-child, .swagger-ui table.model tr.property-row.required td:first-child { font-family: 'NanumSquareRound', 'sans-serif'; font-weight: 700; font-size: 16px }
+    .swagger-ui .border-box, .swagger-ui a, .swagger-ui article, .swagger-ui body, .swagger-ui code, .swagger-ui dd, .swagger-ui div, .swagger-ui dl, .swagger-ui dt, .swagger-ui fieldset, .swagger-ui footer, .swagger-ui form, .swagger-ui h1, .swagger-ui h2, .swagger-ui h3, .swagger-ui h4, .swagger-ui h5, .swagger-ui h6, .swagger-ui header, .swagger-ui html, .swagger-ui input[type=email], .swagger-ui input[type=number], .swagger-ui input[type=password], .swagger-ui input[type=tel], .swagger-ui input[type=text], .swagger-ui input[type=url], .swagger-ui legend, .swagger-ui li, .swagger-ui main, .swagger-ui ol, .swagger-ui p, .swagger-ui pre, .swagger-ui section, .swagger-ui table, .swagger-ui td, .swagger-ui textarea, .swagger-ui th, .swagger-ui tr, .swagger-ui ul { font-family: 'NanumSquareRound', 'sans-serif'; font-weight: 700; font-size: 16px }
+    .swagger-ui .prop-type { font-family: 'NanumSquareRound', 'sans-serif'; font-weight: 700; font-size: 14px }
+    .swagger-ui .model .property.primitive { font-family: 'NanumSquareRound', 'sans-serif'; font-weight: 500; font-size: 14px }
     `,
     customJs: `custom.js`,
     customSiteTitle: 'Comong Api Docs',

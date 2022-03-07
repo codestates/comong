@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { ItemsService } from './items.service';
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
@@ -32,6 +32,7 @@ export class ItemsController {
   @ApiBadRequestResponse({ description: 'invalid value for property' })
   @ApiServiceUnavailableResponse({ description: 'a network-related or database instance-specific error occurred while inserting new data' })
   @UseGuards(JwtAuthGuard)
+  @UsePipes(ValidationPipe)
   create(@Body() newItem: CreateItemDto, @getUser() user: User ) {
     return this.itemsService.create(newItem, user);
   }

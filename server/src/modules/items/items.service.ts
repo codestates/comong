@@ -198,8 +198,8 @@ export class ItemsService {
 				},
 				{ model: models.user, as: 'user', attributes: [],},
 				{ model: models.item_inventory, as: 'item_inventories', attributes: [] },
-				{model: models.order_detail, as: 'order_details', attributes: ['id'], raw: true, include: [
-					{model: models.item_review, as: 'item_reviews', require: false, attributes: [
+				{model: models.order_detail, as: 'order_details', attributes: {include: ['id']}, raw: true, nest: true, include: [
+					{model: models.item_review, as: 'item_reviews', require: true, attributes: [
 						//'contents',
 						//'image_src',
 						//'score',
@@ -208,8 +208,9 @@ export class ItemsService {
 						[sequelize.fn('AVG', sequelize.col('score')), 'avg_score']
 					], include: [
 						//{model: models.user, as: 'user', attributes: ['email'],}
-					]}
+					]},
 				]},
+				{model: models.bookmark, as: 'bookmarks', require: false, attributes: [[sequelize.fn('count', sequelize.col('ismarked')), 'numbertfsf']]},
 
 			],
 			attributes: [
@@ -225,6 +226,7 @@ export class ItemsService {
 				[sequelize.col('user.storename'), 'user_storename'],
 				[sequelize.col('item_has_categories.category.id'), 'category_id'],
 				[sequelize.col('item_has_categories.category.category'), 'category'],
+				
 			],
 		});
 		if (this.items) {
