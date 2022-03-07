@@ -1,12 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { Link, Outlet, useLocation, useOutletContext } from 'react-router-dom';
+import {
+  Link,
+  Outlet,
+  useLocation,
+  useNavigate,
+  useOutletContext,
+} from 'react-router-dom';
 import styled from 'styled-components';
-import { apiClient } from '../../apis';
+import { apiClient, setClientHeadersToken } from '../../apis';
 import {
   postOauthGoogle,
   postOauthKakao,
   postOauthNaver,
 } from '../../apis/api/oauth';
+import { LoadingIndicator } from '../../constants';
+import { useAppDispatch } from '../../redux/configStore.hooks';
+import { postSigninAsync } from '../../redux/modules/userSlice';
 
 const Main = styled.main`
   width: 420px;
@@ -57,7 +66,10 @@ function Join() {
   const { pathname, search } = useLocation();
   const [role, setRole] = useState(0);
   const [basePath, setBasePath] = useState('/join');
+  const [isLoading, setIsLoading] = useState(true);
   const [userEmail, setUserEmail] = useState('');
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (pathname.includes('oauth')) {
@@ -77,25 +89,30 @@ function Join() {
   const postOauth = async () => {
     const authorizationCode = search.split('code=')[1];
     const oauth = sessionStorage.getItem('oauth');
+    let response;
     if (oauth === 'naver') {
-      const data = await postOauthNaver(authorizationCode);
-      console.log(data);
+      response = await postOauthNaver(authorizationCode);
     } else if (oauth === 'kakao') {
-      const { accessToken, email } = await postOauthKakao(authorizationCode);
-      apiClient.defaults.headers.common[
-        'Authorization'
-      ] = `bearer ${accessToken}`;
-      setUserEmail(email);
+      response = await postOauthKakao(authorizationCode);
     } else {
-      const { accessToken, email } = await postOauthGoogle(authorizationCode);
-      apiClient.defaults.headers.common[
-        'Authorization'
-      ] = `bearer ${accessToken}`;
+      response = await postOauthGoogle(authorizationCode);
+    }
+    const { data, needSignup } = response;
+    const { accessToken, email } = data;
+    setClientHeadersToken(accessToken);
+    if (!needSignup) {
+      dispatch(await postSigninAsync());
+      navigate('/');
+      return;
+    } else {
+      setIsLoading(false);
       setUserEmail(email);
     }
   };
 
-  return (
+  return isLoading ? (
+    <LoadingIndicator></LoadingIndicator>
+  ) : (
     <Main>
       <h1>회원가입</h1>
       <Tabs>

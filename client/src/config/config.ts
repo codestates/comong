@@ -2,7 +2,7 @@ export const config = {
   development: {
     url: 'https://dev1.comong.kr',
     authURL: 'https://api.comong.kr/',
-    redirectURL: 'https://comong.kr/join/oauth',
+    redirectURL: 'https://localhost:3000/join/oauth',
     oauth: {
       kakao: {
         clientId: process.env.REACT_APP_KAKAO_CLIENT_ID,

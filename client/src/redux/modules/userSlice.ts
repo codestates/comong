@@ -139,9 +139,15 @@ const userSlice = createSlice({
 
 export const postSigninAsync = createAsyncThunk(
   'post/login',
-  async (form: ILoginForm) => {
+  async (form?: ILoginForm) => {
     console.log('1번, 여기서 비동기 작업하고 data 리턴');
-    const response = await apiClient.post(`/users/signin`, form);
+    let response;
+    if (form) {
+      response = await apiClient.post(`/users/signin`, form);
+    } else {
+      response = await apiClient.get(`/users`);
+    }
+    //const response = await apiClient.post(`/users/signin`, form);
     const notification = (
       await apiClient.get(
         `/users/notification?user_id=${response.data.user.id}`,
@@ -169,6 +175,31 @@ export const postSigninAsync = createAsyncThunk(
     return data;
   },
 );
+
+// export const getOauthUserAsync = createAsyncThunk('post/login', async () => {
+//   const response = await apiClient.get(`/users`);
+//   const notification = (
+//     await apiClient.get(`/users/notification?user_id=${response.data.user.id}`)
+//   ).data;
+//   const newNotification = notification.data.map(
+//     (obj: {
+//       id: number;
+//       updatedAt: string;
+//       read: number;
+//       contents: string;
+//     }) => {
+//       const newContents = {
+//         id: obj.id,
+//         updatedAt: obj.updatedAt,
+//         read: obj.read === 0 ? false : true,
+//         ...JSON.parse(obj.contents),
+//       };
+//       return newContents;
+//     },
+//   );
+//   const data = { ...response.data, notification: newNotification.reverse() };
+//   return data;
+// });
 
 export const postBookmarkAsync = createAsyncThunk(
   'post/bookmark',
