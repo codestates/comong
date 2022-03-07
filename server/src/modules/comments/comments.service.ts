@@ -119,7 +119,10 @@ export class CommentsService {
 							] = orderDetailList[j];
 						}
 						for (let k = 0; k < itemList.length; k++) {
-							if (orderDetailList[j].item_id === itemList[k].id) {
+							if (
+								itemreviewList[i].order_detail_id === orderDetailList[j].id &&
+								orderDetailList[j].item_id === itemList[k].id
+							) {
 								output[`item_review_id_${itemreviewList[i].id}`]['itemInfo'] =
 									itemList[k];
 							}
