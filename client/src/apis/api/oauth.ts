@@ -17,9 +17,12 @@ export const postOauthKakao = async (code: string) => {
     const response = await apiOauthClient.post(`/oauth/kakao`, {
       authorizationCode: code,
     });
+    console.log(response);
     console.log('kakao', response);
-    return response.data.data;
-  } catch (error) {}
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const postOauthGoogle = async (code: string) => {
@@ -28,6 +31,6 @@ export const postOauthGoogle = async (code: string) => {
       authorizationCode: code,
     });
     console.log('google', response);
-    return response.data.data;
+    return response.data;
   } catch (error) {}
 };

@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import ImgLodingIndicator from './common/loading-indicator/ImgLodingIndicator';
 
 const Wrapper = styled.div`
-  width: 100px;
-  height: 100px;
+  width: 5.5rem;
+  height: 5.5rem;
+  flex: 0 0 auto;
   position: relative;
+  @media only screen and (max-width: 768px) {
+    width: 5rem;
+    height: 5rem;
+  }
 `;
 
 const DeleteBtn = styled.div`
@@ -31,10 +37,15 @@ interface IPreview {
   src: string;
   idx: number;
   deletePreview: (idx: number) => void;
+  isLoading: boolean;
 }
 
-function Preview({ src, idx, deletePreview }: IPreview) {
-  return (
+function Preview({ src, idx, deletePreview, isLoading }: IPreview) {
+  return isLoading ? (
+    <Wrapper>
+      <ImgLodingIndicator></ImgLodingIndicator>
+    </Wrapper>
+  ) : (
     <Wrapper>
       <DeleteBtn onClick={() => deletePreview(idx)}>x</DeleteBtn>
       <Img src={src} />

@@ -7,4 +7,5 @@ export class item {
     user_id: number;
     createdAt: Date;
     updatedAt: Date;
+    order_details: any;
 }
