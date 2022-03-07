@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Link,
-  Outlet,
-  useLocation,
-  useNavigate,
-  useOutletContext,
-} from 'react-router-dom';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { apiClient, setClientHeadersToken } from '../../apis';
+import { setClientHeadersToken } from '../../apis';
 import {
   postOauthGoogle,
   postOauthKakao,
@@ -103,7 +97,7 @@ function Join() {
     const { accessToken, email } = data;
     setClientHeadersToken(accessToken);
     if (!needSignup) {
-      dispatch(await postSigninAsync());
+      dispatch(postSigninAsync());
       navigate('/');
       return;
     } else {
