@@ -75,6 +75,8 @@ function Join() {
     if (pathname.includes('oauth')) {
       setBasePath('/join/oauth');
       postOauth();
+    } else {
+      setIsLoading(false);
     }
   }, []);
 
