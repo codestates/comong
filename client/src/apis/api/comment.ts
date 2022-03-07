@@ -22,7 +22,9 @@ export const postComments = async (form: IPostCommentForm) => {
 export const getComments = async (userid: number) => {
   try {
     const response = await apiClient.get(`/comments/user?user_id=${userid}`);
+    console.log(response.data);
     const data = response.data.data;
+    console.log(data);
     let result = [];
     for (let key in data) {
       delete data[key].orderDeailInfo;
