@@ -91,6 +91,7 @@ const NavMenu = styled.div<{
   mypageColor?: boolean;
   cartColor?: boolean;
 }>`
+  position: relative;
   cursor: pointer;
   position: relative;
 

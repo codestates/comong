@@ -16,7 +16,8 @@ const Button = styled.button<{ lightStyle: boolean; backColor: string }>`
   font-family: 'roboto', 'Noto Sans KR';
 
   @media only screen and (max-width: 768px) {
-    height: 50px;
+    height: 3rem;
+    font-size: 1rem;
   }
 
   &.small {

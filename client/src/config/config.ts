@@ -1,7 +1,7 @@
 export const config = {
   development: {
     url: 'https://dev1.comong.kr',
-    authURL: 'https://comong.kr/',
+    authURL: 'https://api.comong.kr/',
     redirectURL: 'https://comong.kr/join/oauth',
     oauth: {
       kakao: {
