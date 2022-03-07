@@ -45,10 +45,12 @@ export interface IUser {
   role?: number;
   userinfo?: IUserInfo;
   notification?: INotification[];
+  isLoading?: boolean;
 }
 
 const initialState: IUser = {
   isLogin: false,
+  isLoading: false,
 };
 
 const userSlice = createSlice({
@@ -87,6 +89,7 @@ const userSlice = createSlice({
       );
       delete user.category_has_users;
       const userinfo = { ...user, likes, bookmarks };
+
       return {
         isLogin: true,
         accessToken,
@@ -94,6 +97,10 @@ const userSlice = createSlice({
         userinfo,
         notification,
       };
+    });
+
+    builder.addCase(postSigninAsync.pending, (state, action) => {
+      state.isLoading = true;
     });
 
     builder.addCase(postSigninAsync.rejected, (state, action) => {
