@@ -7,6 +7,7 @@ import Modal from '../components/common/modal/Modal';
 import TestLoginModalContainer from '../components/common/modal/TestLoginModalContainer';
 import LoginForm from '../components/form/LoginForm';
 import OauthButton from '../components/OauthButton';
+import { LoadingIndicator } from '../constants';
 import { useAppSelector } from '../redux/configStore.hooks';
 import { logout } from '../redux/modules/userSlice';
 
@@ -80,11 +81,13 @@ const OauthLoginWrapper = styled.div`
 
 function Login() {
   const dispatch = useDispatch();
-  const { isLogin } = useAppSelector((state) => state.userSlice);
+  const { isLogin, isLoading } = useAppSelector((state) => state.userSlice);
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
 
-  return isLogin ? (
+  return isLoading ? (
+    <LoadingIndicator></LoadingIndicator>
+  ) : isLogin ? (
     <Main>
       <span>로그인하셨습니다</span>
       <ButtonBasic type="small" buttonClickHandler={() => dispatch(logout())}>
