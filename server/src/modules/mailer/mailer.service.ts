@@ -28,7 +28,7 @@ export class MailerService {
             }
             
         } else {
-            return new Object({ message: 'successful' })
+            return new Object({ message: 'successfulmailer' })
         }
     }
 

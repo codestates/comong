@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { CategoryDropdown } from "./CategoryDropdown";
 import GeneralInput from "./GeneralInput";
 import { ReactComponent as HeartIcon} from './heartIcon.svg'
 
