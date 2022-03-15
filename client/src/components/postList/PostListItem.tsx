@@ -23,9 +23,9 @@ const PostListItem = ({ post, LoginCheck }: Props) => {
   const itemData = useAppSelector((state: RootState) => state);
   const isLogin = itemData.userSlice.isLogin;
 
-  const hearts = 90;
-  const comments = 120;
-  const rating = 4.7;
+  const hearts = post.number_of_bookmarks || '0';
+  const comments = post.number_of_reviewers || '0';
+  const rating = post.average_of_scores || '0';
 
   return (
     <StLink to={`/item/${id}`}>
@@ -208,6 +208,9 @@ interface Props {
     updatedAT?: string;
     user: { storename: string };
     user_id: number;
+    number_of_reviewers: number | null;
+    average_of_scores: number | null;
+    number_of_bookmarks: number | null;
   };
   LoginCheck?: () => void;
 }

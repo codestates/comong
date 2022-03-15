@@ -23,6 +23,9 @@ interface Post {
   updatedAT: string;
   user: { storename: string };
   user_id: number;
+  number_of_reviewers: number | null;
+  average_of_scores: number | null;
+  number_of_bookmarks: number | null;
 }
 
 const PostListWrapper = styled.div`

@@ -36,7 +36,7 @@ function TestLoginModalContainer({ setShowModal }: ITestLoginModalContainer) {
   const navigate = useNavigate();
   const user = {
     general: {
-      email: 'test@test.com',
+      email: 'buyer@comong.kr',
       password: 'asdf1234!',
     },
     seller: {

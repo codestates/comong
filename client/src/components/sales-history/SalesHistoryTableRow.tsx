@@ -105,7 +105,9 @@ function SalesHistoryTableRow({ order }: ISalesHistoryTableRow) {
           <span className="order-number">{orderInfo.id}</span>
         </Cell>
         <Cell className="order-info">
-          <SalesImg src={orderItemInfo[0].item_info.image_src}></SalesImg>
+          <SalesImg
+            src={orderItemInfo[0].item_info.image_src.split(',')[0]}
+          ></SalesImg>
           <SalesItemBasicInfo>
             <span className="item__title">
               {orderItemInfo[0].item_info.title}
