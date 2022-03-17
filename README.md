@@ -141,11 +141,11 @@
     <img width="700" src=""/>
   </details>
   
-    <details>
+  <details>
   <summary> 장바구니 상품 삭제 </summary>
     <img width="700" src=""/>
-
   </details>
+  
   
 </details>
 
@@ -170,9 +170,10 @@
   </details>
   
     <details>
-  <summary> 결제  </summary>
+  <summary> 결제 진행(장바구니 상태) </summary>
     <img width="700" src=""/>
   </details>
+
   
 </details>
 
