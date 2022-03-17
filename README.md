@@ -169,6 +169,11 @@
     <img width="700" src=""/>
   </details>
   
+    <details>
+  <summary> 결제  </summary>
+    <img width="700" src=""/>
+  </details>
+  
 </details>
 
 ---
