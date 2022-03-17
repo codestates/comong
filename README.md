@@ -62,16 +62,15 @@
   <summary> 메인 배너 (자동 슬라이드)</summary>
     <img width="700" src="https://user-images.githubusercontent.com/86667412/158828284-b418222d-f2d2-40ec-a9d8-899fad1d1100.gif"/>
   </details>
-  ![image](https://user-images.githubusercontent.com/86667412/158827931-a128ff61-b635-4672-b7e7-af3dfe49ca44.png)
 
   <details>
   <summary> 상품 목록 (무한스크롤) </summary>
-    <img width="700" src="https://user-images.githubusercontent.com/86667412/158827640-be8f1852-aca3-4fb9-83a3-b4ff4041716c.png2"/>
+    <img width="700" src="https://user-images.githubusercontent.com/86667412/158828284-b418222d-f2d2-40ec-a9d8-899fad1d1100.gif"/>
   </details>
   
   <details>
   <summary> 상품 목록 (카테고리별 필터, 무한스크롤)  </summary>
-    <img width="700" src=""/>
+    <img width="700" src="https://user-images.githubusercontent.com/86667412/158828284-b418222d-f2d2-40ec-a9d8-899fad1d1100.gif"/>
 
   </details>
   
