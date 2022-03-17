@@ -154,25 +154,24 @@
   <summary> 결제 페이지 </summary>
 
   <details>
-  <summary> 결제 진행(장바구니 상태) </summary>
+  <summary> 결제 진행 (장바구니) </summary>
     <img width="700" src=""/>
   </details>
-  
+
   <details>
-  <summary> 결제 진행(단일 상품 구매) </summary>
+  <summary> 결제 진행 (상품 페이지) </summary>
     <img width="700" src=""/>
-  </details>
+  </details>  
   
   <details>
   <summary> 결제 주소 입력 </summary>
     <img width="700" src=""/>
   </details>
-  
-    <details>
-  <summary> 결제 진행(장바구니 상태) </summary>
-    <img width="700" src=""/>
-  </details>
 
+  <details>
+  <summary> 결제  </summary>
+    <img width="700" src=""/>
+  </details>  
   
 </details>
 
