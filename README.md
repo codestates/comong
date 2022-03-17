@@ -80,20 +80,16 @@
   <summary> 검색 페이지 </summary>
 
   <details>
-  <summary> 전시 신청 </summary>
-    <img width="700" src=""/>
+  <summary> 상품 검색 </summary>
+    <img width="700" src="https://user-images.githubusercontent.com/86667412/158833765-129ab415-eda0-456c-b71e-10e05bff9f2c.gif"/>
   </details>
   
   <details>
-  <summary> 전시회 조회(standard/premium) </summary>
-    <img width="700" src=""/>
+  <summary> 인기검색어 </summary>
+    <img width="700" src="https://user-images.githubusercontent.com/86667412/158833652-8309192f-3ecd-4399-80bc-52e94ad9f076.gif"/>
   </details>
   
-  <details>
-  <summary> 전시회 카테고리 필터링 </summary>
-    <img width="700" src=""/>
 
-  </details>
   
 </details>
 
