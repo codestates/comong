@@ -52,7 +52,6 @@
 </details>
 
 ---
-![image](https://user-images.githubusercontent.com/86667412/158827640-be8f1852-aca3-4fb9-83a3-b4ff4041716c.png)
 
 
 <details>
@@ -65,13 +64,12 @@
 
   <details>
   <summary> 상품 목록 (무한스크롤) </summary>
-    <img width="700" src="https://user-images.githubusercontent.com/86667412/158828284-b418222d-f2d2-40ec-a9d8-899fad1d1100.gif"/>
+    <img width="700" src="https://user-images.githubusercontent.com/86667412/158832768-90f6f518-23cf-4d42-9b38-6c47e8ed18ce.gif"/>
   </details>
   
   <details>
-  <summary> 상품 목록 (카테고리별 필터, 무한스크롤)  </summary>
-    <img width="700" src="https://user-images.githubusercontent.com/86667412/158828284-b418222d-f2d2-40ec-a9d8-899fad1d1100.gif"/>
-
+  <summary> 상품 목록 (카테고리별 필터)  </summary>
+    <img width="700" src="https://user-images.githubusercontent.com/86667412/158832382-c8ff7e60-a8aa-4704-b8c0-88316e2ec288.gif"/>
   </details>
   
 </details>
@@ -105,17 +103,22 @@
   <summary> 상품별 상세 페이지 </summary>
 
   <details>
-  <summary> 전시 신청 </summary>
+  <summary> 상품 사진 </summary>
     <img width="700" src=""/>
   </details>
   
   <details>
-  <summary> 전시회 조회(standard/premium) </summary>
+  <summary> 상품 설명 </summary>
     <img width="700" src=""/>
   </details>
   
   <details>
-  <summary> 전시회 카테고리 필터링 </summary>
+  <summary> 상품평 </summary>
+    <img width="700" src=""/>
+  </details>
+  
+    <details>
+  <summary> 구매 개수 조절 </summary>
     <img width="700" src=""/>
 
   </details>
@@ -125,20 +128,64 @@
 ---
 
 <details>
-  <summary> 장바구니 & 결제 페이지 </summary>
+  <summary> 장바구니 페이지 </summary>
 
   <details>
-  <summary> 전시 신청 </summary>
+  <summary> 장바구니 담기 </summary>
     <img width="700" src=""/>
   </details>
   
   <details>
-  <summary> 전시회 조회(standard/premium) </summary>
+  <summary> 장바구니 이동 </summary>
     <img width="700" src=""/>
   </details>
   
   <details>
-  <summary> 전시회 카테고리 필터링 </summary>
+  <summary> 장바구니 상품 개수 조절 </summary>
+    <img width="700" src=""/>
+  </details>
+  
+    <details>
+  <summary> 장바구니 상품 삭제 </summary>
+    <img width="700" src=""/>
+
+  </details>
+  
+</details>
+
+---
+
+<details>
+  <summary> 결제 페이지 </summary>
+
+  <details>
+  <summary> 결제 진행(장바구니 상태) </summary>
+    <img width="700" src=""/>
+  </details>
+  
+  <details>
+  <summary> 결제 진행(단일 상품 구매) </summary>
+    <img width="700" src=""/>
+  </details>
+  
+  <details>
+  <summary> 결제 주소 입력 </summary>
+    <img width="700" src=""/>
+  </details>
+  
+    <details>
+  <summary> 결제창 화면 </summary>
+    <img width="700" src=""/>
+  </details>
+  
+      <details>
+  <summary> 결제 진행 </summary>
+    <img width="700" src=""/>
+
+  </details>
+  
+        <details>
+  <summary> 결제 완료 </summary>
     <img width="700" src=""/>
 
   </details>
