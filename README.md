@@ -63,7 +63,7 @@
   
   <details>
   <summary> 상품 목록 (무한스크롤) </summary>
-    <img width="700" src=""/>
+    <img width="700" src="https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fd03ed345-c007-44fd-b799-25c5dfdfc032%2Fbanner.gif?table=block&id=b72a662f-a6c5-49e2-b849-9aca580fc5fb&spaceId=79323c3f-c9f3-4b57-975a-5805c59407e4&userId=d8dad25e-76d6-4967-9b57-58068627732a&cache=v2"/>
   </details>
   
   <details>
