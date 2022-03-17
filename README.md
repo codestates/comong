@@ -60,9 +60,10 @@
 
   <details>
   <summary> 메인 배너 (자동 슬라이드)</summary>
-    <img width="700" src="https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fd03ed345-c007-44fd-b799-25c5dfdfc032%2Fbanner.gif?table=block&id=b72a662f-a6c5-49e2-b849-9aca580fc5fb&spaceId=79323c3f-c9f3-4b57-975a-5805c59407e4&userId=d8dad25e-76d6-4967-9b57-58068627732a&cache=v2"/>
+    <img width="700" src="https://user-images.githubusercontent.com/86667412/158828284-b418222d-f2d2-40ec-a9d8-899fad1d1100.gif"/>
   </details>
-  
+  ![image](https://user-images.githubusercontent.com/86667412/158827931-a128ff61-b635-4672-b7e7-af3dfe49ca44.png)
+
   <details>
   <summary> 상품 목록 (무한스크롤) </summary>
     <img width="700" src="https://user-images.githubusercontent.com/86667412/158827640-be8f1852-aca3-4fb9-83a3-b4ff4041716c.png2"/>
