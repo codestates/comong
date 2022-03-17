@@ -12,7 +12,7 @@
 
 ## ✨ Link
 
-[https://www.comong.kr/](https://www.comong.kr/)]
+[https://www.comong.kr/](https://www.comong.kr/)
 
 ## ✨ 주요기능 시연 GIF
 
