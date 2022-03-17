@@ -25,7 +25,7 @@ const NotificationList = styled.ul`
 `;
 
 function Notifications() {
-  const { userinfo, notification } = useAppSelector((state) => state.userSlice);
+  const { notification } = useAppSelector((state) => state.userSlice);
   const dispatch = useDispatch();
   const [messageList, setMessageList] = useState(notification);
   const [notiOptions, setNotiOptions] = useState({});
@@ -82,17 +82,27 @@ function Notifications() {
     !isEmpty && pushNotification && pushNotification();
   }, [notiOptions]);
 
+  const deleteMessage = (notiIdx: number) => {
+    messageList &&
+      setMessageList([
+        ...messageList.slice(0, notiIdx),
+        ...messageList.slice(notiIdx + 1),
+      ]);
+  };
+
   return (
     <Wrapper>
       <h2>알림</h2>
       <NotificationList>
         {messageList && messageList.length > 0 ? (
-          messageList?.map((el) => {
+          messageList?.map((el, idx) => {
             const type = el.data.shipping_status || 'paid';
             return (
               <NotificationListItem
                 type={type}
                 info={el}
+                idx={idx}
+                deleteMessage={deleteMessage}
               ></NotificationListItem>
             );
           })

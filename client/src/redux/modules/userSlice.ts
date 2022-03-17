@@ -134,6 +134,20 @@ const userSlice = createSlice({
         ];
       }
     });
+
+    builder.addCase(deleteUserNotificationAsync.fulfilled, (state, action) => {
+      console.log(state.notification);
+      console.log('notiId', action.payload);
+      if (!!state.notification) {
+        console.log('hi');
+        const notis = state.notification;
+        const notiIdx = notis.findIndex((noti) => noti.id === action.payload);
+        state.notification = [
+          ...notis.slice(0, notiIdx),
+          ...notis.slice(notiIdx + 1),
+        ];
+      }
+    });
   },
 });
 
@@ -218,6 +232,19 @@ export const patchUserNotificationAsync = createAsyncThunk(
       { notification_id: notiId, read: 1 },
     );
     console.log(response.data);
+    return notiId;
+  },
+);
+
+export const deleteUserNotificationAsync = createAsyncThunk(
+  'delete/notification',
+  async (notiId: number) => {
+    const reqForm = {
+      data: {
+        notification_id: notiId,
+      },
+    };
+    await apiClient.delete('/users/notification', reqForm);
     return notiId;
   },
 );

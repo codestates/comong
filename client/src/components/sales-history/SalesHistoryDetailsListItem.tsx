@@ -73,7 +73,7 @@ function SalesHistoryDetailsListItem({ item }: ISalesHistoryDetailsListItem) {
   return (
     <Wrapper>
       <Cell className="info-item">
-        <SalesImg src={itemInfo.image_src}></SalesImg>
+        <SalesImg src={itemInfo.image_src.split(',')[0]}></SalesImg>
         <SalesItemBasicInfo>
           <span className="item__title">{itemInfo.title}</span>
         </SalesItemBasicInfo>

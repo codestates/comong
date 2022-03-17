@@ -14,7 +14,9 @@ function NavSeller() {
   const navigate = useNavigate();
 
   const getSelectedClass = (path: string) => {
-    if (pathname.includes(path)) return 'selected';
+    if (path === '' && pathname !== '/sellerpage') {
+      return '';
+    } else if (pathname.includes(path)) return 'selected';
     return '';
   };
 
@@ -30,7 +32,9 @@ function NavSeller() {
       <MenuWrapper>
         <h3>판매 관리</h3>
         <ul>
-          <li>판매 현황</li>
+          <Link to="/sellerpage">
+            <li className={getSelectedClass('')}>판매 현황</li>
+          </Link>
         </ul>
       </MenuWrapper>
       <MenuWrapper>
