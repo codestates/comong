@@ -169,23 +169,6 @@
     <img width="700" src=""/>
   </details>
   
-    <details>
-  <summary> 결제창 화면 </summary>
-    <img width="700" src=""/>
-  </details>
-  
-      <details>
-  <summary> 결제 진행 </summary>
-    <img width="700" src=""/>
-
-  </details>
-  
-        <details>
-  <summary> 결제 완료 </summary>
-    <img width="700" src=""/>
-
-  </details>
-  
 </details>
 
 ---
