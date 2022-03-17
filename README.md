@@ -55,7 +55,7 @@
 
 
 <details>
-  <summary> 목록 페이지 </summary>
+  <summary> 상품 목록 </summary>
 
   <details>
   <summary> 메인 배너 (자동 슬라이드)</summary>
@@ -77,7 +77,7 @@
 ---
 
 <details>
-  <summary> 검색 페이지 </summary>
+  <summary> 검색 </summary>
 
   <details>
   <summary> 상품 검색 </summary>
@@ -118,7 +118,7 @@
 ---
 
 <details>
-  <summary> 장바구니 페이지 </summary>
+  <summary> 장바구니 </summary>
 
   <details>
   <summary> 장바구니 담기 </summary>
@@ -146,7 +146,7 @@
 ---
 
 <details>
-  <summary> 결제 페이지 </summary>
+  <summary> 결제 </summary>
 
   <details>
   <summary> 결제 진행 (장바구니) </summary>
