@@ -100,22 +100,17 @@
 
   <details>
   <summary> 상품 사진 </summary>
-    <img width="700" src=""/>
+    <img width="700" src="https://user-images.githubusercontent.com/86667412/158838630-164b5c36-fc3a-4c9a-8334-1397cda64b45.gif"/>
   </details>
   
   <details>
   <summary> 상품 설명 </summary>
-    <img width="700" src=""/>
+    <img width="700" src="https://user-images.githubusercontent.com/86667412/158838734-ecebc4a1-e1c4-4790-9182-aa1ce24fdea1.gif"/>
   </details>
   
   <details>
   <summary> 상품평 </summary>
-    <img width="700" src=""/>
-  </details>
-  
-  <details>
-  <summary> 구매 개수 조절 </summary>
-    <img width="700" src=""/>
+    <img width="700" src="https://user-images.githubusercontent.com/86667412/158838847-b6b46526-1cb4-461f-ada1-7360ad8bc25e.gif"/>
   </details>
   
 </details>
