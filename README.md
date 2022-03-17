@@ -113,10 +113,9 @@
     <img width="700" src=""/>
   </details>
   
-    <details>
+  <details>
   <summary> 구매 개수 조절 </summary>
     <img width="700" src=""/>
-
   </details>
   
 </details>
