@@ -10,6 +10,183 @@
 * 저희 comong 오픈마켓에 상품을 올리고 수익을 창출해 보세요.
 * 실시간 알림을 통해 아이디어와 상품에 대한 정보를 주고받는 플랫폼 'COMONG'
 
+## ✨ Link
+
+[https://www.comong.kr/](https://www.comong.kr/)]
+
+## ✨ 주요기능 시연 GIF
+
+<details>
+  <summary> 회원가입, 로그인, 로그아웃</summary>
+  
+  <details>
+  <summary> 일반 회원가입 </summary>
+    <img width="700" src=""/>
+  </details>
+  
+  <details>
+  <summary> 판매자 회원가입 </summary>
+    <img width="700" src=""/>
+  </details>
+  
+  <details>
+  <summary> 로그인 </summary>
+    <img width="700" src=""/>
+  </details>
+  
+   <details>
+  <summary> 카카오 로그인 </summary>
+    <img width="700" src=""/>
+  </details>
+  
+   <details>
+  <summary> 구글 로그인 </summary>
+    <img width="700" src=""/>
+  </details>
+  
+  <details>
+  <summary> 로그아웃 </summary>
+    <img width="700" src=""/>
+  </details>
+  
+</details>
+
+---
+
+<details>
+  <summary> 목록 페이지 </summary>
+
+  <details>
+  <summary> 메인 배너 (자동 슬라이드)</summary>
+    <img width="700" src="https://www.notion.so/ade8fb78b5e24cf3837def4dce07ed90#b72a662fa6c549e2b8499aca580fc5fb"/>
+  </details>
+  
+  <details>
+  <summary> 상품 목록 (무한스크롤) </summary>
+    <img width="700" src=""/>
+  </details>
+  
+  <details>
+  <summary> 상품 목록 (카테고리별 필터, 무한스크롤)  </summary>
+    <img width="700" src=""/>
+
+  </details>
+  
+</details>
+
+---
+
+<details>
+  <summary> 검색 페이지 </summary>
+
+  <details>
+  <summary> 전시 신청 </summary>
+    <img width="700" src=""/>
+  </details>
+  
+  <details>
+  <summary> 전시회 조회(standard/premium) </summary>
+    <img width="700" src=""/>
+  </details>
+  
+  <details>
+  <summary> 전시회 카테고리 필터링 </summary>
+    <img width="700" src=""/>
+
+  </details>
+  
+</details>
+
+---
+
+<details>
+  <summary> 상품별 상세 페이지 </summary>
+
+  <details>
+  <summary> 전시 신청 </summary>
+    <img width="700" src=""/>
+  </details>
+  
+  <details>
+  <summary> 전시회 조회(standard/premium) </summary>
+    <img width="700" src=""/>
+  </details>
+  
+  <details>
+  <summary> 전시회 카테고리 필터링 </summary>
+    <img width="700" src=""/>
+
+  </details>
+  
+</details>
+
+---
+
+<details>
+  <summary> 장바구니 & 결제 페이지 </summary>
+
+  <details>
+  <summary> 전시 신청 </summary>
+    <img width="700" src=""/>
+  </details>
+  
+  <details>
+  <summary> 전시회 조회(standard/premium) </summary>
+    <img width="700" src=""/>
+  </details>
+  
+  <details>
+  <summary> 전시회 카테고리 필터링 </summary>
+    <img width="700" src=""/>
+
+  </details>
+  
+</details>
+
+---
+
+<details>
+ <summary>Review 페이지</summary>
+ 
+  
+  <details>
+   <summary>리뷰 등록</summary>
+    <img width="700" src=""/>
+  </details>
+   <details>
+   <summary>리뷰 삭제</summary>
+    <img width="700" src=""/>
+  </details>
+  
+</details>
+
+---
+
+</details>
+
+<details>
+ <summary>마이 페이지</summary>
+  
+  <details>
+   <summary>내 정보 수정(비밀번호 제외)</summary>
+    <img width="700" src=""/>
+  </details>
+  
+  <details>
+   <summary>비밀번호 수정</summary>
+    <img width="700" src=""/>
+  </details>
+  
+  <details>
+   <summary>회원 탈퇴</summary>
+    <img width="700" src=""/>
+  </details>
+  
+</details>
+
+---
+
+
 ## ✨ Feature
 
 - 자체 회원가입과 더불어 구글, 카카오, 네이버 소셜 로그인 가능합니다
