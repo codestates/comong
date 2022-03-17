@@ -132,12 +132,14 @@ const ButtonWrapper = styled.div`
 
 interface IOrderHistoryListItem {
   order: IOrderData;
+  isReviewUpdated: boolean;
   showEdit: boolean;
   setShowEdit: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function OrderHistoryListItem({
   order,
+  isReviewUpdated,
   showEdit,
   setShowEdit,
 }: IOrderHistoryListItem) {
@@ -173,13 +175,13 @@ function OrderHistoryListItem({
         </OrderSellerInfo>
       </OrderInfo>
       <ButtonWrapper>
-        <ButtonSimple
+        {isReviewUpdated || orderInfo.item_reviews.length === 0 && <ButtonSimple
           buttonClickHandler={() => {
             setShowEdit(!showEdit);
           }}
         >
           후기 쓰기
-        </ButtonSimple>
+        </ButtonSimple>}
       </ButtonWrapper>
     </Wrapper>
   );
