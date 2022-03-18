@@ -50,3 +50,19 @@ export const deleteUsers = async () => {
     return err.response?.data;
   }
 };
+
+export const deleteUserNotification = async (notiId: number) => {
+  try {
+    const reqForm = {
+      data: {
+        notification_id: notiId,
+      },
+    };
+    const data = await apiClient.delete('/users/notification', reqForm);
+    console.log(data);
+    return data;
+  } catch (error) {
+    const err = error as AxiosError;
+    return err.response?.data;
+  }
+};

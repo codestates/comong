@@ -60,6 +60,7 @@ const Post = () => {
   }, []);
 
   const user_id = itemData.userSlice.userinfo?.id as number;
+  const role = itemData.userSlice.role;
 
   let data = itemData.itemSlice.data;
   console.log('data', data);
@@ -87,7 +88,7 @@ const Post = () => {
       return;
     }
     setIsModal(!isModal);
-
+    if (role) return;
     let tmpObj: {
       user_id: number;
       item_id: number;
@@ -177,17 +178,17 @@ const Post = () => {
     if (el === 'description') setIsComments(false);
     else setIsComments(true);
   };
+  console.log('itemData.itemSlice.data', itemData.itemSlice.data);
 
-  const hearts = 90;
-  const commentsNum = 120;
-  const rating = 4.7;
-  const realStock = 100;
+  // const review_data = itemData.itemSlice.data.order_details[0].item_reviews[0];
+
+  // const hearts = review_data.number_of_bookmarks || 0;
+  // const commentsNum = review_data.number_of_reviewer || 0;
+  // const rating = review_data.avg_score || 0;
 
   const modalHandler = () => {
     setIsModal(!isModal);
   };
-
-  console.log('isModal', isModal);
 
   return (
     <>
@@ -238,14 +239,14 @@ const Post = () => {
             <OrderContainer>
               <Category>{category}</Category>
               <Title>{title}</Title>
-              <HeartsAndCommentsAndRatingContainer>
+              {/* <HeartsAndCommentsAndRatingContainer>
                 <Hearts>♥&nbsp;{hearts}</Hearts>
                 <CommentsNum>💬&nbsp;{commentsNum}</CommentsNum>
                 <Rating>⭐&nbsp;{rating}</Rating>
-              </HeartsAndCommentsAndRatingContainer>
+              </HeartsAndCommentsAndRatingContainer> */}
               <Seller>{seller}</Seller>
               <Price>{(price * stock).toLocaleString('en')}원</Price>
-              <RealStock>잔여재고: {realStock}개</RealStock>
+              <RealStock>잔여재고: {stock}개</RealStock>
               <StockController>
                 <StockMinusButton
                   onClick={() => {
@@ -332,6 +333,47 @@ const ImgContainer = styled.div`
     width: 100%;
     max-width: 400px;
   }
+
+  :active {
+    animation: fadein 2s;
+    -moz-animation: fadein 2s;
+    /* Firefox */
+    -webkit-animation: fadein 2s;
+    /* Safari and Chrome */
+    -o-animation: fadein 2s;
+    /* Opera */
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    @-moz-keyframes fadein {
+      /* Firefox */
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    @-webkit-keyframes fadein {
+      /* Safari and Chrome */
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+  }
 `;
 const MainImgContainer = styled.div`
   width: 500px;
@@ -351,6 +393,45 @@ const MainImg = styled.img`
   @media only screen and (max-width: 768px) {
     height: 330px;
     width: 100%;
+  }
+  animation: fadein 2s;
+  -moz-animation: fadein 2s;
+  /* Firefox */
+  -webkit-animation: fadein 2s;
+  /* Safari and Chrome */
+  -o-animation: fadein 2s;
+  /* Opera */
+
+  @keyframes fadein {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @-moz-keyframes fadein {
+    /* Firefox */
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @-webkit-keyframes fadein {
+    /* Safari and Chrome */
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
   }
 `;
 

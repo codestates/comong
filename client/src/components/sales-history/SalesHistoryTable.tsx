@@ -20,9 +20,12 @@ function SalesHistoryTable({ salesList }: ISalesHistoryTable) {
   return (
     <Wrapper>
       <SalesHistoryTableProperty></SalesHistoryTableProperty>
-      {salesList?.map((order) => {
-        return <SalesHistoryTableRow order={order}></SalesHistoryTableRow>;
-      })}
+      {salesList
+        ?.filter((order: ISalesList) => order.order_info.status !== 'pending')
+        .map((order) => {
+          console.log(order);
+          return <SalesHistoryTableRow order={order}></SalesHistoryTableRow>;
+        })}
     </Wrapper>
   );
 }

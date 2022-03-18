@@ -14,6 +14,18 @@ export interface Item {
     contents: string;
     user_storename: string;
     category: string;
+    order_details: [
+      {
+        id: number;
+        item_reviews: [
+          {
+            number_of_reviewer: number;
+            number_of_bookmarks: number;
+            avg_score: number;
+          },
+        ];
+      },
+    ];
   };
   comments: [];
   category: number;
@@ -28,6 +40,18 @@ const initialState: Item = {
     contents: '콘텐츠입니다',
     user_storename: '싸게파는 판매자',
     category: '기타 카테고리',
+    order_details: [
+      {
+        id: 3120,
+        item_reviews: [
+          {
+            number_of_reviewer: 3,
+            number_of_bookmarks: 3,
+            avg_score: 3.0,
+          },
+        ],
+      },
+    ],
   },
   comments: [],
   category: 0,

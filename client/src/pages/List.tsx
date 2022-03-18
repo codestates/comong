@@ -34,7 +34,7 @@ const List = ({ isSearch }: UserProps) => {
   const modalHandler = () => {
     setIsModal(!isModal);
   };
-  console.log('isModal', isModal);
+  // console.log('isModal', isModal);
 
   return (
     <ListContainer>

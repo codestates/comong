@@ -43,6 +43,9 @@ export interface IItem {
   user: { storename: string };
   item_inventories?: { stock: number }[];
   updatedAt?: string;
+  number_of_reviewers: number | null;
+  average_of_scores: number | null;
+  number_of_bookmarks: number | null;
 }
 
 function MypageBookmarks() {
