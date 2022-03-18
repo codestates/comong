@@ -16,7 +16,7 @@
 
 ## ✨ 주요기능 시연 GIF
 
-<details>
+<!-- <details>
   <summary> 회원가입, 로그인, 로그아웃</summary>
   
   <details>
@@ -51,7 +51,7 @@
   
 </details>
 
----
+--- -->
 
 
 <details>
@@ -127,7 +127,7 @@
   
   <details>
   <summary> 장바구니 상품 개수 조절 </summary>
-    <img width="700" src="https://user-images.githubusercontent.com/86667412/158921297-23a0342b-fd57-41bd-b48d-7609cf6313bf.gif"/>
+    <img width="700" src="https://user-images.githubusercontent.com/86667412/158921415-a812ec0a-7a8f-418c-a7ba-312e67592437.gif"/>
   </details>
   
   <details>
@@ -144,13 +144,13 @@
   <summary> 결제 </summary>
 
   <details>
-  <summary> 결제 진행 (장바구니) </summary>
-    <img width="700" src=""/>
+  <summary> 결제 선택(장바구니) </summary>
+    <img width="700" src="https://user-images.githubusercontent.com/86667412/158921854-2547fd55-1ec5-4f3c-8f51-b780095d1a61.gif"/>
   </details>
 
   <details>
-  <summary> 결제 진행 (상품 페이지) </summary>
-    <img width="700" src=""/>
+  <summary> 결제 선택 (상품 페이지) </summary>
+    <img width="700" src="https://user-images.githubusercontent.com/86667412/158921907-5dcbc0ca-0f61-453e-9cc0-11052b6d3711.gif"/>
   </details>  
   
   <details>
@@ -159,9 +159,19 @@
   </details>
 
   <details>
-  <summary> 결제  </summary>
+  <summary> 결제 진행 </summary>
     <img width="700" src=""/>
   </details>  
+  
+  <details>
+  <summary> 결제 카드 선택 </summary>
+    <img width="700" src=""/>
+  </details>
+  
+  <details>
+  <summary> 결제 완료 </summary>
+    <img width="700" src=""/>
+  </details>
   
 </details>
 
