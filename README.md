@@ -177,7 +177,7 @@
 
 ---
 
-<details>
+<!-- <details>
  <summary>Review 페이지</summary>
  
   
@@ -192,11 +192,9 @@
   
 </details>
 
----
+--- -->
 
-</details>
-
-<details>
+<!-- <details>
  <summary>마이 페이지</summary>
   
   <details>
@@ -217,7 +215,7 @@
 </details>
 
 ---
-
+ -->
 
 ## ✨ Feature
 
