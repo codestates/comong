@@ -122,22 +122,17 @@
 
   <details>
   <summary> 장바구니 담기 </summary>
-    <img width="700" src=""/>
-  </details>
-  
-  <details>
-  <summary> 장바구니 이동 </summary>
-    <img width="700" src=""/>
+    <img width="700" src="https://user-images.githubusercontent.com/86667412/158920976-9851a6e1-c839-483e-8b07-01df743efc54.gif"/>
   </details>
   
   <details>
   <summary> 장바구니 상품 개수 조절 </summary>
-    <img width="700" src=""/>
+    <img width="700" src="https://user-images.githubusercontent.com/86667412/158921297-23a0342b-fd57-41bd-b48d-7609cf6313bf.gif"/>
   </details>
   
   <details>
   <summary> 장바구니 상품 삭제 </summary>
-    <img width="700" src=""/>
+    <img width="700" src="https://user-images.githubusercontent.com/86667412/158921258-6fa7e193-37d4-4ad2-b5f1-f847345ae3e7.gif"/>
   </details>
   
   
