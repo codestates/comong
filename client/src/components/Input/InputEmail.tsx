@@ -28,7 +28,7 @@ const Input = styled.input`
   width: 77%;
   padding: 1rem;
   border-radius: 5px;
-  border: 1px solid ${(props) => props.theme.colors.textColor};
+  border: 2px solid ${(props) => props.theme.colors.lightGrey};
 
   @media only screen and (max-width: 768px) {
     height: 40px;

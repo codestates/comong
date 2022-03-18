@@ -14,6 +14,7 @@ function SellerJoin() {
     password: '',
     phone: '',
     gender: 0,
+    postal_code: '',
     address1: '',
     address2: '',
     dob: '',
