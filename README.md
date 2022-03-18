@@ -255,5 +255,7 @@
 <img src="https://img.shields.io/badge/nestjs-E0234E?style=for-the-badge&logo=nestjs&logoColor=white" height="50"> <img src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=Express&logoColor=white" height="50">
 <img src="https://img.shields.io/badge/Sequelize-0769AD?style=for-the-badge&logo=Sequelize&logoColor=white" height="50">
 
+<img src="https://raw.githubusercontent.com/dahyeon11/resource_storage/ec6baa63e2e2673c273841d2dd7c3238444c4a0a/Blank%20diagram%20(1).png">
+
 ### - Others..
 <img src="https://img.shields.io/badge/Coffee-5B4638?style=for-the-badge&logo=BuyMeACoffee&logoColor=white" height="50">
