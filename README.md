@@ -155,22 +155,22 @@
   
   <details>
   <summary> 결제 주소 입력 </summary>
-    <img width="700" src=""/>
+    <img width="700" src="https://user-images.githubusercontent.com/86667412/158925689-8a10c5d4-d81e-4ddc-a367-a4a2a00542cd.gif"/>
   </details>
 
   <details>
   <summary> 결제 진행 </summary>
-    <img width="700" src=""/>
+    <img width="700" src="https://user-images.githubusercontent.com/86667412/158925748-56cc823f-a6fb-440b-9ad1-14bdbaef6bf6.gif"/>
   </details>  
   
   <details>
   <summary> 결제 카드 선택 </summary>
-    <img width="700" src=""/>
+    <img width="700" src="https://user-images.githubusercontent.com/86667412/158925825-1eeb2797-7b0c-4b63-82de-2a125cf6deb9.gif"/>
   </details>
   
   <details>
   <summary> 결제 완료 </summary>
-    <img width="700" src=""/>
+    <img width="700" src="https://user-images.githubusercontent.com/86667412/158925881-b08b46cd-5679-4b45-b79c-b97e8700767b.gif"/>
   </details>
   
 </details>
