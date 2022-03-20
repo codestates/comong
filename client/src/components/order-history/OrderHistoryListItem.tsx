@@ -155,6 +155,7 @@ function OrderHistoryListItem({
     processing: '배송준비중',
     intransit: '배송중',
   };
+
   return (
     <Wrapper>
       <OrderImg src={itemInfo.image_src?.split(',')[0]} />
@@ -175,13 +176,16 @@ function OrderHistoryListItem({
         </OrderSellerInfo>
       </OrderInfo>
       <ButtonWrapper>
-        {isReviewUpdated || orderInfo.item_reviews.length === 0 && <ButtonSimple
-          buttonClickHandler={() => {
-            setShowEdit(!showEdit);
-          }}
-        >
-          후기 쓰기
-        </ButtonSimple>}
+        {isReviewUpdated ||
+          (orderInfo.item_reviews?.length === 0 && (
+            <ButtonSimple
+              buttonClickHandler={() => {
+                setShowEdit(!showEdit);
+              }}
+            >
+              후기 쓰기
+            </ButtonSimple>
+          ))}
       </ButtonWrapper>
     </Wrapper>
   );
