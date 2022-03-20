@@ -1,7 +1,7 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
 import { UtilModule } from './util/util.module';
-import { Module } from '@nestjs/common';
+import { Module, CacheModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
@@ -49,6 +49,7 @@ import * as path from 'path';
 				};
 			},
 		}),
+		CacheModule.register(),
 	],
 	controllers: [AppController, SocketController],
 	providers: [AppService, AppGateway],

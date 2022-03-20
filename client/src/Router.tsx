@@ -21,6 +21,7 @@ import MypageBookmarks from './pages/mypage/mypage_user/MypageBookmarks';
 import MypageReviews from './pages/mypage/mypage_user/MypageReviews';
 import MypageSellerDefault from './pages/mypage/mypage_seller/MypageSellerDefault';
 import MypageSellerItems from './pages/mypage/mypage_seller/MypageSellerItems';
+import Add from './pages/Add';
 import Notifications from './pages/Notifications';
 import PrivateRoute from './components/common/PrivateRoute';
 import PaymentResult from './pages/PaymentResult';
@@ -89,6 +90,7 @@ function Routers() {
             <Route path="" element={<MypageSellerDefault />}></Route>
             <Route path="itemlist" element={<MypageSellerItems />}></Route>
             <Route path="notifications" element={<Notifications />}></Route>
+            <Route path="new" element={<Add />}></Route>
           </Route>
         </Route>
       </Routes>
