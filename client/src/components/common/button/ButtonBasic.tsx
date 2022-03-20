@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Button = styled.button<{
+export const Button = styled.button<{
   backColor: string;
   textColor: string;
 }>`
@@ -47,7 +47,7 @@ const Button = styled.button<{
   }
 `;
 
-interface ButtonBasicProps {
+export interface ButtonBasicProps {
   type?: string;
   buttonClickHandler: React.MouseEventHandler;
   children: string;

@@ -10,15 +10,18 @@ interface OrderHistoryListItemWrapper {
 
 function OrderHistoryListItemWrapper({ order }: OrderHistoryListItemWrapper) {
   const [showEdit, setShowEdit] = useState(false);
+  const [isReviewUpdated, setIsReviewUpdated] = useState(false);
+
   return (
     <li>
       <OrderHistoryListItem
         order={order}
+        isReviewUpdated={isReviewUpdated}
         showEdit={showEdit}
         setShowEdit={setShowEdit}
       ></OrderHistoryListItem>
       {showEdit && (
-        <EditReview order={order} setShowEdit={setShowEdit}></EditReview>
+        <EditReview order={order} setShowEdit={setShowEdit} setIsReviewUpdated={setIsReviewUpdated}></EditReview>
       )}
     </li>
   );

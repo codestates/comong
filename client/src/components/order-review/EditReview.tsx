@@ -79,10 +79,11 @@ const ButtonWrapper = styled.div`
 
 interface IEditReview {
   setShowEdit: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsReviewUpdated: React.Dispatch<React.SetStateAction<boolean>>;
   order: IOrderData;
 }
 
-function EditReview({ setShowEdit, order }: IEditReview) {
+function EditReview({ setShowEdit, setIsReviewUpdated, order }: IEditReview) {
   const { userinfo } = useAppSelector((state) => state.userSlice);
   const navigate = useNavigate();
   const [postForm, setPostForm] = useState<IPostCommentForm>({
@@ -105,6 +106,7 @@ function EditReview({ setShowEdit, order }: IEditReview) {
     try {
       await postComments(postForm);
       console.log('완료');
+      setIsReviewUpdated(true);
       setShowEdit(false);
     } catch (error) {
       console.log(error);

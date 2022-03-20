@@ -2,6 +2,8 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { deleteUsers } from '../../../apis/api/users';
+import { useAppDispatch } from '../../../redux/configStore.hooks';
+import { logout } from '../../../redux/modules/userSlice';
 import ButtonBasic from '../button/ButtonBasic';
 
 const Wrapper = styled.div`
@@ -41,10 +43,12 @@ interface IDeleteUserModalContent {
 
 function DeleteUserModalContent({ setShowModal }: IDeleteUserModalContent) {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const deleteUserHandler = async () => {
     try {
       const response = await deleteUsers();
       console.log(response);
+      dispatch(logout());
       navigate('/');
     } catch (err) {
       console.log(err);

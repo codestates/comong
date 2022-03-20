@@ -3,10 +3,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { deleteUsers, patchUsers, postUsers } from '../../apis/api/users';
 import ButtonBasic from '../../components/common/button/ButtonBasic';
+import ButtonLoadingIndicator from '../../components/common/loading-indicator/ButtonLoadingIndicator';
 import AdditionalInfo from '../../components/form/AdditionalInfo';
 import BasicInfo from '../../components/form/BasicInfo';
 import ErrorMessage from '../../components/Input/ErrorMessage';
-import InputAdress from '../../components/Input/InputAdress';
+import InputAddress from '../../components/Input/InputAddress';
 import { useAppSelector } from '../../redux/configStore.hooks';
 
 const Form = styled.form`
@@ -21,6 +22,7 @@ export interface IJoinForm {
   password: string;
   phone: string;
   gender: number;
+  postal_code: string;
   address1: string;
   address2: string;
   dob: string;
@@ -38,6 +40,7 @@ function GeneralJoin() {
     password: '',
     phone: userinfo?.mobile || '',
     gender: userinfo?.gender || 0,
+    postal_code: '',
     address1: '',
     address2: '',
     dob: '',
@@ -45,6 +48,7 @@ function GeneralJoin() {
     likes: [],
   });
   const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const { pathname } = useLocation();
   const isMypage = pathname.includes('mypage');
   const navigate = useNavigate();
@@ -64,6 +68,7 @@ function GeneralJoin() {
   const submitJoinForm = async () => {
     console.log(joinForm);
     if (!checkRequiredForm(joinForm)) return;
+    setIsLoading(true);
     setMessage('');
 
     const response = await postUsers(joinForm);
@@ -78,6 +83,7 @@ function GeneralJoin() {
   const submitPatchForm = async () => {
     console.log(joinForm);
     if (!checkRequiredForm(joinForm)) return;
+    setIsLoading(true);
     setMessage('');
 
     const response = await patchUsers(joinForm);
@@ -92,17 +98,21 @@ function GeneralJoin() {
   return (
     <Form className={pathname.includes('mypage') ? 'mypage' : ''}>
       <BasicInfo fillJoinForm={fillJoinForm}></BasicInfo>
-      <InputAdress></InputAdress>
+      <InputAddress fillJoinForm={fillJoinForm}></InputAddress>
       <AdditionalInfo fillJoinForm={fillJoinForm}></AdditionalInfo>
       <ErrorMessage>{message}</ErrorMessage>
-      <ButtonBasic
-        buttonClickHandler={(e) => {
-          e.preventDefault();
-          isMypage ? submitPatchForm() : submitJoinForm();
-        }}
-      >
-        {isMypage ? '정보 수정' : '회원가입'}
-      </ButtonBasic>
+      {isLoading ? (
+        <ButtonLoadingIndicator></ButtonLoadingIndicator>
+      ) : (
+        <ButtonBasic
+          buttonClickHandler={(e) => {
+            e.preventDefault();
+            isMypage ? submitPatchForm() : submitJoinForm();
+          }}
+        >
+          {isMypage ? '정보 수정' : '회원가입'}
+        </ButtonBasic>
+      )}
     </Form>
   );
 }

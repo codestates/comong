@@ -5,7 +5,7 @@ import { patchUsers } from '../../apis/api/users';
 import ButtonBasic from '../../components/common/button/ButtonBasic';
 import AdditionalInfo from '../../components/form/AdditionalInfo';
 import OauthBasicInfo from '../../components/form/OauthBasicInfo';
-import InputAdress from '../../components/Input/InputAdress';
+import InputAddress from '../../components/Input/InputAddress';
 import { IJoinPartial } from './GeneralJoin';
 
 function OauthGeneralJoin() {
@@ -20,6 +20,7 @@ function OauthGeneralJoin() {
     password: '',
     phone: '',
     gender: 1,
+    postal_code: '',
     address1: '',
     address2: '',
     dob: '',
@@ -34,7 +35,7 @@ function OauthGeneralJoin() {
   return (
     <>
       <OauthBasicInfo fillJoinForm={fillJoinForm}></OauthBasicInfo>
-      <InputAdress></InputAdress>
+      <InputAddress fillJoinForm={fillJoinForm}></InputAddress>
       <AdditionalInfo fillJoinForm={fillJoinForm}></AdditionalInfo>
       <ButtonBasic
         buttonClickHandler={() => {

@@ -35,6 +35,7 @@ export interface IOrderData {
     createdAt: string;
     id: number;
     item_id: number;
+    item_reviews:[];
     order_amount: number;
     peritem_price: number;
     status: string;
