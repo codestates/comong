@@ -246,9 +246,9 @@
     <img width="700" src=""/>
   </details>
 
-</details> -->
+</details>
 
----
+--- -->
 
 <!-- <details>
   <summary>후기</summary>
@@ -268,9 +268,9 @@
     <img width="700" src=""/>
   </details>
 
-</details> -->
+</details>
 
----
+--- -->
 
 <details>
   <summary>찜하기</summary>
@@ -307,9 +307,9 @@
     <img width="700" src=""/>
   </details>
 
-</details> -->
+</details>
 
----
+--- -->
 
 <!-- <details>
   <summary>알림</summary>
@@ -341,7 +341,7 @@
 
 </details> -->
 
----
+<!-- --- -->
 
  </br>
 
