@@ -41,7 +41,6 @@ export function ScrollToTop() {
 }
 
 function Routers() {
-
   const { role } = useAppSelector((state) => state.userSlice);
 
   const data = useAppSelector((state: RootState) => state);
@@ -63,8 +62,8 @@ function Routers() {
         <Route path="/join/*" element={<Join />}>
           <Route path="" element={<GeneralJoin />}></Route>
           <Route path="seller" element={<SellerJoin />}></Route>
-          <Route path="oauth" element={<OauthGeneralJoin />}></Route>
-          <Route path="oauth/seller" element={<OauthSellerJoin />}></Route>
+          <Route path="oauth/*" element={<OauthGeneralJoin />}></Route>
+          <Route path="oauth/*/seller" element={<OauthSellerJoin />}></Route>
         </Route>
         <Route path="/*" element={<PrivateRoute />}>
           <Route path="cart" element={<Cart />}></Route>

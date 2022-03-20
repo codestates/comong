@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { config } from '../config/config';
+import { useAppDispatch, useAppSelector } from '../redux/configStore.hooks';
 
 const Wrapper = styled.div`
   width: 5rem;
@@ -34,6 +35,7 @@ interface IOauthImgList {
 }
 
 function OauthButton({ type }: IOauthButton) {
+  const dispatch = useAppDispatch();
   const oauhthImgList: IOauthImgList = {
     naver: '/img/OauthNaver.png',
     kakao: '/img/OauthKakao.png',
@@ -53,21 +55,18 @@ function OauthButton({ type }: IOauthButton) {
 
   const getAuthorizationCode = (type: string) => {
     const env = 'development';
-    const { redirectURL } = config[env];
     const { naver, kakao, google } = config[env].oauth;
-
+    let { redirectURL } = config[env];
+    redirectURL += `${type}`;
     let requestURL = '';
     if (type === 'naver') {
       const STATE_STRING = makeRandomString(10);
-      //!TODO STATE_STRING 세션에 저장하기
       console.log(STATE_STRING);
       requestURL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${naver.clientId}&state=${STATE_STRING}&redirect_uri=${redirectURL}`;
     } else if (type === 'kakao') {
       requestURL = `https://kauth.kakao.com/oauth/authorize?client_id=${kakao.clientId}&redirect_uri=${redirectURL}&response_type=code`;
-      sessionStorage.setItem('oauth', 'kakao');
     } else if (type === 'google') {
       requestURL = `https://accounts.google.com/o/oauth2/v2/auth?scope=email%20profile&response_type=code&redirect_uri=${redirectURL}&client_id=${google.clientId}`;
-      sessionStorage.setItem('oauth', 'google');
     }
     window.location.assign(requestURL);
   };

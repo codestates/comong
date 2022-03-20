@@ -66,8 +66,9 @@ function Join() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log('pathname', pathname);
     if (pathname.includes('oauth')) {
-      setBasePath('/join/oauth');
+      setBasePath(pathname);
       postOauth();
     } else {
       setIsLoading(false);
@@ -84,7 +85,7 @@ function Join() {
 
   const postOauth = async () => {
     const authorizationCode = search.split('code=')[1];
-    const oauth = sessionStorage.getItem('oauth');
+    const oauth = pathname.split('/')[2];
     let response;
     if (oauth === 'naver') {
       response = await postOauthNaver(authorizationCode);
@@ -93,6 +94,7 @@ function Join() {
     } else {
       response = await postOauthGoogle(authorizationCode);
     }
+
     const { data, needSignup } = response;
     const { accessToken, email } = data;
     setClientHeadersToken(accessToken);
