@@ -108,7 +108,7 @@ export class ItemsController {
       }
     }
   })
-  getDetails(@Param('id') id: number): Promise<item[]> {
+  getDetails(@Param('id') id: number): Promise<item> {
     return this.itemsService.getDetails(+id)
   }
 
@@ -249,6 +249,16 @@ export class ItemsController {
   @Get('/selling')
   getSellingItems() {
     return this.itemsService.getSellingItems()
+  }
+
+  @Get('/category-inferred')
+  inferCategory(@Query('title') title: string) {
+    return this.itemsService.inferCategory(title)
+  }
+
+  @Get('/peakstuff')
+  getPeakStuff() {
+    return this.itemsService.getPeakStuff()
   }
 
 }

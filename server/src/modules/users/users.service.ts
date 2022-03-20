@@ -41,7 +41,7 @@ export class UsersService {
 		if (isCreated) {
 			//관심 카테고리 등록
 			const workArr = [];
-			await this.mailerService.send(newUser.role, [newUser.email], '가입 확인 메일', 'signup.ejs', newUser)
+			await this.mailerService.signUp(newUser, [newUser.email], '가입 확인 메일', 'signup.ejs', newUser)
 			if (likes && Object.keys(likes).length > 0) {
 				//console.log(user.likes, '라잌스')
 				const likesArr = likes.replace(/\[|\]/g, '').split(','); // like의 형태는 ['1', '2']와 같은 배열 형태의 문자열임
@@ -169,7 +169,38 @@ export class UsersService {
 	}
 
 	async verification(code: string) {
-		return { message: 'successful', code: uuid() };
+		//이메일 인증을 수행하는 API
+		const token = await models.refreshtoken.findOne({
+			where: {
+				refreshtoken: code
+			}
+		})
+		if(token) {
+			const today = new Date()
+			const dateDiff =today.valueOf() -  token.exp.valueOf()
+			console.log(dateDiff)
+			if(dateDiff < 86400){
+				return models.user.update({
+					role: 3, //테스트 중
+				}, {
+					where: {
+						id: token.user_id
+					}
+				}).then( () => {
+					return  { message: 'successful' }
+				})
+			} else {
+				// 하루가 지났을 경우 기록 삭제
+				return models.user.destroy({
+					where: {id: token.user_id}
+				}).then( () => {
+					return { message: 'not valid'}
+				})
+			}
+		} else {
+			throw new NotFoundException('잘못된 접근입니다.')
+		}
+
 	}
 
 	async signIn(userInfo: SignInUserDto): Promise<{}> {
@@ -223,8 +254,6 @@ export class UsersService {
 							},
 							{
 								where: { id: userInfoFromToken.id },
-							},
-							{
 								transaction: transaction,
 							},
 						)
@@ -283,8 +312,8 @@ export class UsersService {
 								where: {
 									user_id: userInfoFromToken.id,
 								},
+								transaction: transaction
 							},
-							{ transaction: transaction },
 						)
 						.then((insertedAddress) => {
 							resolve(insertedAddress);

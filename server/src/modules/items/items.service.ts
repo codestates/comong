@@ -5,6 +5,8 @@ import {
 	Injectable,
 	BadRequestException,
 	NotFoundException,
+	CACHE_MANAGER,
+	Inject,
 } from '@nestjs/common';
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
@@ -17,13 +19,19 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import * as sequelize from 'sequelize';
 import { CreateBookmarkDto } from './dto/create-bookmark.dto';
 import { StockManagement } from './dto/stockmanagement.dto';
+import { Cache } from 'cache-manager'
+
 const models = require('../../models/index');
 const Sequelize = models.sequelize;
 
 @Injectable()
 export class ItemsService {
+	constructor(
+		@Inject(CACHE_MANAGER) private cacheManager: Cache
+	) {}
+	
 	private categoryLists: category[] = [];
-	private items: item[] = [];
+	private items: item
 	private readonly logger = new Logger(ItemsService.name);
 
 	async create(newItem: CreateItemDto, user: User) {
@@ -184,7 +192,7 @@ export class ItemsService {
 		return response.data.result;
 	}
 
-	async getDetails(id: number): Promise<item[]> {
+	async getDetails(id: number): Promise<item> {
 		this.items = await models.item.findOne({
 			//raw: true,
 			where: { id: id },
@@ -230,6 +238,11 @@ export class ItemsService {
 			],
 		});
 		if (this.items) {
+			const number: number = await this.cacheManager.get(this.items.id.toString())
+			console.log(number)
+			//await this.cacheManager
+			await this.cacheManager.set(this.items.id.toString(), (number === undefined) ? 1 : (number + 1), { ttl: 600 })
+			//await this.cacheManager.set(this.items.id.toString(), 'test', { ttl: 600 })
 			return this.items;
 		} else {
 			throw new NotFoundException('this item does not exist');
@@ -434,5 +447,16 @@ export class ItemsService {
 
 	remove(id: number) {
 		return `This action removes a #${id} item`;
+	}
+
+	async inferCategory(title) {
+		const data = await this.cacheManager.get('title')
+		console.log(data, title)
+		await this.cacheManager.set('title', title)
+		return data
+	}
+
+	async getPeakStuff() {
+
 	}
 }
