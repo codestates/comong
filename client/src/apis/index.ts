@@ -2,7 +2,7 @@ import axios, { AxiosInstance } from 'axios';
 import { config } from '../config/config';
 
 const env = 'development';
-const { url, authURL } = config[env];
+const { url } = config[env];
 
 export const apiClient: AxiosInstance = axios.create({
   baseURL: url,
@@ -15,10 +15,3 @@ export const setClientHeadersToken = (token: string) => {
 export const deleteClientHeadersToken = () => {
   delete apiClient.defaults.headers.common['Authorization'];
 };
-
-// 임시 개발용
-export const apiOauthClient: AxiosInstance = axios.create({
-  baseURL: authURL,
-  withCredentials: true,
-  headers: {},
-});

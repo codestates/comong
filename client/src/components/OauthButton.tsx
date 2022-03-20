@@ -57,7 +57,7 @@ function OauthButton({ type }: IOauthButton) {
     const env = 'development';
     const { naver, kakao, google } = config[env].oauth;
     let { redirectURL } = config[env];
-    redirectURL += `${type}`;
+    redirectURL += `/${type}`;
     let requestURL = '';
     if (type === 'naver') {
       const STATE_STRING = makeRandomString(10);
@@ -68,6 +68,7 @@ function OauthButton({ type }: IOauthButton) {
     } else if (type === 'google') {
       requestURL = `https://accounts.google.com/o/oauth2/v2/auth?scope=email%20profile&response_type=code&redirect_uri=${redirectURL}&client_id=${google.clientId}`;
     }
+    console.log(requestURL);
     window.location.assign(requestURL);
   };
 

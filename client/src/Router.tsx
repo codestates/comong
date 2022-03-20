@@ -62,8 +62,11 @@ function Routers() {
         <Route path="/join/*" element={<Join />}>
           <Route path="" element={<GeneralJoin />}></Route>
           <Route path="seller" element={<SellerJoin />}></Route>
-          <Route path="oauth/*" element={<OauthGeneralJoin />}></Route>
-          <Route path="oauth/*/seller" element={<OauthSellerJoin />}></Route>
+          <Route path="oauth/:type" element={<OauthGeneralJoin />}></Route>
+          <Route
+            path="oauth/:type/seller"
+            element={<OauthSellerJoin />}
+          ></Route>
         </Route>
         <Route path="/*" element={<PrivateRoute />}>
           <Route path="cart" element={<Cart />}></Route>

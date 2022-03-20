@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import {
+  Link,
+  Outlet,
+  useLocation,
+  useNavigate,
+  useParams,
+} from 'react-router-dom';
 import styled from 'styled-components';
 import { setClientHeadersToken } from '../../apis';
-import {
-  postOauthGoogle,
-  postOauthKakao,
-  postOauthNaver,
-} from '../../apis/api/oauth';
+import { postOauthJoin } from '../../apis/api/oauth';
 import { LoadingIndicator } from '../../constants';
 import { useAppDispatch } from '../../redux/configStore.hooks';
 import { postSigninAsync } from '../../redux/modules/userSlice';
@@ -64,11 +66,12 @@ function Join() {
   const [userEmail, setUserEmail] = useState('');
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { type } = useParams();
+  console.log('pathname', pathname);
 
   useEffect(() => {
-    console.log('pathname', pathname);
     if (pathname.includes('oauth')) {
-      setBasePath(pathname);
+      setBasePath(`/join/oauth/${type}`);
       postOauth();
     } else {
       setIsLoading(false);
@@ -85,15 +88,7 @@ function Join() {
 
   const postOauth = async () => {
     const authorizationCode = search.split('code=')[1];
-    const oauth = pathname.split('/')[2];
-    let response;
-    if (oauth === 'naver') {
-      response = await postOauthNaver(authorizationCode);
-    } else if (oauth === 'kakao') {
-      response = await postOauthKakao(authorizationCode);
-    } else {
-      response = await postOauthGoogle(authorizationCode);
-    }
+    const response = await postOauthJoin(type!, authorizationCode);
 
     const { data, needSignup } = response;
     const { accessToken, email } = data;
