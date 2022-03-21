@@ -238,10 +238,10 @@ export class ItemsService {
 			],
 		});
 		if (this.items) {
-			const number: number = await this.cacheManager.get(this.items.id.toString())
-			console.log(number)
+			//const number: number = await this.cacheManager.get(this.items.id.toString())
+			//console.log(number)
 			//await this.cacheManager
-			await this.cacheManager.set(this.items.id.toString(), (number === undefined) ? 1 : (number + 1), { ttl: 600 })
+			//await this.cacheManager.set(this.items.id.toString(), (number === undefined) ? 1 : (number + 1), { ttl: 600 })
 			//await this.cacheManager.set(this.items.id.toString(), 'test', { ttl: 600 })
 			return this.items;
 		} else {
