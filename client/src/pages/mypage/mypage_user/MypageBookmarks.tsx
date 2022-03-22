@@ -23,6 +23,16 @@ const Wrapper = styled.div`
   }
 `;
 
+const NoData = styled.div`
+  height: 70vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid ${(props) => props.theme.colors.greyForMenu};
+  border-radius: 1rem;
+`;
+
 const ItemContainer = styled.div`
   width: 25%;
   margin-bottom: 10px;
@@ -86,7 +96,7 @@ function MypageBookmarks() {
             );
           })
         ) : (
-          <span>마음에 드는 상품을 찜해보세요</span>
+          <NoData>마음에 드는 상품을 찜해보세요</NoData>
         )}
       </Wrapper>
     </div>

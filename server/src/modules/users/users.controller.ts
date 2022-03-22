@@ -192,6 +192,22 @@ export class UsersController {
 		return this.usersService.signIn(userInfo);
 	}
 
+	@Get('/')
+	@ApiOperation({ summary: '유저 정보', description: '유저 정보를 요청합니다.' })
+	@ApiHeader({
+		name: 'Authorization',
+		description: '사용자 인증 수단, 액세스 토큰 값',
+		required: true,
+		schema: {
+			example: 'bearer 23f43u9if13ekc23fm30jg549quneraf2fmsdf',
+		},
+	})
+	@ApiBearerAuth('accessToken')
+	@UseGuards(JwtAuthGuard)
+	getUser(@getUser() user: User) {
+		return this.usersService.getUser(user)
+	}
+
 	@Get('/token')
 	@ApiOperation({
 		summary: '엑세스 토큰 재발급',

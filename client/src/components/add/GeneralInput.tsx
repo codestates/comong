@@ -1,6 +1,7 @@
 import React, { SetStateAction } from "react";
 import styled from "styled-components";
 import InputBasic from "../Input/InputBasic";
+import { CategoryDropdown } from "./CategoryDropdown";
 
 
 interface Props {
@@ -19,8 +20,10 @@ const GeneralInput = ({type, description, param, handleInputData, values}: Props
                 <TextBox>
                 <Label1>{type}</Label1>
                 </TextBox>
+            {
+                param === 'category' ? <CategoryDropdown /> : <Input onChange={handleInputData(param)} defaultValue={values[param]} />
+            }
             
-            <Input onChange={handleInputData(param)} defaultValue={values[param]} />
             <Label2>{description}</Label2>
             </Line>
 

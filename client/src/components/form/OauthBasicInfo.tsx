@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { IJoinPartial } from '../../pages/join/GeneralJoin';
-import InputAdress from '../Input/InputAdress';
 import InputName from '../Input/InputName';
 import InputPhoneNum from '../Input/InputPhoneNum';
 import { TitleWrapper } from './BasicInfo';

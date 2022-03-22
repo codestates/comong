@@ -1,15 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { idText } from 'typescript';
-import {
-  apiClient,
-  deleteClientHeadersToken,
-  setClientHeadersToken,
-} from '../../apis';
+import { apiClient } from '../../apis';
 import { ILoginForm } from '../../components/form/LoginForm';
-import {
-  IItem,
-  IItemPartial,
-} from '../../pages/mypage/mypage_user/MypageBookmarks';
+import { IItemPartial } from '../../pages/mypage/mypage_user/MypageBookmarks';
 
 // !TODO 타입 다시 확인하기
 interface IUserInfo {
@@ -104,8 +96,7 @@ const userSlice = createSlice({
     });
 
     builder.addCase(postSigninAsync.rejected, (state, action) => {
-      // rejected 된 경우 userSlice state를 바꾸고 싶다면 여기서 처리
-      return;
+      state.isLoading = false;
     });
 
     builder.addCase(postBookmarkAsync.fulfilled, (state, action) => {

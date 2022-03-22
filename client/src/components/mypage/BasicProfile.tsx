@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { getCloudUrl } from '../../apis/api/items';
 import { useAppSelector } from '../../redux/configStore.hooks';
 import ButtonBasic from '../common/button/ButtonBasic';
+import ImgLodingIndicator from '../common/loading-indicator/ImgLodingIndicator';
 
 const Wrapper = styled.div`
   height: 250px;
@@ -69,7 +70,7 @@ const EditBtn = styled.div`
   bottom: 0;
   color: white;
   font-weight: 400;
-  transform: translateY(30px);
+  transform: translateY(35px);
   transition: all 0.5s;
 
   img {
@@ -126,6 +127,7 @@ function BasicProfile() {
   const fileRef = useRef<HTMLInputElement>(null);
   const { role, userinfo } = useAppSelector((state) => state.userSlice);
   const [isEditing, setIsEdtiting] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [preview, setPreview] = useState('');
   // 편집하기 버튼 누르면
   // => isEditing = true & 클라우드 플레어 링크 요청 & 이미지 등록 창 뜨고
@@ -138,6 +140,7 @@ function BasicProfile() {
   };
 
   const previewUploader = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsLoading(true);
     try {
       const uploadFile = e.currentTarget.files?.[0];
       const data = uploadFile && (await getCloudUrl(uploadFile));
@@ -148,6 +151,7 @@ function BasicProfile() {
       // }, Promise.resolve());
 
       //setIsImgLoading(true);
+      setIsLoading(false);
       setPreview(data[0]);
       setIsEdtiting(true); //업로드 완료 되고 나서로 위치 이동
     } catch (error) {
@@ -155,26 +159,30 @@ function BasicProfile() {
     }
   };
 
+  const patchUserProfilePhoto = () => {
+    // 회원정보수정 요청
+    setIsEdtiting(false);
+  };
+
   return (
     <Wrapper>
       <ProfilPhotoWrapper>
         <PhotoWrapper>
-          <img
-            src={preview || 'icons/post/emptyPerson.png'}
-            onClick={editProfile}
-          />
+          {isLoading ? (
+            <ImgLodingIndicator></ImgLodingIndicator>
+          ) : (
+            <img
+              src={preview || 'icons/post/emptyPerson.png'}
+              onClick={editProfile}
+            />
+          )}
           {isEditing ? (
-            <EditConfirmBtn
-              onClick={(e) => {
-                //TODO! 서버에 등록하는 axios 요청
-                setIsEdtiting(false);
-              }}
-            >
-              <img src="img/checked.png" />
+            <EditConfirmBtn onClick={patchUserProfilePhoto}>
+              <img src="img/check.png" />
             </EditConfirmBtn>
           ) : (
             <EditBtn onClick={editProfile} className={isEditing ? 'edit' : ''}>
-              {/* 이미지 넣을 자리 */}
+              편집
             </EditBtn>
           )}
           <input

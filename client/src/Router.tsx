@@ -21,6 +21,7 @@ import MypageBookmarks from './pages/mypage/mypage_user/MypageBookmarks';
 import MypageReviews from './pages/mypage/mypage_user/MypageReviews';
 import MypageSellerDefault from './pages/mypage/mypage_seller/MypageSellerDefault';
 import MypageSellerItems from './pages/mypage/mypage_seller/MypageSellerItems';
+import Add from './pages/Add';
 import Notifications from './pages/Notifications';
 import PrivateRoute from './components/common/PrivateRoute';
 import PaymentResult from './pages/PaymentResult';
@@ -41,7 +42,6 @@ export function ScrollToTop() {
 }
 
 function Routers() {
-
   const { role } = useAppSelector((state) => state.userSlice);
 
   const data = useAppSelector((state: RootState) => state);
@@ -63,8 +63,11 @@ function Routers() {
         <Route path="/join/*" element={<Join />}>
           <Route path="" element={<GeneralJoin />}></Route>
           <Route path="seller" element={<SellerJoin />}></Route>
-          <Route path="oauth" element={<OauthGeneralJoin />}></Route>
-          <Route path="oauth/seller" element={<OauthSellerJoin />}></Route>
+          <Route path="oauth/:type" element={<OauthGeneralJoin />}></Route>
+          <Route
+            path="oauth/:type/seller"
+            element={<OauthSellerJoin />}
+          ></Route>
         </Route>
         <Route path="/*" element={<PrivateRoute />}>
           <Route path="cart" element={<Cart />}></Route>
@@ -89,6 +92,7 @@ function Routers() {
             <Route path="" element={<MypageSellerDefault />}></Route>
             <Route path="itemlist" element={<MypageSellerItems />}></Route>
             <Route path="notifications" element={<Notifications />}></Route>
+            <Route path="new" element={<Add />}></Route>
           </Route>
         </Route>
       </Routes>
