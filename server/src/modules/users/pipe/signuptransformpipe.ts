@@ -11,6 +11,7 @@ export class signUpTransformPipe implements PipeTransform {
             'mobile',
             'phone',
             'gender',
+            'myimg_src',
             //'dob', 뒤에서 검사
             'role',
         ]
