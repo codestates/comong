@@ -16,6 +16,10 @@ const NavContainer = styled.div`
   font-family: roboto;
   border-bottom: 1px solid ${(props) => props.theme.colors.lightGrey};
   background-color: white;
+
+  @media only screen and (max-width: 767px) {
+    height: 3.2rem;
+  }
 `;
 const NavLinks = styled.div`
   display: flex;
