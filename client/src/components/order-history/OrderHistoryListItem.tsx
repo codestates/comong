@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import ButtonSimple from '../common/button/ButtonSimple';
 import { shippingStatus } from '../sales-history/SalesHistoryStatus';
@@ -60,6 +61,7 @@ const OrderItemInfo = styled.div`
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
+    line-height: 1.5rem;
     @media only screen and (max-width: 768px) {
       font-size: 0.7rem;
     }
@@ -158,10 +160,14 @@ function OrderHistoryListItem({
 
   return (
     <Wrapper>
-      <OrderImg src={itemInfo.image_src?.split(',')[0]} />
+      <Link to={`/item/${itemInfo.id}`}>
+        <OrderImg src={itemInfo.image_src?.split(',')[0]} />
+      </Link>
       <OrderInfo>
         <OrderItemInfo>
-          <span className="item__title">{itemInfo.contents}</span>
+          <Link to={`/item/${itemInfo.id}`}>
+            <span className="item__title">{itemInfo.contents}</span>
+          </Link>
           <div className="item__price-date-wrapper">
             <span className="item__price">{itemInfo.price}원</span>
             <span className="item__date">
