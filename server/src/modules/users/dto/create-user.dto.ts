@@ -3,7 +3,7 @@ import { IsNumber, IsOptional,  IsString, IsBoolean } from "class-validator";
 
 export class CreateUserDto {
     @ApiProperty({
-        example: '박다현',
+        example: '김코몽',
         description: '이름',
         required: true,
     })
@@ -11,7 +11,7 @@ export class CreateUserDto {
     readonly name: string;
 
     @ApiProperty({
-        example: 'mukzzang@gmail.com',
+        example: 'test@comong.kr',
         description: '이메일',
         required: true,
     })
@@ -25,6 +25,15 @@ export class CreateUserDto {
     })
     @IsString()
     readonly password: string;
+
+    @ApiProperty({
+        example: 'https://camo.githubusercontent.com/440f82dc3c70325255af7f5ccc2453669d3e4724d1a9b78a06bfd17f341e8790/68747470733a2f2f696d61676564656c69766572792e6e65742f424f4b7541694a79524f6c4d4c5877436342594d71512f39636237366562622d326261372d343939382d343064382d3035366536666535643730302f7075626c6963',
+        description: '프로필 이미지',
+        required: false
+    })
+    @IsOptional()
+    @IsString()
+    readonly myimg_src: string;
 
     @ApiProperty({
         example: '01012345678',
@@ -90,7 +99,7 @@ export class CreateUserDto {
     postal_code: string;
 
     @ApiProperty({
-        example: '서울시',
+        example: '서울특별시',
         description: '시/도',
         required: false,
     })
