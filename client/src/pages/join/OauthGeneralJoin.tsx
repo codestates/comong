@@ -1,15 +1,18 @@
 import React, { ContextType, useEffect, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { apiClient } from '../../apis';
-import { patchUsers } from '../../apis/api/users';
+// import { patchUsers } from '../../apis/api/users';
 import ButtonBasic from '../../components/common/button/ButtonBasic';
 import AdditionalInfo from '../../components/form/AdditionalInfo';
 import OauthBasicInfo from '../../components/form/OauthBasicInfo';
 import InputAddress from '../../components/Input/InputAddress';
+import { useAppDispatch } from '../../redux/configStore.hooks';
+import { patchUsersAsync } from '../../redux/modules/userSlice';
 import { IJoinPartial } from './GeneralJoin';
 
 function OauthGeneralJoin() {
   const email = useOutletContext<string>();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     setJoinForm({ ...joinForm, ...{ email } });
@@ -32,20 +35,18 @@ function OauthGeneralJoin() {
     setJoinForm({ ...joinForm, ...obj });
   };
 
+  const submitPatchForm = () => {
+    console.log(joinForm);
+    dispatch(patchUsersAsync(joinForm));
+    delete apiClient.defaults.headers.common['Authorization'];
+  };
+
   return (
     <>
       <OauthBasicInfo fillJoinForm={fillJoinForm}></OauthBasicInfo>
       <InputAddress fillJoinForm={fillJoinForm}></InputAddress>
       <AdditionalInfo fillJoinForm={fillJoinForm}></AdditionalInfo>
-      <ButtonBasic
-        buttonClickHandler={() => {
-          console.log(joinForm);
-          patchUsers(joinForm);
-          delete apiClient.defaults.headers.common['Authorization'];
-        }}
-      >
-        회원가입
-      </ButtonBasic>
+      <ButtonBasic buttonClickHandler={submitPatchForm}>회원가입</ButtonBasic>
     </>
   );
 }
