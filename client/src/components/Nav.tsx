@@ -18,7 +18,7 @@ const NavContainer = styled.div`
   background-color: white;
 
   @media only screen and (max-width: 767px) {
-    height: 3.2rem;
+    height: 50px;
   }
 `;
 const NavLinks = styled.div`
