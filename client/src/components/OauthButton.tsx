@@ -24,8 +24,6 @@ const OauthImg = styled.img`
 
 interface IOauthButton {
   type: string;
-  setModalType?: React.Dispatch<React.SetStateAction<string>>;
-  setShowModal?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface IOauthImgList {
@@ -35,7 +33,7 @@ interface IOauthImgList {
   google: string;
 }
 
-function OauthButton({ type, setModalType, setShowModal }: IOauthButton) {
+function OauthButton({ type }: IOauthButton) {
   const oauhthImgList: IOauthImgList = {
     naver: '/img/OauthNaver.png',
     kakao: '/img/OauthKakao.png',
@@ -47,11 +45,6 @@ function OauthButton({ type, setModalType, setShowModal }: IOauthButton) {
       <OauthImg
         src={oauhthImgList[type]}
         onClick={() => {
-          if (type === 'kakao') {
-            setModalType && setModalType(type);
-            setShowModal && setShowModal(true);
-            return;
-          }
           getAuthorizationCode(type);
         }}
       />
