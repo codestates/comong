@@ -29,6 +29,7 @@ export interface IJoinForm {
   dob: string;
   role: number;
   likes: number[];
+  myimg_src?: string;
 }
 
 export type IJoinPartial = Partial<IJoinForm>;

@@ -20,6 +20,7 @@ interface IUserInfo {
   postal_code: string;
   address1: string;
   address2: string;
+  myimg_src: string;
 }
 
 export interface INotification {
@@ -190,31 +191,6 @@ export const postSigninAsync = createAsyncThunk(
     return data;
   },
 );
-
-// export const getOauthUserAsync = createAsyncThunk('post/login', async () => {
-//   const response = await apiClient.get(`/users`);
-//   const notification = (
-//     await apiClient.get(`/users/notification?user_id=${response.data.user.id}`)
-//   ).data;
-//   const newNotification = notification.data.map(
-//     (obj: {
-//       id: number;
-//       updatedAt: string;
-//       read: number;
-//       contents: string;
-//     }) => {
-//       const newContents = {
-//         id: obj.id,
-//         updatedAt: obj.updatedAt,
-//         read: obj.read === 0 ? false : true,
-//         ...JSON.parse(obj.contents),
-//       };
-//       return newContents;
-//     },
-//   );
-//   const data = { ...response.data, notification: newNotification.reverse() };
-//   return data;
-// });
 
 export const patchUsersAsync = createAsyncThunk(
   'patch/user',
