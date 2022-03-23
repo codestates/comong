@@ -87,7 +87,7 @@ function Login() {
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState('');
 
-  const modals = {
+  const modals: { [key: string]: JSX.Element } = {
     test: (
       <TestLoginModalContainer
         setShowModal={setShowModal}
@@ -120,6 +120,7 @@ function Login() {
         <ButtonBasic
           backColor="#fc6621"
           buttonClickHandler={() => {
+            setModalType('test');
             setShowModal(true);
           }}
         >
@@ -136,11 +137,15 @@ function Login() {
       </ButtonWrapper>
       <OauthLoginWrapper>
         <OauthButton type="naver"></OauthButton>
-        <OauthButton type="kakao" setShowModal={setShowModal}></OauthButton>
+        <OauthButton
+          type="kakao"
+          setModalType={setModalType}
+          setShowModal={setShowModal}
+        ></OauthButton>
         <OauthButton type="google"></OauthButton>
       </OauthLoginWrapper>
       {showModal && (
-        <Modal setShowModal={setShowModal}>{modals['kakao']}</Modal>
+        <Modal setShowModal={setShowModal}>{modals[modalType]}</Modal>
       )}
     </Main>
   );
