@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { getCloudUrl } from '../../apis/api/items';
-import { useAppSelector } from '../../redux/configStore.hooks';
-import ButtonBasic from '../common/button/ButtonBasic';
+import { useAppDispatch, useAppSelector } from '../../redux/configStore.hooks';
+import { patchUsersAsync } from '../../redux/modules/userSlice';
 import ImgLodingIndicator from '../common/loading-indicator/ImgLodingIndicator';
 
 const Wrapper = styled.div`
@@ -129,10 +129,7 @@ function BasicProfile() {
   const [isEditing, setIsEdtiting] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [preview, setPreview] = useState('');
-  // 편집하기 버튼 누르면
-  // => isEditing = true & 클라우드 플레어 링크 요청 & 이미지 등록 창 뜨고
-  // => isEditing = true이면 등록하기 버튼 활성화
-  // => 등록하기 버튼 누르면 서버에 imgsrc 수정 요청 && isEditing = false
+  const dispatch = useAppDispatch();
 
   const editProfile = (e: React.MouseEvent) => {
     console.log(fileRef);
@@ -144,13 +141,6 @@ function BasicProfile() {
     try {
       const uploadFile = e.currentTarget.files?.[0];
       const data = uploadFile && (await getCloudUrl(uploadFile));
-
-      // await getCloudUrl(async (prevTask, currTask) => {
-      //   await prevTask;
-      //   return handleTask(currTask)
-      // }, Promise.resolve());
-
-      //setIsImgLoading(true);
       setIsLoading(false);
       setPreview(data[0]);
       setIsEdtiting(true); //업로드 완료 되고 나서로 위치 이동
@@ -160,7 +150,7 @@ function BasicProfile() {
   };
 
   const patchUserProfilePhoto = () => {
-    // 회원정보수정 요청
+    dispatch(patchUsersAsync({ myimg_src: preview }));
     setIsEdtiting(false);
   };
 
@@ -178,7 +168,7 @@ function BasicProfile() {
           )}
           {isEditing ? (
             <EditConfirmBtn onClick={patchUserProfilePhoto}>
-              <img src="img/check.png" />
+              <img src={userinfo?.myimg_src || 'img/check.png'} />
             </EditConfirmBtn>
           ) : (
             <EditBtn onClick={editProfile} className={isEditing ? 'edit' : ''}>

@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { deleteUsers, patchUsers, postUsers } from '../../apis/api/users';
+import { deleteUsers, postUsers } from '../../apis/api/users';
 import ButtonBasic from '../../components/common/button/ButtonBasic';
 import ButtonLoadingIndicator from '../../components/common/loading-indicator/ButtonLoadingIndicator';
 import AdditionalInfo from '../../components/form/AdditionalInfo';
 import BasicInfo from '../../components/form/BasicInfo';
 import ErrorMessage from '../../components/Input/ErrorMessage';
 import InputAddress from '../../components/Input/InputAddress';
-import { useAppSelector } from '../../redux/configStore.hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/configStore.hooks';
+import { patchUsersAsync } from '../../redux/modules/userSlice';
 
 const Form = styled.form`
   &.mypage {
@@ -28,6 +29,7 @@ export interface IJoinForm {
   dob: string;
   role: number;
   likes: number[];
+  myimg_src?: string;
 }
 
 export type IJoinPartial = Partial<IJoinForm>;
@@ -52,6 +54,7 @@ function GeneralJoin() {
   const { pathname } = useLocation();
   const isMypage = pathname.includes('mypage');
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const fillJoinForm = (obj: IJoinPartial) => {
     setJoinForm({ ...joinForm, ...obj });
@@ -81,18 +84,14 @@ function GeneralJoin() {
   };
 
   const submitPatchForm = async () => {
-    console.log(joinForm);
     if (!checkRequiredForm(joinForm)) return;
     setIsLoading(true);
     setMessage('');
 
-    const response = await patchUsers(joinForm);
-    if (response.statusCode === 200) {
-      // 수정되었다는 모달창 띄우고
+    try {
+      await dispatch(patchUsersAsync(joinForm)).unwrap();
       navigate('/');
-    } else {
-      console.log(response);
-    }
+    } catch (error) {}
   };
 
   return (

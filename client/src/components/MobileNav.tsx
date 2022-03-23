@@ -14,6 +14,9 @@ const NavContainer = styled.div`
   @media only screen and (min-width: 768px) {
     display: none;
   }
+  @media only screen and (max-width: 767px) {
+    height: 3.5rem;
+  }
 `;
 
 const NavMenuContainer = styled.div`
@@ -43,10 +46,15 @@ const NavMenu = styled.div<{
   &:hover {
     transform: scale(1.05);
   }
+  @media only screen and (max-width: 767px) {
+  }
 `;
 const NavMenuImg = styled.img`
   margin: auto;
   height: 32px;
+  @media only screen and (max-width: 767px) {
+    height: 1.5rem;
+  }
 `;
 const NavMenuTitle = styled.p`
   text-align: center;
