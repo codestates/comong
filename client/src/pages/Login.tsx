@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import ButtonBasic from '../components/common/button/ButtonBasic';
-import KakaoOauthModalContainer from '../components/common/modal/KakaoOauthModalContainer';
 import Modal from '../components/common/modal/Modal';
 import TestLoginModalContainer from '../components/common/modal/TestLoginModalContainer';
 import LoginForm from '../components/form/LoginForm';
@@ -85,20 +84,6 @@ function Login() {
   const { isLogin, isLoading } = useAppSelector((state) => state.userSlice);
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
-  const [modalType, setModalType] = useState('');
-
-  const modals: { [key: string]: JSX.Element } = {
-    test: (
-      <TestLoginModalContainer
-        setShowModal={setShowModal}
-      ></TestLoginModalContainer>
-    ),
-    kakao: (
-      <KakaoOauthModalContainer
-        setShowModal={setShowModal}
-      ></KakaoOauthModalContainer>
-    ),
-  };
 
   return isLoading ? (
     <LoadingIndicator></LoadingIndicator>
@@ -120,7 +105,6 @@ function Login() {
         <ButtonBasic
           backColor="#fc6621"
           buttonClickHandler={() => {
-            setModalType('test');
             setShowModal(true);
           }}
         >
@@ -137,15 +121,15 @@ function Login() {
       </ButtonWrapper>
       <OauthLoginWrapper>
         <OauthButton type="naver"></OauthButton>
-        <OauthButton
-          type="kakao"
-          setModalType={setModalType}
-          setShowModal={setShowModal}
-        ></OauthButton>
+        <OauthButton type="kakao"></OauthButton>
         <OauthButton type="google"></OauthButton>
       </OauthLoginWrapper>
       {showModal && (
-        <Modal setShowModal={setShowModal}>{modals[modalType]}</Modal>
+        <Modal setShowModal={setShowModal}>
+          <TestLoginModalContainer
+            setShowModal={setShowModal}
+          ></TestLoginModalContainer>
+        </Modal>
       )}
     </Main>
   );
