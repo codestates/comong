@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import { apiClient } from '..';
-import { IJoinForm, IJoinPartial } from '../../pages/join/GeneralJoin';
+import { IJoinForm } from '../../pages/join/GeneralJoin';
 
 export const getIsDuplicate = async (email: string) => {
   try {
@@ -24,19 +24,6 @@ export const postUsers = async (form: IJoinForm) => {
     const err = error as AxiosError;
     return err.response?.data;
     //return Promise.reject(err);
-  }
-};
-
-export const patchUsers = async (form: IJoinPartial) => {
-  try {
-    const reqForm = { ...form, likes: JSON.stringify(form.likes) };
-    console.log(reqForm);
-    const data = await apiClient.patch('/users', reqForm);
-    console.log(data);
-    return { statusCode: data.status, ...data };
-  } catch (error) {
-    const err = error as AxiosError;
-    return err.response?.data;
   }
 };
 

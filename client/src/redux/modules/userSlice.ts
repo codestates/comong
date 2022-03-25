@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { apiClient } from '../../apis';
 import { ILoginForm } from '../../components/form/LoginForm';
+import { IJoinPartial } from '../../pages/join/GeneralJoin';
 import { IItemPartial } from '../../pages/mypage/mypage_user/MypageBookmarks';
 
 // !TODO 타입 다시 확인하기
@@ -16,6 +17,10 @@ interface IUserInfo {
   updatedAt: string;
   likes: number[];
   bookmarks: number[];
+  postal_code: string;
+  address1: string;
+  address2: string;
+  myimg_src: string;
 }
 
 export interface INotification {
@@ -97,6 +102,12 @@ const userSlice = createSlice({
 
     builder.addCase(postSigninAsync.rejected, (state, action) => {
       state.isLoading = false;
+    });
+
+    builder.addCase(patchUsersAsync.fulfilled, (state, action) => {
+      console.log(action.payload);
+      const userinfo = state.userinfo!;
+      state.userinfo = { ...userinfo, ...action.payload };
     });
 
     builder.addCase(postBookmarkAsync.fulfilled, (state, action) => {
@@ -181,30 +192,15 @@ export const postSigninAsync = createAsyncThunk(
   },
 );
 
-// export const getOauthUserAsync = createAsyncThunk('post/login', async () => {
-//   const response = await apiClient.get(`/users`);
-//   const notification = (
-//     await apiClient.get(`/users/notification?user_id=${response.data.user.id}`)
-//   ).data;
-//   const newNotification = notification.data.map(
-//     (obj: {
-//       id: number;
-//       updatedAt: string;
-//       read: number;
-//       contents: string;
-//     }) => {
-//       const newContents = {
-//         id: obj.id,
-//         updatedAt: obj.updatedAt,
-//         read: obj.read === 0 ? false : true,
-//         ...JSON.parse(obj.contents),
-//       };
-//       return newContents;
-//     },
-//   );
-//   const data = { ...response.data, notification: newNotification.reverse() };
-//   return data;
-// });
+export const patchUsersAsync = createAsyncThunk(
+  'patch/user',
+  async (form: IJoinPartial) => {
+    const reqForm = { ...form, likes: JSON.stringify(form.likes) };
+    console.log(reqForm);
+    await apiClient.patch('/users', reqForm);
+    return form;
+  },
+);
 
 export const postBookmarkAsync = createAsyncThunk(
   'post/bookmark',

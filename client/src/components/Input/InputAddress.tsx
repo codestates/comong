@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { IJoinPartial } from '../../pages/join/GeneralJoin';
+import { useAppSelector } from '../../redux/configStore.hooks';
 import ButtonBasic from '../common/button/ButtonBasic';
 
 const Wrapper = styled.div`
@@ -41,6 +42,8 @@ interface IInputAddress {
 }
 
 function InputAddress({ fillJoinForm }: IInputAddress) {
+  const { userinfo } = useAppSelector((state) => state.userSlice);
+
   const getAddress = () => {
     const script = document.createElement('script');
     let width = 0;
@@ -89,6 +92,7 @@ function InputAddress({ fillJoinForm }: IInputAddress) {
         <InputPostal
           id="join-postalcode"
           name="postal_code"
+          value={userinfo?.postal_code}
           placeholder="우편번호"
           onChange={fillAddressInput}
           disabled
@@ -106,6 +110,7 @@ function InputAddress({ fillJoinForm }: IInputAddress) {
       <Input
         id="join-address1"
         name="address1"
+        value={userinfo?.address1}
         onChange={fillAddressInput}
         placeholder="주소"
         disabled
@@ -113,6 +118,7 @@ function InputAddress({ fillJoinForm }: IInputAddress) {
       <Input
         id="join-address2"
         name="address2"
+        value={userinfo?.address2}
         onChange={fillAddressInput}
         placeholder="상세주소"
       />
