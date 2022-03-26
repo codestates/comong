@@ -162,13 +162,15 @@ function BasicProfile() {
             <ImgLodingIndicator></ImgLodingIndicator>
           ) : (
             <img
-              src={preview || 'icons/post/emptyPerson.png'}
+              src={
+                preview || userinfo?.myimg_src || 'icons/post/emptyPerson.png'
+              }
               onClick={editProfile}
             />
           )}
           {isEditing ? (
             <EditConfirmBtn onClick={patchUserProfilePhoto}>
-              <img src={userinfo?.myimg_src || 'img/check.png'} />
+              <img src={'img/check.png'} />
             </EditConfirmBtn>
           ) : (
             <EditBtn onClick={editProfile} className={isEditing ? 'edit' : ''}>
