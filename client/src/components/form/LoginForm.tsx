@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { setClientHeadersToken } from '../../apis';
 import { socket } from '../../App';
+import useSocket from '../../hooks/useSocket';
 import { useAppDispatch, useAppSelector } from '../../redux/configStore.hooks';
 import { postSigninAsync } from '../../redux/modules/userSlice';
 import ButtonBasic from '../common/button/ButtonBasic';
@@ -36,17 +37,11 @@ function LoginForm() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [message, setMessage] = useState('');
+  const { enterRoom } = useSocket();
 
   const fillLoginForm = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
     setLoginForm({ ...loginForm, [name]: value });
-  };
-
-  const joinRoom = async (room: string) => {
-    socket.emit('join_room', room);
-    socket.on('notificationToClient', (data) => {
-      console.log('이벤트 발생 시', data);
-    });
   };
 
   const submitLoginForm = async (form: ILoginForm) => {
@@ -55,7 +50,7 @@ function LoginForm() {
     try {
       const response = await dispatch(postSigninAsync(form)).unwrap();
       const room = `${response.user.id}#appNotice`;
-      joinRoom(room!);
+      enterRoom(room!);
       setClientHeadersToken(response.accessToken);
       navigate('/');
     } catch (error) {

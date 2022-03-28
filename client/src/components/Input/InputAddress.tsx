@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import styled from 'styled-components';
-import { IJoinPartial } from '../../pages/join/GeneralJoin';
+import { IJoinForm, IJoinPartial } from '../../pages/join/GeneralJoin';
 import { useAppSelector } from '../../redux/configStore.hooks';
 import ButtonBasic from '../common/button/ButtonBasic';
 
@@ -43,6 +43,8 @@ interface IInputAddress {
 
 function InputAddress({ fillJoinForm }: IInputAddress) {
   const { userinfo } = useAppSelector((state) => state.userSlice);
+  const [postalCode, setPostalCode] = useState(userinfo?.postal_code || '');
+  const [address, setAddress] = useState(userinfo?.address1 || '');
 
   const getAddress = () => {
     const script = document.createElement('script');
@@ -68,13 +70,14 @@ function InputAddress({ fillJoinForm }: IInputAddress) {
         address1.setAttribute('value', addr);
         address1.dispatchEvent(new Event('change', { bubbles: true }));
 
+        console.log(data.zonecode, addr)
+        console.log(postalCode.value, addr)
         document.getElementById("join-address2").focus();
       }
   }).open({
     left: ${width},
     top: (window.screen.height / 4)
   });`;
-
     script.type = 'text/javascript';
     script.async = true;
     document.head.appendChild(script);
@@ -92,9 +95,12 @@ function InputAddress({ fillJoinForm }: IInputAddress) {
         <InputPostal
           id="join-postalcode"
           name="postal_code"
-          value={userinfo?.postal_code}
+          value={postalCode}
           placeholder="우편번호"
-          onChange={fillAddressInput}
+          onChange={(e) => {
+            fillAddressInput(e);
+            setPostalCode(e.currentTarget.value);
+          }}
           disabled
         />
         <ButtonBasic
@@ -110,8 +116,11 @@ function InputAddress({ fillJoinForm }: IInputAddress) {
       <Input
         id="join-address1"
         name="address1"
-        value={userinfo?.address1}
-        onChange={fillAddressInput}
+        value={address}
+        onChange={(e) => {
+          fillAddressInput(e);
+          setAddress(e.currentTarget.value);
+        }}
         placeholder="주소"
         disabled
       />

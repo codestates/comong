@@ -64,8 +64,8 @@ const userSlice = createSlice({
       console.log(action.payload);
       const prevNotification = state.notification;
       state.notification = prevNotification && [
-        ...prevNotification,
         action.payload,
+        ...prevNotification,
       ];
     },
   },

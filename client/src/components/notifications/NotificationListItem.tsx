@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { deleteUserNotification } from '../../apis/api/users';
 import { useAppDispatch, useAppSelector } from '../../redux/configStore.hooks';
 import {
   deleteUserNotificationAsync,
@@ -72,16 +71,10 @@ interface INotificationListItem {
   info: INotification;
   type: string;
   idx: number;
-  deleteMessage: (notiIdx: number) => void;
 }
 
-function NotificationListItem({
-  info,
-  type,
-  idx,
-  deleteMessage,
-}: INotificationListItem) {
-  const { userinfo, notification } = useAppSelector((state) => state.userSlice);
+function NotificationListItem({ info, type }: INotificationListItem) {
+  const { userinfo } = useAppSelector((state) => state.userSlice);
   const dispatch = useAppDispatch();
   const [isRead, setIsRead] = useState(info.read);
   const showNotificationByType: { [key: string]: string } = {
@@ -89,9 +82,6 @@ function NotificationListItem({
     processing: '배송 준비중입니다.',
     intransit: '배송이 시작되었습니다.',
   };
-  console.log('1', info.updatedAt);
-  console.log('2', info.data.updatedAt);
-  console.log('all', info);
 
   return (
     <Wrapper
@@ -113,18 +103,17 @@ function NotificationListItem({
           onClick={(e) => {
             e.stopPropagation();
             dispatch(deleteUserNotificationAsync(info.id));
-            deleteMessage(idx);
           }}
         >
           <img className="close" src="/img/close.png" />
         </div>
         <span className="noti-item">{info.itemInfo[0].title}</span>
         <span className="noti-message">{showNotificationByType[type]}</span>
-        {/* <span className="noti-date">
+        <span className="noti-date">
           {info.data.updatedAt
             ? info.data.updatedAt.split('T')[0]
             : info.updatedAt.split('T')[0]}
-        </span> */}
+        </span>
       </div>
     </Wrapper>
   );

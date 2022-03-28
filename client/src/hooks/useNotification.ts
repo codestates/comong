@@ -1,9 +1,9 @@
-const useNotification = (title: string, options: {}) => {
+const useNotification = () => {
   if (!('Notification' in window)) {
     return;
   }
 
-  const fireNotif = () => {
+  const fireNotif = (title: string, options: {}) => {
     /* 권한 요청 부분 */
     if (Notification.permission !== 'granted') {
       Notification.requestPermission().then((permission) => {
@@ -21,6 +21,7 @@ const useNotification = (title: string, options: {}) => {
       new Notification(title, options);
     }
   };
+
   return fireNotif;
 };
 
