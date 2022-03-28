@@ -442,6 +442,9 @@ export class UsersService {
 			include: [
 				{ model: models.category_has_user, as: 'category_has_users' , attributes: [ 'category_id'] },
 				{ model: models.bookmark, as: 'bookmarks', where: {ismarked: 1} ,attributes: ['item_id'], required: false},
+				{ model: models.user_address, as: 'user_addresses', attributes: {
+					exclude: [ 'id', 'user_id' ]
+				}}
 			], 
 		})
 		if(info){
