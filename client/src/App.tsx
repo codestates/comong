@@ -7,8 +7,7 @@ const env = 'development';
 const { url } = config[env];
 
 export interface ServerToClientEvents {
-  notificationToClient: (data: any) => any;
-  joinedRoom: (data: any) => any;
+  notificationToClient: (data: any) => void;
 }
 
 export interface ClientToServerEvents {

@@ -9,14 +9,18 @@ import {
 
 const Wrapper = styled.li`
   background-color: white;
+
   width: 100%;
-  padding: 1rem 2rem;
-  border: 1px solid ${(props) => props.theme.colors.whiteForShadow};
-  border-radius: 8px;
+  padding: 0.4rem;
+  border-top: 1px solid ${(props) => props.theme.colors.whiteForShadow};
+  border-bottom: 1px solid ${(props) => props.theme.colors.whiteForShadow};
+
   display: flex;
   align-items: center;
-  gap: 2rem;
+
+  gap: 0.4rem;
   position: relative;
+
   @media only screen and (max-width: 768px) {
     padding: 1rem;
   }
@@ -36,20 +40,12 @@ const Wrapper = styled.li`
   }
 
   > div {
-    width: 80%;
+    width: 95%;
     padding: 0.4rem 0;
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
     font-size: 14px;
-
-    img.close {
-      width: 0.8rem;
-      height: 0.8rem;
-      position: absolute;
-      right: 1rem;
-      top: 1rem;
-    }
 
     span.noti-item {
       color: ${(props) => props.theme.colors.charcol};
@@ -73,7 +69,7 @@ interface INotificationListItem {
   idx: number;
 }
 
-function NotificationListItem({ info, type }: INotificationListItem) {
+function DropdownNotificationListItem({ info, type }: INotificationListItem) {
   const { userinfo } = useAppSelector((state) => state.userSlice);
   const dispatch = useAppDispatch();
   const [isRead, setIsRead] = useState(info.read);
@@ -98,15 +94,6 @@ function NotificationListItem({ info, type }: INotificationListItem) {
     >
       <img src={info.itemInfo[0].image_src?.split(',')[0]} />
       <div>
-        <div
-          className="close-btn"
-          onClick={(e) => {
-            e.stopPropagation();
-            dispatch(deleteUserNotificationAsync(info.id));
-          }}
-        >
-          <img className="close" src="/img/close.png" />
-        </div>
         <span className="noti-item">{info.itemInfo[0].title}</span>
         <span className="noti-message">{showNotificationByType[type]}</span>
         <span className="noti-date">
@@ -119,4 +106,4 @@ function NotificationListItem({ info, type }: INotificationListItem) {
   );
 }
 
-export default NotificationListItem;
+export default DropdownNotificationListItem;

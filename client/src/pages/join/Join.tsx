@@ -11,6 +11,7 @@ import { setClientHeadersToken } from '../../apis';
 import { postOauthJoin } from '../../apis/api/oauth';
 import { LoadingIndicator } from '../../constants';
 import { useAppDispatch } from '../../redux/configStore.hooks';
+import { getAddressAsync } from '../../redux/modules/addressSlice';
 import { postSigninAsync } from '../../redux/modules/userSlice';
 
 const Main = styled.main`
@@ -67,7 +68,6 @@ function Join() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { type } = useParams();
-  console.log('pathname', pathname);
 
   useEffect(() => {
     if (pathname.includes('oauth')) {
