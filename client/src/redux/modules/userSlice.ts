@@ -163,14 +163,11 @@ export const postSigninAsync = createAsyncThunk(
     } else {
       response = await apiClient.get(`/users`);
     }
-    //const response = await apiClient.post(`/users/signin`, form);
     const notification = (
       await apiClient.get(
         `/users/notification?user_id=${response.data.user.id}`,
       )
     ).data;
-    console.log('noti', notification);
-    console.log(response.data);
     const newNotification = notification.data.map(
       (obj: {
         id: number;

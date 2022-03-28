@@ -1,7 +1,7 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
-import { IJoinForm, IJoinPartial } from '../../pages/join/GeneralJoin';
-import { useAppSelector } from '../../redux/configStore.hooks';
+import { IJoinPartial } from '../../pages/join/GeneralJoin';
+import { useAppDispatch, useAppSelector } from '../../redux/configStore.hooks';
 import ButtonBasic from '../common/button/ButtonBasic';
 
 const Wrapper = styled.div`
@@ -42,9 +42,8 @@ interface IInputAddress {
 }
 
 function InputAddress({ fillJoinForm }: IInputAddress) {
-  const { userinfo } = useAppSelector((state) => state.userSlice);
-  const [postalCode, setPostalCode] = useState(userinfo?.postal_code || '');
-  const [address, setAddress] = useState(userinfo?.address1 || '');
+  const addressSlice = useAppSelector((state) => state.addressSlice);
+  const dispatch = useAppDispatch();
 
   const getAddress = () => {
     const script = document.createElement('script');
@@ -63,21 +62,20 @@ function InputAddress({ fillJoinForm }: IInputAddress) {
           addr = data.jibunAddress;
         }
         const postalCode = document.getElementById("join-postalcode");
-        postalCode.setAttribute('value', data.zonecode);
-        postalCode.dispatchEvent(new Event('change', { bubbles: true }));
+        postalCode.value = data.zonecode;
+        postalCode.dispatchEvent(new Event('input', { bubbles: true }));
 
         const address1 =document.getElementById("join-address1");
-        address1.setAttribute('value', addr);
-        address1.dispatchEvent(new Event('change', { bubbles: true }));
+        address1.value = addr;
+        address1.dispatchEvent(new Event('input', { bubbles: true }));
 
-        console.log(data.zonecode, addr)
-        console.log(postalCode.value, addr)
         document.getElementById("join-address2").focus();
       }
   }).open({
     left: ${width},
     top: (window.screen.height / 4)
   });`;
+
     script.type = 'text/javascript';
     script.async = true;
     document.head.appendChild(script);
@@ -95,12 +93,9 @@ function InputAddress({ fillJoinForm }: IInputAddress) {
         <InputPostal
           id="join-postalcode"
           name="postal_code"
-          value={postalCode}
+          defaultValue={addressSlice?.postal_code}
           placeholder="우편번호"
-          onChange={(e) => {
-            fillAddressInput(e);
-            setPostalCode(e.currentTarget.value);
-          }}
+          onInput={fillAddressInput}
           disabled
         />
         <ButtonBasic
@@ -116,19 +111,16 @@ function InputAddress({ fillJoinForm }: IInputAddress) {
       <Input
         id="join-address1"
         name="address1"
-        value={address}
-        onChange={(e) => {
-          fillAddressInput(e);
-          setAddress(e.currentTarget.value);
-        }}
+        defaultValue={addressSlice?.address1}
+        onInput={fillAddressInput}
         placeholder="주소"
         disabled
       />
       <Input
         id="join-address2"
         name="address2"
-        value={userinfo?.address2}
-        onChange={fillAddressInput}
+        defaultValue={addressSlice?.address2}
+        onInput={fillAddressInput}
         placeholder="상세주소"
       />
     </Wrapper>

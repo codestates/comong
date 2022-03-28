@@ -5,6 +5,7 @@ import { setClientHeadersToken } from '../../apis';
 import { socket } from '../../App';
 import useSocket from '../../hooks/useSocket';
 import { useAppDispatch, useAppSelector } from '../../redux/configStore.hooks';
+import { getAddressAsync } from '../../redux/modules/addressSlice';
 import { postSigninAsync } from '../../redux/modules/userSlice';
 import ButtonBasic from '../common/button/ButtonBasic';
 import ErrorMessage from '../Input/ErrorMessage';
@@ -52,6 +53,7 @@ function LoginForm() {
       const room = `${response.user.id}#appNotice`;
       enterRoom(room!);
       setClientHeadersToken(response.accessToken);
+      dispatch(getAddressAsync());
       navigate('/');
     } catch (error) {
       setMessage('아이디 혹은 비밀번호를 확인해 주세요');
