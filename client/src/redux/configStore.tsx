@@ -5,6 +5,7 @@ import itemSlice from './modules/itemSlice';
 import cartSlice from './modules/cartSlice';
 import editorSlice from './modules/editorSlice';
 import loadingSlice from './modules/loadingSlice';
+import addressSlice from './modules/addressSlice';
 import { configureStore } from '@reduxjs/toolkit';
 
 const store = configureStore({
@@ -16,6 +17,7 @@ const store = configureStore({
     cartSlice,
     editorSlice,
     loadingSlice,
+    addressSlice,
   },
 });
 

@@ -6,6 +6,8 @@ import { useAppDispatch, useAppSelector } from '../redux/configStore.hooks';
 import { NavCartModal } from './Modals/NavCartModal';
 import type { RootState } from '../redux/configStore';
 import NotificationNum from './notifications/NotificationNum';
+import { notification } from 'antd';
+import DropdownNotifications from './notifications/DropdownNotifications';
 
 const NavContainer = styled.div`
   width: 100%;
@@ -134,6 +136,7 @@ const Nav = () => {
   const [categoryColor, setCategoryColor] = useState(false);
   const [mypageColor, setMypageColor] = useState(false);
   const [cartColor, setCartColor] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
 
   let current = window.location.href.split('/')[3];
 
@@ -189,15 +192,18 @@ const Nav = () => {
           <NavMenu
             onClick={() =>
               isLogin
-                ? role === 0
-                  ? navigate('/mypage/notifications')
-                  : navigate('/sellerpage/notifications')
+                ? setShowNotifications(!showNotifications)
                 : navigate('/login')
             }
           >
             <NavNotification src="/icons/nav/bell.png" />
             {isLogin && <NotificationNum></NotificationNum>}
           </NavMenu>
+          {showNotifications && (
+            <DropdownNotifications
+              setShowNotifications={setShowNotifications}
+            ></DropdownNotifications>
+          )}
         </NavMenuContainer>
       </NavLinks>
     </NavContainer>

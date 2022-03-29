@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { setClientHeadersToken } from '../../../apis';
 import { socket } from '../../../App';
 import { useAppDispatch } from '../../../redux/configStore.hooks';
+import { getAddressAsync } from '../../../redux/modules/addressSlice';
 import { postSigninAsync } from '../../../redux/modules/userSlice';
 import ButtonBasic from '../button/ButtonBasic';
 
@@ -59,6 +60,7 @@ function TestLoginModalContainer({ setShowModal }: ITestLoginModalContainer) {
       joinRoom(room!);
       setClientHeadersToken(response.accessToken);
       navigate('/');
+      dispatch(getAddressAsync());
     } catch (error) {}
   };
 

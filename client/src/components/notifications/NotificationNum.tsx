@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import useSocket from '../../hooks/useSocket';
 import { useAppSelector } from '../../redux/configStore.hooks';
 
 const Wrapper = styled.div`
