@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import { setClientHeadersToken } from '../../apis';
 import { postOauthJoin } from '../../apis/api/oauth';
 import { LoadingIndicator } from '../../constants';
+import useSocket from '../../hooks/useSocket';
 import { useAppDispatch } from '../../redux/configStore.hooks';
 import { getAddressAsync } from '../../redux/modules/addressSlice';
 import { postSigninAsync } from '../../redux/modules/userSlice';
@@ -60,6 +61,7 @@ const Tab = styled.div`
 `;
 
 function Join() {
+  const { enterRoom } = useSocket();
   const { pathname, search } = useLocation();
   const [role, setRole] = useState(0);
   const [basePath, setBasePath] = useState('/join');
@@ -89,12 +91,14 @@ function Join() {
   const postOauth = async () => {
     const authorizationCode = search.split('code=')[1];
     const response = await postOauthJoin(type!, authorizationCode);
-
     const { data, needSignup } = response;
     const { accessToken, email } = data;
     setClientHeadersToken(accessToken);
     if (!needSignup) {
       dispatch(postSigninAsync());
+      const room = `${response.user.id}#appNotice`;
+      enterRoom(room!);
+      dispatch(getAddressAsync());
       navigate('/');
       return;
     } else {
