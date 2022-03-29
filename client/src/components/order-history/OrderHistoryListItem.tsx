@@ -158,6 +158,13 @@ function OrderHistoryListItem({
     intransit: '배송중',
   };
 
+  const mobileFormat = (mobile: string) => {
+    const arr = mobile.split('');
+    arr.splice(3, 0, '.');
+    arr.splice(8, 0, '.');
+    return arr.join('');
+  };
+
   return (
     <Wrapper>
       <Link to={`/item/${itemInfo.id}`}>
@@ -178,7 +185,9 @@ function OrderHistoryListItem({
         </OrderItemInfo>
         <OrderSellerInfo>
           <span className="seller__name">{orderInfo.user.storename}</span>
-          <span className="seller__contact">{orderInfo.user.mobile}</span>
+          <span className="seller__contact">
+            {mobileFormat(orderInfo.user.mobile)}
+          </span>
         </OrderSellerInfo>
       </OrderInfo>
       <ButtonWrapper>
