@@ -144,15 +144,15 @@
 ---
 
 <details>
-  <summary> 회원가입</summary>
+  <summary> 이메일 회원가입, 로그인, 로그아웃</summary>
   
   <details>
-  <summary> 일반회원 </summary>
+  <summary> 회원가입 - 일반회원 </summary>
     <img width="700" src="https://user-images.githubusercontent.com/88753089/159136241-0eef747e-45c9-4929-acb1-f5036613079a.gif"/>
   </details>
   
   <details>
-  <summary>판매회원</summary>
+  <summary>회원가입 - 판매회원</summary>
     <img width="700" src="https://user-images.githubusercontent.com/88753089/159177932-2749a421-b5a2-44f1-b34d-cfdcc7fc24b9.gif"/>
   </details>
 
@@ -161,30 +161,11 @@
     <img width="700" src=""/>
   </details> -->
 
-</details>
-
----
-
-<details>
-  <summary>로그인, 로그아웃</summary>
-
   <details>
   <summary> 로그인 </summary>
     <img width="700" src="https://user-images.githubusercontent.com/88753089/159136262-f54070b5-cb45-425e-ab87-febf85fd566a.gif"/>
   </details>
-  
-  <!-- 
-  <details>
-  <summary> 카카오 로그인 </summary>
-    <img width="700" src=""/>
-  </details> 
-  -->
-  
-  <details>
-  <summary> 구글 로그인 </summary>
-    <img width="700" src="https://user-images.githubusercontent.com/88753089/159136280-94aa2446-5b84-433c-98db-8178553cca02.gif"/>
-  </details>
-  
+
   <details>
   <summary> 로그아웃 </summary>
     <img width="700" src="https://user-images.githubusercontent.com/88753089/159136307-a0010615-2d14-4a9a-a240-0a75ab969749.gif"/>
@@ -195,21 +176,59 @@
 ---
 
 <details>
+
+  <summary>Oauth 회원가입, 로그인</summary>
+
+  <details>
+  <summary>네이버 - 회원가입</summary>
+    <img width="700" src="https://user-images.githubusercontent.com/88753089/160566286-b3f8aee7-4468-405e-b232-d0729c3dc54b.gif"/>
+  </details>
+
+  <details>
+  <summary>네이버 - 로그인</summary>
+    <img width="700" src="https://user-images.githubusercontent.com/88753089/160566283-d9c88503-3cfc-4936-86ab-d38a6dd663ee.gif"/>
+  </details>
+
+  <details>
+  <summary>카카오 - 회원가입</summary>
+    <img width="700" src="https://user-images.githubusercontent.com/88753089/160566294-b60a1aec-a6d1-4a03-8b46-a2eb9f05452f.gif"/>
+  </details>
+
+  <details>
+  <summary>카카오 - 로그인</summary>
+    <img width="700" src="https://user-images.githubusercontent.com/88753089/160566291-382fa952-58e4-4df8-a40b-3535d5b2250f.gif"/>
+  </details>
+
+  <details>
+  <summary>구글 - 회원가입</summary>
+    <img width="700" src="https://user-images.githubusercontent.com/88753089/160566272-cdfbe576-2ce9-4969-9aef-1b6bd69ee88f.gif"/>
+  </details>
+
+  <details>
+  <summary>구글 - 로그인</summary>
+    <img width="700" src="https://user-images.githubusercontent.com/88753089/160566249-0ef47ce4-17ef-435e-8a46-966412649b6a.gif"/>
+  </details>
+
+</details>
+
+---
+
+<details>
   <summary>회원 정보 수정, 탈퇴</summary>
 
-  <!-- <details>
+  <details>
     <summary>회원 정보 수정</summary>
-    <img width="700" src=""/>
-  </details>  -->
+    <img width="700" src="https://user-images.githubusercontent.com/88753089/160658064-6f7c1cbf-66a1-48a1-abc9-040cb9390052.gif"/>
+  </details>
 
-  <!-- <details>
+  <details>
     <summary>회원 정보 수정 (프로필 사진 변경)</summary>
-    <img width="700" src=""/>
-  </details>  -->
+    <img width="700" src="https://user-images.githubusercontent.com/88753089/160658072-c767d4c0-03f8-4775-8617-6fc6f4286526.gif"/>
+  </details>
 
   <details>
     <summary>회원 탈퇴</summary>
-    <img width="700" src=""/>
+    <img width="700" src="https://user-images.githubusercontent.com/88753089/160658080-1a03f1e5-a1b4-4831-a181-4f130045537c.gif"/>
   </details>
 
 </details>
@@ -233,44 +252,44 @@
 
 ---
 
-<!-- <details>
+<details>
   <summary>주문 내역</summary>
 
   <details>
     <summary>주문 내역 조회 (상품 상태에 따라)</summary>
-    <img width="700" src=""/>
+    <img width="700" src="https://user-images.githubusercontent.com/88753089/160552242-d6daffa6-d8b4-4fa5-a034-11a2a4e84794.gif"/>
   </details>
 
   <details>
     <summary>주문 내역 조회 (상품 상태 + 기간에 따라)</summary>
-    <img width="700" src=""/>
+    <img width="700" src="https://user-images.githubusercontent.com/88753089/160552255-388e7e4a-c129-438e-98e3-dba26bd67d9c.gif"/>
   </details>
 
 </details>
 
---- -->
+---
 
-<!-- <details>
+<details>
   <summary>후기</summary>
 
   <details>
     <summary>후기 쓰기</summary>
-    <img width="700" src=""/>
+    <img width="700" src="https://user-images.githubusercontent.com/88753089/160544983-3115ab0d-ee89-4d95-bde3-4f3a52cf80e5.gif"/>
   </details>
 
   <details>
     <summary>후기 쓰기 (사진 첨부)</summary>
-    <img width="700" src=""/>
+    <img width="700" src="https://user-images.githubusercontent.com/88753089/160545061-3acad169-f8a0-492b-848b-6b0f1a5b2433.gif"/>
   </details>
 
   <details>
     <summary>후기 삭제</summary>
-    <img width="700" src=""/>
+    <img width="700" src="https://user-images.githubusercontent.com/88753089/160545102-3f22f68a-d5ee-433f-8956-cd44f08b88b9.gif"/>
   </details>
 
 </details>
 
---- -->
+---
 
 <details>
   <summary>찜하기</summary>
@@ -311,37 +330,31 @@
 
 --- -->
 
-<!-- <details>
+<details>
   <summary>알림</summary>
-
   <details>
-    <summary>일반회원 - 배송 준비 중</summary>
-    <img width="700" src=""/>
+    <summary>알림 - 배송 준비 중</summary>
+    <img width="700" src="https://user-images.githubusercontent.com/88753089/160664384-4b832fcc-d97d-48b6-ac1b-512f11dd8e21.gif"/>
   </details>
 
   <details>
-    <summary>일반회원 - 배송중</summary>
-    <img width="700" src=""/>
-  </details>
-
-  <details>
-    <summary>판매회원 - 구매 발생</summary>
-    <img width="700" src=""/>
+    <summary>알림 - 배송 시작</summary>
+    <img width="700" src="https://user-images.githubusercontent.com/88753089/160664378-d5c31ab2-2776-4453-aac1-4ca64214472a.gif"/>
   </details>
 
   <details>
     <summary>알림 읽은 경우 (색 구분, 숫자 변경)</summary>
-    <img width="700" src=""/>
+    <img width="700" src="https://user-images.githubusercontent.com/88753089/160664389-34a8536d-5961-4e29-bc95-c82389c116cb.gif"/>
   </details>
 
   <details>
     <summary>알림 삭제</summary>
-    <img width="700" src=""/>
+    <img width="700" src="https://user-images.githubusercontent.com/88753089/160664354-b781df03-a173-4aef-a5f7-cc6ded7df3f0.gif"/>
   </details>
 
-</details> -->
+</details>
 
-<!-- --- -->
+---
 
  </br>
 
