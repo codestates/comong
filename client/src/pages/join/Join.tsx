@@ -95,7 +95,7 @@ function Join() {
     const { accessToken, email } = data;
     setClientHeadersToken(accessToken);
     if (!needSignup) {
-      dispatch(postSigninAsync());
+      const response = await dispatch(postSigninAsync()).unwrap();
       const room = `${response.user.id}#appNotice`;
       enterRoom(room!);
       dispatch(getAddressAsync());
