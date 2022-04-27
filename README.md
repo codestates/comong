@@ -1,5 +1,7 @@
 # 프로젝트 소개
 
+## [자동배포 repository 바로가기](https://github.com/onewithtruth/comong)
+
 ## LOGO
 
 ![logo](https://imagedelivery.net/BOKuAiJyROlMLXwCcBYMqQ/9cb76ebb-2ba7-4998-40d8-056e6fe5d700/public)
