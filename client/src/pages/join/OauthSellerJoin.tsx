@@ -33,17 +33,11 @@ function OauthSellerJoin() {
     setJoinForm({ ...joinForm, ...obj });
   };
 
-  const submitPatchForm = () => {
-    console.log(joinForm);
-    dispatch(patchUsersAsync(joinForm));
-    delete apiClient.defaults.headers.common['Authorization'];
-  };
-
   return (
     <>
       <OauthBasicInfo fillJoinForm={fillJoinForm}></OauthBasicInfo>
-      <ButtonBasic buttonClickHandler={submitPatchForm}>
-        회원가입 신청
+      <ButtonBasic buttonClickHandler={(e) => {}} backColor="grey">
+        준비 중
       </ButtonBasic>
     </>
   );
