@@ -1,9 +1,11 @@
+import Modal from '../common/modal/Modal';
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { deleteClientHeadersToken } from '../../apis';
 import { useAppDispatch } from '../../redux/configStore.hooks';
 import { logout } from '../../redux/modules/userSlice';
+import DeleteUserModalContent from '../common/modal/DeleteUserModalContent';
 import { MenuWrapper, MyMenu } from './NavUser';
 
 const Wrapper = styled.div``;
@@ -12,6 +14,7 @@ function NavSeller() {
   const { pathname } = useLocation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
 
   const getSelectedClass = (path: string) => {
     if (path === '' && pathname !== '/sellerpage') {
@@ -40,11 +43,7 @@ function NavSeller() {
       <MenuWrapper>
         <h3>상품 관리</h3>
         <ul>
-          <li>상품 등록</li>
-          <Link to="/sellerpage/itemlist">
-            <li className={getSelectedClass('itemlist')}>등록한 상품</li>
-          </Link>
-          <li>상품 후기</li>
+          <li>준비 중</li>
         </ul>
       </MenuWrapper>
       <MenuWrapper>
@@ -60,8 +59,22 @@ function NavSeller() {
         <ul>
           <li>회원 정보 수정</li>
           <li onClick={logoutHandler}>로그아웃</li>
+          <li
+            onClick={() => {
+              setShowModal(true);
+            }}
+          >
+            회원탈퇴
+          </li>
         </ul>
       </MenuWrapper>
+      {showModal && (
+        <Modal setShowModal={setShowModal}>
+          <DeleteUserModalContent
+            setShowModal={setShowModal}
+          ></DeleteUserModalContent>
+        </Modal>
+      )}
     </Wrapper>
   );
 }
