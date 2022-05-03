@@ -246,7 +246,7 @@ const Post = () => {
               </HeartsAndCommentsAndRatingContainer> */}
               <Seller>{seller}</Seller>
               <Price>{(price * stock).toLocaleString('en')}원</Price>
-              <RealStock>잔여재고: {stock}개</RealStock>
+              {/* <RealStock>잔여재고: {stock}개</RealStock> */}
               <StockController>
                 <StockMinusButton
                   onClick={() => {
