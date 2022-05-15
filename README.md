@@ -1,8 +1,10 @@
 # 프로젝트 소개
 
-## [자동배포 repository 바로가기](https://github.com/onewithtruth/comong)
+### [자동배포 repository 바로가기](https://github.com/onewithtruth/comong)
+### [배포 Link 바로가기](https://www.comong.kr/)
+### [프로젝트 wiki 바로가기](https://github.com/codestates/comong/wiki)
 
-## LOGO
+## ✨ LOGO
 
 ![logo](https://imagedelivery.net/BOKuAiJyROlMLXwCcBYMqQ/9cb76ebb-2ba7-4998-40d8-056e6fe5d700/public)
 
@@ -13,12 +15,6 @@
 - 자신의 경쟁력 있는 상품과 서비스로 수익을 창출하고 싶으신가요?
 - 저희 comong 오픈마켓에 상품을 올리고 수익을 창출해 보세요.
 - 실시간 알림을 통해 아이디어와 상품에 대한 정보를 주고받는 플랫폼 'COMONG'
-
-</br>
-
-## ✨ Link
-
-[https://www.comong.kr/](https://www.comong.kr/)
 
 </br>
 
