@@ -418,6 +418,6 @@
 
 <img src="https://raw.githubusercontent.com/dahyeon11/resource_storage/ec6baa63e2e2673c273841d2dd7c3238444c4a0a/Blank%20diagram%20(1).png">
 
-### - Others..
+<!-- ### - Others..
 
-<img src="https://img.shields.io/badge/Coffee-5B4638?style=for-the-badge&logo=BuyMeACoffee&logoColor=white" height="50">
+<img src="https://img.shields.io/badge/Coffee-5B4638?style=for-the-badge&logo=BuyMeACoffee&logoColor=white" height="50"> -->
