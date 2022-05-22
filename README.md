@@ -35,13 +35,31 @@
   - cheerio와 puppeteer를 사용한 상품 데이터 크롤링
   - 반응형 웹 (모바일, PC, 타블렛 대응)
     <details>
-  <summary> - styled-reset을 이용한 css 초기화와 css 스타일 전역관리</summary>
-      <img width="700" src="https://user-images.githubusercontent.com/86667412/158828284-b418222d-f2d2-40ec-a9d8-899fad1d1100.gif"/>
+    <summary> - styled-reset을 이용한 css 초기화와 css 스타일 전역관리</summary>
+        <img width="700" src="https://user-images.githubusercontent.com/86667412/158828284-b418222d-f2d2-40ec-a9d8-899fad1d1100.gif"/>
+  </details>
+  
+<details>
+
+  <details>
+  <summary> 메인 배너 (자동 슬라이드)</summary>
+    <img width="700" src="https://user-images.githubusercontent.com/86667412/158828284-b418222d-f2d2-40ec-a9d8-899fad1d1100.gif"/>
+  </details>
+
+  <details>
+  <summary> 상품 목록 (무한스크롤) </summary>
+    <img width="700" src="https://user-images.githubusercontent.com/86667412/158832768-90f6f518-23cf-4d42-9b38-6c47e8ed18ce.gif"/>
   </details>
   
 
+  
+</details>
 
-</br>
+</details>
+
+---
+
+
 
 ## ✨ Project
 
