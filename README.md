@@ -11,7 +11,7 @@
 </br>
 
 ## ✨ Feature
-
+<details>
 - 회원가입
   - 자체 회원가입 및 OAuth2.0 소셜 로그인 (구글, 카카오, 네이버)
   - 중첩라우팅으로 회원 타입을 구분 (일반회원, 판매회원)
@@ -34,7 +34,13 @@
 - 기타
   - cheerio와 puppeteer를 사용한 상품 데이터 크롤링
   - 반응형 웹 (모바일, PC, 타블렛 대응)
+    <details>
+  <summary> - styled-reset을 이용한 css 초기화와 css 스타일 전역관리</summary>
+      <img width="700" src="https://user-images.githubusercontent.com/86667412/158828284-b418222d-f2d2-40ec-a9d8-899fad1d1100.gif"/>
+  </details>
+  
 
+</details>
 </br>
 
 ## ✨ Project
