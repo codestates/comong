@@ -34,11 +34,14 @@
 - 기타
   <details>
   <summary>cheerio와 puppeteer를 사용한 상품 데이터 크롤링</summary>
-  <span>항목 상세내용-1</span>
+  <span>설명 추가 예정</span>
   </details>
   <details>
-  <summary>반응형 웹 (모바일, PC, 타블렛 대응)</summary>
-  <span>항목 상세내용-1</span>
+  <summary>반응형 웹 (모바일, 타블렛, 데스크탑 대응)</summary>
+  - 기준
+    - 모바일 (가로 767px 이하)
+    - 타블렛 (가로 768px 이상 1199px 이하)
+    - 데스크탑 (가로 1200px 이상)
   </details>
 
 
@@ -55,7 +58,7 @@
 
 </br>
 
-## ✨ 주요기능 시연 GIF
+## ✨ Feature Demonstration GIF
 
 <details>
   <summary> 상품 목록 </summary>
