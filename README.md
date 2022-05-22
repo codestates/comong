@@ -36,16 +36,16 @@
   - 반응형 웹 (모바일, PC, 타블렛 대응)
   <details>
   <summary> 
-  - 메인 배너 (자동 슬라이드)
+  항목1 
   </summary>
-  <span></span>
+  <span>항목 상세내용-1</span>
   </details>
 
   <details>
   <summary> 
-  - 메인 배너 (자동 슬라이드)
+  항목2
   </summary>
-  <span></span>
+  <span>항목 상세내용2</span>
   </details>
 
 ---
