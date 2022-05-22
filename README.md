@@ -35,9 +35,7 @@
   - cheerio와 puppeteer를 사용한 상품 데이터 크롤링
   - 반응형 웹 (모바일, PC, 타블렛 대응)
   <details>
-  <summary> 
-  항목1 
-  </summary>
+  <summary> 항목1 </summary>
   <span>항목 상세내용-1</span>
   </details>
 
