@@ -34,23 +34,19 @@
 - 기타
   - cheerio와 puppeteer를 사용한 상품 데이터 크롤링
   - 반응형 웹 (모바일, PC, 타블렛 대응)
-  
-
-
   <details>
-  <summary><li>메인 배너 (자동 슬라이드)<li></summary>
+  <summary> 
+  - 메인 배너 (자동 슬라이드)
+  </summary>
   <span></span>
   </details>
 
   <details>
-  <summary><li>상품 목록 (무한스크롤)<li></summary>
+  <summary> 
+  - 메인 배너 (자동 슬라이드)
+  </summary>
+  <span></span>
   </details>
-
-
-  
-
-
-
 
 ---
 
