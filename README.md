@@ -39,7 +39,7 @@
         <img width="700" src="https://user-images.githubusercontent.com/86667412/158828284-b418222d-f2d2-40ec-a9d8-899fad1d1100.gif"/>
   </details>
   
-<details>
+
 
   <details>
   <summary> 메인 배너 (자동 슬라이드)</summary>
@@ -53,9 +53,9 @@
   
 
   
-</details>
 
-</details>
+
+
 
 ---
 
