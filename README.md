@@ -26,7 +26,7 @@
     </details>
 
 - 결제/등록
-    <details><summary>상품 결제 기능 (i'm port)</summary>
+    <details><summary>상품 결제 (i'm port)</summary>
      <ul>
         <li>아임포트(i'm port) API 연동 결제 기능 구현 </li>
         <li>카드 결제 진행 가능 (데스크탑 한정)</li>
@@ -41,15 +41,15 @@
     </details>
 
 - 리스트/배너
-    <details><summary>상품 리스트 무한스크롤</summary>
+    <details><summary>무한스크롤</summary>
     <ul>
         <li>메인 페이지 상품 리스트 무한 스크롤 구현</li>
     </ul>
     </details>
-    <details><summary>검색 및 실시간 인기 검색어 기능</summary>
+    <details><summary>검색 및 인기 검색어</summary>
      <ul>
         <li>최상단 네브바에서 상품명 및 설명으로 검색 가능</li>
-        <li>요청 횟수 TOP5 해당 키워드 '인기검색어'로 제공</li>
+        <li>요청 횟수 TOP5 해당 키워드 '실시간 인기검색어'로 제공</li>
     </ul>
     </details>
     <details><summary>캐러샐 배너(react-slick)</summary>
@@ -76,15 +76,15 @@
         <li> Web Notification API 활용한 푸쉬 알림 </li>
     </ul>
     </details>
-    <details><summary>주문/결제정보 메일 발송 (Node mailer)</summary>
+    <details><summary>주문/결제 메일 발송 (Node mailer)</summary>
      <ul>
-        <li>Node mailer를 활용한 메일 발송 (주문/결제정보)</li>
+        <li>Node mailer를 활용한 메일 발송 (주문/결제정보 안내)</li>
     </ul>
     </details>
 
 
-- 반응형 웹/데이터 크롤링
-    <details><summary>반응형 웹 (모바일, 타블렛, 데스크탑)</summary>
+- 반응형 웹/크롤링
+    <details><summary>반응형 웹</summary>
          - 기준</br>
          1) 모바일 (가로 767px 이하)</br>
          2) 타블렛 (가로 768px 이상 1199px 이하)</br>
@@ -92,11 +92,27 @@
          - 시연 GIF</br>
       <img width="700" src="https://user-images.githubusercontent.com/86667412/170004359-a79cf983-5ca2-44c5-8975-db43d4b85959.gif"/></details>
     </details>
-     <details><summary>데이터 크롤링(summarycheerio, puppeteer)</summary>
+     <details><summary>데이터 크롤링(puppeteer)</summary>
      <ul>
         <li>summarycheerio와 puppeteer를 사용한 상품 데이터 크롤링</li>
     </ul>
-
+    
+- 기타
+    <details><summary>실시간 알림 (socket.IO)</summary>
+     <ul>
+        <li> Socket.IO를 활용한 구매 및 배송 정보 실시간 알림 </li>
+    </ul>
+    </details>
+    <details><summary>푸쉬 알림 (Web Notification)</summary>
+     <ul>
+        <li> Web Notification API 활용한 푸쉬 알림 </li>
+    </ul>
+    </details>
+    <details><summary>주문/결제 메일 발송 (Node mailer)</summary>
+     <ul>
+        <li>Node mailer를 활용한 메일 발송 (주문/결제정보 안내)</li>
+    </ul>
+    </details>
 ---
 
 ## ✨ Project
