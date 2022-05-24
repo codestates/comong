@@ -102,12 +102,12 @@
 - 기타
     <details><summary>Pigma를 활용한 화면 기획</summary>
      <ul>
-        <li><a href='https://api.comong.kr/api/'>코몽(Comong) 서비스 화면 기획 Pigma 링크</a></li>
+        <a href='https://www.figma.com/file/2pNOzhVX2JcKCHWHzh4Yc0/4-weeks-project?node-id=17%3A320'>코몽(Comong) 서비스 화면 기획 Pigma 링크</a>
     </ul>
     </details>
     <details><summary>Swagger를 활용한 API 문서 작성</summary>
      <ul>
-        <li><a href='https://api.comong.kr/api/'>코몽(Comong) 서비스 API 문서 링크</a></li>
+        <a href='https://api.comong.kr/api/'>코몽(Comong) 서비스 API 문서 링크</a>
     </ul>
     </details>
     <details><summary>주문/결제 메일 발송 (Node mailer)</summary>
