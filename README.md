@@ -29,22 +29,25 @@
     <span>설명 추가 예정</span>
     </details>
 
-
 - 알림
   - Socket.IO를 활용한 실시간 알림 (구매 및 배송)
   - Web Notification API 활용한 푸쉬 알림
   - Node mailer를 활용한 메일 발송 (주문/결제정보)
 
-- 기타
-  - cheerio와 puppeteer를 사용한 상품 데이터 크롤링
-  - 반응형 웹 구현 (모바일, 타블렛, 데스크탑)
+- 반응형 웹 및 데이터 크롤링
+ - 반응형 웹 구현 (모바일, 타블렛, 데스크탑)
     <details><summary>자세히 보기</summary>
-     <ul>
-      <li>모바일 (가로 767px 이하)</li>
-      <li>타블렛 (가로 768px 이상 1199px 이하)</li>
-      <li>데스크탑 (가로 1200px 이상)</li>
-    </ul>
+    - 기준
+       <ul>
+        <li>모바일 (가로 767px 이하)</li>
+        <li>타블렛 (가로 768px 이상 1199px 이하)</li>
+        <li>데스크탑 (가로 1200px 이상)</li>
+      </ul>
+    - 시연 GIF
+      <img width="700" src="https://user-images.githubusercontent.com/86667412/170001893-eaf0be59-4b0e-4a3a-b891-483faa9afb81.png"/>
     </details>
+  - cheerio와 puppeteer를 사용한 상품 데이터 크롤링
+
 
 ---
 
