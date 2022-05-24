@@ -12,6 +12,8 @@
 
 ## ✨ Feature
 
+<strong>▶클릭 시 해당 기능에 대한 상세한 설명을 보실 수 있습니다</strong>
+
 - 회원가입
     <details><summary>자체 회원가입 & 소셜 로그인 (OAuth2.0)</summary>
     <ul>
@@ -98,14 +100,14 @@
     </ul>
     
 - 기타
-    <details><summary>실시간 알림 (socket.IO)</summary>
+    <details><summary>Pigma를 활용한 화면 기획</summary>
      <ul>
-        <li> Socket.IO를 활용한 구매 및 배송 정보 실시간 알림 </li>
+        <li><a href='https://api.comong.kr/api/'>코몽(Comong) 서비스 화면 기획 Pigma 링크</a></li>
     </ul>
     </details>
-    <details><summary>푸쉬 알림 (Web Notification)</summary>
+    <details><summary>Swagger를 활용한 API 문서 작성</summary>
      <ul>
-        <li> Web Notification API 활용한 푸쉬 알림 </li>
+        <li><a href='https://api.comong.kr/api/'>코몽(Comong) 서비스 API 문서 링크</a></li>
     </ul>
     </details>
     <details><summary>주문/결제 메일 발송 (Node mailer)</summary>
