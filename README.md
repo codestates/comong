@@ -15,8 +15,7 @@
 - 회원가입
     <details><summary>자체 회원가입 & 소셜 로그인</summary>
     <ul>
-        <li> OAuth2.0 소셜 회원가입 및 로그인 </li>
-        <li> OAuth2.0 소셜 회원가입 및 로그인 </li>
+        <li> OAuth2.0 소셜 회원가입 및 로그인 (네이버, 구글, 카카오 연동) </li>
     </ul>
     </details>
     <details><summary>중첩라우팅으로 회원 타입을 구분 (일반회원, 판매회원)</summary>
