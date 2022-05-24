@@ -21,8 +21,8 @@
   - Toast UI Editor 통한 상품 등록 기능
 
 - 상품 리스트 및 배너
-  - 상품 리스트 페이지 무한스크롤 구현
-    <details><summary>자세히 보기</summary>
+  - 상품 리스트 페이지 무한스크롤 구현<details><summary>자세히 보기</summary>
+    
     <span>설명 추가 예정</span>
     </details>
   - 상품명 검색 및 실시간 인기 검색어 제공
