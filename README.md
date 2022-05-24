@@ -25,7 +25,7 @@
   - 상품명 검색 및 실시간 인기 검색어 제공
   - react-slick을 이용한 캐러샐 배너 구현
   - 상품 리스트 페이지 무한스크롤 구현
-    -<details><summary>자세히 보기</summary>
+    <details><summary>자세히 보기</summary>
   <span>설명 추가 예정</span>
   </details>
 
