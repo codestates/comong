@@ -92,9 +92,10 @@
          - 시연 GIF</br>
       <img width="700" src="https://user-images.githubusercontent.com/86667412/170004359-a79cf983-5ca2-44c5-8975-db43d4b85959.gif"/></details>
     </details>
-    <details><summarycheerio와 puppeteer를 사용한 상품 데이터 크롤링</summary>
-    <span>설명 추가 예정</span>
-    </details>
+     <details><summary>데이터 크롤링(summarycheerio, puppeteer)</summary>
+     <ul>
+        <li>summarycheerio와 puppeteer를 사용한 상품 데이터 크롤링</li>
+    </ul>
 
 ---
 
