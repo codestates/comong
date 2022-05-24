@@ -13,7 +13,7 @@
 ## ✨ Feature
 
 - 회원가입
-    <details><summary>자체 회원가입 및 OAuth2.0 소셜 로그인 (구글, 카카오, 네이버)</summary>
+    <details><summary>자체 회원가입 & 소셜 로그인</summary>
     <span>설명 추가 예정</span>
     </details>
     <details><summary>중첩라우팅으로 회원 타입을 구분 (일반회원, 판매회원)</summary>
