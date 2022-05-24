@@ -26,8 +26,9 @@
   - react-slick을 이용한 캐러샐 배너 구현
   - 상품 리스트 페이지 무한스크롤 구현
     <details><summary>자세히 보기</summary>
-  <span>설명 추가 예정</span>
-  </details>
+    <span>설명 추가 예정</span>
+    </details>
+
 
 - 알림
   - Socket.IO를 활용한 실시간 알림 (구매 및 배송)
