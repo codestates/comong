@@ -38,13 +38,13 @@
   <span>설명 추가 예정</span>
   </details>
   <details> -->
-  <summary>반응형 웹 (모바일, 타블렛, 데스크탑 대응)</summary>
-  - 기준
-  <ul>
-    <li>모바일 (가로 767px 이하)</li>
-    <li>타블렛 (가로 768px 이상 1199px 이하)</li>
-    <li>데스크탑 (가로 1200px 이상)</li>
-  </ul>
+  - <summary>반응형 웹 (모바일, 타블렛, 데스크탑 대응)</summary>
+    - 기준
+    <ul>
+      <li>모바일 (가로 767px 이하)</li>
+      <li>타블렛 (가로 768px 이상 1199px 이하)</li>
+      <li>데스크탑 (가로 1200px 이상)</li>
+    </ul>
 
   </details>
 
