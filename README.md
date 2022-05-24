@@ -14,8 +14,10 @@
 
 - 회원가입
     <details><summary>자체 회원가입 & 소셜 로그인</summary>
-    <span> OAuth2.0 소셜 회원가입 및 로그인 </span>
-    <span> OAuth2.0 소셜 회원가입 및 로그인 </span>
+    <ul>
+        <li> OAuth2.0 소셜 회원가입 및 로그인 </li>
+        <li> OAuth2.0 소셜 회원가입 및 로그인 </li>
+    </ul>
     </details>
     <details><summary>중첩라우팅으로 회원 타입을 구분 (일반회원, 판매회원)</summary>
     <span>설명 추가 예정</span>
