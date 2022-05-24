@@ -76,7 +76,7 @@
         <li> Web Notification API 활용한 푸쉬 알림 </li>
     </ul>
     </details>
-    <details><summary>주문/결제정보 메일 발송(Node mailer)</summary>
+    <details><summary>주문/결제정보 메일 발송 (Node mailer)</summary>
      <ul>
         <li>Node mailer를 활용한 메일 발송 (주문/결제정보)</li>
     </ul>
