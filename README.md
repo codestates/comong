@@ -13,7 +13,7 @@
 ## ✨ Feature
 
 - 회원가입
-    <details><summary>자체 회원가입 & 소셜 로그인(OAuth2.0)</summary>
+    <details><summary>자체 회원가입 & 소셜 로그인 (OAuth2.0)</summary>
     <ul>
         <li> OAuth2.0 소셜 회원가입 및 로그인 (네이버, 구글, 카카오 연동) </li>
     </ul>
@@ -25,8 +25,8 @@
     </ul>
     </details>
 
-- 상품 등록 및 결제
-    <details><summary>결제 기능(i'm port)</summary>
+- 결제/등록
+    <details><summary>상품 결제 기능 (i'm port)</summary>
      <ul>
         <li>아임포트(i'm port) API 연동 결제 기능 구현 </li>
         <li>카드 결제 진행 가능 (데스크탑 한정)</li>
@@ -40,33 +40,50 @@
     </ul>
     </details>
 
-- 상품 리스트 및 배너
-    <details><summary>상품 리스트 페이지 무한스크롤 구현</summary>
-    <span>설명 추가 예정</span>
+- 리스트/배너
+    <details><summary>상품 리스트 무한스크롤</summary>
+    <ul>
+        <li>메인 페이지 상품 리스트 무한 스크롤 구현</li>
+    </ul>
     </details>
-    <details><summary>상품명 검색 및 실시간 인기 검색어 제공</summary>
-    <span>설명 추가 예정</span>
+    <details><summary>검색 및 실시간 인기 검색어 기능</summary>
+     <ul>
+        <li>최상단 네브바에서 상품명 및 설명으로 검색 가능</li>
+        <li>요청 횟수 TOP5 해당 키워드 '인기검색어'로 제공</li>
+    </ul>
     </details>
-    <details><summary>react-slick을 이용한 캐러샐 배너 구현</summary>
-    <span>설명 추가 예정</span>
+    <details><summary>캐러샐 배너(react-slick)</summary>
+     <ul>
+        <li>reack-slick 라이브러리를 활용한 캐러샐 배너 구현</li>
+        <li>배너 클릭 시 해당 상품 또는 목록 페이지로 이동</li>
+    </ul>
     </details>
-    <details><summary>찜하기 및 상품 리뷰 기능 (별점, 상품평, 이미지)</summary>
-    <span>설명 추가 예정</span>
+    <details><summary>찜하기 및 리뷰(별점, 상품평, 이미지)</summary>
+     <ul>
+        <li>상품 찜하기 기능 구현(마이페이지 이동 시 찜하기 목록 확인 가능)</li>
+        <li>상품 구매 고객 대상 상품평 별점 및 텍스트 작성 기능</li>
+    </ul>
     </details>
 
 - 알림
-    <details><summary>Socket.IO를 활용한 실시간 알림 (구매 및 배송)</summary>
-    <span>설명 추가 예정</span>
+    <details><summary>실시간 알림 (socket.IO)</summary>
+     <ul>
+        <li> Socket.IO를 활용한 구매 및 배송 정보 실시간 알림 </li>
+    </ul>
     </details>
-    <details><summary>Web Notification API 활용한 푸쉬 알림</summary>
-    <span>설명 추가 예정</span>
+    <details><summary>푸쉬 알림 (Web Notification)</summary>
+     <ul>
+        <li> Web Notification API 활용한 푸쉬 알림 </li>
+    </ul>
     </details>
-    <details><summaryNode mailer를 활용한 메일 발송 (주문/결제정보)</summary>
-    <span>설명 추가 예정</span>
+    <details><summary>주문/결제정보 메일 발송(Node mailer)</summary>
+     <ul>
+        <li>Node mailer를 활용한 메일 발송 (주문/결제정보)</li>
+    </ul>
     </details>
 
 
-- 반응형 웹 및 데이터 크롤링
+- 반응형 웹/데이터 크롤링
     <details><summary>반응형 웹 구현 (모바일, 타블렛, 데스크탑)</summary>
          - 기준</br>
          1) 모바일 (가로 767px 이하)</br>
