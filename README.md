@@ -37,7 +37,7 @@
 
 - 기타
   - cheerio와 puppeteer를 사용한 상품 데이터 크롤링
-  - 상품 리스트 페이지 무한스크롤 구현
+  - 반응형 웹 구현 (모바일, 타블렛, 데스크탑)
     <details><summary>자세히 보기</summary>
      <ul>
       <li>모바일 (가로 767px 이하)</li>
