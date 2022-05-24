@@ -21,13 +21,20 @@
   - Toast UI Editor 통한 상품 등록 기능
 
 - 상품 리스트 및 배너
-  - 찜하기 및 상품 리뷰 기능 (별점, 상품평, 이미지)
-  - 상품명 검색 및 실시간 인기 검색어 제공
-  - react-slick을 이용한 캐러샐 배너 구현
   - 상품 리스트 페이지 무한스크롤 구현
     <details><summary>자세히 보기</summary>
     <span>설명 추가 예정</span>
     </details>
+  - 상품명 검색 및 실시간 인기 검색어 제공
+    <details><summary>자세히 보기</summary>
+    <span>설명 추가 예정</span>
+    </details>
+  - react-slick을 이용한 캐러샐 배너 구현
+    <details><summary>자세히 보기</summary>
+    <span>설명 추가 예정</span>
+    </details>
+
+  - 찜하기 및 상품 리뷰 기능 (별점, 상품평, 이미지)
 
 - 알림
   - Socket.IO를 활용한 실시간 알림 (구매 및 배송)
