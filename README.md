@@ -45,11 +45,7 @@
        - 시연 GIF
       <img width="700" src="https://user-images.githubusercontent.com/86667412/170004359-a79cf983-5ca2-44c5-8975-db43d4b85959.gif"/></details>
   - cheerio와 puppeteer를 사용한 상품 데이터 크롤링
-
-
 ---
-
-
 
 ## ✨ Project
 
