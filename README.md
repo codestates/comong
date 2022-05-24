@@ -13,12 +13,20 @@
 ## ✨ Feature
 
 - 회원가입
-  - 자체 회원가입 및 OAuth2.0 소셜 로그인 (구글, 카카오, 네이버)
-  - 중첩라우팅으로 회원 타입을 구분 (일반회원, 판매회원)
+    <details><summary>자체 회원가입 및 OAuth2.0 소셜 로그인 (구글, 카카오, 네이버)</summary>
+    <span>설명 추가 예정</span>
+    </details>
+    <details><summary>중첩라우팅으로 회원 타입을 구분 (일반회원, 판매회원)</summary>
+    <span>설명 추가 예정</span>
+    </details>
 
 - 상품 등록 및 결제
-  - 아임포트(I'mport) API를 활용한 결제 기능 
-  - Toast UI Editor 통한 상품 등록 기능
+    <details><summary>아임포트(I'mport) API를 활용한 결제 기능</summary>
+    <span>설명 추가 예정</span>
+    </details>
+    <details><summary>Toast UI Editor 통한 상품 등록 기능</summary>
+    <span>설명 추가 예정</span>
+    </details>
 
 - 상품 리스트 및 배너
     <details><summary>상품 리스트 페이지 무한스크롤 구현</summary>
