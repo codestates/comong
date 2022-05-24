@@ -38,13 +38,11 @@
   - 반응형 웹 구현 (모바일, 타블렛, 데스크탑)
     <details><summary>자세히 보기</summary>
       - 기준
-  
          <ul>
           <li>모바일 (가로 767px 이하)</li>
           <li>타블렛 (가로 768px 이상 1199px 이하)</li>
           <li>데스크탑 (가로 1200px 이상)</li>
         </ul>
-  
        - 시연 GIF
       <img width="700" src="https://user-images.githubusercontent.com/86667412/170004359-a79cf983-5ca2-44c5-8975-db43d4b85959.gif"/>
     </details>
