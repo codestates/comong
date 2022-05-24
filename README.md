@@ -18,8 +18,11 @@
         <li> OAuth2.0 소셜 회원가입 및 로그인 (네이버, 구글, 카카오 연동) </li>
     </ul>
     </details>
-    <details><summary>중첩라우팅으로 회원 타입을 구분 (일반회원, 판매회원)</summary>
-    <span>설명 추가 예정</span>
+    <details><summary>회원 가입 시 회원 타입 구분</summary>
+    <ul>
+        <li> 중첩 라우팅을 종한 회원타입 구분 </li>
+        <li> 일반회원(구매만 가능), 판매회원(판매만 가능) 구분 </li>
+    </ul>
     </details>
 
 - 상품 등록 및 결제
