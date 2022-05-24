@@ -32,11 +32,12 @@
   - Node mailer를 활용한 메일 발송 (주문/결제정보)
 
 - 기타
-  <details>
+  - cheerio와 puppeteer를 사용한 상품 데이터 크롤링
+<!--   <details>
   <summary>cheerio와 puppeteer를 사용한 상품 데이터 크롤링</summary>
   <span>설명 추가 예정</span>
   </details>
-  <details>
+  <details> -->
   <summary>반응형 웹 (모바일, 타블렛, 데스크탑 대응)</summary>
   - 기준
   <ul>
