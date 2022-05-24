@@ -18,7 +18,7 @@
         <li> OAuth2.0 소셜 회원가입 및 로그인 (네이버, 구글, 카카오 연동) </li>
     </ul>
     </details>
-    <details><summary>회원 가입 시 회원 타입 구분</summary>
+    <details><summary>회원 가입 시 타입 구분</summary>
     <ul>
         <li> 중첩 라우팅을 종한 회원타입 구분 </li>
         <li> 일반회원(구매만 가능), 판매회원(판매만 가능) 구분 </li>
@@ -26,8 +26,12 @@
     </details>
 
 - 상품 등록 및 결제
-    <details><summary>아임포트(I'mport) API를 활용한 결제 기능</summary>
-    <span>설명 추가 예정</span>
+    <details><summary>아임포트 활용 결제</summary>
+     <ul>
+        <li>아임포트(i'm port) API 연동 결제 기능 구현 </li>
+        <li>카드 결제 진행 가능 (데스크탑 한정)</li>
+        <li>결제 진행 시 실제 금액은 빠져나가지 않음</li>
+    </ul>
     </details>
     <details><summary>Toast UI Editor 통한 상품 등록 기능</summary>
     <span>설명 추가 예정</span>
