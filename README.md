@@ -12,7 +12,7 @@
 
 ## ✨ Feature
 
-<strong>▶클릭 시 해당 특징에 설명을 보실 수 있습니다</strong>
+<strong>▶클릭 시 해당 특징 설명을 보실 수 있습니다</strong>
 
 - 회원가입
     <details><summary>자체 회원가입 & 소셜 로그인 (OAuth2.0)</summary>
@@ -109,9 +109,9 @@
              </a>
          </li>
     </ul>
+        </details>
      <details><summary>환경 변수 관리 (.env / config)</summary>
      <ul>
-        <li></li>
          <li>.env : 인증 관련 정보 (gitignore에 포함) </li>
          <li>.env : API url 목록 (gitignore에 미포함) </li>
     </ul>
