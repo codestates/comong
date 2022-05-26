@@ -12,7 +12,7 @@
 
 ## ✨ Feature
 
-<strong>▶클릭 시 해당 기능에 대한 상세한 설명을 보실 수 있습니다</strong>
+<strong>▶클릭 시 해당 특징에 설명을 보실 수 있습니다</strong>
 
 - 회원가입
     <details><summary>자체 회원가입 & 소셜 로그인 (OAuth2.0)</summary>
@@ -98,6 +98,25 @@
      <ul>
         <li>summarycheerio와 puppeteer를 사용한 상품 데이터 크롤링</li>
     </ul>
+    </details>
+ - 전역 상태 관리 및 환경 변수 관리
+     <details><summary>전역 상태 관리 (Redux Toolkit)</summary>
+     <ul>
+        <li>redux toolkit을 이용한 전역 상태 관리 (로그인 여부, 회원 정보 등)</li>
+         <li>
+             <a href="https://github.com/codestates/comong/tree/main/client/src/redux">
+             Redux toolkit 코드 바로가기
+             </a>
+         </li>
+    </ul>
+     <details><summary>환경 변수 관리 (.env / config)</summary>
+     <ul>
+        <li></li>
+         <li>.env : 인증 관련 정보 (gitignore에 포함) </li>
+         <li>.env : API url 목록 (gitignore에 미포함) </li>
+    </ul>
+    </details>
+    
     
 - 기타
     <details><summary>화면 기획 (Pigma)</summary>
