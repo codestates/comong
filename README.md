@@ -12,7 +12,7 @@
 
 ## ✨ Feature
 
-<strong>▶클릭 시 해당 특징 설명을 보실 수 있습니다</strong>
+<strong>▶클릭 시 해당 특징 설명을 보실 수 있습니다.</strong>
 
 - 회원가입
     <details><summary>자체 회원가입 & 소셜 로그인 (OAuth2.0)</summary>
