@@ -129,7 +129,6 @@
         <a href='https://api.comong.kr/api/'>코몽(Comong) 서비스 API 문서 링크</a>
     </ul>
     </details>
----
 
 ## ✨ Project
 
