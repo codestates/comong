@@ -50,7 +50,7 @@
     </details>
     <details><summary>검색 및 인기 검색어</summary>
      <ul>
-        <li>최상단 네브바에서 상품명 및 설명으로 검색 가능</li>
+        <li>최상단 네브바에서 상품명 및 설명으로 검색</li>
         <li>요청 횟수 TOP5 해당 키워드 '실시간 인기검색어'로 제공</li>
     </ul>
     </details>
