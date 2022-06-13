@@ -210,7 +210,8 @@ const cartSlice = createSlice({
     builder.addCase(postOrderAsync.pending, (state, action) => {});
     builder.addCase(postOrderAsync.fulfilled, (state, action) => {
       console.log('action.payload-orderInfo', action.payload);
-      state.orderInfo = action.payload.data;
+      if (action.payload.code !== 'EAUTH')
+        state.orderInfo = action.payload.data;
     });
     builder.addCase(postOrderAsync.rejected, (state, action) => {});
     builder.addCase(getUsersAsync.pending, (state, action) => {});
@@ -298,6 +299,7 @@ export const deleteCartAsync = createAsyncThunk(
 export const postOrderAsync = createAsyncThunk(
   'orders/post',
   async (data?: {}) => {
+    console.log('postOrderAsync-data', data);
     const response = await apiClient.post(`${urlConfig.url}/orders`, data);
     console.log('postOrderAsync-response', response);
     return response.data;

@@ -44,6 +44,7 @@ const Post = () => {
   const [isDetail, setIsDetail] = useState();
   const isLogin = itemData.userSlice.isLogin;
   const [commentNum, setCommentNum] = useState<number>(0);
+  const [isSeller, setIsSeller] = useState(false);
 
   useEffect(() => {
     let id = itemData.itemSlice.data.id;
@@ -75,6 +76,7 @@ const Post = () => {
   useEffect(() => {
     dispatch(getItemAsync(postId));
     dispatch(getCommentAsync(postId));
+    if (role === 1) setIsSeller(true);
   }, []);
 
   const stockHandler = (el: string) => {
@@ -83,12 +85,17 @@ const Post = () => {
   };
 
   const addCart = () => {
+    console.log('role', role);
     if (!isLogin) {
       setIsLoginModal(!isLoginModal);
       return;
     }
+    if (role !== 0) {
+      // setIsLoginModal(!isLoginModal);
+      setIsModal(true);
+      return;
+    }
     setIsModal(!isModal);
-    if (role) return;
     let tmpObj: {
       user_id: number;
       item_id: number;
@@ -106,12 +113,14 @@ const Post = () => {
   };
 
   const payHandler = async () => {
-    dispatch(setLoading(true));
-
+    console.log('payHandler-isLogin', isLogin);
     if (!isLogin) {
       setIsLoginModal(!isLoginModal);
       return;
     }
+
+    dispatch(setLoading(true));
+
     const data = {
       user_id: user_id,
       item_id: id,
@@ -137,6 +146,8 @@ const Post = () => {
       shipping_company: 'cj대한통운',
       shipping_code: '01234567890',
     };
+
+    console.log('obj2', obj2);
 
     let itemInfo = {
       title: title,
@@ -278,15 +289,19 @@ const Post = () => {
                   로그인이 필요합니다
                 </LoginNeedModal>
               ) : null}
+              {isSeller ? '장바구니 및 구매는 일반회원만 가능' : null}
               <ButtonContainer>
                 <CartButton
+                  disabled={isSeller}
                   onClick={() => {
                     addCart();
                   }}
                 >
                   장바구니
                 </CartButton>
-                <OrderButton onClick={payHandler}>상품구매</OrderButton>
+                <OrderButton disabled={isSeller} onClick={payHandler}>
+                  상품구매
+                </OrderButton>
               </ButtonContainer>
             </OrderContainer>
           </BottomContainer>

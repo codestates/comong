@@ -62,6 +62,7 @@ const Payment = () => {
 
   let orderInfo = cartData.cartSlice.orderInfo;
   console.log('orderInfo', orderInfo);
+  console.log('cartData.cartSlice', cartData.cartSlice);
 
   const payHandler = async (values: any) => {
     console.log('페이핸들러-끝');
@@ -118,7 +119,7 @@ const Payment = () => {
       console.log(error);
     }
 
-    const userCode = process.env.REACT_APP_IMPORT_CLIENT_ID;
+    let userCode = process.env.REACT_APP_IMPORT_CLIENT_ID;
     /* 결제 데이터 */
     const {
       pg = 'kcp',
@@ -145,6 +146,7 @@ const Payment = () => {
     };
 
     const { IMP } = window;
+    console.log('userCode', userCode);
     IMP.init(userCode);
     IMP.request_pay(data, callback);
   };
