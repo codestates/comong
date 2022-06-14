@@ -39,12 +39,18 @@ const NavMenu = styled.div<{
   justify-content: center;
   align-items: center;
   margin: auto;
-  color: ${(props) => props.homeColor && props.theme.colors.accentColor};
-  color: ${(props) => props.categoryColor && props.theme.colors.accentColor};
-  color: ${(props) => props.mypageColor && props.theme.colors.accentColor};
-  color: ${(props) => props.cartColor && props.theme.colors.accentColor};
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.03);
+  }
+  span {
+    text-align: center;
+    margin-top: 8px;
+    font-size: 11px;
+    font-weight: bold;
+    color: ${(props) => props.homeColor && props.theme.colors.accentColor};
+    color: ${(props) => props.categoryColor && props.theme.colors.accentColor};
+    color: ${(props) => props.mypageColor && props.theme.colors.accentColor};
+    color: ${(props) => props.cartColor && props.theme.colors.accentColor};
   }
   @media only screen and (max-width: 767px) {
   }
@@ -132,11 +138,6 @@ const MobileNav = () => {
     setCategoryColor(false);
     setMypageColor(false);
     setCartColor(false);
-
-    if (el === 'home') setHomeColor(false);
-    else if (el === 'category') setCategoryColor(false);
-    else if (el === 'mypage') setMypageColor(false);
-    else if (el === 'cart') setCartColor(false);
   };
 
   const NavSection = (
@@ -153,7 +154,7 @@ const MobileNav = () => {
               homeColor ? 'home-hover.png' : 'home.png'
             } `}
           />
-          <NavMenuTitle>홈</NavMenuTitle>
+          <span>홈</span>
         </NavMenu>
         <NavMenu
           onMouseOver={() => handleHover('category')}
@@ -166,7 +167,7 @@ const MobileNav = () => {
               categoryColor ? 'category-hover.png' : 'category.png'
             } `}
           />
-          <NavMenuTitle>상품검색</NavMenuTitle>
+          <span>상품검색</span>
         </NavMenu>
         <NavMenu
           onMouseOver={() => handleHover('mypage')}
@@ -179,7 +180,7 @@ const MobileNav = () => {
               mypageColor ? 'mypage-hover.png' : 'mypage.png'
             } `}
           />
-          <NavMenuTitle>마이페이지</NavMenuTitle>
+          <span>마이페이지</span>
         </NavMenu>
         <NavMenu
           onMouseOver={() => handleHover('cart')}
@@ -192,7 +193,7 @@ const MobileNav = () => {
               cartColor ? 'cart-hover.png' : 'cart.png'
             } `}
           />
-          <NavMenuTitle>장바구니</NavMenuTitle>
+          <span>장바구니</span>
         </NavMenu>
       </NavMenuContainer>
     </NavContainer>
