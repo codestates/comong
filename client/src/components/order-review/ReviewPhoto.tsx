@@ -108,7 +108,7 @@ function ReviewPhoto({ fillPostForm }: IReviewPhoto) {
   return (
     <PhotoWrapper>
       <PhotoInput onClick={() => fileRef.current?.click()}>
-        <FontAwesomeIcon icon={faCamera} />
+        <FontAwesomeIcon icon={["fas", "camera"]} />
         <span>사진 첨부하기</span>
       </PhotoInput>
       <Input

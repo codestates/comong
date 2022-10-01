@@ -1,0 +1,2334 @@
+diff --git a/node_modules/@toast-ui/editor/dist/esm/i18n/ar.js b/node_modules/@toast-ui/editor/dist/esm/i18n/ar.js
+index 7064d54..f56ecad 100644
+--- a/node_modules/@toast-ui/editor/dist/esm/i18n/ar.js
++++ b/node_modules/@toast-ui/editor/dist/esm/i18n/ar.js
+@@ -1,7 +1,7 @@
+ /**
+  * @toast-ui/editor : i18n
+- * @version 3.1.3 | Thu Feb 10 2022
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1 | Thu Sep 29 2022
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ 
+diff --git a/node_modules/@toast-ui/editor/dist/esm/i18n/cs-cz.js b/node_modules/@toast-ui/editor/dist/esm/i18n/cs-cz.js
+index c26ba06..217b5b9 100644
+--- a/node_modules/@toast-ui/editor/dist/esm/i18n/cs-cz.js
++++ b/node_modules/@toast-ui/editor/dist/esm/i18n/cs-cz.js
+@@ -1,7 +1,7 @@
+ /**
+  * @toast-ui/editor : i18n
+- * @version 3.1.3 | Thu Feb 10 2022
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1 | Thu Sep 29 2022
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ 
+diff --git a/node_modules/@toast-ui/editor/dist/esm/i18n/de-de.js b/node_modules/@toast-ui/editor/dist/esm/i18n/de-de.js
+index 864fa73..8fd6d18 100644
+--- a/node_modules/@toast-ui/editor/dist/esm/i18n/de-de.js
++++ b/node_modules/@toast-ui/editor/dist/esm/i18n/de-de.js
+@@ -1,7 +1,7 @@
+ /**
+  * @toast-ui/editor : i18n
+- * @version 3.1.3 | Thu Feb 10 2022
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1 | Thu Sep 29 2022
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ 
+@@ -36,8 +36,8 @@ Editor.setLanguage(['de', 'de-DE'], {
+     Heading: 'Titel',
+     'Image URL': 'Bild URL',
+     'Select image file': 'Grafik auswählen',
+-    'Choose a file': 'Wähle eine datei',
+-    'No file': 'Keine datei',
++    'Choose a file': 'Wähle eine Datei',
++    'No file': 'Keine Datei',
+     Description: 'Beschreibung',
+     OK: 'OK',
+     More: 'Mehr',
+diff --git a/node_modules/@toast-ui/editor/dist/esm/i18n/en-us.js b/node_modules/@toast-ui/editor/dist/esm/i18n/en-us.js
+index cedbc5b..a5410e0 100644
+--- a/node_modules/@toast-ui/editor/dist/esm/i18n/en-us.js
++++ b/node_modules/@toast-ui/editor/dist/esm/i18n/en-us.js
+@@ -1,7 +1,7 @@
+ /**
+  * @toast-ui/editor : i18n
+- * @version 3.1.3 | Thu Feb 10 2022
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1 | Thu Sep 29 2022
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ 
+@@ -9,7 +9,7 @@ import Editor from '@toast-ui/editor';
+ 
+ /**
+  * @fileoverview I18N for English
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  */
+ Editor.setLanguage(['en', 'en-US'], {
+     Markdown: 'Markdown',
+diff --git a/node_modules/@toast-ui/editor/dist/esm/i18n/es-es.js b/node_modules/@toast-ui/editor/dist/esm/i18n/es-es.js
+index 903e659..3a91e94 100644
+--- a/node_modules/@toast-ui/editor/dist/esm/i18n/es-es.js
++++ b/node_modules/@toast-ui/editor/dist/esm/i18n/es-es.js
+@@ -1,7 +1,7 @@
+ /**
+  * @toast-ui/editor : i18n
+- * @version 3.1.3 | Thu Feb 10 2022
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1 | Thu Sep 29 2022
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ 
+diff --git a/node_modules/@toast-ui/editor/dist/esm/i18n/fi-fi.js b/node_modules/@toast-ui/editor/dist/esm/i18n/fi-fi.js
+index 9a80339..db10016 100644
+--- a/node_modules/@toast-ui/editor/dist/esm/i18n/fi-fi.js
++++ b/node_modules/@toast-ui/editor/dist/esm/i18n/fi-fi.js
+@@ -1,7 +1,7 @@
+ /**
+  * @toast-ui/editor : i18n
+- * @version 3.1.3 | Thu Feb 10 2022
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1 | Thu Sep 29 2022
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ 
+diff --git a/node_modules/@toast-ui/editor/dist/esm/i18n/fr-fr.js b/node_modules/@toast-ui/editor/dist/esm/i18n/fr-fr.js
+index c14f7de..02d0cbd 100644
+--- a/node_modules/@toast-ui/editor/dist/esm/i18n/fr-fr.js
++++ b/node_modules/@toast-ui/editor/dist/esm/i18n/fr-fr.js
+@@ -1,7 +1,7 @@
+ /**
+  * @toast-ui/editor : i18n
+- * @version 3.1.3 | Thu Feb 10 2022
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1 | Thu Sep 29 2022
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ 
+diff --git a/node_modules/@toast-ui/editor/dist/esm/i18n/gl-es.js b/node_modules/@toast-ui/editor/dist/esm/i18n/gl-es.js
+index 1bf7735..ddcb3f8 100644
+--- a/node_modules/@toast-ui/editor/dist/esm/i18n/gl-es.js
++++ b/node_modules/@toast-ui/editor/dist/esm/i18n/gl-es.js
+@@ -1,7 +1,7 @@
+ /**
+  * @toast-ui/editor : i18n
+- * @version 3.1.3 | Thu Feb 10 2022
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1 | Thu Sep 29 2022
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ 
+diff --git a/node_modules/@toast-ui/editor/dist/esm/i18n/hr-hr.js b/node_modules/@toast-ui/editor/dist/esm/i18n/hr-hr.js
+index 2496541..a28ffb7 100644
+--- a/node_modules/@toast-ui/editor/dist/esm/i18n/hr-hr.js
++++ b/node_modules/@toast-ui/editor/dist/esm/i18n/hr-hr.js
+@@ -1,7 +1,7 @@
+ /**
+  * @toast-ui/editor : i18n
+- * @version 3.1.3 | Thu Feb 10 2022
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1 | Thu Sep 29 2022
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ 
+diff --git a/node_modules/@toast-ui/editor/dist/esm/i18n/i18n.js b/node_modules/@toast-ui/editor/dist/esm/i18n/i18n.js
+index b61cd76..71337f9 100644
+--- a/node_modules/@toast-ui/editor/dist/esm/i18n/i18n.js
++++ b/node_modules/@toast-ui/editor/dist/esm/i18n/i18n.js
+@@ -1,7 +1,7 @@
+ /**
+  * @toast-ui/editor : i18n
+- * @version 3.1.3 | Thu Feb 10 2022
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1 | Thu Sep 29 2022
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ 
+@@ -168,7 +168,7 @@ var Map = /** @class */ (function () {
+ 
+ /**
+  * @fileoverview Implements i18n
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  */
+ var DEFAULT_CODE = 'en-US';
+ /**
+diff --git a/node_modules/@toast-ui/editor/dist/esm/i18n/it-it.js b/node_modules/@toast-ui/editor/dist/esm/i18n/it-it.js
+index 4f23086..5f5ea2e 100644
+--- a/node_modules/@toast-ui/editor/dist/esm/i18n/it-it.js
++++ b/node_modules/@toast-ui/editor/dist/esm/i18n/it-it.js
+@@ -1,7 +1,7 @@
+ /**
+  * @toast-ui/editor : i18n
+- * @version 3.1.3 | Thu Feb 10 2022
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1 | Thu Sep 29 2022
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ 
+diff --git a/node_modules/@toast-ui/editor/dist/esm/i18n/ja-jp.js b/node_modules/@toast-ui/editor/dist/esm/i18n/ja-jp.js
+index 9a53cef..e8c1128 100644
+--- a/node_modules/@toast-ui/editor/dist/esm/i18n/ja-jp.js
++++ b/node_modules/@toast-ui/editor/dist/esm/i18n/ja-jp.js
+@@ -1,7 +1,7 @@
+ /**
+  * @toast-ui/editor : i18n
+- * @version 3.1.3 | Thu Feb 10 2022
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1 | Thu Sep 29 2022
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ 
+@@ -9,7 +9,7 @@ import Editor from '@toast-ui/editor';
+ 
+ /**
+  * @fileoverview I18N for Japanese
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  */
+ Editor.setLanguage(['ja', 'ja-JP'], {
+     Markdown: 'マークダウン',
+diff --git a/node_modules/@toast-ui/editor/dist/esm/i18n/ko-kr.js b/node_modules/@toast-ui/editor/dist/esm/i18n/ko-kr.js
+index 5db6c96..51bc2c8 100644
+--- a/node_modules/@toast-ui/editor/dist/esm/i18n/ko-kr.js
++++ b/node_modules/@toast-ui/editor/dist/esm/i18n/ko-kr.js
+@@ -1,7 +1,7 @@
+ /**
+  * @toast-ui/editor : i18n
+- * @version 3.1.3 | Thu Feb 10 2022
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1 | Thu Sep 29 2022
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ 
+@@ -9,7 +9,7 @@ import Editor from '@toast-ui/editor';
+ 
+ /**
+  * @fileoverview I18N for Korean
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  */
+ Editor.setLanguage(['ko', 'ko-KR'], {
+     Markdown: '마크다운',
+diff --git a/node_modules/@toast-ui/editor/dist/esm/i18n/nb-no.js b/node_modules/@toast-ui/editor/dist/esm/i18n/nb-no.js
+index 5f9a771..462d210 100644
+--- a/node_modules/@toast-ui/editor/dist/esm/i18n/nb-no.js
++++ b/node_modules/@toast-ui/editor/dist/esm/i18n/nb-no.js
+@@ -1,7 +1,7 @@
+ /**
+  * @toast-ui/editor : i18n
+- * @version 3.1.3 | Thu Feb 10 2022
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1 | Thu Sep 29 2022
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ 
+diff --git a/node_modules/@toast-ui/editor/dist/esm/i18n/nl-nl.js b/node_modules/@toast-ui/editor/dist/esm/i18n/nl-nl.js
+index 5b1dd6a..0deb3fa 100644
+--- a/node_modules/@toast-ui/editor/dist/esm/i18n/nl-nl.js
++++ b/node_modules/@toast-ui/editor/dist/esm/i18n/nl-nl.js
+@@ -1,7 +1,7 @@
+ /**
+  * @toast-ui/editor : i18n
+- * @version 3.1.3 | Thu Feb 10 2022
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1 | Thu Sep 29 2022
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ 
+@@ -9,7 +9,7 @@ import Editor from '@toast-ui/editor';
+ 
+ /**
+  * @fileoverview I18N for Dutch
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  */
+ Editor.setLanguage(['nl', 'nl-NL'], {
+     Markdown: 'Markdown',
+diff --git a/node_modules/@toast-ui/editor/dist/esm/i18n/pl-pl.js b/node_modules/@toast-ui/editor/dist/esm/i18n/pl-pl.js
+index d2af4ef..e41d853 100644
+--- a/node_modules/@toast-ui/editor/dist/esm/i18n/pl-pl.js
++++ b/node_modules/@toast-ui/editor/dist/esm/i18n/pl-pl.js
+@@ -1,7 +1,7 @@
+ /**
+  * @toast-ui/editor : i18n
+- * @version 3.1.3 | Thu Feb 10 2022
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1 | Thu Sep 29 2022
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ 
+diff --git a/node_modules/@toast-ui/editor/dist/esm/i18n/pt-br.js b/node_modules/@toast-ui/editor/dist/esm/i18n/pt-br.js
+index 0d01cf6..89229f6 100644
+--- a/node_modules/@toast-ui/editor/dist/esm/i18n/pt-br.js
++++ b/node_modules/@toast-ui/editor/dist/esm/i18n/pt-br.js
+@@ -1,7 +1,7 @@
+ /**
+  * @toast-ui/editor : i18n
+- * @version 3.1.3 | Thu Feb 10 2022
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1 | Thu Sep 29 2022
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ 
+diff --git a/node_modules/@toast-ui/editor/dist/esm/i18n/ru-ru.js b/node_modules/@toast-ui/editor/dist/esm/i18n/ru-ru.js
+index 5f72402..34ec847 100644
+--- a/node_modules/@toast-ui/editor/dist/esm/i18n/ru-ru.js
++++ b/node_modules/@toast-ui/editor/dist/esm/i18n/ru-ru.js
+@@ -1,7 +1,7 @@
+ /**
+  * @toast-ui/editor : i18n
+- * @version 3.1.3 | Thu Feb 10 2022
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1 | Thu Sep 29 2022
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ 
+diff --git a/node_modules/@toast-ui/editor/dist/esm/i18n/sv-se.js b/node_modules/@toast-ui/editor/dist/esm/i18n/sv-se.js
+index 1c8f26a..68a4e22 100644
+--- a/node_modules/@toast-ui/editor/dist/esm/i18n/sv-se.js
++++ b/node_modules/@toast-ui/editor/dist/esm/i18n/sv-se.js
+@@ -1,7 +1,7 @@
+ /**
+  * @toast-ui/editor : i18n
+- * @version 3.1.3 | Thu Feb 10 2022
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1 | Thu Sep 29 2022
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ 
+diff --git a/node_modules/@toast-ui/editor/dist/esm/i18n/tr-tr.js b/node_modules/@toast-ui/editor/dist/esm/i18n/tr-tr.js
+index d9a3e7e..667388c 100644
+--- a/node_modules/@toast-ui/editor/dist/esm/i18n/tr-tr.js
++++ b/node_modules/@toast-ui/editor/dist/esm/i18n/tr-tr.js
+@@ -1,7 +1,7 @@
+ /**
+  * @toast-ui/editor : i18n
+- * @version 3.1.3 | Thu Feb 10 2022
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1 | Thu Sep 29 2022
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ 
+diff --git a/node_modules/@toast-ui/editor/dist/esm/i18n/uk-ua.js b/node_modules/@toast-ui/editor/dist/esm/i18n/uk-ua.js
+index 7a20281..9396270 100644
+--- a/node_modules/@toast-ui/editor/dist/esm/i18n/uk-ua.js
++++ b/node_modules/@toast-ui/editor/dist/esm/i18n/uk-ua.js
+@@ -1,7 +1,7 @@
+ /**
+  * @toast-ui/editor : i18n
+- * @version 3.1.3 | Thu Feb 10 2022
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1 | Thu Sep 29 2022
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ 
+diff --git a/node_modules/@toast-ui/editor/dist/esm/i18n/zh-cn.js b/node_modules/@toast-ui/editor/dist/esm/i18n/zh-cn.js
+index 8af0523..d7a0ca6 100644
+--- a/node_modules/@toast-ui/editor/dist/esm/i18n/zh-cn.js
++++ b/node_modules/@toast-ui/editor/dist/esm/i18n/zh-cn.js
+@@ -1,7 +1,7 @@
+ /**
+  * @toast-ui/editor : i18n
+- * @version 3.1.3 | Thu Feb 10 2022
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1 | Thu Sep 29 2022
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ 
+@@ -9,7 +9,7 @@ import Editor from '@toast-ui/editor';
+ 
+ /**
+  * @fileoverview I18N for Chinese
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  */
+ Editor.setLanguage('zh-CN', {
+     Markdown: 'Markdown',
+diff --git a/node_modules/@toast-ui/editor/dist/esm/i18n/zh-tw.js b/node_modules/@toast-ui/editor/dist/esm/i18n/zh-tw.js
+index cf60bf9..f4a9059 100644
+--- a/node_modules/@toast-ui/editor/dist/esm/i18n/zh-tw.js
++++ b/node_modules/@toast-ui/editor/dist/esm/i18n/zh-tw.js
+@@ -1,7 +1,7 @@
+ /**
+  * @toast-ui/editor : i18n
+- * @version 3.1.3 | Thu Feb 10 2022
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1 | Thu Sep 29 2022
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ 
+diff --git a/node_modules/@toast-ui/editor/dist/esm/index.js b/node_modules/@toast-ui/editor/dist/esm/index.js
+index f84f842..1c1ea71 100644
+--- a/node_modules/@toast-ui/editor/dist/esm/index.js
++++ b/node_modules/@toast-ui/editor/dist/esm/index.js
+@@ -1,7 +1,7 @@
+ /**
+  * @toast-ui/editor
+- * @version 3.1.3 | Thu Feb 10 2022
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1 | Thu Sep 29 2022
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ 
+@@ -11,7 +11,7 @@ import { ReplaceAroundStep, liftTarget, canSplit, StepMap } from 'prosemirror-tr
+ import { TextSelection, Plugin, PluginKey, EditorState, AllSelection, Selection, SelectionRange, NodeSelection } from 'prosemirror-state';
+ import { keymap } from 'prosemirror-keymap';
+ import { deleteSelection, selectAll, baseKeymap, chainCommands, joinForward, newlineInCode, setBlockType, wrapIn, toggleMark as toggleMark$1, exitCode } from 'prosemirror-commands';
+-import { InputRule, inputRules } from 'prosemirror-inputrules';
++import { InputRule, inputRules, undoInputRule } from 'prosemirror-inputrules';
+ import { undo, redo, history, undoDepth } from 'prosemirror-history';
+ 
+ /*! *****************************************************************************
+@@ -700,11 +700,12 @@ var sendHostname_1 = sendHostname;
+ /Mac/.test(navigator.platform);
+ var reSpaceMoreThanOne = /[\u0020]+/g;
+ var reEscapeChars$1 = /[>(){}[\]+-.!#|]/g;
+-var reEscapeHTML = /<([a-zA-Z_][a-zA-Z0-9\-._]*)(\s|[^\\/>])*\/?>|<(\/)([a-zA-Z_][a-zA-Z0-9\-._]*)\s*\/?>|<!--[^-]+-->|<([a-zA-Z_][a-zA-Z0-9\-.:/]*)>/g;
++var reEscapeHTML = /<([a-zA-Z_][a-zA-Z0-9\-._]*)(\s|[^\\>])*\/?>|<(\/)([a-zA-Z_][a-zA-Z0-9\-._]*)\s*\/?>|<!--[^-]+-->|<([a-zA-Z_][a-zA-Z0-9\-.:/]*)>/g;
+ var reEscapeBackSlash = /\\[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~\\]/g;
+ var reEscapePairedChars = /[*_~`]/g;
+ var reMdImageSyntax = /!\[.*\]\(.*\)/g;
+-var reEscapedCharInLinkSyntax = /[[\]]/g; //
++var reEscapedCharInLinkSyntax = /[[\]]/g;
++var reEscapeBackSlashInSentence = /(?:^|[^\\])\\(?!\\)/g;
+ var XMLSPECIAL$1 = '[&<>"]';
+ var reXmlSpecial$1 = new RegExp(XMLSPECIAL$1, 'g');
+ function replaceUnsafeChar$1(char) {
+@@ -789,17 +790,21 @@ function escapeTextForLink(text) {
+     });
+ }
+ function escape$1(text) {
+-    var replacer = function (matched) { return "\\" + matched; };
++    var aheadReplacer = function (matched) { return "\\" + matched; };
++    var behindReplacer = function (matched) { return matched + "\\"; };
+     var escapedText = text.replace(reSpaceMoreThanOne, ' ');
+     if (reEscapeBackSlash.test(escapedText)) {
+-        escapedText = escapedText.replace(reEscapeBackSlash, replacer);
++        escapedText = escapedText.replace(reEscapeBackSlash, aheadReplacer);
++    }
++    if (reEscapeBackSlashInSentence.test(escapedText)) {
++        escapedText = escapedText.replace(reEscapeBackSlashInSentence, behindReplacer);
+     }
+-    escapedText = escapedText.replace(reEscapePairedChars, replacer);
++    escapedText = escapedText.replace(reEscapePairedChars, aheadReplacer);
+     if (reEscapeHTML.test(escapedText)) {
+-        escapedText = escapedText.replace(reEscapeHTML, replacer);
++        escapedText = escapedText.replace(reEscapeHTML, aheadReplacer);
+     }
+     if (isNeedEscapeText(escapedText)) {
+-        escapedText = escapedText.replace(reEscapeChars$1, replacer);
++        escapedText = escapedText.replace(reEscapeChars$1, aheadReplacer);
+     }
+     return escapedText;
+ }
+@@ -909,6 +914,14 @@ function assign(targetObj, obj) {
+ function getSortedNumPair(valueA, valueB) {
+     return valueA > valueB ? [valueB, valueA] : [valueA, valueB];
+ }
++function isStartWithSpace(text) {
++    var reStartWithSpace = /^\s(\S*)/g;
++    return reStartWithSpace.test(text);
++}
++function isEndWithSpace(text) {
++    var reEndWithSpace = /(\S*)\s$/g;
++    return reEndWithSpace.test(text);
++}
+ 
+ /**
+  * @fileoverview Transform the Array-like object to Array.
+@@ -1161,7 +1174,10 @@ function createWidgetContent(info, text) {
+ }
+ function widgetToDOM(info, text) {
+     var _a = widgetRuleMap[info], rule = _a.rule, toDOM = _a.toDOM;
+-    text = unwrapWidgetSyntax(text).match(rule)[0];
++    var matches = unwrapWidgetSyntax(text).match(rule);
++    if (matches) {
++        text = matches[0];
++    }
+     return toDOM(text);
+ }
+ function getWidgetRules() {
+@@ -1357,6 +1373,7 @@ var reHTMLTag = new RegExp("^" + HTML_TAG, 'i');
+ var reBR = /<br\s*\/*>/i;
+ var reHTMLComment = /<! ---->|<!--(?:-?[^>-])(?:-?[^-])*-->/;
+ var ALTERNATIVE_TAG_FOR_BR = '</p><p>';
++var DEFAULT_TEXT_NOT_START_OR_END_WITH_SPACE = 'a';
+ 
+ function isPositionInBox(style, offsetX, offsetY) {
+     var left = parseInt(style.left, 10);
+@@ -1520,6 +1537,14 @@ function replaceBRWithEmptyBlock(html) {
+     });
+     return replacedHTML;
+ }
++function removeProseMirrorHackNodes(html) {
++    var reProseMirrorImage = /<img class="ProseMirror-separator" alt="">/g;
++    var reProseMirrorTrailingBreak = / class="ProseMirror-trailingBreak"/g;
++    var resultHTML = html;
++    resultHTML = resultHTML.replace(reProseMirrorImage, '');
++    resultHTML = resultHTML.replace(reProseMirrorTrailingBreak, '');
++    return resultHTML;
++}
+ 
+ var pluginKey$1 = new PluginKey('widget');
+ var MARGIN = 5;
+@@ -4262,11 +4287,11 @@ var MdEditor = /** @class */ (function (_super) {
+         ]);
+     };
+     MdEditor.prototype.createPlugins = function () {
+-        return this.defaultPlugins.concat(__spreadArray$1([
++        return __spreadArray$1([
+             syntaxHighlight(this.context),
+             previewHighlight(this.context),
+             smartTask(this.context)
+-        ], this.createPluginProps()));
++        ], this.createPluginProps()).concat(this.defaultPlugins);
+     };
+     MdEditor.prototype.createView = function () {
+         var _this = this;
+@@ -11286,7 +11311,9 @@ var InlineParser = /** @class */ (function () {
+                 res = this.parseAutolink(block) || this.parseHtmlTag(block);
+                 break;
+             case C_AMPERSAND:
+-                res = this.parseEntity(block);
++                if (!block.disabledEntityParse) {
++                    res = this.parseEntity(block);
++                }
+                 break;
+             default:
+                 res = this.parseString(block);
+@@ -15641,7 +15668,7 @@ var MarkdownPreview = /** @class */ (function () {
+         return this.el;
+     };
+     MarkdownPreview.prototype.getHTML = function () {
+-        return this.previewContent.innerHTML;
++        return removeProseMirrorHackNodes(this.previewContent.innerHTML);
+     };
+     MarkdownPreview.prototype.setHTML = function (html) {
+         this.previewContent.innerHTML = html;
+@@ -16319,10 +16346,14 @@ var CellSelection = /** @class */ (function (_super) {
+             }
+             var copiedRow = row.copy(Fragment.from(cells));
+             var targetNode = isTableHeadCell ? tableHead : tableBody;
++            // @ts-ignore
+             targetNode.content = targetNode.content.append(Fragment.from(copiedRow));
+         }
+         return new Slice(createTableFragment(tableHead, tableBody), 1, 1);
+     };
++    CellSelection.prototype.toJSON = function () {
++        return JSON.stringify(this);
++    };
+     return CellSelection;
+ }(Selection));
+ 
+@@ -16617,7 +16648,7 @@ var Map$1 = /** @class */ (function () {
+ 
+ /**
+  * @fileoverview Implements i18n
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  */
+ var DEFAULT_CODE = 'en-US';
+ /**
+@@ -17101,7 +17132,6 @@ var CODE_BLOCK_LANG_CLASS_NAME = 'toastui-editor-ww-code-block-language';
+ var CodeBlockView = /** @class */ (function () {
+     function CodeBlockView(node, view, getPos, eventEmitter) {
+         var _this = this;
+-        this.dom = null;
+         this.contentDOM = null;
+         this.input = null;
+         this.timer = null;
+@@ -19527,12 +19557,12 @@ var WysiwygEditor = /** @class */ (function (_super) {
+         });
+     };
+     WysiwygEditor.prototype.createPlugins = function () {
+-        return this.defaultPlugins.concat(__spreadArray$1([
++        return __spreadArray$1([
+             tableSelection(),
+             tableContextMenu(this.eventEmitter),
+             task(),
+             toolbarStateHighlight(this.eventEmitter)
+-        ], this.createPluginProps()));
++        ], this.createPluginProps()).concat(this.defaultPlugins);
+     };
+     WysiwygEditor.prototype.createPluginNodeViews = function () {
+         var _a = this, eventEmitter = _a.eventEmitter, pluginNodeViews = _a.pluginNodeViews;
+@@ -19610,7 +19640,7 @@ var WysiwygEditor = /** @class */ (function (_super) {
+         return this.specs.commands(this.view, getWwCommands());
+     };
+     WysiwygEditor.prototype.getHTML = function () {
+-        return this.view.dom.innerHTML;
++        return removeProseMirrorHackNodes(this.view.dom.innerHTML);
+     };
+     WysiwygEditor.prototype.getModel = function () {
+         return this.view.state.doc;
+@@ -20784,6 +20814,12 @@ var nodeTypeWriters = {
+                 state.write('<br>\n');
+             }
+             else if (emptyNode && !prevEmptyNode && !firstChildNode) {
++                if ((parent === null || parent === void 0 ? void 0 : parent.type.name) === 'listItem') {
++                    var prevDelim = state.getDelim();
++                    state.setDelim('');
++                    state.write('<br>');
++                    state.setDelim(prevDelim);
++                }
+                 state.write('\n');
+             }
+             else {
+@@ -21138,30 +21174,42 @@ var toMdConvertors = {
+             text: node.textContent,
+         };
+     },
+-    strong: function (_a, _b) {
++    strong: function (_a, _b, betweenSpace) {
+         var node = _a.node;
+         var entering = _b.entering;
+         var rawHTML = node.attrs.rawHTML;
++        var delim = '**';
++        if (!betweenSpace) {
++            delim = entering ? '<strong>' : '</strong>';
++        }
+         return {
+-            delim: '**',
++            delim: delim,
+             rawHTML: entering ? getOpenRawHTML(rawHTML) : getCloseRawHTML(rawHTML),
+         };
+     },
+-    emph: function (_a, _b) {
++    emph: function (_a, _b, betweenSpace) {
+         var node = _a.node;
+         var entering = _b.entering;
+         var rawHTML = node.attrs.rawHTML;
++        var delim = '*';
++        if (!betweenSpace) {
++            delim = entering ? '<em>' : '</em>';
++        }
+         return {
+-            delim: '*',
++            delim: delim,
+             rawHTML: entering ? getOpenRawHTML(rawHTML) : getCloseRawHTML(rawHTML),
+         };
+     },
+-    strike: function (_a, _b) {
++    strike: function (_a, _b, betweenSpace) {
+         var node = _a.node;
+         var entering = _b.entering;
+         var rawHTML = node.attrs.rawHTML;
++        var delim = '~~';
++        if (!betweenSpace) {
++            delim = entering ? '<del>' : '</del>';
++        }
+         return {
+-            delim: '~~',
++            delim: delim,
+             rawHTML: entering ? getOpenRawHTML(rawHTML) : getCloseRawHTML(rawHTML),
+         };
+     },
+@@ -21268,7 +21316,7 @@ function createMarkTypeConvertors(convertors) {
+     var markTypeConvertors = {};
+     var markTypes = Object.keys(markTypeOptions);
+     markTypes.forEach(function (type) {
+-        markTypeConvertors[type] = function (nodeInfo, entering) {
++        markTypeConvertors[type] = function (nodeInfo, entering, betweenSpace) {
+             var markOption = markTypeOptions[type];
+             var convertor = convertors[type];
+             // There are two ways to call the mark type converter
+@@ -21276,7 +21324,9 @@ function createMarkTypeConvertors(convertors) {
+             // When calling the converter without using `delim` and `rawHTML` values,
+             // the converter is called without parameters.
+             var runConvertor = convertor && nodeInfo && !isUndefined_1(entering);
+-            var params = runConvertor ? convertor(nodeInfo, { entering: entering }) : {};
++            var params = runConvertor
++                ? convertor(nodeInfo, { entering: entering }, betweenSpace)
++                : {};
+             return __assign$1(__assign$1({}, params), markOption);
+         };
+     });
+@@ -21337,14 +21387,30 @@ var ToMdConvertorState = /** @class */ (function () {
+     ToMdConvertorState.prototype.isInBlank = function () {
+         return /(^|\n)$/.test(this.result);
+     };
++    ToMdConvertorState.prototype.isBetweenSpaces = function (parent, index) {
++        var _a, _b;
++        var content = parent.content;
++        var isFrontNodeEndWithSpace = index === 0 ||
++            isEndWithSpace((_a = content.child(index - 1).text) !== null && _a !== void 0 ? _a : DEFAULT_TEXT_NOT_START_OR_END_WITH_SPACE);
++        var isRearNodeStartWithSpace = index >= content.childCount - 1 ||
++            isStartWithSpace((_b = content.child(index + 1).text) !== null && _b !== void 0 ? _b : DEFAULT_TEXT_NOT_START_OR_END_WITH_SPACE);
++        return isFrontNodeEndWithSpace && isRearNodeStartWithSpace;
++    };
+     ToMdConvertorState.prototype.markText = function (mark, entering, parent, index) {
+         var convertor = this.getMarkConvertor(mark);
+         if (convertor) {
+-            var _a = convertor({ node: mark, parent: parent, index: index }, entering), delim = _a.delim, rawHTML = _a.rawHTML;
++            var betweenSpace = this.isBetweenSpaces(parent, entering ? index : index - 1);
++            var _a = convertor({ node: mark, parent: parent, index: index }, entering, betweenSpace), delim = _a.delim, rawHTML = _a.rawHTML;
+             return rawHTML || delim;
+         }
+         return '';
+     };
++    ToMdConvertorState.prototype.setDelim = function (delim) {
++        this.delim = delim;
++    };
++    ToMdConvertorState.prototype.getDelim = function () {
++        return this.delim;
++    };
+     ToMdConvertorState.prototype.flushClose = function (size) {
+         if (!this.stopNewline && this.closed) {
+             if (!this.isInBlank()) {
+@@ -21367,11 +21433,11 @@ var ToMdConvertorState = /** @class */ (function () {
+         }
+     };
+     ToMdConvertorState.prototype.wrapBlock = function (delim, firstDelim, node, fn) {
+-        var old = this.delim;
++        var old = this.getDelim();
+         this.write(firstDelim || delim);
+-        this.delim += delim;
++        this.setDelim(this.getDelim() + delim);
+         fn();
+-        this.delim = old;
++        this.setDelim(old);
+         this.closeBlock(node);
+     };
+     ToMdConvertorState.prototype.ensureNewLine = function () {
+@@ -21614,21 +21680,40 @@ var Convertor = /** @class */ (function () {
+     return Convertor;
+ }());
+ 
+-function execPlugin(plugin, eventEmitter, usageStatistics) {
+-    var pmState = { Plugin: Plugin, Selection: Selection, TextSelection: TextSelection };
++function execPlugin(pluginInfo) {
++    var plugin = pluginInfo.plugin, eventEmitter = pluginInfo.eventEmitter, usageStatistics = pluginInfo.usageStatistics, instance = pluginInfo.instance;
++    var pmState = { Plugin: Plugin, PluginKey: PluginKey, Selection: Selection, TextSelection: TextSelection };
+     var pmView = { Decoration: Decoration, DecorationSet: DecorationSet };
+     var pmModel = { Fragment: Fragment };
+-    var context = { eventEmitter: eventEmitter, usageStatistics: usageStatistics, pmState: pmState, pmView: pmView, pmModel: pmModel, i18n: i18n };
++    var pmRules = { InputRule: InputRule, inputRules: inputRules, undoInputRule: undoInputRule };
++    var pmKeymap = { keymap: keymap };
++    var context = {
++        eventEmitter: eventEmitter,
++        usageStatistics: usageStatistics,
++        instance: instance,
++        pmState: pmState,
++        pmView: pmView,
++        pmModel: pmModel,
++        pmRules: pmRules,
++        pmKeymap: pmKeymap,
++        i18n: i18n,
++    };
+     if (isArray_1(plugin)) {
+         var pluginFn = plugin[0], _a = plugin[1], options = _a === void 0 ? {} : _a;
+         return pluginFn(context, options);
+     }
+     return plugin(context);
+ }
+-function getPluginInfo(plugins, eventEmitter, usageStatistics) {
++function getPluginInfo(pluginsInfo) {
++    var plugins = pluginsInfo.plugins, eventEmitter = pluginsInfo.eventEmitter, usageStatistics = pluginsInfo.usageStatistics, instance = pluginsInfo.instance;
+     eventEmitter.listen('mixinTableOffsetMapPrototype', mixinTableOffsetMapPrototype);
+     return (plugins !== null && plugins !== void 0 ? plugins : []).reduce(function (acc, plugin) {
+-        var pluginInfoResult = execPlugin(plugin, eventEmitter, usageStatistics);
++        var pluginInfoResult = execPlugin({
++            plugin: plugin,
++            eventEmitter: eventEmitter,
++            usageStatistics: usageStatistics,
++            instance: instance,
++        });
+         if (!pluginInfoResult) {
+             throw new Error('The return value of the executed plugin is empty.');
+         }
+@@ -21720,7 +21805,12 @@ var ToastUIEditorViewer = /** @class */ (function () {
+         }, options);
+         this.eventEmitter = new EventEmitter();
+         var linkAttributes = sanitizeLinkAttribute(this.options.linkAttributes);
+-        var _a = getPluginInfo(this.options.plugins, this.eventEmitter, this.options.usageStatistics) || {}, toHTMLRenderers = _a.toHTMLRenderers, markdownParsers = _a.markdownParsers;
++        var _a = getPluginInfo({
++            plugins: this.options.plugins,
++            eventEmitter: this.eventEmitter,
++            usageStatistics: this.options.usageStatistics,
++            instance: this,
++        }) || {}, toHTMLRenderers = _a.toHTMLRenderers, markdownParsers = _a.markdownParsers;
+         var _b = this.options, customHTMLRenderer = _b.customHTMLRenderer, extendedAutolinks = _b.extendedAutolinks, referenceDefinition = _b.referenceDefinition, frontMatter = _b.frontMatter, customHTMLSanitizer = _b.customHTMLSanitizer;
+         var rendererOptions = {
+             linkAttributes: linkAttributes,
+@@ -21773,6 +21863,10 @@ var ToastUIEditorViewer = /** @class */ (function () {
+             element.hasAttribute(TASK_ATTR_NAME) &&
+             isPositionInBox(style, ev.offsetX, ev.offsetY)) {
+             toggleClass(element, TASK_CHECKED_CLASS_NAME);
++            this.eventEmitter.emit('change', {
++                source: 'viewer',
++                date: ev,
++            });
+         }
+     };
+     /**
+@@ -22269,7 +22363,12 @@ var ToastUIEditorCore = /** @class */ (function () {
+         this.eventEmitter = new EventEmitter();
+         setWidgetRules(widgetRules);
+         var linkAttributes = sanitizeLinkAttribute(this.options.linkAttributes);
+-        this.pluginInfo = getPluginInfo(this.options.plugins, this.eventEmitter, this.options.usageStatistics);
++        this.pluginInfo = getPluginInfo({
++            plugins: this.options.plugins,
++            eventEmitter: this.eventEmitter,
++            usageStatistics: this.options.usageStatistics,
++            instance: this,
++        });
+         var _b = this.pluginInfo, toHTMLRenderers = _b.toHTMLRenderers, toMarkdownRenderers = _b.toMarkdownRenderers, mdPlugins = _b.mdPlugins, wwPlugins = _b.wwPlugins, wwNodeViews = _b.wwNodeViews, mdCommands = _b.mdCommands, wwCommands = _b.wwCommands, markdownParsers = _b.markdownParsers;
+         var rendererOptions = {
+             linkAttributes: linkAttributes,
+@@ -22523,7 +22622,12 @@ var ToastUIEditorCore = /** @class */ (function () {
+                 _this.wwEditor.setModel(wwNode);
+             }
+         });
+-        return this.wwEditor.view.dom.innerHTML;
++        var html = removeProseMirrorHackNodes(this.wwEditor.view.dom.innerHTML);
++        if (this.placeholder) {
++            var rePlaceholder = new RegExp("<span class=\"placeholder[^>]+>" + this.placeholder + "</span>", 'i');
++            return html.replace(rePlaceholder, '');
++        }
++        return html;
+     };
+     /**
+      * Insert text
+@@ -22779,6 +22883,7 @@ var ToastUIEditorCore = /** @class */ (function () {
+      * @param {string} placeholder - placeholder to set
+      */
+     ToastUIEditorCore.prototype.setPlaceholder = function (placeholder) {
++        this.placeholder = placeholder;
+         this.mdEditor.setPlaceholder(placeholder);
+         this.wwEditor.setPlaceholder(placeholder);
+     };
+@@ -22792,6 +22897,32 @@ var ToastUIEditorCore = /** @class */ (function () {
+             wwEditor: this.wwEditor.getElement(),
+         };
+     };
++    /**
++     * Convert position to match editor mode
++     * @param {number|Array.<number>} start - start position
++     * @param {number|Array.<number>} end - end position
++     * @param {string} mode - Editor mode name of want to match converted position to
++     */
++    ToastUIEditorCore.prototype.convertPosToMatchEditorMode = function (start, end, mode) {
++        var _a, _b;
++        if (end === void 0) { end = start; }
++        if (mode === void 0) { mode = this.mode; }
++        var doc = this.mdEditor.view.state.doc;
++        var isFromArray = Array.isArray(start);
++        var isToArray = Array.isArray(end);
++        var convertedFrom = start;
++        var convertedTo = end;
++        if (isFromArray !== isToArray) {
++            throw new Error('Types of arguments must be same');
++        }
++        if (mode === 'markdown' && !isFromArray && !isToArray) {
++            _a = getEditorToMdPos(doc, start, end), convertedFrom = _a[0], convertedTo = _a[1];
++        }
++        else if (mode === 'wysiwyg' && isFromArray && isToArray) {
++            _b = getMdToEditorPos(doc, start, end), convertedFrom = _b[0], convertedTo = _b[1];
++        }
++        return [convertedFrom, convertedTo];
++    };
+     return ToastUIEditorCore;
+ }());
+ 
+@@ -25638,7 +25769,7 @@ var templateObject_1;
+ 
+ /**
+  * @fileoverview I18N for English
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  */
+ ToastUIEditorCore.setLanguage(['en', 'en-US'], {
+     Markdown: 'Markdown',
+diff --git a/node_modules/@toast-ui/editor/dist/esm/indexViewer.js b/node_modules/@toast-ui/editor/dist/esm/indexViewer.js
+index e7fda7d..c9a7af9 100644
+--- a/node_modules/@toast-ui/editor/dist/esm/indexViewer.js
++++ b/node_modules/@toast-ui/editor/dist/esm/indexViewer.js
+@@ -1,12 +1,14 @@
+ /**
+  * @toast-ui/editor : viewer
+- * @version 3.1.3 | Thu Feb 10 2022
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1 | Thu Sep 29 2022
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ 
+-import { Plugin, Selection, TextSelection } from 'prosemirror-state';
++import { Plugin, PluginKey, Selection, TextSelection } from 'prosemirror-state';
++import { InputRule, inputRules, undoInputRule } from 'prosemirror-inputrules';
+ import { Decoration, DecorationSet } from 'prosemirror-view';
++import { keymap } from 'prosemirror-keymap';
+ import { Fragment } from 'prosemirror-model';
+ 
+ /*! *****************************************************************************
+@@ -6634,7 +6636,9 @@ var InlineParser = /** @class */ (function () {
+                 res = this.parseAutolink(block) || this.parseHtmlTag(block);
+                 break;
+             case C_AMPERSAND:
+-                res = this.parseEntity(block);
++                if (!block.disabledEntityParse) {
++                    res = this.parseEntity(block);
++                }
+                 break;
+             default:
+                 res = this.parseString(block);
+@@ -10017,6 +10021,14 @@ function createElementWith(contents, target) {
+     }
+     return firstChild;
+ }
++function removeProseMirrorHackNodes(html) {
++    var reProseMirrorImage = /<img class="ProseMirror-separator" alt="">/g;
++    var reProseMirrorTrailingBreak = / class="ProseMirror-trailingBreak"/g;
++    var resultHTML = html;
++    resultHTML = resultHTML.replace(reProseMirrorImage, '');
++    resultHTML = resultHTML.replace(reProseMirrorTrailingBreak, '');
++    return resultHTML;
++}
+ 
+ /**
+  * @fileoverview Check whether the given variable is a function or not.
+@@ -10104,7 +10116,10 @@ function unwrapWidgetSyntax(text) {
+ }
+ function widgetToDOM(info, text) {
+     var _a = widgetRuleMap[info], rule = _a.rule, toDOM = _a.toDOM;
+-    text = unwrapWidgetSyntax(text).match(rule)[0];
++    var matches = unwrapWidgetSyntax(text).match(rule);
++    if (matches) {
++        text = matches[0];
++    }
+     return toDOM(text);
+ }
+ function getWidgetContent(widgetNode) {
+@@ -11905,7 +11920,7 @@ var MarkdownPreview = /** @class */ (function () {
+         return this.el;
+     };
+     MarkdownPreview.prototype.getHTML = function () {
+-        return this.previewContent.innerHTML;
++        return removeProseMirrorHackNodes(this.previewContent.innerHTML);
+     };
+     MarkdownPreview.prototype.setHTML = function (html) {
+         this.previewContent.innerHTML = html;
+@@ -11976,7 +11991,7 @@ var Map$1 = /** @class */ (function () {
+ 
+ /**
+  * @fileoverview Implements i18n
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  */
+ var DEFAULT_CODE = 'en-US';
+ /**
+@@ -12218,21 +12233,40 @@ function mixinTableOffsetMapPrototype(offsetMapMixin, createOffsetMapMixin) {
+     return TableOffsetMap;
+ }
+ 
+-function execPlugin(plugin, eventEmitter, usageStatistics) {
+-    var pmState = { Plugin: Plugin, Selection: Selection, TextSelection: TextSelection };
++function execPlugin(pluginInfo) {
++    var plugin = pluginInfo.plugin, eventEmitter = pluginInfo.eventEmitter, usageStatistics = pluginInfo.usageStatistics, instance = pluginInfo.instance;
++    var pmState = { Plugin: Plugin, PluginKey: PluginKey, Selection: Selection, TextSelection: TextSelection };
+     var pmView = { Decoration: Decoration, DecorationSet: DecorationSet };
+     var pmModel = { Fragment: Fragment };
+-    var context = { eventEmitter: eventEmitter, usageStatistics: usageStatistics, pmState: pmState, pmView: pmView, pmModel: pmModel, i18n: i18n };
++    var pmRules = { InputRule: InputRule, inputRules: inputRules, undoInputRule: undoInputRule };
++    var pmKeymap = { keymap: keymap };
++    var context = {
++        eventEmitter: eventEmitter,
++        usageStatistics: usageStatistics,
++        instance: instance,
++        pmState: pmState,
++        pmView: pmView,
++        pmModel: pmModel,
++        pmRules: pmRules,
++        pmKeymap: pmKeymap,
++        i18n: i18n,
++    };
+     if (isArray_1(plugin)) {
+         var pluginFn = plugin[0], _a = plugin[1], options = _a === void 0 ? {} : _a;
+         return pluginFn(context, options);
+     }
+     return plugin(context);
+ }
+-function getPluginInfo(plugins, eventEmitter, usageStatistics) {
++function getPluginInfo(pluginsInfo) {
++    var plugins = pluginsInfo.plugins, eventEmitter = pluginsInfo.eventEmitter, usageStatistics = pluginsInfo.usageStatistics, instance = pluginsInfo.instance;
+     eventEmitter.listen('mixinTableOffsetMapPrototype', mixinTableOffsetMapPrototype);
+     return (plugins !== null && plugins !== void 0 ? plugins : []).reduce(function (acc, plugin) {
+-        var pluginInfoResult = execPlugin(plugin, eventEmitter, usageStatistics);
++        var pluginInfoResult = execPlugin({
++            plugin: plugin,
++            eventEmitter: eventEmitter,
++            usageStatistics: usageStatistics,
++            instance: instance,
++        });
+         if (!pluginInfoResult) {
+             throw new Error('The return value of the executed plugin is empty.');
+         }
+@@ -12614,7 +12648,12 @@ var ToastUIEditorViewer = /** @class */ (function () {
+         }, options);
+         this.eventEmitter = new EventEmitter();
+         var linkAttributes = sanitizeLinkAttribute(this.options.linkAttributes);
+-        var _a = getPluginInfo(this.options.plugins, this.eventEmitter, this.options.usageStatistics) || {}, toHTMLRenderers = _a.toHTMLRenderers, markdownParsers = _a.markdownParsers;
++        var _a = getPluginInfo({
++            plugins: this.options.plugins,
++            eventEmitter: this.eventEmitter,
++            usageStatistics: this.options.usageStatistics,
++            instance: this,
++        }) || {}, toHTMLRenderers = _a.toHTMLRenderers, markdownParsers = _a.markdownParsers;
+         var _b = this.options, customHTMLRenderer = _b.customHTMLRenderer, extendedAutolinks = _b.extendedAutolinks, referenceDefinition = _b.referenceDefinition, frontMatter = _b.frontMatter, customHTMLSanitizer = _b.customHTMLSanitizer;
+         var rendererOptions = {
+             linkAttributes: linkAttributes,
+@@ -12667,6 +12706,10 @@ var ToastUIEditorViewer = /** @class */ (function () {
+             element.hasAttribute(TASK_ATTR_NAME) &&
+             isPositionInBox(style, ev.offsetX, ev.offsetY)) {
+             toggleClass(element, TASK_CHECKED_CLASS_NAME);
++            this.eventEmitter.emit('change', {
++                source: 'viewer',
++                date: ev,
++            });
+         }
+     };
+     /**
+diff --git a/node_modules/@toast-ui/editor/dist/i18n/ar.js b/node_modules/@toast-ui/editor/dist/i18n/ar.js
+index a99d37a..240bf02 100644
+--- a/node_modules/@toast-ui/editor/dist/i18n/ar.js
++++ b/node_modules/@toast-ui/editor/dist/i18n/ar.js
+@@ -1,7 +1,7 @@
+ /*!
+  * TOAST UI Editor : i18n
+- * @version 3.1.3
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ (function webpackUniversalModuleDefinition(root, factory) {
+diff --git a/node_modules/@toast-ui/editor/dist/i18n/cs-cz.js b/node_modules/@toast-ui/editor/dist/i18n/cs-cz.js
+index 4c3ae1d..4cc66b0 100644
+--- a/node_modules/@toast-ui/editor/dist/i18n/cs-cz.js
++++ b/node_modules/@toast-ui/editor/dist/i18n/cs-cz.js
+@@ -1,7 +1,7 @@
+ /*!
+  * TOAST UI Editor : i18n
+- * @version 3.1.3
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ (function webpackUniversalModuleDefinition(root, factory) {
+diff --git a/node_modules/@toast-ui/editor/dist/i18n/de-de.js b/node_modules/@toast-ui/editor/dist/i18n/de-de.js
+index dcf0ee8..c9bb80d 100644
+--- a/node_modules/@toast-ui/editor/dist/i18n/de-de.js
++++ b/node_modules/@toast-ui/editor/dist/i18n/de-de.js
+@@ -1,7 +1,7 @@
+ /*!
+  * TOAST UI Editor : i18n
+- * @version 3.1.3
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ (function webpackUniversalModuleDefinition(root, factory) {
+@@ -129,8 +129,8 @@ _editorCore__WEBPACK_IMPORTED_MODULE_0___default().setLanguage(['de', 'de-DE'],
+     Heading: 'Titel',
+     'Image URL': 'Bild URL',
+     'Select image file': 'Grafik auswählen',
+-    'Choose a file': 'Wähle eine datei',
+-    'No file': 'Keine datei',
++    'Choose a file': 'Wähle eine Datei',
++    'No file': 'Keine Datei',
+     Description: 'Beschreibung',
+     OK: 'OK',
+     More: 'Mehr',
+diff --git a/node_modules/@toast-ui/editor/dist/i18n/es-es.js b/node_modules/@toast-ui/editor/dist/i18n/es-es.js
+index 7b13745..449a3d4 100644
+--- a/node_modules/@toast-ui/editor/dist/i18n/es-es.js
++++ b/node_modules/@toast-ui/editor/dist/i18n/es-es.js
+@@ -1,7 +1,7 @@
+ /*!
+  * TOAST UI Editor : i18n
+- * @version 3.1.3
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ (function webpackUniversalModuleDefinition(root, factory) {
+diff --git a/node_modules/@toast-ui/editor/dist/i18n/fi-fi.js b/node_modules/@toast-ui/editor/dist/i18n/fi-fi.js
+index 1b5ebcd..84c7a74 100644
+--- a/node_modules/@toast-ui/editor/dist/i18n/fi-fi.js
++++ b/node_modules/@toast-ui/editor/dist/i18n/fi-fi.js
+@@ -1,7 +1,7 @@
+ /*!
+  * TOAST UI Editor : i18n
+- * @version 3.1.3
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ (function webpackUniversalModuleDefinition(root, factory) {
+diff --git a/node_modules/@toast-ui/editor/dist/i18n/fr-fr.js b/node_modules/@toast-ui/editor/dist/i18n/fr-fr.js
+index b97b874..d19b704 100644
+--- a/node_modules/@toast-ui/editor/dist/i18n/fr-fr.js
++++ b/node_modules/@toast-ui/editor/dist/i18n/fr-fr.js
+@@ -1,7 +1,7 @@
+ /*!
+  * TOAST UI Editor : i18n
+- * @version 3.1.3
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ (function webpackUniversalModuleDefinition(root, factory) {
+diff --git a/node_modules/@toast-ui/editor/dist/i18n/gl-es.js b/node_modules/@toast-ui/editor/dist/i18n/gl-es.js
+index 84414d0..f0dab5a 100644
+--- a/node_modules/@toast-ui/editor/dist/i18n/gl-es.js
++++ b/node_modules/@toast-ui/editor/dist/i18n/gl-es.js
+@@ -1,7 +1,7 @@
+ /*!
+  * TOAST UI Editor : i18n
+- * @version 3.1.3
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ (function webpackUniversalModuleDefinition(root, factory) {
+diff --git a/node_modules/@toast-ui/editor/dist/i18n/hr-hr.js b/node_modules/@toast-ui/editor/dist/i18n/hr-hr.js
+index 8918363..69ca5a4 100644
+--- a/node_modules/@toast-ui/editor/dist/i18n/hr-hr.js
++++ b/node_modules/@toast-ui/editor/dist/i18n/hr-hr.js
+@@ -1,7 +1,7 @@
+ /*!
+  * TOAST UI Editor : i18n
+- * @version 3.1.3
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ (function webpackUniversalModuleDefinition(root, factory) {
+diff --git a/node_modules/@toast-ui/editor/dist/i18n/it-it.js b/node_modules/@toast-ui/editor/dist/i18n/it-it.js
+index b7e605f..c54eebd 100644
+--- a/node_modules/@toast-ui/editor/dist/i18n/it-it.js
++++ b/node_modules/@toast-ui/editor/dist/i18n/it-it.js
+@@ -1,7 +1,7 @@
+ /*!
+  * TOAST UI Editor : i18n
+- * @version 3.1.3
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ (function webpackUniversalModuleDefinition(root, factory) {
+diff --git a/node_modules/@toast-ui/editor/dist/i18n/ja-jp.js b/node_modules/@toast-ui/editor/dist/i18n/ja-jp.js
+index be6c4d8..fdac78f 100644
+--- a/node_modules/@toast-ui/editor/dist/i18n/ja-jp.js
++++ b/node_modules/@toast-ui/editor/dist/i18n/ja-jp.js
+@@ -1,7 +1,7 @@
+ /*!
+  * TOAST UI Editor : i18n
+- * @version 3.1.3
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ (function webpackUniversalModuleDefinition(root, factory) {
+@@ -101,7 +101,7 @@ __webpack_require__.r(__webpack_exports__);
+ /* harmony import */ var _editorCore__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_editorCore__WEBPACK_IMPORTED_MODULE_0__);
+ /**
+  * @fileoverview I18N for Japanese
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  */
+ 
+ _editorCore__WEBPACK_IMPORTED_MODULE_0___default().setLanguage(['ja', 'ja-JP'], {
+diff --git a/node_modules/@toast-ui/editor/dist/i18n/ko-kr.js b/node_modules/@toast-ui/editor/dist/i18n/ko-kr.js
+index 1d3ecd0..2fc6434 100644
+--- a/node_modules/@toast-ui/editor/dist/i18n/ko-kr.js
++++ b/node_modules/@toast-ui/editor/dist/i18n/ko-kr.js
+@@ -1,7 +1,7 @@
+ /*!
+  * TOAST UI Editor : i18n
+- * @version 3.1.3
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ (function webpackUniversalModuleDefinition(root, factory) {
+@@ -101,7 +101,7 @@ __webpack_require__.r(__webpack_exports__);
+ /* harmony import */ var _editorCore__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_editorCore__WEBPACK_IMPORTED_MODULE_0__);
+ /**
+  * @fileoverview I18N for Korean
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  */
+ 
+ _editorCore__WEBPACK_IMPORTED_MODULE_0___default().setLanguage(['ko', 'ko-KR'], {
+diff --git a/node_modules/@toast-ui/editor/dist/i18n/nb-no.js b/node_modules/@toast-ui/editor/dist/i18n/nb-no.js
+index 954b802..d852ccd 100644
+--- a/node_modules/@toast-ui/editor/dist/i18n/nb-no.js
++++ b/node_modules/@toast-ui/editor/dist/i18n/nb-no.js
+@@ -1,7 +1,7 @@
+ /*!
+  * TOAST UI Editor : i18n
+- * @version 3.1.3
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ (function webpackUniversalModuleDefinition(root, factory) {
+diff --git a/node_modules/@toast-ui/editor/dist/i18n/nl-nl.js b/node_modules/@toast-ui/editor/dist/i18n/nl-nl.js
+index 915146d..f61943c 100644
+--- a/node_modules/@toast-ui/editor/dist/i18n/nl-nl.js
++++ b/node_modules/@toast-ui/editor/dist/i18n/nl-nl.js
+@@ -1,7 +1,7 @@
+ /*!
+  * TOAST UI Editor : i18n
+- * @version 3.1.3
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ (function webpackUniversalModuleDefinition(root, factory) {
+@@ -101,7 +101,7 @@ __webpack_require__.r(__webpack_exports__);
+ /* harmony import */ var _editorCore__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_editorCore__WEBPACK_IMPORTED_MODULE_0__);
+ /**
+  * @fileoverview I18N for Dutch
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  */
+ 
+ _editorCore__WEBPACK_IMPORTED_MODULE_0___default().setLanguage(['nl', 'nl-NL'], {
+diff --git a/node_modules/@toast-ui/editor/dist/i18n/pl-pl.js b/node_modules/@toast-ui/editor/dist/i18n/pl-pl.js
+index 1070257..8e12b5d 100644
+--- a/node_modules/@toast-ui/editor/dist/i18n/pl-pl.js
++++ b/node_modules/@toast-ui/editor/dist/i18n/pl-pl.js
+@@ -1,7 +1,7 @@
+ /*!
+  * TOAST UI Editor : i18n
+- * @version 3.1.3
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ (function webpackUniversalModuleDefinition(root, factory) {
+diff --git a/node_modules/@toast-ui/editor/dist/i18n/pt-br.js b/node_modules/@toast-ui/editor/dist/i18n/pt-br.js
+index d83bf54..29f0844 100644
+--- a/node_modules/@toast-ui/editor/dist/i18n/pt-br.js
++++ b/node_modules/@toast-ui/editor/dist/i18n/pt-br.js
+@@ -1,7 +1,7 @@
+ /*!
+  * TOAST UI Editor : i18n
+- * @version 3.1.3
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ (function webpackUniversalModuleDefinition(root, factory) {
+diff --git a/node_modules/@toast-ui/editor/dist/i18n/ru-ru.js b/node_modules/@toast-ui/editor/dist/i18n/ru-ru.js
+index c30920c..c505fb1 100644
+--- a/node_modules/@toast-ui/editor/dist/i18n/ru-ru.js
++++ b/node_modules/@toast-ui/editor/dist/i18n/ru-ru.js
+@@ -1,7 +1,7 @@
+ /*!
+  * TOAST UI Editor : i18n
+- * @version 3.1.3
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ (function webpackUniversalModuleDefinition(root, factory) {
+diff --git a/node_modules/@toast-ui/editor/dist/i18n/sv-se.js b/node_modules/@toast-ui/editor/dist/i18n/sv-se.js
+index b2b412b..c795a49 100644
+--- a/node_modules/@toast-ui/editor/dist/i18n/sv-se.js
++++ b/node_modules/@toast-ui/editor/dist/i18n/sv-se.js
+@@ -1,7 +1,7 @@
+ /*!
+  * TOAST UI Editor : i18n
+- * @version 3.1.3
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ (function webpackUniversalModuleDefinition(root, factory) {
+diff --git a/node_modules/@toast-ui/editor/dist/i18n/tr-tr.js b/node_modules/@toast-ui/editor/dist/i18n/tr-tr.js
+index f8e3c3c..72cf992 100644
+--- a/node_modules/@toast-ui/editor/dist/i18n/tr-tr.js
++++ b/node_modules/@toast-ui/editor/dist/i18n/tr-tr.js
+@@ -1,7 +1,7 @@
+ /*!
+  * TOAST UI Editor : i18n
+- * @version 3.1.3
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ (function webpackUniversalModuleDefinition(root, factory) {
+diff --git a/node_modules/@toast-ui/editor/dist/i18n/uk-ua.js b/node_modules/@toast-ui/editor/dist/i18n/uk-ua.js
+index 1913881..5266e99 100644
+--- a/node_modules/@toast-ui/editor/dist/i18n/uk-ua.js
++++ b/node_modules/@toast-ui/editor/dist/i18n/uk-ua.js
+@@ -1,7 +1,7 @@
+ /*!
+  * TOAST UI Editor : i18n
+- * @version 3.1.3
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ (function webpackUniversalModuleDefinition(root, factory) {
+diff --git a/node_modules/@toast-ui/editor/dist/i18n/zh-cn.js b/node_modules/@toast-ui/editor/dist/i18n/zh-cn.js
+index 1bb752d..9076844 100644
+--- a/node_modules/@toast-ui/editor/dist/i18n/zh-cn.js
++++ b/node_modules/@toast-ui/editor/dist/i18n/zh-cn.js
+@@ -1,7 +1,7 @@
+ /*!
+  * TOAST UI Editor : i18n
+- * @version 3.1.3
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ (function webpackUniversalModuleDefinition(root, factory) {
+@@ -101,7 +101,7 @@ __webpack_require__.r(__webpack_exports__);
+ /* harmony import */ var _editorCore__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_editorCore__WEBPACK_IMPORTED_MODULE_0__);
+ /**
+  * @fileoverview I18N for Chinese
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  */
+ 
+ _editorCore__WEBPACK_IMPORTED_MODULE_0___default().setLanguage('zh-CN', {
+diff --git a/node_modules/@toast-ui/editor/dist/i18n/zh-tw.js b/node_modules/@toast-ui/editor/dist/i18n/zh-tw.js
+index 391fc66..f7ba3a5 100644
+--- a/node_modules/@toast-ui/editor/dist/i18n/zh-tw.js
++++ b/node_modules/@toast-ui/editor/dist/i18n/zh-tw.js
+@@ -1,7 +1,7 @@
+ /*!
+  * TOAST UI Editor : i18n
+- * @version 3.1.3
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ (function webpackUniversalModuleDefinition(root, factory) {
+diff --git a/node_modules/@toast-ui/editor/dist/toastui-editor-only.css b/node_modules/@toast-ui/editor/dist/toastui-editor-only.css
+index 66d36cb..1b979a5 100644
+--- a/node_modules/@toast-ui/editor/dist/toastui-editor-only.css
++++ b/node_modules/@toast-ui/editor/dist/toastui-editor-only.css
+@@ -1,7 +1,7 @@
+ /*!
+  * @toast-ui/editor
+- * @version 3.1.3 | Thu Feb 10 2022
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1 | Thu Sep 29 2022
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ @charset "utf-8";
+diff --git a/node_modules/@toast-ui/editor/dist/toastui-editor-viewer.css b/node_modules/@toast-ui/editor/dist/toastui-editor-viewer.css
+index 5b1e696..f9687c7 100644
+--- a/node_modules/@toast-ui/editor/dist/toastui-editor-viewer.css
++++ b/node_modules/@toast-ui/editor/dist/toastui-editor-viewer.css
+@@ -1,7 +1,7 @@
+ /*!
+  * @toast-ui/editor
+- * @version 3.1.3 | Thu Feb 10 2022
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1 | Thu Sep 29 2022
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ /* 
+diff --git a/node_modules/@toast-ui/editor/dist/toastui-editor-viewer.js b/node_modules/@toast-ui/editor/dist/toastui-editor-viewer.js
+index b81b319..a7071f8 100644
+--- a/node_modules/@toast-ui/editor/dist/toastui-editor-viewer.js
++++ b/node_modules/@toast-ui/editor/dist/toastui-editor-viewer.js
+@@ -1,19 +1,19 @@
+ /*!
+  * @toast-ui/editor
+- * @version 3.1.3 | Thu Feb 10 2022
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1 | Thu Sep 29 2022
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ (function webpackUniversalModuleDefinition(root, factory) {
+ 	if(typeof exports === 'object' && typeof module === 'object')
+-		module.exports = factory(require("prosemirror-model"), require("prosemirror-state"), require("prosemirror-view"));
++		module.exports = factory(require("prosemirror-inputrules"), require("prosemirror-keymap"), require("prosemirror-model"), require("prosemirror-state"), require("prosemirror-view"));
+ 	else if(typeof define === 'function' && define.amd)
+-		define(["prosemirror-model", "prosemirror-state", "prosemirror-view"], factory);
++		define(["prosemirror-inputrules", "prosemirror-keymap", "prosemirror-model", "prosemirror-state", "prosemirror-view"], factory);
+ 	else if(typeof exports === 'object')
+-		exports["toastui"] = factory(require("prosemirror-model"), require("prosemirror-state"), require("prosemirror-view"));
++		exports["toastui"] = factory(require("prosemirror-inputrules"), require("prosemirror-keymap"), require("prosemirror-model"), require("prosemirror-state"), require("prosemirror-view"));
+ 	else
+-		root["toastui"] = root["toastui"] || {}, root["toastui"]["Editor"] = factory(root[undefined], root[undefined], root[undefined]);
+-})(self, function(__WEBPACK_EXTERNAL_MODULE__43__, __WEBPACK_EXTERNAL_MODULE__814__, __WEBPACK_EXTERNAL_MODULE__311__) {
++		root["toastui"] = root["toastui"] || {}, root["toastui"]["Editor"] = factory(root[undefined], root[undefined], root[undefined], root[undefined], root[undefined]);
++})(self, function(__WEBPACK_EXTERNAL_MODULE__479__, __WEBPACK_EXTERNAL_MODULE__481__, __WEBPACK_EXTERNAL_MODULE__43__, __WEBPACK_EXTERNAL_MODULE__814__, __WEBPACK_EXTERNAL_MODULE__311__) {
+ return /******/ (function() { // webpackBootstrap
+ /******/ 	var __webpack_modules__ = ({
+ 
+@@ -2712,6 +2712,22 @@ function isUndefined(obj) {
+ module.exports = isUndefined;
+ 
+ 
++/***/ }),
++
++/***/ 479:
++/***/ (function(module) {
++
++"use strict";
++module.exports = __WEBPACK_EXTERNAL_MODULE__479__;
++
++/***/ }),
++
++/***/ 481:
++/***/ (function(module) {
++
++"use strict";
++module.exports = __WEBPACK_EXTERNAL_MODULE__481__;
++
+ /***/ }),
+ 
+ /***/ 43:
+@@ -9611,7 +9627,9 @@ var InlineParser = /** @class */ (function () {
+                 res = this.parseAutolink(block) || this.parseHtmlTag(block);
+                 break;
+             case C_AMPERSAND:
+-                res = this.parseEntity(block);
++                if (!block.disabledEntityParse) {
++                    res = this.parseEntity(block);
++                }
+                 break;
+             default:
+                 res = this.parseString(block);
+@@ -12070,6 +12088,7 @@ var reHTMLTag = new RegExp("^" + constants_HTML_TAG, 'i');
+ var constants_reBR = /<br\s*\/*>/i;
+ var reHTMLComment = /<! ---->|<!--(?:-?[^>-])(?:-?[^-])*-->/;
+ var constants_ALTERNATIVE_TAG_FOR_BR = '</p><p>';
++var DEFAULT_TEXT_NOT_START_OR_END_WITH_SPACE = 'a';
+ 
+ // EXTERNAL MODULE: ../../node_modules/tui-code-snippet/type/isNull.js
+ var type_isNull = __webpack_require__(934);
+@@ -12084,11 +12103,12 @@ var request_sendHostname = __webpack_require__(391);
+ var isMac = /Mac/.test(navigator.platform);
+ var reSpaceMoreThanOne = /[\u0020]+/g;
+ var common_reEscapeChars = /[>(){}[\]+-.!#|]/g;
+-var reEscapeHTML = /<([a-zA-Z_][a-zA-Z0-9\-._]*)(\s|[^\\/>])*\/?>|<(\/)([a-zA-Z_][a-zA-Z0-9\-._]*)\s*\/?>|<!--[^-]+-->|<([a-zA-Z_][a-zA-Z0-9\-.:/]*)>/g;
++var reEscapeHTML = /<([a-zA-Z_][a-zA-Z0-9\-._]*)(\s|[^\\>])*\/?>|<(\/)([a-zA-Z_][a-zA-Z0-9\-._]*)\s*\/?>|<!--[^-]+-->|<([a-zA-Z_][a-zA-Z0-9\-.:/]*)>/g;
+ var reEscapeBackSlash = /\\[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~\\]/g;
+ var reEscapePairedChars = /[*_~`]/g;
+ var reMdImageSyntax = /!\[.*\]\(.*\)/g;
+-var reEscapedCharInLinkSyntax = /[[\]]/g; //
++var reEscapedCharInLinkSyntax = /[[\]]/g;
++var reEscapeBackSlashInSentence = /(?:^|[^\\])\\(?!\\)/g;
+ var common_XMLSPECIAL = '[&<>"]';
+ var common_reXmlSpecial = new RegExp(common_XMLSPECIAL, 'g');
+ function common_replaceUnsafeChar(char) {
+@@ -12173,17 +12193,21 @@ function escapeTextForLink(text) {
+     });
+ }
+ function common_escape(text) {
+-    var replacer = function (matched) { return "\\" + matched; };
++    var aheadReplacer = function (matched) { return "\\" + matched; };
++    var behindReplacer = function (matched) { return matched + "\\"; };
+     var escapedText = text.replace(reSpaceMoreThanOne, ' ');
+     if (reEscapeBackSlash.test(escapedText)) {
+-        escapedText = escapedText.replace(reEscapeBackSlash, replacer);
++        escapedText = escapedText.replace(reEscapeBackSlash, aheadReplacer);
++    }
++    if (reEscapeBackSlashInSentence.test(escapedText)) {
++        escapedText = escapedText.replace(reEscapeBackSlashInSentence, behindReplacer);
+     }
+-    escapedText = escapedText.replace(reEscapePairedChars, replacer);
++    escapedText = escapedText.replace(reEscapePairedChars, aheadReplacer);
+     if (reEscapeHTML.test(escapedText)) {
+-        escapedText = escapedText.replace(reEscapeHTML, replacer);
++        escapedText = escapedText.replace(reEscapeHTML, aheadReplacer);
+     }
+     if (isNeedEscapeText(escapedText)) {
+-        escapedText = escapedText.replace(common_reEscapeChars, replacer);
++        escapedText = escapedText.replace(common_reEscapeChars, aheadReplacer);
+     }
+     return escapedText;
+ }
+@@ -12293,6 +12317,14 @@ function common_assign(targetObj, obj) {
+ function getSortedNumPair(valueA, valueB) {
+     return valueA > valueB ? [valueB, valueA] : [valueA, valueB];
+ }
++function isStartWithSpace(text) {
++    var reStartWithSpace = /^\s(\S*)/g;
++    return reStartWithSpace.test(text);
++}
++function isEndWithSpace(text) {
++    var reEndWithSpace = /(\S*)\s$/g;
++    return reEndWithSpace.test(text);
++}
+ 
+ ;// CONCATENATED MODULE: ./src/utils/dom.ts
+ 
+@@ -12514,6 +12546,14 @@ function replaceBRWithEmptyBlock(html) {
+     });
+     return replacedHTML;
+ }
++function removeProseMirrorHackNodes(html) {
++    var reProseMirrorImage = /<img class="ProseMirror-separator" alt="">/g;
++    var reProseMirrorTrailingBreak = / class="ProseMirror-trailingBreak"/g;
++    var resultHTML = html;
++    resultHTML = resultHTML.replace(reProseMirrorImage, '');
++    resultHTML = resultHTML.replace(reProseMirrorTrailingBreak, '');
++    return resultHTML;
++}
+ 
+ // EXTERNAL MODULE: ../../node_modules/tui-code-snippet/type/isFunction.js
+ var isFunction = __webpack_require__(294);
+@@ -12702,7 +12742,10 @@ function createWidgetContent(info, text) {
+ }
+ function widgetToDOM(info, text) {
+     var _a = widgetRuleMap[info], rule = _a.rule, toDOM = _a.toDOM;
+-    text = unwrapWidgetSyntax(text).match(rule)[0];
++    var matches = unwrapWidgetSyntax(text).match(rule);
++    if (matches) {
++        text = matches[0];
++    }
+     return toDOM(text);
+ }
+ function getWidgetRules() {
+@@ -13379,7 +13422,7 @@ var MarkdownPreview = /** @class */ (function () {
+         return this.el;
+     };
+     MarkdownPreview.prototype.getHTML = function () {
+-        return this.previewContent.innerHTML;
++        return removeProseMirrorHackNodes(this.previewContent.innerHTML);
+     };
+     MarkdownPreview.prototype.setHTML = function (html) {
+         this.previewContent.innerHTML = html;
+@@ -13396,8 +13439,12 @@ var MarkdownPreview = /** @class */ (function () {
+ 
+ // EXTERNAL MODULE: external {"commonjs":"prosemirror-state","commonjs2":"prosemirror-state","amd":"prosemirror-state"}
+ var external_commonjs_prosemirror_state_commonjs2_prosemirror_state_amd_prosemirror_state_ = __webpack_require__(814);
++// EXTERNAL MODULE: external {"commonjs":"prosemirror-inputrules","commonjs2":"prosemirror-inputrules","amd":"prosemirror-inputrules"}
++var external_commonjs_prosemirror_inputrules_commonjs2_prosemirror_inputrules_amd_prosemirror_inputrules_ = __webpack_require__(479);
+ // EXTERNAL MODULE: external {"commonjs":"prosemirror-view","commonjs2":"prosemirror-view","amd":"prosemirror-view"}
+ var external_commonjs_prosemirror_view_commonjs2_prosemirror_view_amd_prosemirror_view_ = __webpack_require__(311);
++// EXTERNAL MODULE: external {"commonjs":"prosemirror-keymap","commonjs2":"prosemirror-keymap","amd":"prosemirror-keymap"}
++var external_commonjs_prosemirror_keymap_commonjs2_prosemirror_keymap_amd_prosemirror_keymap_ = __webpack_require__(481);
+ // EXTERNAL MODULE: external {"commonjs":"prosemirror-model","commonjs2":"prosemirror-model","amd":"prosemirror-model"}
+ var external_commonjs_prosemirror_model_commonjs2_prosemirror_model_amd_prosemirror_model_ = __webpack_require__(43);
+ // EXTERNAL MODULE: ../../node_modules/tui-code-snippet/array/inArray.js
+@@ -13464,7 +13511,7 @@ var map_Map = /** @class */ (function () {
+ ;// CONCATENATED MODULE: ./src/i18n/i18n.ts
+ /**
+  * @fileoverview Implements i18n
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  */
+ 
+ 
+@@ -13792,21 +13839,42 @@ function mixinTableOffsetMapPrototype(offsetMapMixin, createOffsetMapMixin) {
+ 
+ 
+ 
+-function execPlugin(plugin, eventEmitter, usageStatistics) {
+-    var pmState = { Plugin: external_commonjs_prosemirror_state_commonjs2_prosemirror_state_amd_prosemirror_state_.Plugin, Selection: external_commonjs_prosemirror_state_commonjs2_prosemirror_state_amd_prosemirror_state_.Selection, TextSelection: external_commonjs_prosemirror_state_commonjs2_prosemirror_state_amd_prosemirror_state_.TextSelection };
++
++
++function execPlugin(pluginInfo) {
++    var plugin = pluginInfo.plugin, eventEmitter = pluginInfo.eventEmitter, usageStatistics = pluginInfo.usageStatistics, instance = pluginInfo.instance;
++    var pmState = { Plugin: external_commonjs_prosemirror_state_commonjs2_prosemirror_state_amd_prosemirror_state_.Plugin, PluginKey: external_commonjs_prosemirror_state_commonjs2_prosemirror_state_amd_prosemirror_state_.PluginKey, Selection: external_commonjs_prosemirror_state_commonjs2_prosemirror_state_amd_prosemirror_state_.Selection, TextSelection: external_commonjs_prosemirror_state_commonjs2_prosemirror_state_amd_prosemirror_state_.TextSelection };
+     var pmView = { Decoration: external_commonjs_prosemirror_view_commonjs2_prosemirror_view_amd_prosemirror_view_.Decoration, DecorationSet: external_commonjs_prosemirror_view_commonjs2_prosemirror_view_amd_prosemirror_view_.DecorationSet };
+     var pmModel = { Fragment: external_commonjs_prosemirror_model_commonjs2_prosemirror_model_amd_prosemirror_model_.Fragment };
+-    var context = { eventEmitter: eventEmitter, usageStatistics: usageStatistics, pmState: pmState, pmView: pmView, pmModel: pmModel, i18n: i18n };
++    var pmRules = { InputRule: external_commonjs_prosemirror_inputrules_commonjs2_prosemirror_inputrules_amd_prosemirror_inputrules_.InputRule, inputRules: external_commonjs_prosemirror_inputrules_commonjs2_prosemirror_inputrules_amd_prosemirror_inputrules_.inputRules, undoInputRule: external_commonjs_prosemirror_inputrules_commonjs2_prosemirror_inputrules_amd_prosemirror_inputrules_.undoInputRule };
++    var pmKeymap = { keymap: external_commonjs_prosemirror_keymap_commonjs2_prosemirror_keymap_amd_prosemirror_keymap_.keymap };
++    var context = {
++        eventEmitter: eventEmitter,
++        usageStatistics: usageStatistics,
++        instance: instance,
++        pmState: pmState,
++        pmView: pmView,
++        pmModel: pmModel,
++        pmRules: pmRules,
++        pmKeymap: pmKeymap,
++        i18n: i18n,
++    };
+     if (isArray_default()(plugin)) {
+         var pluginFn = plugin[0], _a = plugin[1], options = _a === void 0 ? {} : _a;
+         return pluginFn(context, options);
+     }
+     return plugin(context);
+ }
+-function getPluginInfo(plugins, eventEmitter, usageStatistics) {
++function getPluginInfo(pluginsInfo) {
++    var plugins = pluginsInfo.plugins, eventEmitter = pluginsInfo.eventEmitter, usageStatistics = pluginsInfo.usageStatistics, instance = pluginsInfo.instance;
+     eventEmitter.listen('mixinTableOffsetMapPrototype', mixinTableOffsetMapPrototype);
+     return (plugins !== null && plugins !== void 0 ? plugins : []).reduce(function (acc, plugin) {
+-        var pluginInfoResult = execPlugin(plugin, eventEmitter, usageStatistics);
++        var pluginInfoResult = execPlugin({
++            plugin: plugin,
++            eventEmitter: eventEmitter,
++            usageStatistics: usageStatistics,
++            instance: instance,
++        });
+         if (!pluginInfoResult) {
+             throw new Error('The return value of the executed plugin is empty.');
+         }
+@@ -14135,7 +14203,12 @@ var ToastUIEditorViewer = /** @class */ (function () {
+         }, options);
+         this.eventEmitter = new eventEmitter();
+         var linkAttributes = sanitizeLinkAttribute(this.options.linkAttributes);
+-        var _a = getPluginInfo(this.options.plugins, this.eventEmitter, this.options.usageStatistics) || {}, toHTMLRenderers = _a.toHTMLRenderers, markdownParsers = _a.markdownParsers;
++        var _a = getPluginInfo({
++            plugins: this.options.plugins,
++            eventEmitter: this.eventEmitter,
++            usageStatistics: this.options.usageStatistics,
++            instance: this,
++        }) || {}, toHTMLRenderers = _a.toHTMLRenderers, markdownParsers = _a.markdownParsers;
+         var _b = this.options, customHTMLRenderer = _b.customHTMLRenderer, extendedAutolinks = _b.extendedAutolinks, referenceDefinition = _b.referenceDefinition, frontMatter = _b.frontMatter, customHTMLSanitizer = _b.customHTMLSanitizer;
+         var rendererOptions = {
+             linkAttributes: linkAttributes,
+@@ -14188,6 +14261,10 @@ var ToastUIEditorViewer = /** @class */ (function () {
+             element.hasAttribute(TASK_ATTR_NAME) &&
+             isPositionInBox(style, ev.offsetX, ev.offsetY)) {
+             toggleClass(element, TASK_CHECKED_CLASS_NAME);
++            this.eventEmitter.emit('change', {
++                source: 'viewer',
++                date: ev,
++            });
+         }
+     };
+     /**
+diff --git a/node_modules/@toast-ui/editor/dist/toastui-editor.css b/node_modules/@toast-ui/editor/dist/toastui-editor.css
+index e3fbada..46c3dfb 100644
+--- a/node_modules/@toast-ui/editor/dist/toastui-editor.css
++++ b/node_modules/@toast-ui/editor/dist/toastui-editor.css
+@@ -1,7 +1,7 @@
+ /*!
+  * @toast-ui/editor
+- * @version 3.1.3 | Thu Feb 10 2022
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1 | Thu Sep 29 2022
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ .ProseMirror {
+@@ -48,6 +48,14 @@ li.ProseMirror-selectednode:after {
+   pointer-events: none;
+ }
+ 
++/* Protect against generic img rules */
++
++img.ProseMirror-separator {
++  display: inline !important;
++  border: none !important;
++  margin: 0 !important;
++}
++
+ @charset "utf-8";
+ /* height */
+ .auto-height,
+diff --git a/node_modules/@toast-ui/editor/dist/toastui-editor.js b/node_modules/@toast-ui/editor/dist/toastui-editor.js
+index 279a641..af9b32a 100644
+--- a/node_modules/@toast-ui/editor/dist/toastui-editor.js
++++ b/node_modules/@toast-ui/editor/dist/toastui-editor.js
+@@ -1,7 +1,7 @@
+ /*!
+  * @toast-ui/editor
+- * @version 3.1.3 | Thu Feb 10 2022
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @version 3.2.1 | Thu Sep 29 2022
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  * @license MIT
+  */
+ (function webpackUniversalModuleDefinition(root, factory) {
+@@ -3388,11 +3388,12 @@ var sendHostname_default = /*#__PURE__*/__webpack_require__.n(sendHostname);
+ var isMac = /Mac/.test(navigator.platform);
+ var reSpaceMoreThanOne = /[\u0020]+/g;
+ var reEscapeChars = /[>(){}[\]+-.!#|]/g;
+-var reEscapeHTML = /<([a-zA-Z_][a-zA-Z0-9\-._]*)(\s|[^\\/>])*\/?>|<(\/)([a-zA-Z_][a-zA-Z0-9\-._]*)\s*\/?>|<!--[^-]+-->|<([a-zA-Z_][a-zA-Z0-9\-.:/]*)>/g;
++var reEscapeHTML = /<([a-zA-Z_][a-zA-Z0-9\-._]*)(\s|[^\\>])*\/?>|<(\/)([a-zA-Z_][a-zA-Z0-9\-._]*)\s*\/?>|<!--[^-]+-->|<([a-zA-Z_][a-zA-Z0-9\-.:/]*)>/g;
+ var reEscapeBackSlash = /\\[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~\\]/g;
+ var reEscapePairedChars = /[*_~`]/g;
+ var reMdImageSyntax = /!\[.*\]\(.*\)/g;
+-var reEscapedCharInLinkSyntax = /[[\]]/g; //
++var reEscapedCharInLinkSyntax = /[[\]]/g;
++var reEscapeBackSlashInSentence = /(?:^|[^\\])\\(?!\\)/g;
+ var XMLSPECIAL = '[&<>"]';
+ var reXmlSpecial = new RegExp(XMLSPECIAL, 'g');
+ function replaceUnsafeChar(char) {
+@@ -3477,17 +3478,21 @@ function escapeTextForLink(text) {
+     });
+ }
+ function common_escape(text) {
+-    var replacer = function (matched) { return "\\" + matched; };
++    var aheadReplacer = function (matched) { return "\\" + matched; };
++    var behindReplacer = function (matched) { return matched + "\\"; };
+     var escapedText = text.replace(reSpaceMoreThanOne, ' ');
+     if (reEscapeBackSlash.test(escapedText)) {
+-        escapedText = escapedText.replace(reEscapeBackSlash, replacer);
++        escapedText = escapedText.replace(reEscapeBackSlash, aheadReplacer);
++    }
++    if (reEscapeBackSlashInSentence.test(escapedText)) {
++        escapedText = escapedText.replace(reEscapeBackSlashInSentence, behindReplacer);
+     }
+-    escapedText = escapedText.replace(reEscapePairedChars, replacer);
++    escapedText = escapedText.replace(reEscapePairedChars, aheadReplacer);
+     if (reEscapeHTML.test(escapedText)) {
+-        escapedText = escapedText.replace(reEscapeHTML, replacer);
++        escapedText = escapedText.replace(reEscapeHTML, aheadReplacer);
+     }
+     if (isNeedEscapeText(escapedText)) {
+-        escapedText = escapedText.replace(reEscapeChars, replacer);
++        escapedText = escapedText.replace(reEscapeChars, aheadReplacer);
+     }
+     return escapedText;
+ }
+@@ -3597,6 +3602,14 @@ function common_assign(targetObj, obj) {
+ function getSortedNumPair(valueA, valueB) {
+     return valueA > valueB ? [valueB, valueA] : [valueA, valueB];
+ }
++function isStartWithSpace(text) {
++    var reStartWithSpace = /^\s(\S*)/g;
++    return reStartWithSpace.test(text);
++}
++function isEndWithSpace(text) {
++    var reEndWithSpace = /(\S*)\s$/g;
++    return reEndWithSpace.test(text);
++}
+ 
+ // EXTERNAL MODULE: external {"commonjs":"prosemirror-view","commonjs2":"prosemirror-view","amd":"prosemirror-view"}
+ var external_commonjs_prosemirror_view_commonjs2_prosemirror_view_amd_prosemirror_view_ = __webpack_require__(311);
+@@ -3846,7 +3859,10 @@ function createWidgetContent(info, text) {
+ }
+ function widgetToDOM(info, text) {
+     var _a = widgetRuleMap[info], rule = _a.rule, toDOM = _a.toDOM;
+-    text = unwrapWidgetSyntax(text).match(rule)[0];
++    var matches = unwrapWidgetSyntax(text).match(rule);
++    if (matches) {
++        text = matches[0];
++    }
+     return toDOM(text);
+ }
+ function getWidgetRules() {
+@@ -3998,6 +4014,7 @@ var reHTMLTag = new RegExp("^" + HTML_TAG, 'i');
+ var reBR = /<br\s*\/*>/i;
+ var reHTMLComment = /<! ---->|<!--(?:-?[^>-])(?:-?[^-])*-->/;
+ var ALTERNATIVE_TAG_FOR_BR = '</p><p>';
++var DEFAULT_TEXT_NOT_START_OR_END_WITH_SPACE = 'a';
+ 
+ ;// CONCATENATED MODULE: ./src/utils/dom.ts
+ 
+@@ -4219,6 +4236,14 @@ function replaceBRWithEmptyBlock(html) {
+     });
+     return replacedHTML;
+ }
++function removeProseMirrorHackNodes(html) {
++    var reProseMirrorImage = /<img class="ProseMirror-separator" alt="">/g;
++    var reProseMirrorTrailingBreak = / class="ProseMirror-trailingBreak"/g;
++    var resultHTML = html;
++    resultHTML = resultHTML.replace(reProseMirrorImage, '');
++    resultHTML = resultHTML.replace(reProseMirrorTrailingBreak, '');
++    return resultHTML;
++}
+ 
+ ;// CONCATENATED MODULE: ./src/plugins/popupWidget.ts
+ 
+@@ -7182,11 +7207,11 @@ var MdEditor = /** @class */ (function (_super) {
+         ]);
+     };
+     MdEditor.prototype.createPlugins = function () {
+-        return this.defaultPlugins.concat(__spreadArray([
++        return __spreadArray([
+             syntaxHighlight(this.context),
+             previewHighlight(this.context),
+             smartTask(this.context)
+-        ], this.createPluginProps()));
++        ], this.createPluginProps()).concat(this.defaultPlugins);
+     };
+     MdEditor.prototype.createView = function () {
+         var _this = this;
+@@ -13932,7 +13957,9 @@ var InlineParser = /** @class */ (function () {
+                 res = this.parseAutolink(block) || this.parseHtmlTag(block);
+                 break;
+             case C_AMPERSAND:
+-                res = this.parseEntity(block);
++                if (!block.disabledEntityParse) {
++                    res = this.parseEntity(block);
++                }
+                 break;
+             default:
+                 res = this.parseString(block);
+@@ -16926,7 +16953,7 @@ var MarkdownPreview = /** @class */ (function () {
+         return this.el;
+     };
+     MarkdownPreview.prototype.getHTML = function () {
+-        return this.previewContent.innerHTML;
++        return removeProseMirrorHackNodes(this.previewContent.innerHTML);
+     };
+     MarkdownPreview.prototype.setHTML = function (html) {
+         this.previewContent.innerHTML = html;
+@@ -17629,10 +17656,14 @@ var CellSelection = /** @class */ (function (_super) {
+             }
+             var copiedRow = row.copy(external_commonjs_prosemirror_model_commonjs2_prosemirror_model_amd_prosemirror_model_.Fragment.from(cells));
+             var targetNode = isTableHeadCell ? tableHead : tableBody;
++            // @ts-ignore
+             targetNode.content = targetNode.content.append(external_commonjs_prosemirror_model_commonjs2_prosemirror_model_amd_prosemirror_model_.Fragment.from(copiedRow));
+         }
+         return new external_commonjs_prosemirror_model_commonjs2_prosemirror_model_amd_prosemirror_model_.Slice(createTableFragment(tableHead, tableBody), 1, 1);
+     };
++    CellSelection.prototype.toJSON = function () {
++        return JSON.stringify(this);
++    };
+     return CellSelection;
+ }(external_commonjs_prosemirror_state_commonjs2_prosemirror_state_amd_prosemirror_state_.Selection));
+ /* harmony default export */ var selection_cellSelection = (CellSelection);
+@@ -17951,7 +17982,7 @@ var map_Map = /** @class */ (function () {
+ ;// CONCATENATED MODULE: ./src/i18n/i18n.ts
+ /**
+  * @fileoverview Implements i18n
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  */
+ 
+ 
+@@ -18473,7 +18504,6 @@ var CODE_BLOCK_LANG_CLASS_NAME = 'toastui-editor-ww-code-block-language';
+ var CodeBlockView = /** @class */ (function () {
+     function CodeBlockView(node, view, getPos, eventEmitter) {
+         var _this = this;
+-        this.dom = null;
+         this.contentDOM = null;
+         this.input = null;
+         this.timer = null;
+@@ -21128,12 +21158,12 @@ var WysiwygEditor = /** @class */ (function (_super) {
+         });
+     };
+     WysiwygEditor.prototype.createPlugins = function () {
+-        return this.defaultPlugins.concat(__spreadArray([
++        return __spreadArray([
+             tableSelection(),
+             tableContextMenu(this.eventEmitter),
+             task(),
+             toolbarStateHighlight(this.eventEmitter)
+-        ], this.createPluginProps()));
++        ], this.createPluginProps()).concat(this.defaultPlugins);
+     };
+     WysiwygEditor.prototype.createPluginNodeViews = function () {
+         var _a = this, eventEmitter = _a.eventEmitter, pluginNodeViews = _a.pluginNodeViews;
+@@ -21211,7 +21241,7 @@ var WysiwygEditor = /** @class */ (function (_super) {
+         return this.specs.commands(this.view, getWwCommands());
+     };
+     WysiwygEditor.prototype.getHTML = function () {
+-        return this.view.dom.innerHTML;
++        return removeProseMirrorHackNodes(this.view.dom.innerHTML);
+     };
+     WysiwygEditor.prototype.getModel = function () {
+         return this.view.state.doc;
+@@ -22346,6 +22376,12 @@ var nodeTypeWriters = {
+                 state.write('<br>\n');
+             }
+             else if (emptyNode && !prevEmptyNode && !firstChildNode) {
++                if ((parent === null || parent === void 0 ? void 0 : parent.type.name) === 'listItem') {
++                    var prevDelim = state.getDelim();
++                    state.setDelim('');
++                    state.write('<br>');
++                    state.setDelim(prevDelim);
++                }
+                 state.write('\n');
+             }
+             else {
+@@ -22705,30 +22741,42 @@ var toMdConvertors = {
+             text: node.textContent,
+         };
+     },
+-    strong: function (_a, _b) {
++    strong: function (_a, _b, betweenSpace) {
+         var node = _a.node;
+         var entering = _b.entering;
+         var rawHTML = node.attrs.rawHTML;
++        var delim = '**';
++        if (!betweenSpace) {
++            delim = entering ? '<strong>' : '</strong>';
++        }
+         return {
+-            delim: '**',
++            delim: delim,
+             rawHTML: entering ? getOpenRawHTML(rawHTML) : getCloseRawHTML(rawHTML),
+         };
+     },
+-    emph: function (_a, _b) {
++    emph: function (_a, _b, betweenSpace) {
+         var node = _a.node;
+         var entering = _b.entering;
+         var rawHTML = node.attrs.rawHTML;
++        var delim = '*';
++        if (!betweenSpace) {
++            delim = entering ? '<em>' : '</em>';
++        }
+         return {
+-            delim: '*',
++            delim: delim,
+             rawHTML: entering ? getOpenRawHTML(rawHTML) : getCloseRawHTML(rawHTML),
+         };
+     },
+-    strike: function (_a, _b) {
++    strike: function (_a, _b, betweenSpace) {
+         var node = _a.node;
+         var entering = _b.entering;
+         var rawHTML = node.attrs.rawHTML;
++        var delim = '~~';
++        if (!betweenSpace) {
++            delim = entering ? '<del>' : '</del>';
++        }
+         return {
+-            delim: '~~',
++            delim: delim,
+             rawHTML: entering ? getOpenRawHTML(rawHTML) : getCloseRawHTML(rawHTML),
+         };
+     },
+@@ -22835,7 +22883,7 @@ function createMarkTypeConvertors(convertors) {
+     var markTypeConvertors = {};
+     var markTypes = Object.keys(markTypeOptions);
+     markTypes.forEach(function (type) {
+-        markTypeConvertors[type] = function (nodeInfo, entering) {
++        markTypeConvertors[type] = function (nodeInfo, entering, betweenSpace) {
+             var markOption = markTypeOptions[type];
+             var convertor = convertors[type];
+             // There are two ways to call the mark type converter
+@@ -22843,7 +22891,9 @@ function createMarkTypeConvertors(convertors) {
+             // When calling the converter without using `delim` and `rawHTML` values,
+             // the converter is called without parameters.
+             var runConvertor = convertor && nodeInfo && !isUndefined_default()(entering);
+-            var params = runConvertor ? convertor(nodeInfo, { entering: entering }) : {};
++            var params = runConvertor
++                ? convertor(nodeInfo, { entering: entering }, betweenSpace)
++                : {};
+             return __assign(__assign({}, params), markOption);
+         };
+     });
+@@ -22887,6 +22937,7 @@ function createMdConvertors(customConvertors) {
+ 
+ ;// CONCATENATED MODULE: ./src/convertors/toMarkdown/toMdConvertorState.ts
+ 
++
+ var ToMdConvertorState = /** @class */ (function () {
+     function ToMdConvertorState(_a) {
+         var nodeTypeConvertors = _a.nodeTypeConvertors, markTypeConvertors = _a.markTypeConvertors;
+@@ -22906,14 +22957,30 @@ var ToMdConvertorState = /** @class */ (function () {
+     ToMdConvertorState.prototype.isInBlank = function () {
+         return /(^|\n)$/.test(this.result);
+     };
++    ToMdConvertorState.prototype.isBetweenSpaces = function (parent, index) {
++        var _a, _b;
++        var content = parent.content;
++        var isFrontNodeEndWithSpace = index === 0 ||
++            isEndWithSpace((_a = content.child(index - 1).text) !== null && _a !== void 0 ? _a : DEFAULT_TEXT_NOT_START_OR_END_WITH_SPACE);
++        var isRearNodeStartWithSpace = index >= content.childCount - 1 ||
++            isStartWithSpace((_b = content.child(index + 1).text) !== null && _b !== void 0 ? _b : DEFAULT_TEXT_NOT_START_OR_END_WITH_SPACE);
++        return isFrontNodeEndWithSpace && isRearNodeStartWithSpace;
++    };
+     ToMdConvertorState.prototype.markText = function (mark, entering, parent, index) {
+         var convertor = this.getMarkConvertor(mark);
+         if (convertor) {
+-            var _a = convertor({ node: mark, parent: parent, index: index }, entering), delim = _a.delim, rawHTML = _a.rawHTML;
++            var betweenSpace = this.isBetweenSpaces(parent, entering ? index : index - 1);
++            var _a = convertor({ node: mark, parent: parent, index: index }, entering, betweenSpace), delim = _a.delim, rawHTML = _a.rawHTML;
+             return rawHTML || delim;
+         }
+         return '';
+     };
++    ToMdConvertorState.prototype.setDelim = function (delim) {
++        this.delim = delim;
++    };
++    ToMdConvertorState.prototype.getDelim = function () {
++        return this.delim;
++    };
+     ToMdConvertorState.prototype.flushClose = function (size) {
+         if (!this.stopNewline && this.closed) {
+             if (!this.isInBlank()) {
+@@ -22936,11 +23003,11 @@ var ToMdConvertorState = /** @class */ (function () {
+         }
+     };
+     ToMdConvertorState.prototype.wrapBlock = function (delim, firstDelim, node, fn) {
+-        var old = this.delim;
++        var old = this.getDelim();
+         this.write(firstDelim || delim);
+-        this.delim += delim;
++        this.setDelim(this.getDelim() + delim);
+         fn();
+-        this.delim = old;
++        this.setDelim(old);
+         this.closeBlock(node);
+     };
+     ToMdConvertorState.prototype.ensureNewLine = function () {
+@@ -23199,21 +23266,42 @@ var Convertor = /** @class */ (function () {
+ 
+ 
+ 
+-function execPlugin(plugin, eventEmitter, usageStatistics) {
+-    var pmState = { Plugin: external_commonjs_prosemirror_state_commonjs2_prosemirror_state_amd_prosemirror_state_.Plugin, Selection: external_commonjs_prosemirror_state_commonjs2_prosemirror_state_amd_prosemirror_state_.Selection, TextSelection: external_commonjs_prosemirror_state_commonjs2_prosemirror_state_amd_prosemirror_state_.TextSelection };
++
++
++function execPlugin(pluginInfo) {
++    var plugin = pluginInfo.plugin, eventEmitter = pluginInfo.eventEmitter, usageStatistics = pluginInfo.usageStatistics, instance = pluginInfo.instance;
++    var pmState = { Plugin: external_commonjs_prosemirror_state_commonjs2_prosemirror_state_amd_prosemirror_state_.Plugin, PluginKey: external_commonjs_prosemirror_state_commonjs2_prosemirror_state_amd_prosemirror_state_.PluginKey, Selection: external_commonjs_prosemirror_state_commonjs2_prosemirror_state_amd_prosemirror_state_.Selection, TextSelection: external_commonjs_prosemirror_state_commonjs2_prosemirror_state_amd_prosemirror_state_.TextSelection };
+     var pmView = { Decoration: external_commonjs_prosemirror_view_commonjs2_prosemirror_view_amd_prosemirror_view_.Decoration, DecorationSet: external_commonjs_prosemirror_view_commonjs2_prosemirror_view_amd_prosemirror_view_.DecorationSet };
+     var pmModel = { Fragment: external_commonjs_prosemirror_model_commonjs2_prosemirror_model_amd_prosemirror_model_.Fragment };
+-    var context = { eventEmitter: eventEmitter, usageStatistics: usageStatistics, pmState: pmState, pmView: pmView, pmModel: pmModel, i18n: i18n };
++    var pmRules = { InputRule: external_commonjs_prosemirror_inputrules_commonjs2_prosemirror_inputrules_amd_prosemirror_inputrules_.InputRule, inputRules: external_commonjs_prosemirror_inputrules_commonjs2_prosemirror_inputrules_amd_prosemirror_inputrules_.inputRules, undoInputRule: external_commonjs_prosemirror_inputrules_commonjs2_prosemirror_inputrules_amd_prosemirror_inputrules_.undoInputRule };
++    var pmKeymap = { keymap: external_commonjs_prosemirror_keymap_commonjs2_prosemirror_keymap_amd_prosemirror_keymap_.keymap };
++    var context = {
++        eventEmitter: eventEmitter,
++        usageStatistics: usageStatistics,
++        instance: instance,
++        pmState: pmState,
++        pmView: pmView,
++        pmModel: pmModel,
++        pmRules: pmRules,
++        pmKeymap: pmKeymap,
++        i18n: i18n,
++    };
+     if (isArray_default()(plugin)) {
+         var pluginFn = plugin[0], _a = plugin[1], options = _a === void 0 ? {} : _a;
+         return pluginFn(context, options);
+     }
+     return plugin(context);
+ }
+-function getPluginInfo(plugins, eventEmitter, usageStatistics) {
++function getPluginInfo(pluginsInfo) {
++    var plugins = pluginsInfo.plugins, eventEmitter = pluginsInfo.eventEmitter, usageStatistics = pluginsInfo.usageStatistics, instance = pluginsInfo.instance;
+     eventEmitter.listen('mixinTableOffsetMapPrototype', mixinTableOffsetMapPrototype);
+     return (plugins !== null && plugins !== void 0 ? plugins : []).reduce(function (acc, plugin) {
+-        var pluginInfoResult = execPlugin(plugin, eventEmitter, usageStatistics);
++        var pluginInfoResult = execPlugin({
++            plugin: plugin,
++            eventEmitter: eventEmitter,
++            usageStatistics: usageStatistics,
++            instance: instance,
++        });
+         if (!pluginInfoResult) {
+             throw new Error('The return value of the executed plugin is empty.');
+         }
+@@ -23318,7 +23406,12 @@ var ToastUIEditorViewer = /** @class */ (function () {
+         }, options);
+         this.eventEmitter = new eventEmitter();
+         var linkAttributes = sanitizeLinkAttribute(this.options.linkAttributes);
+-        var _a = getPluginInfo(this.options.plugins, this.eventEmitter, this.options.usageStatistics) || {}, toHTMLRenderers = _a.toHTMLRenderers, markdownParsers = _a.markdownParsers;
++        var _a = getPluginInfo({
++            plugins: this.options.plugins,
++            eventEmitter: this.eventEmitter,
++            usageStatistics: this.options.usageStatistics,
++            instance: this,
++        }) || {}, toHTMLRenderers = _a.toHTMLRenderers, markdownParsers = _a.markdownParsers;
+         var _b = this.options, customHTMLRenderer = _b.customHTMLRenderer, extendedAutolinks = _b.extendedAutolinks, referenceDefinition = _b.referenceDefinition, frontMatter = _b.frontMatter, customHTMLSanitizer = _b.customHTMLSanitizer;
+         var rendererOptions = {
+             linkAttributes: linkAttributes,
+@@ -23371,6 +23464,10 @@ var ToastUIEditorViewer = /** @class */ (function () {
+             element.hasAttribute(TASK_ATTR_NAME) &&
+             isPositionInBox(style, ev.offsetX, ev.offsetY)) {
+             toggleClass(element, TASK_CHECKED_CLASS_NAME);
++            this.eventEmitter.emit('change', {
++                source: 'viewer',
++                date: ev,
++            });
+         }
+     };
+     /**
+@@ -23834,6 +23931,7 @@ function buildQuery(editor) {
+ 
+ 
+ 
++
+ 
+ 
+ /**
+@@ -23919,7 +24017,12 @@ var ToastUIEditorCore = /** @class */ (function () {
+         this.eventEmitter = new eventEmitter();
+         setWidgetRules(widgetRules);
+         var linkAttributes = sanitizeLinkAttribute(this.options.linkAttributes);
+-        this.pluginInfo = getPluginInfo(this.options.plugins, this.eventEmitter, this.options.usageStatistics);
++        this.pluginInfo = getPluginInfo({
++            plugins: this.options.plugins,
++            eventEmitter: this.eventEmitter,
++            usageStatistics: this.options.usageStatistics,
++            instance: this,
++        });
+         var _b = this.pluginInfo, toHTMLRenderers = _b.toHTMLRenderers, toMarkdownRenderers = _b.toMarkdownRenderers, mdPlugins = _b.mdPlugins, wwPlugins = _b.wwPlugins, wwNodeViews = _b.wwNodeViews, mdCommands = _b.mdCommands, wwCommands = _b.wwCommands, markdownParsers = _b.markdownParsers;
+         var rendererOptions = {
+             linkAttributes: linkAttributes,
+@@ -24173,7 +24276,12 @@ var ToastUIEditorCore = /** @class */ (function () {
+                 _this.wwEditor.setModel(wwNode);
+             }
+         });
+-        return this.wwEditor.view.dom.innerHTML;
++        var html = removeProseMirrorHackNodes(this.wwEditor.view.dom.innerHTML);
++        if (this.placeholder) {
++            var rePlaceholder = new RegExp("<span class=\"placeholder[^>]+>" + this.placeholder + "</span>", 'i');
++            return html.replace(rePlaceholder, '');
++        }
++        return html;
+     };
+     /**
+      * Insert text
+@@ -24429,6 +24537,7 @@ var ToastUIEditorCore = /** @class */ (function () {
+      * @param {string} placeholder - placeholder to set
+      */
+     ToastUIEditorCore.prototype.setPlaceholder = function (placeholder) {
++        this.placeholder = placeholder;
+         this.mdEditor.setPlaceholder(placeholder);
+         this.wwEditor.setPlaceholder(placeholder);
+     };
+@@ -24442,6 +24551,32 @@ var ToastUIEditorCore = /** @class */ (function () {
+             wwEditor: this.wwEditor.getElement(),
+         };
+     };
++    /**
++     * Convert position to match editor mode
++     * @param {number|Array.<number>} start - start position
++     * @param {number|Array.<number>} end - end position
++     * @param {string} mode - Editor mode name of want to match converted position to
++     */
++    ToastUIEditorCore.prototype.convertPosToMatchEditorMode = function (start, end, mode) {
++        var _a, _b;
++        if (end === void 0) { end = start; }
++        if (mode === void 0) { mode = this.mode; }
++        var doc = this.mdEditor.view.state.doc;
++        var isFromArray = Array.isArray(start);
++        var isToArray = Array.isArray(end);
++        var convertedFrom = start;
++        var convertedTo = end;
++        if (isFromArray !== isToArray) {
++            throw new Error('Types of arguments must be same');
++        }
++        if (mode === 'markdown' && !isFromArray && !isToArray) {
++            _a = getEditorToMdPos(doc, start, end), convertedFrom = _a[0], convertedTo = _a[1];
++        }
++        else if (mode === 'wysiwyg' && isFromArray && isToArray) {
++            _b = getMdToEditorPos(doc, start, end), convertedFrom = _b[0], convertedTo = _b[1];
++        }
++        return [convertedFrom, convertedTo];
++    };
+     return ToastUIEditorCore;
+ }());
+ // // (Not an official API)
+@@ -27287,10 +27422,13 @@ var ToastUIEditor = /** @class */ (function (_super) {
+ /* harmony default export */ var editor = (ToastUIEditor);
+ var editor_templateObject_1;
+ 
++;// CONCATENATED MODULE: ../../node_modules/prosemirror-view/style/prosemirror.css
++// extracted by mini-css-extract-plugin
++
+ ;// CONCATENATED MODULE: ./src/i18n/en-us.ts
+ /**
+  * @fileoverview I18N for English
+- * @author NHN FE Development Lab <dl_javascript@nhn.com>
++ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
+  */
+ 
+ editorCore.setLanguage(['en', 'en-US'], {
+diff --git a/node_modules/@toast-ui/editor/types/convertor.d.ts b/node_modules/@toast-ui/editor/types/convertor.d.ts
+index e8ef7d5..718c1c7 100644
+--- a/node_modules/@toast-ui/editor/types/convertor.d.ts
++++ b/node_modules/@toast-ui/editor/types/convertor.d.ts
+@@ -1,4 +1,4 @@
+-import { NodeType, MarkType, Schema, Node as ProsemirrorNode, Mark } from 'prosemirror-model';
++import { NodeType, MarkType, Schema, ProsemirrorNode, Mark } from 'prosemirror-model';
+ import { MdNode, MdNodeType, RendererOptions, HTMLToken, MdPos } from './toastmark';
+ import { WwNodeType, WwMarkType } from './wysiwyg';
+ 
+@@ -45,6 +45,8 @@ export type FirstDelimFn = (index: number) => string;
+ export interface ToMdConvertorState {
+   stopNewline: boolean;
+   inTable: boolean;
++  getDelim(): string;
++  setDelim(delim: string): void;
+   flushClose(size?: number): void;
+   wrapBlock(delim: string, firstDelim: string | null, node: ProsemirrorNode, fn: () => void): void;
+   ensureNewLine(): void;
+@@ -111,7 +113,8 @@ export type ToMdNodeTypeConvertorMap = Partial<Record<WwNodeType, ToMdNodeTypeCo
+ 
+ type ToMdMarkTypeConvertor = (
+   nodeInfo?: MarkInfo,
+-  entering?: boolean
++  entering?: boolean,
++  betweenSpace?: boolean
+ ) => ToMdConvertorReturnValues & ToMdMarkTypeOption;
+ 
+ export type ToMdMarkTypeConvertorMap = Partial<Record<WwMarkType, ToMdMarkTypeConvertor>>;
+@@ -124,7 +127,8 @@ interface ToMdConvertorContext {
+ 
+ type ToMdConvertor = (
+   nodeInfo: NodeInfo | MarkInfo,
+-  context: ToMdConvertorContext
++  context: ToMdConvertorContext,
++  betweenSpace?: boolean
+ ) => ToMdConvertorReturnValues;
+ 
+ export type ToMdConvertorMap = Partial<Record<WwNodeType | MdNodeType, ToMdConvertor>>;
+diff --git a/node_modules/@toast-ui/editor/types/editor.d.ts b/node_modules/@toast-ui/editor/types/editor.d.ts
+index 81c2c40..9c14b98 100644
+--- a/node_modules/@toast-ui/editor/types/editor.d.ts
++++ b/node_modules/@toast-ui/editor/types/editor.d.ts
+@@ -1,6 +1,10 @@
+ import { Schema, NodeSpec, MarkSpec, Fragment } from 'prosemirror-model';
+ import { EditorView, Decoration, DecorationSet } from 'prosemirror-view';
+-import { EditorState, Plugin, Selection, TextSelection } from 'prosemirror-state';
++import { EditorState, Plugin, PluginKey, Selection, TextSelection } from 'prosemirror-state';
++import { undoInputRule, InputRule, inputRules } from 'prosemirror-inputrules';
++import { keymap } from 'prosemirror-keymap';
++import { Editor } from '@t/index';
++
+ import {
+   HTMLConvertor,
+   MdPos,
+@@ -120,17 +124,40 @@ export interface PluginContext {
+   eventEmitter: Emitter;
+   usageStatistics?: boolean;
+   i18n: I18n;
++  instance: Editor | Viewer;
+   pmState: {
+     Plugin: typeof Plugin;
++    PluginKey: typeof PluginKey;
+     Selection: typeof Selection;
+     TextSelection: typeof TextSelection;
+   };
+   pmView: { Decoration: typeof Decoration; DecorationSet: typeof DecorationSet };
+   pmModel: { Fragment: typeof Fragment };
++  pmRules: {
++    inputRules: typeof inputRules;
++    InputRule: typeof InputRule;
++    undoInputRule: typeof undoInputRule;
++  };
++  pmKeymap: {
++    keymap: typeof keymap;
++  };
+ }
+ 
+ export type PluginFn = (context: PluginContext, options?: any) => PluginInfo | null;
+ export type EditorPlugin = PluginFn | [PluginFn, any];
++type ContextInfo = {
++  eventEmitter: Emitter;
++  usageStatistics: boolean;
++  instance: Editor | Viewer;
++};
++
++export type EditorPluginInfo = ContextInfo & {
++  plugin: EditorPlugin;
++};
++
++export type EditorPluginsInfo = ContextInfo & {
++  plugins: EditorPlugin[];
++};
+ 
+ export interface EditorOptions {
+   el: HTMLElement;
+@@ -258,6 +285,8 @@ export class EditorCore {
+   setPlaceholder(placeholder: string): void;
+ 
+   getEditorElements(): Slots;
++
++  convertPosToMatchEditorMode(start: EditorPos, end?: EditorPos, mode?: EditorType): EditorPos[];
+ }
+ 
+ export class Editor extends EditorCore {
+diff --git a/node_modules/@toast-ui/editor/types/index.d.ts b/node_modules/@toast-ui/editor/types/index.d.ts
+index 3eab665..28f6f7c 100644
+--- a/node_modules/@toast-ui/editor/types/index.d.ts
++++ b/node_modules/@toast-ui/editor/types/index.d.ts
+@@ -1,4 +1,4 @@
+-// Type definitions for TOAST UI Editor v3.1.3
++// Type definitions for TOAST UI Editor v3.2.1
+ // TypeScript Version: 4.2.3
+ import {
+   EditorCore,
+diff --git a/node_modules/@toast-ui/editor/types/prosemirror-commands.d.ts b/node_modules/@toast-ui/editor/types/prosemirror-commands.d.ts
+new file mode 100644
+index 0000000..eb39a69
+--- /dev/null
++++ b/node_modules/@toast-ui/editor/types/prosemirror-commands.d.ts
+@@ -0,0 +1,15 @@
++import { EditorState, Transaction } from 'prosemirror-state';
++import { EditorView } from 'prosemirror-view';
++import { Schema } from 'prosemirror-model';
++
++import 'prosemirror-commands';
++
++declare module 'prosemirror-commands' {
++  export interface Command<S extends Schema = any> {
++    (state: EditorState<S>, dispatch?: (tr: Transaction<S>) => void, view?: EditorView<S>): boolean;
++  }
++
++  export interface Keymap<S extends Schema = any> {
++    [key: string]: Command<S>;
++  }
++}
+diff --git a/node_modules/@toast-ui/editor/types/prosemirror-model.d.ts b/node_modules/@toast-ui/editor/types/prosemirror-model.d.ts
+index be264e4..8f501be 100644
+--- a/node_modules/@toast-ui/editor/types/prosemirror-model.d.ts
++++ b/node_modules/@toast-ui/editor/types/prosemirror-model.d.ts
+@@ -7,16 +7,7 @@ declare module 'prosemirror-model' {
+     findDiffEnd(other: ProsemirrorNode | Fragment): { a: number; b: number } | null | undefined;
+   }
+ 
+-  export interface ProsemirrorNode extends Model.Node {
+-    descendants(
+-      fn: (
+-        node: Model.Node,
+-        pos: number,
+-        parent: Model.Node,
+-        index?: number
+-      ) => boolean | void | null | undefined
+-    ): void;
+-  }
++  export type ProsemirrorNode = Model.Node;
+ 
+   export interface NodeType {
+     compatibleContent(node: NodeType): boolean;
