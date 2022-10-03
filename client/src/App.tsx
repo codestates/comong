@@ -24,6 +24,7 @@ function App() {
     <>
       <GlobalStyles />
       <Router />
+      {/* {"learn react"} */}
     </>
   );
 }

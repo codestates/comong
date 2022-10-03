@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import Nav from './components/Nav';
@@ -47,7 +46,7 @@ export function ScrollToTop() {
 }
 
 function Routers() {
-  const { role } = useAppSelector((state) => state.userSlice);
+  // const { role } = useAppSelector((state) => state.userSlice);
 
   const data = useAppSelector((state: RootState) => state);
   const dispatch = useAppDispatch();
