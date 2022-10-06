@@ -67,7 +67,7 @@ export class OauthService {
 	}
 
 	async kakaoOauthlogin(url: string, res: any): Promise<any> {
-		const result = await Sequelize.transaction(async (t) => {
+		const result = await Sequelize.transaction(async (t: any) => {
 			// console.log(url);
 			const accessTokenOptions: AxiosRequestConfig = {
 				method: 'POST',
@@ -123,7 +123,7 @@ export class OauthService {
 	}
 
 	async naverOauthlogin(url: string, res: any): Promise<any> {
-		const result = await Sequelize.transaction(async (t) => {
+		const result = await Sequelize.transaction(async (t: any) => {
 			// console.log(url);
 			const accessTokenOptions: AxiosRequestConfig = {
 				method: 'POST',
